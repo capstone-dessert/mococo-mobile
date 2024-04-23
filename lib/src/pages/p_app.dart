@@ -1,31 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/image_list.dart';
-import '../widgets/app_bar.dart';
-import '../widgets/bottom_nav_controller .dart';
+import '../controller/bottom_nav_controller.dart';
 
-// void main() {
-//   runApp(const App());
-// }
-
-class App extends StatelessWidget {
-  const App({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        home: PopScope(
-      canPop: false,
-      onPopInvoked: (bool didPop) => {if (false) {}},
-      child: GetBuilder<BaseAppBarController>(
-        init: BaseAppBarController(),
-        builder: (_) => Scaffold(
-          appBar: TwoSelectAppBar(),
-          body: Container(),
-          bottomNavigationBar: CustomBottomNavigationBar(),
-        ),
+      home: Scaffold(
+        appBar: BaseAppBar(),
+        body: GridviewPage(),
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
-    ));
+    );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/app.dart';
+import 'package:mococo_mobile/src/pages/p_app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
