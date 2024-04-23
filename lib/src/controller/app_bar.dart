@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../pages/add.dart';
+import '../components/modal_action_sheet.dart';
 import '../components/image_data.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool showAddButton;
-
-  CustomAppBar({this.showAddButton = true});
+class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +18,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(IconPath.topLogo, width: 170,),
-                if (showAddButton)
-                  GestureDetector(
-                    onTap: () {
-                      // 추가 아이콘 클릭 시 동작
-                      Get.to(AddPage()); // Add 페이지로 이동
-                    },
-                    child: Image.asset(IconPath.add, width: 30,), // add 이미지
-                  ),
+                GestureDetector(
+                  onTap: () {
+                    // add 버튼을 탭하면 액션 시트를 표시합니다.
+                    ActionSheet.show(context); // ActionSheet의 show 함수를 호출합니다.
+                  },
+                  child: Image.asset(IconPath.add, width: 30,), // add 이미지
+                ),
               ],
             ),
           ),
@@ -39,13 +34,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(105); // AppBar의 높이 지정
-}
-
-class CustomAppBarController extends GetxController {
-  RxBool showAddButton = true.obs;
-
-  void toggleAddButtonVisibility() {
-    showAddButton.value = !showAddButton.value;
-  }
+  Size get preferredSize => Size.fromHeight(105);
 }

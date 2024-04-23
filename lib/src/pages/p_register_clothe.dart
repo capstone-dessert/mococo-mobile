@@ -1,16 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/app_bar.dart';
-import '../controller/bottom_nav_controller .dart';
+import '../controller/bottom_nav_controller.dart';
 
-class AddPage extends StatelessWidget {
+class RegisterClothe extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    Get.find<CustomAppBarController>().toggleAddButtonVisibility();
-
     return Scaffold(
-      appBar: CustomAppBar(showAddButton: false),
+      appBar: BaseAppBar(),
       body: Container(),
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
