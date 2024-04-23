@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/image_data.dart';
+import 'image_data.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   @override
