@@ -7,7 +7,7 @@ import 'image_data.dart';
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showAddButton;
 
-  BaseAppBar({this.showAddButton = true});
+  const BaseAppBar({super.key, this.showAddButton = true});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 20),
+            padding: const EdgeInsets.only(left: 19, right: 16, top: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
                   IconPath.topLogo,
-                  width: 170,
+                  width: 140,
                 ),
                 if (showAddButton)
                   GestureDetector(
@@ -32,9 +32,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                       // 추가 아이콘 클릭 시 동작
                       Get.to(AddPage()); // Add 페이지로 이동
                     },
-                    child: Image.asset(
-                      IconPath.add,
-                      width: 30,
+                    child: SizedBox(width: 30, height: 30,
+                      child: Image.asset(
+                        IconPath.add,
+                      ),
                     ), // add 이미지
                   ),
               ],
@@ -46,7 +47,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(105); // AppBar의 높이 지정
+  Size get preferredSize => const Size.fromHeight(105); // AppBar의 높이 지정
 }
 
 class BaseAppBarController extends GetxController {
@@ -104,5 +105,5 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(105);
+  Size get preferredSize => const Size.fromHeight(105);
 }

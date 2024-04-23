@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -5,14 +6,14 @@ import 'package:mococo_mobile/src/widgets/image_list.dart';
 import '../controller/bottom_nav_controller.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Scaffold(
         appBar: BaseAppBar(),
-        body: GridviewPage(),
+        body: Container(padding: EdgeInsets.only(left: 16, right: 16, bottom: 0), child: GridviewPage()),
         bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/widgets/image_data.dart';
 
 class GridviewPage extends StatefulWidget {
   const GridviewPage({super.key});
