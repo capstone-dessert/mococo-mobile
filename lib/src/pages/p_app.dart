@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: BaseAppBar(),
         body: Container(padding: EdgeInsets.only(left: 16, right: 16, bottom: 0), child: GridviewPage()),
-        bottomNavigationBar: CustomBottomNavigationBar(),
+        bottomNavigationBar: SizedBox(height: 83, child: CustomBottomNavigationBar()),
       ),
     );
   }
