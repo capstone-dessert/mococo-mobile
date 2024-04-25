@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/pages/p_codi_recommend_result.dart';
 
 import '../components/image_data.dart';
 
@@ -130,7 +131,9 @@ class _CodiRecommendState extends State<CodiRecommend> {
                   width: 345,
                   height: 50,
                   child: FilledButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CodiRecommendResult()));
+                    },
                     style: TextButton.styleFrom(
                         backgroundColor: const Color(0xffF6747E)
                     ),

@@ -9,8 +9,8 @@ class Closet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(),
-      body: Container(padding: EdgeInsets.only(left: 16, right: 16), child: GridviewPage()),
+      appBar: const BaseAppBar(),
+      body: Container(padding: const EdgeInsets.only(left: 16, right: 16), child: const GridviewPage()),
     );
   }
 }

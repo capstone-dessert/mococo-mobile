@@ -18,7 +18,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 19, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -62,13 +62,13 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 105,
+      toolbarHeight: 68,
       leadingWidth: 500,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 20),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,19 +77,28 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: () {
                       print("뒤로가기버튼클릭");
                     },
-                    icon: Image.asset(
-                      IconPath.goBack,
-                      width: 24,
-                    )),
+                    icon: SizedBox(width:24, child: Image.asset(IconPath.goBack))
+                ),
                 const Text(
                   "의류 등록",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
-                FilledButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "등록",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                SizedBox(
+                  width: 51,
+                  height: 34,
+                  child: FilledButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      backgroundColor: const Color(0xffF6747E)
+
+                    ),
+                    child: const Text(
+                      "저장",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
               ],

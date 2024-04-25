@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/pages/p_closet.dart';
 import 'package:mococo_mobile/src/pages/p_codi_recommend.dart';
-import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
-import 'package:mococo_mobile/src/widgets/image_list.dart';
-import '../controller/bottom_nav_controller.dart';
+import 'controller/bottom_nav_controller.dart';
 
 class App extends GetView<BottomNavController> {
-  const App({super.key});
+  App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) async {return;},
+    return NavigatorPopHandler(
+      onPop: () => controller.pop(),
       child: Obx(
         () => Scaffold(
           appBar: AppBar(toolbarHeight: 35,),
@@ -22,7 +19,13 @@ class App extends GetView<BottomNavController> {
             index: controller.pageIndex.value,
             children: [
               const Closet(),
-              const CodiRecommend(),
+              // 탭바 유지한 채 페이지 이동
+              Navigator(
+                key: controller.navigatorKey,
+                onGenerateRoute: (routeSettings) {
+                  return MaterialPageRoute(builder: (context) => const CodiRecommend());
+                },
+              ) ,
               Container(child: const Center(child: Text('CODY_RECORD')),),
             ],
           ),

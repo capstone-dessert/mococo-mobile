@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/binding/init_binding.dart';
-import 'package:mococo_mobile/src/pages/p_app.dart';
+import 'package:mococo_mobile/src/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'MOCOCO',
       initialBinding: InitBinding(),
-      home: const App(),
+      home: App(),
     );
   }
 }
