@@ -1,6 +1,8 @@
+
+
 import 'package:flutter/material.dart';
 
-import '../widgets/image_data.dart';
+import '../components/image_data.dart';
 
 class CodiRecommend extends StatefulWidget {
   const CodiRecommend({super.key});
@@ -16,16 +18,16 @@ class _CodiRecommendState extends State<CodiRecommend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 62,
+        toolbarHeight: 68,
         elevation: 0,
         centerTitle: true,
-        title: SizedBox(width: 121, child: Image.asset(IconPath.logo)),
+        title: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
       ),
       body: Stack(
         children: [
           Column(
             children: [
-              const SizedBox(height: 12,),
+              const SizedBox(height: 16,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

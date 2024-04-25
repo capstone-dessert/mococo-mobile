@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/image_data.dart';
+import '../components/image_data.dart';
 import '../widgets/modal_action_sheet.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {

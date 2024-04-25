@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mococo_mobile/src/pages/p_closet.dart';
 import 'package:mococo_mobile/src/pages/p_codi_recommend.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/image_data.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/widgets/image_list.dart';
 import '../controller/bottom_nav_controller.dart';
 
@@ -16,11 +17,11 @@ class App extends GetView<BottomNavController> {
       onPopInvoked: (didPop) async {return;},
       child: Obx(
         () => Scaffold(
-          appBar: BaseAppBar(),
+          appBar: AppBar(toolbarHeight: 35,),
           body: IndexedStack(
             index: controller.pageIndex.value,
             children: [
-              Container(padding: EdgeInsets.only(left: 16, right: 16, bottom: 0), child: GridviewPage()),
+              const Closet(),
               const CodiRecommend(),
               Container(child: const Center(child: Text('CODY_RECORD')),),
             ],
