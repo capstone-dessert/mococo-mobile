@@ -7,28 +7,25 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: const Color(0xff999999),
+      selectedLabelStyle: const TextStyle(fontSize: 11),
+      unselectedLabelStyle: const TextStyle(fontSize: 11),
       items: [
         BottomNavigationBarItem(
-          icon: Image.asset(
-            IconPath.closetOff,
-            width: 55,
-            height: 55,
-          ),
-          activeIcon: Image.asset(IconPath.closetOn, width: 55, height: 55),
-          label: 'closet',
+          icon: SizedBox(width: 27, height: 27, child: Image.asset(IconPath.closetOff)),
+          activeIcon: SizedBox(width: 27, height: 27, child: Image.asset(IconPath.closetOn)),
+          label: '옷장',
         ),
         BottomNavigationBarItem(
-          icon: Image.asset(IconPath.codiRecommendOff, width: 55, height: 55),
-          activeIcon:
-              Image.asset(IconPath.codiRecommendOn, width: 55, height: 55),
-          label: 'codiRecommend',
+          icon: SizedBox(width: 24, height: 25.04, child: Image.asset(IconPath.codiRecommendOff)),
+          activeIcon: SizedBox(width: 24, height: 25.04, child: Image.asset(IconPath.codiRecommendOn)),
+          label: '코디 추천',
         ),
         BottomNavigationBarItem(
-          icon: Image.asset(IconPath.codiRecordOff, width: 55, height: 55),
-          activeIcon: Image.asset(IconPath.codiRecordOn, width: 55, height: 55),
-          label: 'codiRecord',
+          icon: SizedBox(width: 27, height: 26, child: Image.asset(IconPath.codiRecordOff)),
+          activeIcon: SizedBox(width: 27, height: 26, child: Image.asset(IconPath.codiRecordOn)),
+          label: '코디 기록',
         ),
       ],
     );

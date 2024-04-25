@@ -17,15 +17,17 @@ import 'package:get/get.dart';
 
 class IconPath{
   static String get add =>  'assets/images/add.png';
-  static String get closetOff =>  'assets/images/closetOff.png';
-  static String get closetOn =>  'assets/images/closetOn.png';
-  static String get codiRecommendOff =>  'assets/images/codiRecommendOff.png';
-  static String get codiRecommendOn =>  'assets/images/codiRecommendOn.png';
-  static String get codiRecordOn =>  'assets/images/codiRecord.png';
-  static String get codiRecordOff =>  'assets/images/codiRecordOff.png';
+  static String get closetOff =>  'assets/images/closet_off.png';
+  static String get closetOn =>  'assets/images/closet_on.png';
+  static String get codiRecommendOff =>  'assets/images/codi_recommend_off.png';
+  static String get codiRecommendOn =>  'assets/images/codi_recommend_on.png';
+  static String get codiRecordOff =>  'assets/images/codi_record_off.png';
+  static String get codiRecordOn =>  'assets/images/codi_record_on.png';
   static String get edit =>  'assets/images/edit.png';
-  static String get goBack =>  'assets/images/goBack.png';
-  // static String get mococoLogo =>  'assets/images/mococoLogo.png';
-  static String get topLogo =>  'assets/images/topLogo.png';
+  static String get goBack =>  'assets/images/back.png';
+  static String get logo => 'assets/images/logo.png';
+  static String get mococoLogo =>  'assets/images/mococo_logo.png';
+  static String get topLogo =>  'assets/images/top_logo.png';
   static String get trashcan =>  'assets/images/trashcan.png';
+  static String get editCondition =>  'assets/images/edit_condition.png';
 }
