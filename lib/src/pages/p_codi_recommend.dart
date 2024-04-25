@@ -34,7 +34,14 @@ class _CodiRecommendState extends State<CodiRecommend> {
                 children: [
                   const SizedBox(width: 25,),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final selectedDate = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100));
+                      if (selectedDate != null) {
+                        setState(() {
+                          date = selectedDate;
+                        });
+                      }
+                    },
                     style: TextButton.styleFrom(
                       minimumSize: Size.zero,
                       padding: EdgeInsets.zero,
