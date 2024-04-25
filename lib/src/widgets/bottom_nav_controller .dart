@@ -27,8 +27,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           icon: Image.asset(IconPath.codiRecordOff, width: 55, height: 55),
           activeIcon: Image.asset(IconPath.codiRecordOn, width: 55, height: 55),
           label: 'codiRecord',
-        ),
-      ],
+        ),      ],
     );
   }
 }
