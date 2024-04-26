@@ -1,9 +1,9 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:mococo_mobile/src/data/my_location.dart';
 import 'package:mococo_mobile/src/pages/p_codi_recommend_result.dart';
-
 import '../components/image_data.dart';
+import '../data/network.dart';
 
 class CodiRecommend extends StatefulWidget {
   const CodiRecommend({super.key});
@@ -14,6 +14,39 @@ class CodiRecommend extends StatefulWidget {
 
 class _CodiRecommendState extends State<CodiRecommend> {
   DateTime date = DateTime.now();
+
+  double? myLatitude;
+  double? myLongitude;
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   getLocation();
+  // }
+
+  void getLocation() async {
+    MyLocation myLocation = MyLocation();
+    await myLocation.getCurrentLocation();
+    myLatitude = myLocation.currentLatitude;
+    myLongitude = myLocation.currentLongitude;
+    print(myLatitude);
+    print(myLongitude);
+
+    Network network = Network('https://samples.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa797225412429c1c50c122a1');
+
+    var weatherData = await network.getJsonData();
+    print(weatherData);
+  }
+
+  // void fetchData() async {
+  //
+  //     var myJson = weatherData['weather'][0]['description'];
+  //     print(myJson);
+  //   } else {
+  //     print(response.statusCode);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +113,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
                     left: 90,
                     top: 18,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {getLocation();},
                       style: TextButton.styleFrom(
                           minimumSize: Size.zero,
                           padding: EdgeInsets.zero,
