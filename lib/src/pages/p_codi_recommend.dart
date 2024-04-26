@@ -62,6 +62,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
           Column(
             children: [
               const SizedBox(height: 16,),
+              // 날짜
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -94,6 +95,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
                 ],
               ),
               const SizedBox(height: 16,),
+              // 날씨
               Stack(
                 children: [
                   Container(
@@ -163,10 +165,11 @@ class _CodiRecommendState extends State<CodiRecommend> {
                   )
                 ],
               ),
-              // <약속 종류 태그>
+              // <약속 종류 태그 자리>
               Spacer(),
+              // 추천 버튼
               Padding(
-                padding: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(top: 16, bottom: 16),
                 child: SizedBox(
                   width: 345,
                   height: 50,
@@ -174,9 +177,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const CodiRecommendResult()));
                     },
-                    style: TextButton.styleFrom(
-                        backgroundColor: const Color(0xffF6747E)
-                    ),
+                    style: TextButton.styleFrom(backgroundColor: const Color(0xffF6747E)),
                     child: const Text(
                       "추천받기",
                       style: TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w500),
