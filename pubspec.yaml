@@ -30,10 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   get:
   cupertino_icons: ^1.0.6
   image_picker: ^0.8.4+5
   flutter_native_splash: ^2.4.0
+  permission_handler: ^8.3.0
+  geolocator: ^11.0.0
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:

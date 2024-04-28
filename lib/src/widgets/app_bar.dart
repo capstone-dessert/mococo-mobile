@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../pages/p_regist_cloth.dart';
-import 'image_data.dart';
+import '../components/image_data.dart';
 
 //기본 앱바
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -12,18 +12,18 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 105,
+      toolbarHeight: 68,
       leadingWidth: 500,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 19, right: 16, top: 20),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  IconPath.topLogo,
+                  IconPath.logo,
                   width: 140,
                 ),
                 if (showAddButton)
@@ -32,10 +32,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                       // 추가 아이콘 클릭 시 동작
                       Get.to(AddPage()); // Add 페이지로 이동
                     },
-                    child: SizedBox(width: 30, height: 30,
-                      child: Image.asset(
-                        IconPath.add,
-                      ),
+                    child: SizedBox(width: 30, height: 30, child: Image.asset(IconPath.add,),
                     ), // add 이미지
                   ),
               ],
@@ -65,13 +62,13 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 105,
+      toolbarHeight: 68,
       leadingWidth: 500,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 20),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,19 +77,28 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: () {
                       print("뒤로가기버튼클릭");
                     },
-                    icon: Image.asset(
-                      IconPath.goBack,
-                      width: 24,
-                    )),
+                    icon: SizedBox(width:24, child: Image.asset(IconPath.goBack))
+                ),
                 const Text(
                   "의류 등록",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
-                FilledButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "등록",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                SizedBox(
+                  width: 51,
+                  height: 34,
+                  child: FilledButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      backgroundColor: const Color(0xffF6747E)
+
+                    ),
+                    child: const Text(
+                      "저장",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
               ],

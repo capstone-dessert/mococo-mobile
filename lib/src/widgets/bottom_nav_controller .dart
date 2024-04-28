@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'image_data.dart';
+import '../components/image_data.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   @override
@@ -27,8 +27,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           icon: Image.asset(IconPath.codiRecordOff, width: 55, height: 55),
           activeIcon: Image.asset(IconPath.codiRecordOn, width: 55, height: 55),
           label: 'codiRecord',
-        ),
-      ],
+        ),      ],
     );
   }
 }

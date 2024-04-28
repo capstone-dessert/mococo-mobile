@@ -10,7 +10,6 @@ class RegisterClothe extends StatelessWidget {
     return Scaffold(
       appBar: BaseAppBar(),
       body: Container(),
-      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
