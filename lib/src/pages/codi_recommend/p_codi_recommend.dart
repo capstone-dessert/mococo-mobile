@@ -202,6 +202,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
       context: context,
       isScrollControlled: true,
       enableDrag: true,
+      elevation: 0,
       builder: (context) {
         return Container(
           height: 515,
@@ -220,12 +221,13 @@ class _CodiRecommendState extends State<CodiRecommend> {
                   height: 35,
                   child: SearchBar(
                     leading: SizedBox(child: Image.asset(IconPath.searchBar)),
-                    backgroundColor: MaterialStatePropertyAll(Color(0xffF0F0F0)),
-                    elevation: MaterialStatePropertyAll(0),
+                    backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
+                    elevation: const MaterialStatePropertyAll(0),
                     hintText: "검색",
-                    hintStyle: MaterialStateProperty.all(TextStyle(color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
+                    hintStyle: MaterialStateProperty.all(const TextStyle(color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
                   ),
-                )
+                ),
+                const SizedBox(height: 16,)
               ],
             ),
           ),

@@ -58,7 +58,9 @@ class BaseAppBarController extends GetxController {
 
 //양쪽 버튼, 가운데 글씨 앱바
 class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TwoSelectAppBar({super.key});
+  const TwoSelectAppBar({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +82,9 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
                     },
                     icon: SizedBox(height:24, child: Image.asset(IconPath.goBack))
                 ),
-                const Text(
-                  "의류 등록",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   width: 51,
