@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controller/app_bar.dart';
-import '../controller/bottom_nav_controller.dart';
+import '../../controller/app_bar.dart';
+import '../../controller/bottom_nav_controller.dart';
 
 class RegisterClothe extends StatelessWidget {
 

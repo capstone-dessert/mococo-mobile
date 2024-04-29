@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
-import 'package:mococo_mobile/src/pages/p_codi_recommend_result.dart';
-import '../components/image_data.dart';
-import '../data/network.dart';
+import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
+import '../../components/image_data.dart';
+import '../../data/network.dart';
 
 class CodiRecommend extends StatefulWidget {
   const CodiRecommend({super.key});

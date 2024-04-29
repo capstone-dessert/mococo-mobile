@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../pages/p_regist_cloth.dart';
+import '../pages/closet/p_regist_cloth.dart';
 import '../components/image_data.dart';
 
 //기본 앱바
