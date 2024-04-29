@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend.dart';
-import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/widgets/bottom_navigation_bar.dart';
 import 'controller/bottom_nav_controller.dart';
 
