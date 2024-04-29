@@ -30,4 +30,5 @@ class IconPath{
   static String get topLogo =>  'assets/images/top_logo.png';
   static String get trashcan =>  'assets/images/trashcan.png';
   static String get editCondition =>  'assets/images/edit_condition.png';
+  static String get searchBar =>  'assets/images/search_bar.png';
 }

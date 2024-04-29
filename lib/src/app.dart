@@ -14,7 +14,6 @@ class App extends GetView<BottomNavController> {
       onPop: () => controller.pop(),
       child: Obx(
         () => Scaffold(
-          appBar: AppBar(toolbarHeight: 35,),
           body: IndexedStack(
             index: controller.pageIndex.value,
             children: [

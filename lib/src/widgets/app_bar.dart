@@ -12,13 +12,14 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 68,
+      toolbarHeight: 97,
       leadingWidth: 500,
+      elevation: 0,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 51, bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -62,13 +63,13 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 68,
+      toolbarHeight: 97,
       leadingWidth: 500,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +78,7 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: () {
                       print("뒤로가기버튼클릭");
                     },
-                    icon: SizedBox(width:24, child: Image.asset(IconPath.goBack))
+                    icon: SizedBox(height:24, child: Image.asset(IconPath.goBack))
                 ),
                 const Text(
                   "의류 등록",
