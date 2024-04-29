@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/app_bar.dart';
-import '../widgets/image_list.dart';
-import '../widgets/tag_list.dart';
+import '../../widgets/app_bar.dart';
+import '../../widgets/image_list.dart';
+import '../../widgets/tag_list.dart';
 
 class Closet extends StatelessWidget {
   const Closet({super.key});

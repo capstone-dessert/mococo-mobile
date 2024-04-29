@@ -1,9 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
-import 'package:mococo_mobile/src/pages/p_codi_recommend_result.dart';
-import '../components/image_data.dart';
-import '../data/network.dart';
+import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
+import '../../components/image_data.dart';
+import '../../data/network.dart';
 
 class CodiRecommend extends StatefulWidget {
   const CodiRecommend({super.key});
@@ -52,10 +53,13 @@ class _CodiRecommendState extends State<CodiRecommend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 68,
+        toolbarHeight: 97,
         elevation: 0,
         centerTitle: true,
-        title: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 35),
+          child: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
+        ),
       ),
       body: Stack(
         children: [
@@ -115,7 +119,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
                     left: 90,
                     top: 18,
                     child: TextButton(
-                      onPressed: () {getLocation();},
+                      onPressed: () {_showModalBottomSheet();},
                       style: TextButton.styleFrom(
                           minimumSize: Size.zero,
                           padding: EdgeInsets.zero,
@@ -189,6 +193,45 @@ class _CodiRecommendState extends State<CodiRecommend> {
           ),
         ],
       )
+    );
+  }
+
+  void _showModalBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      enableDrag: true,
+      elevation: 0,
+      builder: (context) {
+        return Container(
+          height: 515,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 35,
+                  child: SearchBar(
+                    leading: SizedBox(child: Image.asset(IconPath.searchBar)),
+                    backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
+                    elevation: const MaterialStatePropertyAll(0),
+                    hintText: "검색",
+                    hintStyle: MaterialStateProperty.all(const TextStyle(color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
+                  ),
+                ),
+                const SizedBox(height: 16,)
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }
