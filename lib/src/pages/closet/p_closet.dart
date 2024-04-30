@@ -14,7 +14,7 @@ class Closet extends StatelessWidget {
       appBar: LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
       body: Container(
           padding: const EdgeInsets.only(left: 16, right: 16),
-          child: const TagviewPage()),
+          child: const GridviewPage()),
     );
   }
 
