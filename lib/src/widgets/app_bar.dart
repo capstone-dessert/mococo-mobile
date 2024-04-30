@@ -13,13 +13,8 @@ class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         toolbarHeight: 97,
         automaticallyImplyLeading: false,
-        titleSpacing: 0,
-        title: Row(
-          children: [
-            const SizedBox(width: 3),
-            Image.asset(IconPath.logo, width: 140),
-          ],
-        ),
+        titleSpacing: 3,
+        title: Image.asset(IconPath.logo, width: 140),
         actions: [
           TextButton(
             onPressed: onAddButtonPressed,
@@ -95,7 +90,7 @@ class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           icon: Row(
             children: [
-              SizedBox(height:24, child: Image.asset(IconPath.back))
+              SizedBox(height:28, child: Image.asset(IconPath.back))
             ],
           )
         ),
