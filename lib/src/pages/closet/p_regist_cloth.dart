@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../components/image_data.dart';
 import '../../components/image_data.dart';
 import '../../widgets/app_bar.dart';
 

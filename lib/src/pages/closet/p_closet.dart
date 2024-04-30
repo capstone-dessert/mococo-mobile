@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/image_list.dart';
-import '../../widgets/tag_list.dart';
 import 'p_regist_cloth.dart';
 
 class Closet extends StatelessWidget {
