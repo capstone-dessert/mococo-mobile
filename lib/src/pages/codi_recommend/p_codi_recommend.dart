@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
 import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
+import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import '../../components/image_data.dart';
 import '../../data/network.dart';
 import '../../widgets/editable_date.dart';
@@ -53,15 +54,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 97,
-        elevation: 0,
-        centerTitle: true,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 35),
-          child: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
-        ),
-      ),
+      appBar: const CenterLogoAppBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Column(

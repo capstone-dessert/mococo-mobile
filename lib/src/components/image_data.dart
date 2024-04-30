@@ -11,7 +11,7 @@ class IconPath{
   static String get logo => 'assets/images/logo.png';
   static String get mococoLogo =>  'assets/images/mococo_logo.png';
   static String get topLogo =>  'assets/images/top_logo.png';
-  static String get trashcan =>  'assets/images/trashcan.png';
+  static String get delete =>  'assets/images/delete.png';
   static String get editCondition =>  'assets/images/edit_condition.png';
   static String get searchBar =>  'assets/images/search_bar.png';
 }

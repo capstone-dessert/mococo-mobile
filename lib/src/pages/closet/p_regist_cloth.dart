@@ -7,10 +7,8 @@ class AddPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<BaseAppBarController>().toggleAddButtonVisibility();
-
     return Scaffold(
-      appBar: const BaseAppBar(showAddButton: false),
+      appBar: const LeftLogoAppBar(),
       body: Container(),
     );
   }

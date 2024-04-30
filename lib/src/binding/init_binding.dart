@@ -7,6 +7,5 @@ class InitBinding extends Bindings{
   @override
   void dependencies() {
     Get.put(BottomNavController(), permanent: true);
-    Get.put(BaseAppBarController(), permanent: true);
   }
 }
