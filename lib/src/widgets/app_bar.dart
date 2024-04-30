@@ -13,12 +13,23 @@ class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         toolbarHeight: 97,
         automaticallyImplyLeading: false,
-        title: Image.asset(IconPath.logo, width: 140,),
+        titleSpacing: 0,
+        title: Row(
+          children: [
+            const SizedBox(width: 3),
+            Image.asset(IconPath.logo, width: 140),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: onAddButtonPressed,
-            child: SizedBox(height: 30, child: Image.asset(IconPath.add,),)
-          )
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: SizedBox(height: 30, child: Image.asset(IconPath.add,))
+          ),
         ],
       )
     );
@@ -34,13 +45,13 @@ class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: 97,
-      centerTitle: true,
-      automaticallyImplyLeading: false,
-      title: Padding(
-        padding: const EdgeInsets.only(top: 35),
-        child: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+      child: AppBar(
+        toolbarHeight: 97,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
       ),
     );
   }
@@ -76,75 +87,84 @@ class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SizedBox(height:24, child: Image.asset(IconPath.goBack))
+          onPressed: () { Navigator.pop(context); },
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          icon: Row(
+            children: [
+              SizedBox(height:24, child: Image.asset(IconPath.back))
+            ],
+          )
         ),
         title: Text(
           title,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
-        actions: [drawButton()],
+        actions: drawActions(),
       ),
     );
   }
 
-  Widget drawButton() {
+  List<Widget> drawActions() {
     if (buttonNum == 1) {
-      return TextButton(
-        onPressed: onDeleteButtonPressed,
-        style: TextButton.styleFrom(
-          minimumSize: Size.zero,
-          padding: EdgeInsets.zero,
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        child: SizedBox(height: 24, child: Image.asset(IconPath.delete)),
-      );
-    } else if (buttonNum == 2) {
-      return Row(
-        children: [
-          TextButton(
-            onPressed: onEditButtonPressed,
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            child: SizedBox(height:24, child: Image.asset(IconPath.edit)),
-          ),
-          const SizedBox(width: 8),
-          TextButton(
-            onPressed: onDeleteButtonPressed,
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            child: SizedBox(height: 24, child: Image.asset(IconPath.delete)),
-          ),
-        ],
-      );
-    } else if (buttonNum == 3) {
-      return SizedBox(
-        width: 51,
-        height: 34,
-        child: FilledButton(
-          onPressed: onSaveButtonPressed,
+      return [
+        TextButton(
+          onPressed: onDeleteButtonPressed,
           style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              backgroundColor: const Color(0xffF6747E)
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: const Text(
-            "저장",
-            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500,),
+          child: SizedBox(height: 28, child: Image.asset(IconPath.delete)),
+        )
+      ];
+    } else if (buttonNum == 2) {
+      return [
+        TextButton(
+          onPressed: onEditButtonPressed,
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
+          child: SizedBox(height:28, child: Image.asset(IconPath.edit)),
         ),
-      );
+        const SizedBox(width: 8),
+        TextButton(
+          onPressed: onDeleteButtonPressed,
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: SizedBox(height: 28, child: Image.asset(IconPath.delete)),
+        )
+      ];
+    } else if (buttonNum == 3) {
+      return [
+        SizedBox(
+          width: 51,
+          height: 34,
+          child: FilledButton(
+            onPressed: onSaveButtonPressed,
+            style: TextButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: EdgeInsets.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                backgroundColor: const Color(0xffF6747E)
+            ),
+            child: const Text(
+              "저장",
+              style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500,),
+            ),
+          ),
+        )
+      ];
     } else {
-      return Container();
+      return [];
     }
   }
 

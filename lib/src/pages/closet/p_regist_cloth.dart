@@ -10,7 +10,7 @@ class AddPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TextTitleAppBar(title: "의류 등록", buttonNum: 3, onSaveButtonPressed: _onSaveButtonPressed,),
+      appBar: TextTitleAppBar(title: "의류 등록", buttonNum: 3, onSaveButtonPressed: _onSaveButtonPressed,),
       body: Stack(
         children: [
           const SizedBox(
@@ -32,6 +32,6 @@ class AddPage extends StatelessWidget {
   }
 
   void _onSaveButtonPressed() {
-
+    print("save");
   }
 }
