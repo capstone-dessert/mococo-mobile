@@ -13,7 +13,7 @@ class Closet extends StatelessWidget {
       appBar: const BaseAppBar(),
       body: Container(
           padding: const EdgeInsets.only(left: 16, right: 16),
-          child: const TagviewPage()),
+          child: const GridviewPage()),
     );
   }
 }

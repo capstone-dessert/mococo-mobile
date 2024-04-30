@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import '../../components/image_data.dart';
 import '../../widgets/app_bar.dart';
 
 class AddPage extends StatelessWidget {
@@ -7,11 +8,25 @@ class AddPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<BaseAppBarController>().toggleAddButtonVisibility();
-
     return Scaffold(
-      appBar: const BaseAppBar(showAddButton: false),
-      body: Container(),
+      appBar: const TwoSelectAppBar(title: "의류 등록"),
+      body: Stack(
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          //사진
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 100,
+                child: Image.asset(IconPath.topSample),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
