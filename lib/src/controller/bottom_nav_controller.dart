@@ -1,36 +1,30 @@
-// import 'package:flutter/material.dart';
-// import '../widgets/image_data.dart';
-//
-// class CustomBottomNavigationBar extends StatelessWidget {
-//   const CustomBottomNavigationBar({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       showSelectedLabels: false,
-//       showUnselectedLabels: false,
-//       items: [
-//         BottomNavigationBarItem(
-//           icon: Image.asset(
-//             IconPath.closetOff,
-//             width: 55,
-//             height: 55,
-//           ),
-//           activeIcon: Image.asset(IconPath.closetOn, width: 55, height: 55),
-//           label: 'closet',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Image.asset(IconPath.codiRecommendOff, width: 55, height: 55),
-//           activeIcon:
-//               Image.asset(IconPath.codiRecommendOn, width: 55, height: 55),
-//           label: 'codiRecommend',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Image.asset(IconPath.codiRecordOff, width: 55, height: 55),
-//           activeIcon: Image.asset(IconPath.codiRecordOn, width: 55, height: 55),
-//           label: 'codiRecord',
-//         ),
-//       ],
-//     );
-//   }
-// }
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+
+enum PageName { CLOSET, CODY_RECOMMND, CODY_RECORD }
+
+class BottomNavController extends GetxController {
+  RxInt pageIndex = 0.obs;
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  void changeBottomNav(int value) {
+    var page = PageName.values[value];
+    switch(page){
+      case PageName.CLOSET:
+        break;
+      case PageName.CODY_RECOMMND:
+        break;
+      case PageName.CODY_RECORD:
+        break;
+    }
+    _changePage(value);
+  }
+
+  void _changePage(int value) {
+    pageIndex(value);
+  }
+
+  void pop() {
+    navigatorKey.currentState!.pop();
+  }
+}
