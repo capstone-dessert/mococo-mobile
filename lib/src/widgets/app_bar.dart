@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../pages/p_regist_cloth.dart';
 import 'image_data.dart';
+import 'modal_action_sheet.dart';
 
 //기본 앱바
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -30,7 +31,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                   GestureDetector(
                     onTap: () {
                       // 추가 아이콘 클릭 시 동작
-                      Get.to(AddPage()); // Add 페이지로 이동
+                      ActionSheet.show(context); // actionSheet 창 띄우기
                     },
                     child: SizedBox(width: 30, height: 30,
                       child: Image.asset(
