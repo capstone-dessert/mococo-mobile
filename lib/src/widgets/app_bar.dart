@@ -25,7 +25,7 @@ class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(97); // AppBar의 높이 지정
+  Size get preferredSize => const Size.fromHeight(97);
 }
 
 
@@ -46,7 +46,6 @@ class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
   }
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(97);
 }
 
@@ -150,6 +149,5 @@ class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(97);
 }
