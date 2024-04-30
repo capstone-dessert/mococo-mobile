@@ -1,118 +1,168 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../pages/closet/p_regist_cloth.dart';
 import '../components/image_data.dart';
 
-//기본 앱바
-class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool showAddButton;
+class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const LeftLogoAppBar({super.key, this.onAddButtonPressed});
 
-  const BaseAppBar({super.key, this.showAddButton = true});
+  final VoidCallback? onAddButtonPressed;
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: 97,
-      leadingWidth: 500,
-      elevation: 0,
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 51, bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  IconPath.logo,
-                  width: 140,
-                ),
-                if (showAddButton)
-                  GestureDetector(
-                    onTap: () {
-                      // 추가 아이콘 클릭 시 동작
-                      Get.to(AddPage()); // Add 페이지로 이동
-                    },
-                    child: SizedBox(width: 30, height: 30, child: Image.asset(IconPath.add,),
-                    ), // add 이미지
-                  ),
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+      child: AppBar(
+        toolbarHeight: 97,
+        automaticallyImplyLeading: false,
+        titleSpacing: 3,
+        title: Image.asset(IconPath.logo, width: 140),
+        actions: [
+          TextButton(
+            onPressed: onAddButtonPressed,
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
+            child: SizedBox(height: 30, child: Image.asset(IconPath.add,))
           ),
         ],
+      )
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(97);
+}
+
+
+class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
+  const CenterLogoAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+      child: AppBar(
+        toolbarHeight: 97,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
       ),
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(105); // AppBar의 높이 지정
+  Size get preferredSize => const Size.fromHeight(97);
 }
 
-class BaseAppBarController extends GetxController {
-  RxBool showAddButton = true.obs;
 
-  void toggleAddButtonVisibility() {
-    showAddButton.value = !showAddButton.value;
-  }
-}
 
-//양쪽 버튼, 가운데 글씨 앱바
-class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TwoSelectAppBar({super.key, required this.title});
+class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const TextTitleAppBar({
+    super.key,
+    required this.title,
+    required this.buttonNum,
+    this.onDeleteButtonPressed,
+    this.onEditButtonPressed,
+    this.onSaveButtonPressed
+  });
 
   final String title;
+  final int buttonNum;
+  final VoidCallback? onDeleteButtonPressed;
+  final VoidCallback? onEditButtonPressed;
+  final VoidCallback? onSaveButtonPressed;
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: 97,
-      leadingWidth: 500,
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      print("뒤로가기버튼클릭");
-                    },
-                    icon: SizedBox(height:24, child: Image.asset(IconPath.goBack))
-                ),
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                  width: 51,
-                  height: 34,
-                  child: FilledButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      backgroundColor: const Color(0xffF6747E)
-
-                    ),
-                    child: const Text(
-                      "저장",
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+      child: AppBar(
+        toolbarHeight: 97,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () { Navigator.pop(context); },
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-        ],
+          icon: Row(
+            children: [
+              SizedBox(height:28, child: Image.asset(IconPath.back))
+            ],
+          )
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
+        actions: drawActions(),
       ),
     );
   }
 
+  List<Widget> drawActions() {
+    if (buttonNum == 1) {
+      return [
+        TextButton(
+          onPressed: onDeleteButtonPressed,
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: SizedBox(height: 28, child: Image.asset(IconPath.delete)),
+        )
+      ];
+    } else if (buttonNum == 2) {
+      return [
+        TextButton(
+          onPressed: onEditButtonPressed,
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: SizedBox(height:28, child: Image.asset(IconPath.edit)),
+        ),
+        const SizedBox(width: 8),
+        TextButton(
+          onPressed: onDeleteButtonPressed,
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: SizedBox(height: 28, child: Image.asset(IconPath.delete)),
+        )
+      ];
+    } else if (buttonNum == 3) {
+      return [
+        SizedBox(
+          width: 51,
+          height: 34,
+          child: FilledButton(
+            onPressed: onSaveButtonPressed,
+            style: TextButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: EdgeInsets.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                backgroundColor: const Color(0xffF6747E)
+            ),
+            child: const Text(
+              "저장",
+              style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500,),
+            ),
+          ),
+        )
+      ];
+    } else {
+      return [];
+    }
+  }
+
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(105);
+  Size get preferredSize => const Size.fromHeight(97);
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../components/image_data.dart';
 import '../../widgets/app_bar.dart';
@@ -9,7 +8,7 @@ class AddPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TwoSelectAppBar(title: "의류 등록"),
+      appBar: TextTitleAppBar(title: "의류 등록", buttonNum: 3, onSaveButtonPressed: _onSaveButtonPressed,),
       body: Stack(
         children: [
           const SizedBox(
@@ -28,5 +27,9 @@ class AddPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onSaveButtonPressed() {
+    print("save");
   }
 }
