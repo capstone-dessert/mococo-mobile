@@ -7,7 +7,7 @@ class IconPath {
   static String get codiRecordOff => 'assets/images/codi_record_off.png';
   static String get codiRecordOn => 'assets/images/codi_record_on.png';
   static String get edit => 'assets/images/edit.png';
-  static String get goBack => 'assets/images/back.png';
+  static String get back => 'assets/images/back.png';
   static String get logo => 'assets/images/logo.png';
   static String get mococoLogo => 'assets/images/mococo_logo.png';
   static String get topLogo => 'assets/images/top_logo.png';
@@ -15,4 +15,5 @@ class IconPath {
   static String get editCondition => 'assets/images/edit_condition.png';
   static String get searchBar => 'assets/images/search_bar.png';
   static String get topSample => 'assets/images/topSample.png';
+  static String get delete =>  'assets/images/delete.png';
 }
