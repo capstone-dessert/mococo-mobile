@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ActionSheet {
+class GetImageModal {
   static Future<void> show(BuildContext context) async {
     final picker = ImagePicker();
     showCupertinoModalPopup<void>(

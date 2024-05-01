@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
 import '../components/image_data.dart';
 
-class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const LeftLogoAppBar({super.key, this.onAddButtonPressed});
 
-  final VoidCallback? onAddButtonPressed;
+class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const LeftLogoAppBar({super.key, required this.onAddButtonPressed});
+
+  final void Function(BuildContext) onAddButtonPressed;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
-      child: AppBar(
-        toolbarHeight: 97,
-        automaticallyImplyLeading: false,
-        titleSpacing: 3,
-        title: Image.asset(IconPath.logo, width: 140),
-        actions: [
-          TextButton(
-            onPressed: onAddButtonPressed,
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+        child: AppBar(
+          toolbarHeight: 97,
+          automaticallyImplyLeading: false,
+          titleSpacing: 3,
+          title: Image.asset(IconPath.logo, width: 140),
+          actions: [
+            TextButton(
+                onPressed: () => onAddButtonPressed(context),
+                style: TextButton.styleFrom(
+                  minimumSize: Size.zero,
+                  padding: EdgeInsets.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: SizedBox(height: 30, child: Image.asset(IconPath.add,))
             ),
-            child: SizedBox(height: 30, child: Image.asset(IconPath.add,))
-          ),
-        ],
-      )
+          ],
+        )
     );
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(97);
 }
+
 
 
 class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
