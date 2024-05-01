@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../components/image_data.dart';
 import '../widgets/modal_action_sheet.dart';
 
-class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
+class BaseAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -24,6 +24,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                 GestureDetector(
                   onTap: () {
                     // add 버튼을 탭하면 액션 시트를 표시합니다.
+                    print("컨ㄴ트롤러앱바임");
                     ActionSheet.show(context); // ActionSheet의 show 함수를 호출합니다.
                   },
                   child: Image.asset(

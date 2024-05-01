@@ -78,7 +78,7 @@ class TwoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 IconButton(
                     onPressed: () {
-                      print("뒤로가기버튼클릭");
+                      Navigator.pop(context);
                     },
                     icon: SizedBox(height:24, child: Image.asset(IconPath.goBack))
                 ),
