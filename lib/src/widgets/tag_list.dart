@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/category.dart';
 
+import '../components/image_data.dart';
+
 class PrimaryCategoryTagPicker extends StatefulWidget {
   const PrimaryCategoryTagPicker({super.key, required this.setSelectedPrimaryCategory});
 
@@ -249,7 +251,95 @@ class _ColorTagPickerState extends State<ColorTagPicker> {
           )
         ],
       ),
-    );;
+    );
   }
 }
 
+
+class DetailTagPicker extends StatefulWidget {
+  const DetailTagPicker({super.key});
+
+  @override
+  State<DetailTagPicker> createState() => _DetailTagPickerState();
+}
+
+class _DetailTagPickerState extends State<DetailTagPicker> {
+
+  List detailTags = ["브랜드", "패턴", "기장", "소매"];
+  Set<String> selectedDetailTags = {};
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Text(
+                "세부 태그",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+              ),
+              SizedBox(width: 10),
+              Text(
+                "브랜드, 패턴, 기장, 소재 등",
+                style: TextStyle(fontSize: 13, color: Color(0xff777777)),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 35,
+            child: SearchBar(
+              leading: SizedBox(child: Image.asset(IconPath.searchBar)),
+              backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
+              elevation: const MaterialStatePropertyAll(0),
+              hintText: "검색",
+              hintStyle: MaterialStateProperty.all(const TextStyle(color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
+            ),
+          ),
+          const SizedBox(height: 5),
+          Wrap(
+            spacing: 8,
+            children: List.generate(
+              detailTags.length,
+                  (index) {
+                return FilterChip(
+                  showCheckmark: false,
+                  backgroundColor: const Color(0xffF9F9F9),
+                  selectedColor: const Color(0xffFFF0F0),
+                  label: Text(detailTags[index]),
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: selectedDetailTags.contains(detailTags[index])
+                        ? const Color(0xffF6747E)
+                        : Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(
+                      color: selectedDetailTags.contains(detailTags[index])
+                          ? const Color(0xffF6747E)
+                          : const Color(0xffCACACA),
+                    ),
+                  ),
+                  selected: selectedDetailTags.contains(detailTags[index]),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      if (selected) {
+                        selectedDetailTags.add(detailTags[index]);
+                      } else {
+                        selectedDetailTags.remove(detailTags[index]);
+                      }
+                    });
+                  },
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

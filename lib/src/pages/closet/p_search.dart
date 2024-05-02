@@ -43,7 +43,7 @@ class SearchClothesState extends State<SearchClothes> {
                 ),
               const ColorTagPicker(),
               const Divider(color: Color(0xffF0F0F0),),
-
+              const DetailTagPicker(),
             ],
           ),
         ),
