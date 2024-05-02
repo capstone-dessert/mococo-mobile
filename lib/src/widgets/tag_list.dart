@@ -13,7 +13,7 @@ class PrimaryCategoryTagPicker extends StatefulWidget {
 class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
 
   int selectedIndex = -1;
-  List primaryCategory = Category.getPrimaryCategory();
+  List primaryCategories = Category.getPrimaryCategories();
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,12 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
           Wrap(
             spacing: 8,
             children: List.generate(
-              primaryCategory.length,
+              primaryCategories.length,
               (index) {
                 return ChoiceChip(
                   showCheckmark: false,
                   backgroundColor: const Color(0xffF9F9F9),
-                  label: Text(primaryCategory[index]),
+                  label: Text(primaryCategories[index]),
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: selectedIndex == index
@@ -59,7 +59,7 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
                     setState(() {
                       selectedIndex = selected ? index : -1;
                     });
-                    widget.setSelectedPrimaryCategory(selected ? primaryCategory[index] : "null");
+                    widget.setSelectedPrimaryCategory(selected ? primaryCategories[index] : "null");
                   },
                 );
               },
@@ -83,13 +83,13 @@ class SubCategoryTagPicker extends StatefulWidget {
 
 class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
 
-  List<String> subCategory = [];
-  Set<String> selectedSubCategory = {};
+  List<String> subCategories = [];
+  Set<String> selectedSubCategories = {};
 
   @override
   Widget build(BuildContext context) {
-    subCategory = Category.getSubCategory(widget.primaryCategory);
-    selectedSubCategory.removeWhere((element) => !subCategory.contains(element));
+    subCategories = Category.getSubCategories(widget.primaryCategory);
+    selectedSubCategories.removeWhere((element) => !subCategories.contains(element));
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -107,33 +107,33 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
           Wrap(
             spacing: 8,
             children: List.generate(
-              subCategory.length,
+              subCategories.length,
                 (index) {
                 return FilterChip(
                   showCheckmark: false,
                   backgroundColor: const Color(0xffF9F9F9),
-                  label: Text(subCategory[index]),
+                  label: Text(subCategories[index]),
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: selectedSubCategory.contains(subCategory[index])
+                    color: selectedSubCategories.contains(subCategories[index])
                         ? const Color(0xffF6747E)
                         : Colors.black,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(
-                      color: selectedSubCategory.contains(subCategory[index])
+                      color: selectedSubCategories.contains(subCategories[index])
                           ? const Color(0xffF6747E)
                           : const Color(0xffCACACA),
                     ),
                   ),
-                  selected: selectedSubCategory.contains(subCategory[index]),
+                  selected: selectedSubCategories.contains(subCategories[index]),
                   onSelected: (bool selected) {
                     setState(() {
                       if (selected) {
-                        selectedSubCategory.add(subCategory[index]);
+                        selectedSubCategories.add(subCategories[index]);
                       } else {
-                        selectedSubCategory.remove(subCategory[index]);
+                        selectedSubCategories.remove(subCategories[index]);
                       }
                     });
                   },

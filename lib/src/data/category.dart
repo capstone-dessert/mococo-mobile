@@ -1,5 +1,5 @@
 class Category {
-  static Map category = {
+  static Map categories = {
     "상의": ["맨투맨", "셔츠/블라우스", "후드 티셔츠", "니트", "긴소매 티셔츠",
       "반소매 티셔츠", "민소매 티셔츠", "스포츠 상의", "기타 상의"],
     "하의": ["청바지", "슬랙스", "치마"],
@@ -11,11 +11,11 @@ class Category {
     "악세사리": ["귀걸이", "목걸이", "반지"],
   };
 
-  static List getPrimaryCategory() {
-    return category.keys.toList();
+  static List getPrimaryCategories() {
+    return categories.keys.toList();
   }
 
-  static List<String> getSubCategory(primaryCategory) {
-    return category[primaryCategory];
+  static List<String> getSubCategories(primaryCategory) {
+    return categories[primaryCategory];
   }
 }
