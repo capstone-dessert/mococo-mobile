@@ -39,6 +39,7 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
                 return ChoiceChip(
                   showCheckmark: false,
                   backgroundColor: const Color(0xffF9F9F9),
+                  selectedColor: const Color(0xffFFF0F0),
                   label: Text(primaryCategories[index]),
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.w700,
@@ -112,6 +113,7 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
                 return FilterChip(
                   showCheckmark: false,
                   backgroundColor: const Color(0xffF9F9F9),
+                  selectedColor: const Color(0xffFFF0F0),
                   label: Text(subCategories[index]),
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.w700,
@@ -202,6 +204,7 @@ class _ColorTagPickerState extends State<ColorTagPicker> {
                 return FilterChip(
                   showCheckmark: false,
                   backgroundColor: const Color(0xffF9F9F9),
+                  selectedColor: const Color(0xffFFF0F0),
                   avatar: colors[index][1] == Colors.white
                     ? CircleAvatar(
                       radius: 30,
