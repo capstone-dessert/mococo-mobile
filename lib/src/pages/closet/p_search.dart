@@ -64,7 +64,7 @@ class SearchClothesState extends State<SearchClothes> {
                 Expanded(
                   flex: 1,
                   child: SizedBox(
-                    height: 50,
+                    height: 52,
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Color(0xffCACACA))
@@ -81,7 +81,7 @@ class SearchClothesState extends State<SearchClothes> {
                 Expanded(
                   flex: 2,
                   child: SizedBox(
-                    height: 50,
+                    height: 52,
                     child: FilledButton(
                       style: OutlinedButton.styleFrom(
                           backgroundColor: const Color(0xffF6747E),
