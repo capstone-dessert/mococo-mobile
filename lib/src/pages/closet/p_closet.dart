@@ -1,36 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../cloth.dart';
 import '../../widgets/get_image_modal.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/image_list.dart';
-import '../../components/image_data.dart';
 import 'p_cloth_detail.dart';
-import 'p_regist_cloth.dart';
 
-class Closet extends StatelessWidget {
-  const Closet({super.key});
+class Closet extends StatefulWidget {
+  const Closet({Key? key});
+
+  @override
+  _ClosetState createState() => _ClosetState();
+}
+
+class _ClosetState extends State<Closet> {
+  bool _isClothSelected = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
-      body: Container(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-        child: GridviewPage(onClothSelected: _onClothSelected),
+      appBar: _isClothSelected
+          ? TextTitleAppBar(
+        title: "의류 선택",
+        buttonNum: 1,
+        onBackButtonPressed: _onBackButtonPressed,
+        onDeleteButtonPressed: () {
+          _onDeleteButtonPressed(context);
+        },
       )
+          : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        child: GridviewPage(
+          onClothDetail: _onClothDetail,
+          onLeftLogoAppBar: _onLeftLogoAppBar,
+          isClothSelected: _isClothSelected,
+          toggleSelectableState: _toggleSelectableState, // toggleSelectableState 콜백 전달
+        ),
+      ),
     );
+  }
+
+  void _onBackButtonPressed() {
+    setState(() {
+      _isClothSelected = false;
+    });
   }
 
   void _onAddButtonPressed(BuildContext context) {
     GetImageModal.show(context);
   }
 
-  void _onClothSelected(BuildContext context, Cloth cloth) {
+  void _onClothDetail(BuildContext context, Cloth cloth) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ClothDetail(cloth: cloth),
+        builder: (_) => ClothDetail(cloth: cloth),
       ),
     );
   }
+
+  void _onDeleteButtonPressed(BuildContext context) {
+    AlertModal.show(context);
+  }
+
+  void _onLeftLogoAppBar(bool isLeftLogoAppBar) {
+    setState(() {
+      _isClothSelected = !isLeftLogoAppBar;
+    });
+  }
+
+  void _toggleSelectableState() {
+    setState(() {
+      _isClothSelected = true; // 의류 선택 가능 상태로 변경
+    });
+  }
 }
+

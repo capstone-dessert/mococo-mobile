@@ -4,7 +4,8 @@ import '../../widgets/app_bar.dart';
 import '../../cloth.dart';
 
 class EditCloth extends StatelessWidget {
-  const EditCloth({super.key});
+  final BuildContext context;
+  const EditCloth({Key? key, required this.context}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class EditCloth extends StatelessWidget {
         title: "상세 정보 수정",
         buttonNum: 3,
         onSaveButtonPressed: _onSaveButtonPressed,
+        onBackButtonPressed: _onBackButtonPressed,
       ),
       body: Stack(
         children: [
@@ -32,6 +34,10 @@ class EditCloth extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onBackButtonPressed() {
+    Navigator.pop(context);
   }
 
   void _onSaveButtonPressed() {
