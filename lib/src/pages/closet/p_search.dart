@@ -25,7 +25,6 @@ class SearchClothesState extends State<SearchClothes> {
 
   @override
   Widget build(BuildContext context) {
-    print("search build");
     return Scaffold(
       appBar: const TextTitleAppBar(title: "검색", buttonNum: 0),
       body: Padding(
@@ -42,6 +41,7 @@ class SearchClothesState extends State<SearchClothes> {
                     const Divider(color: Color(0xffF0F0F0),),
                   ],
                 ),
+              const ColorTagPicker()
             ],
           ),
         ),

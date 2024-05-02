@@ -28,11 +28,6 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
                 "카테고리",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
               ),
-              // SizedBox(width: 5),
-              // Text(
-              //   "(필수)",
-              //   style: TextStyle(fontSize: 14, color: Colors.black87,),
-              // ),
             ],
           ),
           const SizedBox(height: 8),
@@ -94,6 +89,7 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
   @override
   Widget build(BuildContext context) {
     subCategory = Category.getSubCategory(widget.primaryCategory);
+    selectedSubCategory.removeWhere((element) => !subCategory.contains(element));
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -105,11 +101,6 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
                 "하위 카테고리",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
               ),
-              // SizedBox(width: 5),
-              // Text(
-              //   '(중복 선택 가능)',
-              //   style: TextStyle(fontSize: 14, color: Colors.black87,),
-              // ),
             ],
           ),
           const SizedBox(height: 8),
@@ -145,7 +136,6 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
                         selectedSubCategory.remove(subCategory[index]);
                       }
                     });
-                    print(selectedSubCategory);
                   },
                 );
               },
@@ -158,122 +148,105 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
 }
 
 
-class ColorPickerState extends State<ColorPicker> {
-  final List<bool> isSelectiedList = List.filled(8, false);
+class ColorTagPicker extends StatefulWidget {
+  const ColorTagPicker({super.key});
 
-  // Color myColor = const Color(0xFFFF5722); // deepOrange[400]
+  @override
+  State<ColorTagPicker> createState() => _ColorTagPickerState();
+}
 
-  List<Color> colors = [
-    Colors.white, //화이트
-    Colors.black, //블랙
-    Colors.grey, //그레이
-    const Color(0xFF37474F), //챠콜
-    Colors.red, //빨강
-    Colors.purpleAccent, //핑크
-    const Color(0xFFFF80AB), //연핑크
-    const Color(0xFF000080) // 네이비
-  ]; // 색상 샘플
+class _ColorTagPickerState extends State<ColorTagPicker> {
 
-  List<String> checkList = [
-    "화이트",
-    "블랙",
-    "그레이",
-    "차콜",
-    "빨강",
-    "핑크",
-    "연핑크",
-    "네이비",
+  List colors = [
+    ["화이트", Colors.white],
+    ["블랙", Colors.black],
+    ["그레이", const Color(0xffCDCDCD)],
+    ["차콜", const Color(0xff6D6D6D)],
+    ["빨강", Colors.red],
+    ["핑크", const Color(0xffFF63CA)],
+    ["네이비", const Color(0xff002F89)],
+    ["파랑", const Color(0xff0057FF)],
+    ["하늘", const Color(0xffAFECFF)],
+    ["보라", const Color(0xff7D00FA)],
+    ["카키", const Color(0xff5C7300)],
+    ["초록", Colors.green],
+    ["민트", const Color(0xff9BFFCE)],
+    ["노랑", Colors.yellow],
+    ["주황", Colors.orange],
+    ["베이지", const Color(0xffEBDDCC)],
+    ["브라운", Colors.brown]
   ];
+  Set<String> selectedColors = {};
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 10, top: 15, bottom: 10),
-                child: Row(
-                  children: [
-                    Text(
-                      '색상',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      '(필수)',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Wrap(
-                  spacing: 16,
-                  runSpacing: 4,
-                  children: List.generate(
-                    checkList.length,
-                    (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isSelectiedList[index] = !isSelectiedList[index];
-                          });
-                        },
-                        child: Chip(
-                          label: Text(checkList[index]),
-                          labelStyle: TextStyle(
-                            color: isSelectiedList[index]
-                                ? Colors.pink
-                                : Colors.black,
-                          ),
-                          avatar: CircleAvatar(
-                            backgroundColor: colors[index],
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.black12, // 외곽선 색상
-                                  width: 2, // 외곽선 두께
-                                ),
-                              ),
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: BorderSide(
-                              color: isSelectiedList[index]
-                                  ? Colors.pink
-                                  : Colors.black38,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(10.0),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+              Text(
+                "색상",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
               ),
             ],
           ),
-        ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: List.generate(
+              colors.length,
+                  (index) {
+                return FilterChip(
+                  showCheckmark: false,
+                  backgroundColor: const Color(0xffF9F9F9),
+                  avatar: colors[index][1] == Colors.white
+                    ? CircleAvatar(
+                      radius: 30,
+                      backgroundColor: const Color(0xffD9D9D9),
+                      child: CircleAvatar(
+                        radius: 9,
+                        backgroundColor: colors[index][1],
+                      ),
+                    )
+                    : CircleAvatar(
+                      radius: 30,
+                      backgroundColor: colors[index][1],
+                    ),
+                  label: Text(colors[index][0]),
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: selectedColors.contains(colors[index][0])
+                        ? const Color(0xffF6747E)
+                        : Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(
+                      color: selectedColors.contains(colors[index][0])
+                          ? const Color(0xffF6747E)
+                          : const Color(0xffCACACA),
+                    ),
+                  ),
+                  selected: selectedColors.contains(colors[index][0]),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      if (selected) {
+                        selectedColors.add(colors[index][0]);
+                      } else {
+                        selectedColors.remove(colors[index][0]);
+                      }
+                    });
+                  },
+                );
+              },
+            ),
+          )
+        ],
       ),
-    );
+    );;
   }
 }
 
-class ColorPicker extends StatefulWidget {
-  const ColorPicker({super.key});
-
-  @override
-  ColorPickerState createState() => ColorPickerState();
-}
