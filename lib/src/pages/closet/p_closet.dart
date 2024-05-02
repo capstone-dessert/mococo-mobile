@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/image_list.dart';
@@ -19,6 +20,7 @@ class Closet extends StatelessWidget {
   }
 
   void _onAddButtonPressed() {
-    Get.to(AddPage());
+    // Get.to(() => AddPage());
+    Get.to(() => SearchClothes());
   }
 }

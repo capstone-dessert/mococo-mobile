@@ -1,209 +1,163 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/category.dart';
 
-class CatPicker extends StatefulWidget {
-  const CatPicker({super.key});
+class PrimaryCategoryTagPicker extends StatefulWidget {
+  const PrimaryCategoryTagPicker({super.key, required this.setSelectedPrimaryCategory});
+
+  final Function(String) setSelectedPrimaryCategory;
 
   @override
-  CatPickerState createState() => CatPickerState();
+  PrimaryCategoryTagPickerState createState() => PrimaryCategoryTagPickerState();
 }
 
-//카테고리+서브카테고리 태그 선택 그리드
-class CatPickerState extends State<CatPicker> {
-  final List<bool> isSelectiedList = List.filled(100, false);
+class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
+
   int selectedIndex = -1;
-
-  List<String> checkList = [
-    "상의",
-    "하의",
-    "아우터",
-    "원피스",
-    "신발",
-    "모자",
-    "가방",
-    "악세사리",
-  ];
-
-  List<List<String>> subCategories = [
-    [
-      "맨투맨",
-      "셔츠/블라우스",
-      "후드 티셔츠",
-      "니트",
-      "긴소매 티셔츠",
-      "반소매 티셔츠",
-      "민소매 티셔츠",
-      "스포츠 상의",
-      "기타 상의"
-    ],
-    ["청바지", "슬랙스", "치마"],
-    ["자켓", "코트", "점퍼"],
-    ["미니 원피스", "맥시 원피스", "플레어 원피스"],
-    ["운동화", "구두", "샌들"],
-    ["야구 모자", "비니", "페도라"],
-    ["백팩", "숄더백", "클러치"],
-    ["귀걸이", "목걸이", "반지"],
-  ];
-
-  List<bool> isSubCatSelectedList = List.filled(15, false);
+  List primaryCategory = Category.getPrimaryCategory();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 10, top: 15, bottom: 10),
-                child: Row(
-                  children: [
-                    Text(
-                      '카테고리',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      '(필수)',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
+              Text(
+                "카테고리",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Wrap(
-                  spacing: 16,
-                  runSpacing: 4,
-                  children: List.generate(
-                    checkList.length,
-                    (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            for (int i = 0; i < isSelectiedList.length; i++) {
-                              isSelectiedList[i] = i == index;
-                            }
-                            selectedIndex = index;
-                            isSubCatSelectedList = List.filled(
-                                subCategories[selectedIndex].length, false);
-                          });
-                        },
-                        child: Chip(
-                          label: Text(checkList[index]),
-                          labelStyle: TextStyle(
-                            color: isSelectiedList[index]
-                                ? Colors.pink
-                                : Colors.black,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: BorderSide(
-                              color: isSelectiedList[index]
-                                  ? Colors.pink
-                                  : Colors.black38,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(10.0),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              if (selectedIndex != -1)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10, top: 15, bottom: 10),
-                      child: Row(
-                        children: [
-                          Text(
-                            '카테고리',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            '(중복 선택 가능)',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Wrap(
-                        spacing: 16,
-                        runSpacing: 4,
-                        children: List.generate(
-                          subCategories[selectedIndex].length,
-                          (index) {
-                            return GestureDetector(
-                              //중복 선택
-                              onTap: () {
-                                setState(() {
-                                  isSubCatSelectedList[index] =
-                                      !isSubCatSelectedList[index];
-                                });
-                              },
-
-                              //하나만 선택
-                              // onTap: () {
-                              //   setState(() {
-                              //     for (int i = 0;
-                              //         i < isSubCatSelectedList.length;
-                              //         i++) {
-                              //       isSubCatSelectedList[i] = i == index;
-                              //     }
-                              //   });
-                              // },
-                              child: Chip(
-                                label:
-                                    Text(subCategories[selectedIndex][index]),
-                                labelStyle: TextStyle(
-                                  color: isSubCatSelectedList[index]
-                                      ? Colors.pink
-                                      : Colors.black,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  side: BorderSide(
-                                    color: isSubCatSelectedList[index]
-                                        ? Colors.pink
-                                        : Colors.black38,
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(10.0),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              // SizedBox(width: 5),
+              // Text(
+              //   "(필수)",
+              //   style: TextStyle(fontSize: 14, color: Colors.black87,),
+              // ),
             ],
           ),
-        ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: List.generate(
+              primaryCategory.length,
+              (index) {
+                return ChoiceChip(
+                  showCheckmark: false,
+                  backgroundColor: const Color(0xffF9F9F9),
+                  label: Text(primaryCategory[index]),
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: selectedIndex == index
+                      ? const Color(0xffF6747E)
+                      : Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    side: BorderSide(
+                      color: selectedIndex == index
+                        ? const Color(0xffF6747E)
+                        : const Color(0xffCACACA),
+                    ),
+                  ),
+                  selected: selectedIndex == index,
+                  onSelected: (bool selected) {
+                    setState(() {
+                      selectedIndex = selected ? index : -1;
+                    });
+                    widget.setSelectedPrimaryCategory(selected ? primaryCategory[index] : "null");
+                  },
+                );
+              },
+            ),
+          ),
+         ],
       ),
     );
   }
 }
 
-//색상 태그 선택 그리드
+
+class SubCategoryTagPicker extends StatefulWidget {
+  const SubCategoryTagPicker({super.key, required this.primaryCategory});
+
+  final String primaryCategory;
+
+  @override
+  State<SubCategoryTagPicker> createState() => _SubCategoryTagPickerState();
+}
+
+class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
+
+  List<String> subCategory = [];
+  Set<String> selectedSubCategory = {};
+
+  @override
+  Widget build(BuildContext context) {
+    subCategory = Category.getSubCategory(widget.primaryCategory);
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Text(
+                "하위 카테고리",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+              ),
+              // SizedBox(width: 5),
+              // Text(
+              //   '(중복 선택 가능)',
+              //   style: TextStyle(fontSize: 14, color: Colors.black87,),
+              // ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: List.generate(
+              subCategory.length,
+                (index) {
+                return FilterChip(
+                  showCheckmark: false,
+                  backgroundColor: const Color(0xffF9F9F9),
+                  label: Text(subCategory[index]),
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: selectedSubCategory.contains(subCategory[index])
+                        ? const Color(0xffF6747E)
+                        : Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(
+                      color: selectedSubCategory.contains(subCategory[index])
+                          ? const Color(0xffF6747E)
+                          : const Color(0xffCACACA),
+                    ),
+                  ),
+                  selected: selectedSubCategory.contains(subCategory[index]),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      if (selected) {
+                        selectedSubCategory.add(subCategory[index]);
+                      } else {
+                        selectedSubCategory.remove(subCategory[index]);
+                      }
+                    });
+                    print(selectedSubCategory);
+                  },
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
 class ColorPickerState extends State<ColorPicker> {
   final List<bool> isSelectiedList = List.filled(8, false);
 
