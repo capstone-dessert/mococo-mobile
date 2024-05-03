@@ -16,4 +16,5 @@ class IconPath {
   static String get searchBar => 'assets/images/search_bar.png';
   static String get topSample => 'assets/images/topSample.png';
   static String get delete =>  'assets/images/delete.png';
+  static String get searchTag =>  'assets/images/search_tag.png';
 }

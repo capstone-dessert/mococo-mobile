@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/pages/closet/p_regist_cloth.dart';
+import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../cloth.dart';
 import '../../widgets/get_image_modal.dart';
@@ -19,6 +21,7 @@ class Closet extends StatefulWidget {
 class _ClosetState extends State<Closet> {
   bool _isClothSelected = false;
   List<int> _selectedClothIndices = [];
+  List queries = ["전체"];
 
   @override
   Widget build(BuildContext context) {
@@ -40,31 +43,59 @@ class _ClosetState extends State<Closet> {
             Positioned(
               top: 5,
               left: 6,
-              child: Row(
-                children: <Widget>[
-                  OutlinedButton(
-                    onPressed: () {},
-                    child: Text('전체'),
-                    style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.black,
-                        side: BorderSide(
-                          color: Colors.purpleAccent,
-                          width: 3.0,
-                        )
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  OutlinedButton(
-                    onPressed: () {
-                      print("검색버튼누름");
-                    },
-                    child: Text('검색'),
-                  ),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                    List.generate(
+                      queries.length,
+                            (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: const Color(0xffF9F9F9),
+                              side: const BorderSide(
+                                color: Color(0xffCACACA),
+                                width: 1.5,
+                              ),
+                              minimumSize: Size.zero,
+                              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 17),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Text(
+                              queries[index],
+                              style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+                            ),
+                          ),
+                        );
+                      }
+                    ) + [
+                      Padding(
+                        padding: const EdgeInsets.only(),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            var queries =  Get.to(() => const SearchClothes());
+                          },
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: const Color(0xffF9F9F9),
+                            side: const BorderSide(
+                              color: Color(0xffF6747E),
+                              width: 1.5,
+                            ),
+                            minimumSize: Size.zero,
+                            padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: Image.asset(IconPath.searchTag, width: 20,)
+                        ),
+                      ),
+                    ],
+                ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 55, left: 9),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,14 +108,14 @@ class _ClosetState extends State<Closet> {
                 top: 40,
                 right: 0,
                 child: TextButton(
-                  child: Text(
+                  child: const Text(
                     '선택',
                     style: TextStyle(color: Colors.black87),
                   ),
                   onPressed: () {},
                 )),
             Padding(
-              padding: EdgeInsets.only(top: 90, right: 6, left: 6),
+              padding: const EdgeInsets.only(top: 90, right: 6, left: 6),
               child: GridviewPage(
                 onClothDetail: _onClothDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
