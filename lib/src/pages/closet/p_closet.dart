@@ -37,6 +37,7 @@ class _ClosetState extends State<Closet> {
         padding: const EdgeInsets.only(left: 10, right: 10), //원래 16,16
         child: Stack(
           children: <Widget>[
+          if (!_isClothSelected) // 의류 선택 중이 아닐 때만 표시
             Positioned(
               top: 5,
               left: 6,
@@ -46,12 +47,12 @@ class _ClosetState extends State<Closet> {
                     onPressed: () {},
                     child: Text('전체'),
                     style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.black,
-                        side: BorderSide(
-                          color: Colors.purpleAccent,
-                          width: 3.0,
-                        )
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black,
+                      side: BorderSide(
+                        color: Colors.purpleAccent,
+                        width: 3.0,
+                      )
                     ),
                   ),
                   SizedBox(width: 8),
@@ -65,7 +66,7 @@ class _ClosetState extends State<Closet> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 55, left: 9),
+              padding: EdgeInsets.only(top: _isClothSelected ? 0 : 58, left: 9, right: 9),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -74,23 +75,25 @@ class _ClosetState extends State<Closet> {
               ),
             ),
             Positioned(
-                top: 40,
-                right: 0,
-                child: TextButton(
-                  child: Text(
-                    '선택',
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                  onPressed: () {},
-                )),
+              top: 40,
+              right: 0,
+              child: _isClothSelected ? SizedBox() : TextButton(
+                child: Text(
+                  '선택',
+                  style: TextStyle(color: Colors.black87),
+                ),
+                onPressed: () {},
+              ),
+            ),
             Padding(
-              padding: EdgeInsets.only(top: 90, right: 6, left: 6),
+              padding: EdgeInsets.only(top: _isClothSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
                 onClothDetail: _onClothDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
                 isClothSelected: _isClothSelected,
                 selectedClothIndices: _selectedClothIndices,
-                toggleSelectableState: _toggleSelectableState,),
+                toggleSelectableState: _toggleSelectableState,
+              ),
             ),
           ],
         ),
@@ -135,4 +138,3 @@ class _ClosetState extends State<Closet> {
     });
   }
 }
-
