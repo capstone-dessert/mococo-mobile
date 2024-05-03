@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../widgets/app_bar.dart';
 import '../../widgets/image_list.dart';
 import 'p_regist_cloth.dart';
