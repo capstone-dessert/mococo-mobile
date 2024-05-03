@@ -51,8 +51,8 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<key>NSCameraUsageDescription</key>
-		<key>UIStatusBarHidden</key>
+        <string>Allow access to photo library for selecting photos</string>
+        <key>NSCameraUsageDescription</key>
 		<false/>
 	</dict>
 </plist>
