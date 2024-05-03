@@ -22,7 +22,7 @@ class _ClothDetailState extends State<ClothDetail> {
         buttonNum: 2,
         onBackButtonPressed: _onBackButtonPressed,
         onEditButtonPressed: () => _onEditButtonPressed(context),
-        onDeleteButtonPressed: _onDeleteButtonPressed,
+        onDeleteButtonPressed: () => _onDeleteButtonPressed(context),
       ),
       body: Stack(
         children: [
@@ -58,7 +58,9 @@ class _ClothDetailState extends State<ClothDetail> {
     );
   }
 
-  void _onDeleteButtonPressed() {
-    AlertModal.show(context);
+  void _onDeleteButtonPressed(BuildContext context) {
+    AlertModal.show(context, false, 0);
   }
+
+
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// round 버튼 (구분선 X)
+
 class AlertModal {
-  static void show(BuildContext context) {
+  static void show(BuildContext context, bool isMultiSelect, int selectedItemCount) {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => AlertDialog (
@@ -16,7 +16,7 @@ class AlertModal {
         content: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: const Text(
-            "의류를 삭제하시겠습니까?",
+            isMultiSelect ? "$selectedItemCount개의 의류를 삭제하시겠습니까?" : "해당 의류를 삭제하시겠습니까?",
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
@@ -26,49 +26,49 @@ class AlertModal {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      side: const BorderSide(color: Color(0xffCACACA),),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    // ButtonStyle(
-                    //   backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                    //   minimumSize: MaterialStateProperty.all<Size>(Size(110, 40)),
-                    // ),
-                    child: const Text(
-                      "취소",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    side: const BorderSide(color: Color(0xffCACACA),),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  // ButtonStyle(
+                  //   backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  //   minimumSize: MaterialStateProperty.all<Size>(Size(110, 40)),
+                  // ),
+                  child: const Text(
+                    "취소",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
-                  child: FilledButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xffF6747E),
-                      minimumSize: (const Size(110, 40)),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    child: const Text(
-                      "삭제",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xffF6747E),
+                    minimumSize: (const Size(110, 40)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: const Text(
+                    "삭제",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                ),
               ),
             ],
           ),
@@ -77,55 +77,3 @@ class AlertModal {
     );
   }
 }
-
-
-// full
-// class AlertModal {
-//   static void show(BuildContext context) {
-//     showCupertinoModalPopup<void>(
-//       context: context,
-//       builder: (BuildContext context) => CupertinoAlertDialog(
-//         content: const Text(
-//           '의류를 삭제하시겠습니까?',
-//           style: TextStyle(
-//             fontSize: 17,
-//           ),
-//         ),
-//         actions: <Widget>[
-//           CupertinoDialogAction(
-//             child: const Text(
-//               "취소",
-//               style: TextStyle(
-//                 fontSize: 17,
-//                 color: Colors.black,
-//                 fontWeight: FontWeight.w500,
-//               ),
-//             ),
-//             onPressed: () {
-//               Navigator.pop(context);
-//             },
-//           ),
-//           SizedBox(
-//             width: double.infinity,
-//             child: Container(
-//               color: Theme.of(context).primaryColor,
-//               child: CupertinoDialogAction(
-//                 child: const Text(
-//                   "삭제",
-//                   style: TextStyle(
-//                     fontSize: 17,
-//                     color: Colors.white,
-//                     fontWeight: FontWeight.w500,
-//                   ),
-//                 ),
-//                 onPressed: () {
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

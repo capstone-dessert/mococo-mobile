@@ -22,6 +22,7 @@ class _ClosetState extends State<Closet> {
   bool _isClothSelected = false;
   List<int> _selectedClothIndices = [];
   List queries = ["전체"];
+  int itemCount = 9;
 
   @override
   Widget build(BuildContext context) {
@@ -37,96 +38,102 @@ class _ClosetState extends State<Closet> {
       )
           : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
       body: Container(
-        padding: const EdgeInsets.only(left: 10, right: 10), //원래 16,16
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: Stack(
           children: <Widget>[
-            Positioned(
-              top: 5,
-              left: 6,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                    List.generate(
-                      queries.length,
-                            (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8),
+            if (!_isClothSelected)
+              Positioned(
+                top: 5,
+                left: 6,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children:
+                      List.generate(
+                        queries.length,
+                              (index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: OutlinedButton(
+                              onPressed: () {},
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: const Color(0xffF9F9F9),
+                                side: const BorderSide(
+                                  color: Color(0xffCACACA),
+                                  width: 1.5,
+                                ),
+                                minimumSize: Size.zero,
+                                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 17),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Text(
+                                queries[index],
+                                style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+                              ),
+                            ),
+                          );
+                        }
+                      ) + [
+                        Padding(
+                          padding: const EdgeInsets.only(),
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              var newQueries =  await Get.to(() => const SearchClothes(), arguments: queries.toSet());
+                              if (newQueries == [] || newQueries == null) {
+                                setQueries(["전체"]);
+                              } else {
+                                setQueries(newQueries);
+                              }
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: const Color(0xffF9F9F9),
                               side: const BorderSide(
-                                color: Color(0xffCACACA),
+                                color: Color(0xffF6747E),
                                 width: 1.5,
                               ),
                               minimumSize: Size.zero,
-                              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 17),
+                              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            child: Text(
-                              queries[index],
-                              style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
-                            ),
+                            child: Image.asset(IconPath.searchTag, width: 20,)
                           ),
-                        );
-                      }
-                    ) + [
-                      Padding(
-                        padding: const EdgeInsets.only(),
-                        child: OutlinedButton(
-                          onPressed: () async {
-                            var newQueries =  await Get.to(() => const SearchClothes(), arguments: queries.toSet());
-                            if (newQueries == [] || newQueries == null) {
-                              setQueries(["전체"]);
-                            } else {
-                              setQueries(newQueries);
-                            }
-                          },
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: const Color(0xffF9F9F9),
-                            side: const BorderSide(
-                              color: Color(0xffF6747E),
-                              width: 1.5,
-                            ),
-                            minimumSize: Size.zero,
-                            padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: Image.asset(IconPath.searchTag, width: 20,)
                         ),
-                      ),
-                    ],
+                      ],
+                  ),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 55, left: 9),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('0개'),
-                ],
+              Padding(
+                padding:
+                EdgeInsets.only(top: _isClothSelected ? 0 : 58, left: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(_isClothSelected ? '${_selectedClothIndices.length}개' : '$itemCount개',),
+                  ],
+                ),
+              ),
+            Positioned(
+              top: 40,
+              right: 0,
+              child: _isClothSelected ? SizedBox() : TextButton(
+                child: const Text(
+                  '선택',
+                  style: TextStyle(color: Colors.black87),
+                ),
+                onPressed: () {},
               ),
             ),
-            Positioned(
-                top: 40,
-                right: 0,
-                child: TextButton(
-                  child: const Text(
-                    '선택',
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                  onPressed: () {},
-                )),
             Padding(
-              padding: const EdgeInsets.only(top: 90, right: 6, left: 6),
+              padding:
+              EdgeInsets.only(top: _isClothSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
                 onClothDetail: _onClothDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
                 isClothSelected: _isClothSelected,
                 selectedClothIndices: _selectedClothIndices,
-                toggleSelectableState: _toggleSelectableState,),
+                toggleSelectableState: _toggleSelectableState,
+                itemCount: itemCount,
+              ),
             ),
           ],
         ),
@@ -141,13 +148,12 @@ class _ClosetState extends State<Closet> {
   void _onBackButtonPressed() {
     setState(() {
       _isClothSelected = false;
-      _selectedClothIndices.clear(); // 선택된 의류 인덱스 초기화
+      _selectedClothIndices.clear();
     });
   }
 
   void _onAddButtonPressed(BuildContext context) {
     GetImageModal.show(context);
-    // Get.to(AddPage()); // 의류 등록 페이지
   }
 
   void _onClothDetail(BuildContext context, Cloth cloth) {
@@ -160,7 +166,8 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    AlertModal.show(context);
+    if(_selectedClothIndices.length > 0)
+      AlertModal.show(context, true, _selectedClothIndices.length);
   }
 
   void _onLeftLogoAppBar(bool isLeftLogoAppBar) {
