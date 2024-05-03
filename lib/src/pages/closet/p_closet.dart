@@ -15,6 +15,7 @@ class Closet extends StatefulWidget {
 
 class _ClosetState extends State<Closet> {
   bool _isClothSelected = false;
+  List<int> _selectedClothIndices = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,8 @@ class _ClosetState extends State<Closet> {
           onClothDetail: _onClothDetail,
           onLeftLogoAppBar: _onLeftLogoAppBar,
           isClothSelected: _isClothSelected,
-          toggleSelectableState: _toggleSelectableState, // toggleSelectableState 콜백 전달
+          selectedClothIndices: _selectedClothIndices,
+          toggleSelectableState: _toggleSelectableState,
         ),
       ),
     );
@@ -44,6 +46,7 @@ class _ClosetState extends State<Closet> {
   void _onBackButtonPressed() {
     setState(() {
       _isClothSelected = false;
+      _selectedClothIndices.clear(); // 선택된 의류 인덱스 초기화
     });
   }
 
@@ -72,7 +75,7 @@ class _ClosetState extends State<Closet> {
 
   void _toggleSelectableState() {
     setState(() {
-      _isClothSelected = true; // 의류 선택 가능 상태로 변경
+      _isClothSelected = true;
     });
   }
 }
