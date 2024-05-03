@@ -15,7 +15,7 @@ class AlertModal {
         surfaceTintColor: Colors.transparent,
         content: SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: const Text(
+          child: Text(
             isMultiSelect ? "$selectedItemCount개의 의류를 삭제하시겠습니까?" : "해당 의류를 삭제하시겠습니까?",
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,

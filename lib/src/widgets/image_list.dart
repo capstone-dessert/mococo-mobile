@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
-import '../cloth.dart';
+import '../clothes.dart';
 
 class GridviewPage extends StatefulWidget {
   const GridviewPage({
     Key? key,
-    required this.onClothDetail,
+    required this.onClothesDetail,
     required this.onLeftLogoAppBar,
-    required this.selectedClothIndices,
+    required this.selectedClothesIndices,
     required this.toggleSelectableState,
-    required this.isClothSelected,
+    required this.isClothesSelected,
     required this.itemCount,
   }) : super(key: key);
 
-  final Function(BuildContext context, Cloth cloth) onClothDetail;
+  final Function(BuildContext context, Clothes cloth) onClothesDetail;
   final Function(bool isLeftLogoAppBar) onLeftLogoAppBar;
-  final bool isClothSelected;
-  final List<int> selectedClothIndices;
+  final bool isClothesSelected;
+  final List<int> selectedClothesIndices;
   final VoidCallback toggleSelectableState;
   final int itemCount;
 
@@ -40,27 +40,27 @@ class GridviewPageState extends State<GridviewPage> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () { // 의류 상세 페이지 이동
-            if (!widget.isClothSelected) {
-              _navigateToClothDetail(context, index);
+            if (!widget.isClothesSelected) {
+              _navigateToClothesDetail(context, index);
             }
             else {
               widget.toggleSelectableState();
-              if (widget.selectedClothIndices.contains(index)) {
-                widget.selectedClothIndices.remove(index);
+              if (widget.selectedClothesIndices.contains(index)) {
+                widget.selectedClothesIndices.remove(index);
               } else {
-                widget.selectedClothIndices.add(index);
+                widget.selectedClothesIndices.add(index);
               }
             }
           },
           onLongPress: () { // 의류 삭제 페이지 이동
             widget.toggleSelectableState();
             longPressedIndex = index;
-            widget.selectedClothIndices.add(index); // 길게 누른 이미지 기본 체크
+            widget.selectedClothesIndices.add(index); // 길게 누른 이미지 기본 체크
           },
           child: Stack(
             children: [
-              _buildClothImage(index),
-              if (widget.selectedClothIndices.contains(index))
+              _buildClothesImage(index),
+              if (widget.selectedClothesIndices.contains(index))
                 Positioned(
                   top: 5,
                   right: 5,
@@ -78,16 +78,16 @@ class GridviewPageState extends State<GridviewPage> {
     );
   }
 
-  Widget _buildClothImage(int index) {
+  Widget _buildClothesImage(int index) {
     return Image.asset(
       IconPath.topSample,
     );
   }
 
-  void _navigateToClothDetail(BuildContext context, int index) {
-    if (!widget.selectedClothIndices.contains(index)) {
-      widget.onClothDetail(
-          context, Cloth(index: index, name: 'Cloth $index'));
+  void _navigateToClothesDetail(BuildContext context, int index) {
+    if (!widget.selectedClothesIndices.contains(index)) {
+      widget.onClothesDetail(
+          context, Clothes(index: index, name: 'Cloth $index'));
     }
   }
 }

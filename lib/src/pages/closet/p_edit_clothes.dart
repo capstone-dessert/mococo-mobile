@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../components/image_data.dart';
 import '../../widgets/app_bar.dart';
-import '../../cloth.dart';
+import '../../clothes.dart';
 
-class EditCloth extends StatelessWidget {
+class EditClothes extends StatelessWidget {
   final BuildContext context;
-  const EditCloth({Key? key, required this.context}) : super(key: key);
+  const EditClothes({Key? key, required this.context}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
