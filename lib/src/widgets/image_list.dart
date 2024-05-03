@@ -10,25 +10,27 @@ class GridviewPage extends StatefulWidget {
     required this.selectedClothIndices,
     required this.toggleSelectableState,
     required this.isClothSelected,
+    required this.itemCount,
   }) : super(key: key);
 
   final Function(BuildContext context, Cloth cloth) onClothDetail;
   final Function(bool isLeftLogoAppBar) onLeftLogoAppBar;
   final bool isClothSelected;
-  final List<int> selectedClothIndices; // 선택 이미지 목록
+  final List<int> selectedClothIndices;
   final VoidCallback toggleSelectableState;
+  final int itemCount;
 
   @override
   GridviewPageState createState() => GridviewPageState();
 }
 
 class GridviewPageState extends State<GridviewPage> {
-  int? longPressedIndex; // 길게 눌린 이미지 인덱스
+  int? longPressedIndex;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 14,
+      itemCount: widget.itemCount,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 3 / 4,
@@ -37,42 +39,38 @@ class GridviewPageState extends State<GridviewPage> {
       ),
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
-          onTap: () {
-            if (!widget.isClothSelected) { // 짧게 누른 상태, 상세 조회로 이동
+          onTap: () { // 의류 상세 페이지 이동
+            if (!widget.isClothSelected) {
               _navigateToClothDetail(context, index);
             }
-          },
-          onLongPress: () { // 의류 선택 가능 상태 전환 및 선택한 이미지 추적
-            widget.toggleSelectableState();
-            setState(() {
-              longPressedIndex = index; // 선택한 이미지 인덱스 기억
-            });
-          },
-          onTapDown: (_) {
-            if (longPressedIndex != null) { // 길게 눌린 이미지가 있을 때만
-              setState(() {
-                if (widget.selectedClothIndices.contains(index)) {
-                  widget.selectedClothIndices.remove(index); // 이미 체크된 경우 체크 해제
-                } else {
-                  widget.selectedClothIndices.add(index); // 아닌 경우 체크
-                }
-              });
+            else {
+              widget.toggleSelectableState();
+              if (widget.selectedClothIndices.contains(index)) {
+                widget.selectedClothIndices.remove(index);
+              } else {
+                widget.selectedClothIndices.add(index);
+              }
             }
+          },
+          onLongPress: () { // 의류 삭제 페이지 이동
+            widget.toggleSelectableState();
+            longPressedIndex = index;
+            widget.selectedClothIndices.add(index); // 길게 누른 이미지 기본 체크
           },
           child: Stack(
             children: [
               _buildClothImage(index),
               if (widget.selectedClothIndices.contains(index))
-              Positioned(
-                top: 5,
-                right: 5,
-                child: Checkbox(
-                  value: true,
-                  onChanged: (bool? value) {},
-                  shape: CircleBorder(),
-                  activeColor: Theme.of(context).primaryColor,
+                Positioned(
+                  top: 5,
+                  right: 5,
+                  child: Checkbox(
+                    value: true,
+                    onChanged: (bool? value) {},
+                    shape: CircleBorder(),
+                    activeColor: Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
             ],
           ),
         );
@@ -87,8 +85,10 @@ class GridviewPageState extends State<GridviewPage> {
   }
 
   void _navigateToClothDetail(BuildContext context, int index) {
-    if(!widget.selectedClothIndices.contains(index)) {
-      widget.onClothDetail(context, Cloth(index: index, name: 'Cloth $index'));
+    if (!widget.selectedClothIndices.contains(index)) {
+      widget.onClothDetail(
+          context, Cloth(index: index, name: 'Cloth $index'));
     }
   }
 }
+

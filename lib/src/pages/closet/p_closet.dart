@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:mococo_mobile/src/pages/closet/p_regist_cloth.dart';
 import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../cloth.dart';
 import '../../widgets/get_image_modal.dart';
@@ -19,6 +16,7 @@ class Closet extends StatefulWidget {
 class _ClosetState extends State<Closet> {
   bool _isClothSelected = false;
   List<int> _selectedClothIndices = [];
+  int itemCount = 9;
 
   @override
   Widget build(BuildContext context) {
@@ -34,43 +32,41 @@ class _ClosetState extends State<Closet> {
       )
           : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
       body: Container(
-        padding: const EdgeInsets.only(left: 10, right: 10), //원래 16,16
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: Stack(
           children: <Widget>[
-          if (!_isClothSelected) // 의류 선택 중이 아닐 때만 표시
-            Positioned(
-              top: 5,
-              left: 6,
-              child: Row(
-                children: <Widget>[
-                  OutlinedButton(
-                    onPressed: () {},
-                    child: Text('전체'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.black,
-                      side: BorderSide(
-                        color: Colors.purpleAccent,
-                        width: 3.0,
-                      )
+            if (!_isClothSelected)
+              Positioned(
+                top: 5,
+                left: 6,
+                child: Row(
+                  children: <Widget>[
+                    OutlinedButton(
+                      onPressed: () {},
+                      child: Text('전체'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.black,
+                        side: BorderSide(color: Colors.purpleAccent, width: 3.0),
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 8),
-                  OutlinedButton(
-                    onPressed: () {
-                      print("검색버튼누름");
-                    },
-                    child: Text('검색'),
-                  ),
-                ],
+                    SizedBox(width: 8),
+                    OutlinedButton(
+                      onPressed: () {
+                        print("검색버튼누름");
+                      },
+                      child: Text('검색'),
+                    ),
+                  ],
+                ),
               ),
-            ),
             Padding(
-              padding: EdgeInsets.only(top: _isClothSelected ? 0 : 58, left: 9, right: 9),
+              padding:
+              EdgeInsets.only(top: _isClothSelected ? 0 : 58, left: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('0개'),
+                  Text(_isClothSelected ? '${_selectedClothIndices.length}개' : '$itemCount개',),
                 ],
               ),
             ),
@@ -86,13 +82,15 @@ class _ClosetState extends State<Closet> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: _isClothSelected ? 24 : 90, right: 6, left: 6),
+              padding:
+              EdgeInsets.only(top: _isClothSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
                 onClothDetail: _onClothDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
                 isClothSelected: _isClothSelected,
                 selectedClothIndices: _selectedClothIndices,
                 toggleSelectableState: _toggleSelectableState,
+                itemCount: itemCount,
               ),
             ),
           ],
@@ -104,13 +102,12 @@ class _ClosetState extends State<Closet> {
   void _onBackButtonPressed() {
     setState(() {
       _isClothSelected = false;
-      _selectedClothIndices.clear(); // 선택된 의류 인덱스 초기화
+      _selectedClothIndices.clear();
     });
   }
 
   void _onAddButtonPressed(BuildContext context) {
     GetImageModal.show(context);
-    // Get.to(AddPage()); // 의류 등록 페이지
   }
 
   void _onClothDetail(BuildContext context, Cloth cloth) {
@@ -123,7 +120,8 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    AlertModal.show(context);
+    if(_selectedClothIndices.length > 0)
+      AlertModal.show(context, true, _selectedClothIndices.length);
   }
 
   void _onLeftLogoAppBar(bool isLeftLogoAppBar) {
