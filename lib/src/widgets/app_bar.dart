@@ -10,9 +10,10 @@ class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
         child: AppBar(
-          toolbarHeight: 97,
+          toolbarHeight: 90,
+          scrolledUnderElevation: 0,
           automaticallyImplyLeading: false,
           titleSpacing: 3,
           title: Image.asset(IconPath.logo, width: 140),
@@ -32,7 +33,7 @@ class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(97);
+  Size get preferredSize => const Size.fromHeight(90);
 }
 
 
@@ -43,10 +44,11 @@ class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
       child: AppBar(
-        toolbarHeight: 97,
+        toolbarHeight: 90,
         centerTitle: true,
+        scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         title: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
       ),
@@ -54,7 +56,7 @@ class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(97);
+  Size get preferredSize => const Size.fromHeight(90);
 }
 
 
@@ -70,23 +72,28 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
     VoidCallback? onSaveButtonPressed,
   }) : super(
     key: key,
-    toolbarHeight: 97,
+    toolbarHeight: 90,
     centerTitle: true,
+    scrolledUnderElevation: 0,
     automaticallyImplyLeading: true,
     title: Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 37),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
       child: Text(
         title,
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
       ),
     ),
     leading: Padding(
-      padding: const EdgeInsets.only(left: 16, top: 37),
+      padding: const EdgeInsets.only(left: 16, top: 30),
       child: GestureDetector(
         onTap: () {
           onBackButtonPressed?.call(); // 콜백 호출
         },
-        child: Image.asset(IconPath.back),
+        child: Row(
+          children: [
+            Image.asset(IconPath.back),
+          ],
+        ),
       ),
     ),
     actions: _drawActions(buttonNum, onDeleteButtonPressed, onEditButtonPressed, onSaveButtonPressed),
@@ -101,7 +108,7 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
     if (buttonNum == 1) {
       return [
         Padding(
-          padding: const EdgeInsets.only(right: 16, top: 37),
+          padding: const EdgeInsets.only(right: 16, top: 30),
             child: TextButton(
               onPressed: onDeleteButtonPressed,
               style: TextButton.styleFrom(
@@ -116,7 +123,7 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
     } else if (buttonNum == 2) {
       return [
         Padding(
-            padding: const EdgeInsets.only(top: 37),
+            padding: const EdgeInsets.only(top: 30),
           child: TextButton(
             onPressed: onEditButtonPressed,
             style: TextButton.styleFrom(
@@ -129,7 +136,7 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
         ),
         const SizedBox(width: 8),
         Padding(
-        padding: const EdgeInsets.only(right: 16, top: 37),
+        padding: const EdgeInsets.only(right: 16, top: 30),
           child: TextButton(
             onPressed: onDeleteButtonPressed,
             style: TextButton.styleFrom(
@@ -144,7 +151,7 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
     } else if (buttonNum == 3) {
       return [
         Padding(
-        padding: const EdgeInsets.only(right:16, top: 37),
+        padding: const EdgeInsets.only(right:16, top: 30),
           child: SizedBox(
             width: 51,
             height: 34,
@@ -173,5 +180,5 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(97);
+  Size get preferredSize => const Size.fromHeight(90);
 }

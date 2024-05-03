@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/pages/closet/p_edit_cloth.dart';
+import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 import '../../components/image_data.dart';
 import '../../widgets/alert_modal.dart';
 import '../../widgets/app_bar.dart';
-import '../../cloth.dart';
+import '../../clothes.dart';
 
-class ClothDetail extends StatefulWidget {
-  const ClothDetail({Key? key, required this.cloth}) : super(key: key);
-  final Cloth cloth;
+class ClothesDetail extends StatefulWidget {
+  const ClothesDetail({Key? key, required this.clothes}) : super(key: key);
+  final Clothes clothes;
 
   @override
-  _ClothDetailState createState() => _ClothDetailState();
+  _ClothesDetailState createState() => _ClothesDetailState();
 }
 
-class _ClothDetailState extends State<ClothDetail> {
+class _ClothesDetailState extends State<ClothesDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +33,7 @@ class _ClothDetailState extends State<ClothDetail> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Index: ${widget.cloth.index}'), // 인덱스 값 출력
+              Text('Index: ${widget.clothes.index}'), // 인덱스 값 출력
               SizedBox(
                 height: 100,
                 child: Image.asset(IconPath.topSample),
@@ -53,7 +53,7 @@ class _ClothDetailState extends State<ClothDetail> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditCloth(context: context),
+        builder: (context) => EditClothes(context: context),
       ),
     );
   }
