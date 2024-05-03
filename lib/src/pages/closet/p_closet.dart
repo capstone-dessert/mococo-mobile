@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
-import 'package:mococo_mobile/src/pages/closet/p_regist_clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../clothes.dart';

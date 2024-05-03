@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../components/image_data.dart';
 import '../../widgets/app_bar.dart';
-import '../../clothes.dart';
 
 class EditClothes extends StatelessWidget {
   final BuildContext context;
