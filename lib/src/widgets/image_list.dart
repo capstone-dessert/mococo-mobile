@@ -38,7 +38,7 @@ class GridviewPageState extends State<GridviewPage> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
-            if (!widget.isClothSelected) { // 선택 창이 아닌 경우, 상세 조회로 이동
+            if (!widget.isClothSelected) { // 짧게 누른 상태, 상세 조회로 이동
               _navigateToClothDetail(context, index);
             }
           },
