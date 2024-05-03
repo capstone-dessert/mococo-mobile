@@ -12,6 +12,7 @@ class SearchClothes extends StatefulWidget {
 
 class SearchClothesState extends State<SearchClothes> {
 
+  // TODO: 위젯에서 쿼리 받아오기
   Set queries = {};
   String? selectedPrimaryCategory;
 
