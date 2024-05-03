@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tag_list.dart';
 
@@ -11,6 +12,7 @@ class SearchClothes extends StatefulWidget {
 
 class SearchClothesState extends State<SearchClothes> {
 
+  List queries = [];
   String? selectedPrimaryCategory;
 
   void setSelectedPrimaryCategory(selectedPrimaryCategory) {
@@ -26,7 +28,7 @@ class SearchClothesState extends State<SearchClothes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TextTitleAppBar(title: "검색", buttonNum: 0),
+      appBar: TextTitleAppBar(title: "검색", buttonNum: 0, onBackButtonPressed: _onBackButtonPressed,),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: SingleChildScrollView(
@@ -86,7 +88,9 @@ class SearchClothesState extends State<SearchClothes> {
                       style: OutlinedButton.styleFrom(
                           backgroundColor: const Color(0xffF6747E),
                       ),
-                      onPressed: () {  },
+                      onPressed: () {
+                        Get.back(result: queries);
+                      },
                       child: const Text(
                         "검색",
                         style: TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w500),
@@ -101,5 +105,9 @@ class SearchClothesState extends State<SearchClothes> {
         )
       ),
     );
+  }
+
+  void _onBackButtonPressed() {
+    Get.back();
   }
 }
