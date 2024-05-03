@@ -12,7 +12,7 @@ class SearchClothes extends StatefulWidget {
 
 class SearchClothesState extends State<SearchClothes> {
 
-  List queries = [];
+  Set queries = {};
   String? selectedPrimaryCategory;
 
   void setSelectedPrimaryCategory(selectedPrimaryCategory) {
@@ -27,6 +27,8 @@ class SearchClothesState extends State<SearchClothes> {
 
   @override
   Widget build(BuildContext context) {
+    queries = Get.arguments;
+    queries.remove("전체");
     return Scaffold(
       appBar: TextTitleAppBar(title: "검색", buttonNum: 0, onBackButtonPressed: _onBackButtonPressed,),
       body: Padding(
@@ -71,7 +73,7 @@ class SearchClothesState extends State<SearchClothes> {
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Color(0xffCACACA))
                       ),
-                      onPressed: () {  },
+                      onPressed: () { queries.clear(); },
                       child: const Text(
                         "초기화",
                         style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w500),
@@ -89,7 +91,7 @@ class SearchClothesState extends State<SearchClothes> {
                           backgroundColor: const Color(0xffF6747E),
                       ),
                       onPressed: () {
-                        Get.back(result: queries);
+                        Get.back(result: queries.toList());
                       },
                       child: const Text(
                         "검색",

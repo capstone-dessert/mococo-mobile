@@ -75,8 +75,13 @@ class _ClosetState extends State<Closet> {
                       Padding(
                         padding: const EdgeInsets.only(),
                         child: OutlinedButton(
-                          onPressed: () {
-                            var queries =  Get.to(() => const SearchClothes());
+                          onPressed: () async {
+                            var newQueries =  await Get.to(() => const SearchClothes(), arguments: queries.toSet());
+                            if (newQueries == [] || newQueries == null) {
+                              setQueries(["전체"]);
+                            } else {
+                              setQueries(newQueries);
+                            }
                           },
                           style: OutlinedButton.styleFrom(
                             backgroundColor: const Color(0xffF9F9F9),
@@ -127,6 +132,10 @@ class _ClosetState extends State<Closet> {
         ),
       ),
     );
+  }
+
+  void setQueries(newQueries) {
+    queries = newQueries;
   }
 
   void _onBackButtonPressed() {
