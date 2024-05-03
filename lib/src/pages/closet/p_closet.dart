@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:mococo_mobile/src/pages/closet/p_regist_cloth.dart';
 import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../cloth.dart';
 import '../../widgets/get_image_modal.dart';
@@ -30,14 +33,66 @@ class _ClosetState extends State<Closet> {
         },
       )
           : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        child: GridviewPage(
-          onClothDetail: _onClothDetail,
-          onLeftLogoAppBar: _onLeftLogoAppBar,
-          isClothSelected: _isClothSelected,
-          selectedClothIndices: _selectedClothIndices,
-          toggleSelectableState: _toggleSelectableState,
+      body: Container(
+        padding: const EdgeInsets.only(left: 10, right: 10), //원래 16,16
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 5,
+              left: 6,
+              child: Row(
+                children: <Widget>[
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Text('전체'),
+                    style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.black,
+                        side: BorderSide(
+                          color: Colors.purpleAccent,
+                          width: 3.0,
+                        )
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  OutlinedButton(
+                    onPressed: () {
+                      print("검색버튼누름");
+                    },
+                    child: Text('검색'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 55, left: 9),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('0개'),
+                ],
+              ),
+            ),
+            Positioned(
+                top: 40,
+                right: 0,
+                child: TextButton(
+                  child: Text(
+                    '선택',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                  onPressed: () {},
+                )),
+            Padding(
+              padding: EdgeInsets.only(top: 90, right: 6, left: 6),
+              child: GridviewPage(
+                onClothDetail: _onClothDetail,
+                onLeftLogoAppBar: _onLeftLogoAppBar,
+                isClothSelected: _isClothSelected,
+                selectedClothIndices: _selectedClothIndices,
+                toggleSelectableState: _toggleSelectableState,),
+            ),
+          ],
         ),
       ),
     );
@@ -52,6 +107,7 @@ class _ClosetState extends State<Closet> {
 
   void _onAddButtonPressed(BuildContext context) {
     GetImageModal.show(context);
+    // Get.to(AddPage()); // 의류 등록 페이지
   }
 
   void _onClothDetail(BuildContext context, Cloth cloth) {
