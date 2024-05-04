@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'MOCOCO',
       theme: ThemeData(
         primaryColor: const Color(0xffF6747E),
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffF6747E)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffF6747E), surfaceTint: Colors.transparent,),
       ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

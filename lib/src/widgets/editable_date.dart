@@ -33,7 +33,7 @@ class _EditableDateState extends State<EditableDate> {
             children: [
               Text(
                 "${date.year.toString()}.${date.month.toString().padLeft(2, '0')}.${date.day.toString().padLeft(2, '0')}",
-                style: const TextStyle(fontSize: 20, color: Colors.black, decoration: TextDecoration.underline),
+                style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600, decoration: TextDecoration.underline),
               ),
               const SizedBox(width: 3,),
               SizedBox(width: 22, child: Image.asset(IconPath.editCondition,),)

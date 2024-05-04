@@ -343,3 +343,77 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
     );
   }
 }
+
+
+class ScheduleTagPicker extends StatefulWidget {
+  const ScheduleTagPicker({super.key});
+
+  @override
+  State<ScheduleTagPicker> createState() => _ScheduleTagPickerState();
+}
+
+class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
+
+  List scheduleTags = ["데이트", "운동", "출근"];
+  Set<String> selectedScheduleTags = {};
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Text(
+                "약속 종류",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: List.generate(
+              scheduleTags.length,
+                  (index) {
+                return FilterChip(
+                  showCheckmark: false,
+                  backgroundColor: const Color(0xffF9F9F9),
+                  selectedColor: const Color(0xffFFF0F0),
+                  label: Text(scheduleTags[index]),
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: selectedScheduleTags.contains(scheduleTags[index])
+                        ? const Color(0xffF6747E)
+                        : Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(
+                      color: selectedScheduleTags.contains(scheduleTags[index])
+                          ? const Color(0xffF6747E)
+                          : const Color(0xffCACACA),
+                    ),
+                  ),
+                  selected: selectedScheduleTags.contains(scheduleTags[index]),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      if (selected) {
+                        selectedScheduleTags.add(scheduleTags[index]);
+                      } else {
+                        selectedScheduleTags.remove(scheduleTags[index]);
+                      }
+                    });
+                  },
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+

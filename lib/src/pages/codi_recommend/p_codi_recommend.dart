@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
 import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
+import 'package:mococo_mobile/src/widgets/tag_list.dart';
 import '../../data/network.dart';
 import '../../widgets/editable_date.dart';
 import '../../widgets/editable_weather.dart';
@@ -55,14 +56,15 @@ class _CodiRecommendState extends State<CodiRecommend> {
     return Scaffold(
       appBar: const CenterLogoAppBar(),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
             const SizedBox(height: 16),
             const EditableDate(),
             const SizedBox(height: 16),
             const EditableWeather(),
-            // <약속 종류 태그 자리>
+            const SizedBox(height: 16),
+            const ScheduleTagPicker(),
             const Spacer(),
             // 추천 버튼
             Padding(
