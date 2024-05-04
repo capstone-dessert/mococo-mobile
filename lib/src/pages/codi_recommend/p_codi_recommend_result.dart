@@ -49,15 +49,15 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                     children: [
                       TextSpan(
                         text: '24℃',
-                        style: TextStyle(color: Colors.red, fontSize: 15, fontWeight: FontWeight.w600)
+                        style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600)
                       ),
                       TextSpan(
                         text: ' / ',
-                        style: TextStyle(color: Color(0xff494949), fontSize: 15, fontWeight: FontWeight.w600)
+                        style: TextStyle(color: Color(0xff494949), fontSize: 16, fontWeight: FontWeight.w600)
                       ),
                       TextSpan(
                         text: '11℃',
-                        style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w600)
+                        style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600)
                       )
                     ]
                   )
