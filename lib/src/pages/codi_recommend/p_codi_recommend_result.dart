@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 
 class CodiRecommendResult extends StatefulWidget {
@@ -13,14 +14,14 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TextTitleAppBar(
-        title: "테스트",
-        buttonNum: 2,
+        title: "추천 코디",
+        buttonNum: 3,
         onBackButtonPressed: _onBackButtonPressed,
-        onEditButtonPressed: _onEditButtonPressed,
-        onDeleteButtonPressed: _onDeleteButtonPressed,
+        onSaveButtonPressed: _onSaveButtonPressed,
       ),
-      body: const Center(child: Text('코디 추천 결과'),
-      ),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+      )
     );
   }
 
@@ -28,11 +29,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
     Navigator.pop(context);
   }
 
-  void _onEditButtonPressed() {
-    print("Edit");
-  }
-
-  void _onDeleteButtonPressed() {
-    print("Delete");
+  void _onSaveButtonPressed() {
+    print("Save");
   }
 }
