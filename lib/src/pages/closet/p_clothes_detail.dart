@@ -4,9 +4,10 @@ import '../../components/image_data.dart';
 import '../../widgets/alert_modal.dart';
 import '../../widgets/app_bar.dart';
 import '../../clothes.dart';
+import '../../widgets/clothes_details.dart';
 
 class ClothesDetail extends StatefulWidget {
-  const ClothesDetail({Key? key, required this.clothes}) : super(key: key);
+  const ClothesDetail({super.key, required this.clothes});
   final Clothes clothes;
 
   @override
@@ -24,23 +25,22 @@ class _ClothesDetailState extends State<ClothesDetail> {
         onEditButtonPressed: () => _onEditButtonPressed(context),
         onDeleteButtonPressed: () => _onDeleteButtonPressed(context),
       ),
-      body: Stack(
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          // 사진
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Index: ${widget.clothes.index}'), // 인덱스 값 출력
-              SizedBox(
-                height: 100,
-                child: Image.asset(IconPath.topSample),
-              ),
-            ],
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16),
+        child: Column(
+          children: [
+            // SizedBox(
+            //   height: 30,
+            // ),
+            Text('Index: ${widget.clothes.index}'),
+            SizedBox(
+              height: 180,
+              child: Image.asset(IconPath.topSample),
+            ),
+            const detailsCatView(),
+            // const detailsColorView(),
+          ],
+        ),
       ),
     );
   }
@@ -61,6 +61,4 @@ class _ClothesDetailState extends State<ClothesDetail> {
   void _onDeleteButtonPressed(BuildContext context) {
     AlertModal.show(context, false, 0);
   }
-
-
 }
