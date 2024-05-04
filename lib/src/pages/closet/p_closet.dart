@@ -166,7 +166,7 @@ class _ClosetState extends State<Closet> {
 
   void _onDeleteButtonPressed(BuildContext context) {
     if(_selectedClothesIndices.length > 0)
-      AlertModal.show(context, true, _selectedClothesIndices.length);
+      AlertModal.show(context, _selectedClothesIndices.length.toString()+"개의 의류를 삭제하시겠습니까?", true);
   }
 
   void _onLeftLogoAppBar(bool isLeftLogoAppBar) {

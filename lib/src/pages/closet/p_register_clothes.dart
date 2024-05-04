@@ -7,6 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 import 'package:mococo_mobile/src/widgets/tag_list.dart';
+import '../../widgets/alert_modal.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/get_image_modal.dart';
 
@@ -134,12 +135,7 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onBackButtonPressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Closet(),
-      ),
-    );
+    AlertModal.show(context, "취소하시겠습니까?", false);
   }
 
   void _onSaveButtonPressed() {

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/closet/p_closet.dart';
+
 
 class AlertModal {
-  static void show(BuildContext context, bool isMultiSelect, int selectedItemCount) {
+  static void show(BuildContext context, String message, bool isDelete) {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => AlertDialog (
@@ -16,7 +18,7 @@ class AlertModal {
         content: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Text(
-            isMultiSelect ? "$selectedItemCount개의 의류를 삭제하시겠습니까?" : "해당 의류를 삭제하시겠습니까?",
+            message,
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
@@ -53,15 +55,19 @@ class AlertModal {
               Expanded(
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => Closet(),
+                        ),
+                      );
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xffF6747E),
                     minimumSize: (const Size(110, 40)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: const Text(
-                    "삭제",
+                  child: Text(
+                    isDelete ? "삭제" : "확인", // 의류 삭제, 의류 등록 취소 구분
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.white,

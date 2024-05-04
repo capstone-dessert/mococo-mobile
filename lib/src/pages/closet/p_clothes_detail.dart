@@ -59,7 +59,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    AlertModal.show(context, false, 0);
+    AlertModal.show(context, "해당 의류를 삭제하시겠습니까?", true);
   }
 
 
