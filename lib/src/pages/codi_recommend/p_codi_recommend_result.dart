@@ -219,6 +219,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                           const Spacer()
                         ],
                       ),
+                      // TODO: GridviewPage 띄우기
                       // GridviewPage()
                     ],
                   )
