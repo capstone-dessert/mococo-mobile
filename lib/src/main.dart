@@ -9,7 +9,6 @@ void main() {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -30,8 +29,7 @@ class MyApp extends StatelessWidget {
         Locale('ko', 'KR'),
       ],
       initialBinding: InitBinding(),
-      home: App(),
+      home: const App(),
     );
   }
 }
-
