@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../pages/closet/p_register_clothes.dart';
+
 class GetImageModal {
-  static Future<void> show(BuildContext context) async {
+  static void show(BuildContext context) {
     final picker = ImagePicker();
     showCupertinoModalPopup<void>(
       context: context,
@@ -17,8 +20,14 @@ class GetImageModal {
                   if (pickedImage != null) {
                     // 이미지가 선택되었을 때의 처리
                     print('갤러리에서 이미지를 선택했습니다: ${pickedImage.path}');
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RegisterCloth(imagePath: pickedImage.path),
+                      ),
+                    );
                   }
-                  Navigator.pop(context);
                 },
                 child: const Text('갤러리'),
               ),
