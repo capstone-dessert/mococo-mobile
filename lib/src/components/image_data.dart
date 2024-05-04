@@ -15,6 +15,7 @@ class IconPath {
   static String get editCondition => 'assets/images/edit_condition.png';
   static String get searchBar => 'assets/images/search_bar.png';
   static String get topSample => 'assets/images/topSample.png';
-  static String get delete =>  'assets/images/delete.png';
-  static String get searchTag =>  'assets/images/search_tag.png';
+  static String get delete => 'assets/images/delete.png';
+  static String get searchTag => 'assets/images/search_tag.png';
+  static String get rightArrow => 'assets/images/rightArrow.png';
 }
