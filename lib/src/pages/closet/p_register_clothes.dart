@@ -135,7 +135,7 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onBackButtonPressed() {
-    AlertModal.show(context, "취소하시겠습니까?", false);
+    AlertModal.show(context, "의류 등록을 취소하시겠습니까?", false); // 삭제 상황 여부 = false
   }
 
   void _onSaveButtonPressed() {
