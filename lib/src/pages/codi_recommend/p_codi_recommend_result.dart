@@ -138,27 +138,29 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
     int itemCount = 9; // 아이템 개수 나중에 수정
     showModalBottomSheet(
         context: context,
+        barrierColor: Colors.transparent,
         isScrollControlled: true,
         enableDrag: true,
         elevation: 0,
         useRootNavigator: true,
         constraints: BoxConstraints(
           // maxHeight: MediaQuery.of(context).size.height - 120,
-          maxHeight: MediaQuery.of(context).size.height - 600,
-          minHeight: MediaQuery.of(context).size.height - 600,
+          maxHeight: MediaQuery.of(context).size.height - 600 + 5,
+          minHeight: MediaQuery.of(context).size.height - 600 + 5,
           minWidth: MediaQuery.of(context).size.width
         ),
         builder: (context) {
           return Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20, offset: Offset(0, -0.1))],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 children: [
                   SizedBox(
@@ -210,20 +212,21 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                       ),
                     ),
                   ),
-                  Column(
-                    children: [
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Text('$itemCount개',),
-                          const Spacer()
-                        ],
-                      ),
-                      // TODO: GridviewPage 띄우기
-                      // GridviewPage()
-                    ],
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Text('$itemCount개',),
+                            const Spacer()
+                          ],
+                        ),
+                        // TODO: GridviewPage 띄우기
+                        // GridviewPage()
+                      ],
+                    )
                   )
-
                 ],
               ),
             ),
