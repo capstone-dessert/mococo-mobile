@@ -33,13 +33,20 @@ class GetImageModal {
               ),
               CupertinoActionSheetAction(
                 onPressed: () async {
+                  print("카메라 버튼 클릭");
                   // 카메라에서 이미지 촬영
                   final pickedImage = await picker.getImage(source: ImageSource.camera);
                   if (pickedImage != null) {
                     // 이미지가 촬영되었을 때의 처리
                     print('카메라에서 이미지를 촬영했습니다: ${pickedImage.path}');
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RegisterCloth(imagePath: pickedImage.path),
+                      ),
+                    );
                   }
-                  Navigator.pop(context);
                 },
                 child: const Text('카메라'),
               ),
