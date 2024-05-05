@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/codi_grid_view.dart';
@@ -111,10 +110,11 @@ class _CodiRecordState extends State<CodiRecord> {
                       const Spacer()
                     ],
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                 ],
               ),
-            Expanded(child: CodiGridView()),
+            if (_selectedView[0])
+              const Expanded(child: CodiGridView()),
           ],
         ),
       )
