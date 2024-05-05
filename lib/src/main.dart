@@ -17,8 +17,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'MOCOCO',
       theme: ThemeData(
+        canvasColor: Colors.transparent,
         primaryColor: const Color(0xffF6747E),
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffF6747E), surfaceTint: Colors.transparent,),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xffF6747E),
+          surfaceTint: Colors.transparent,
+        ),
       ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
