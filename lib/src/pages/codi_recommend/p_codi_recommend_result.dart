@@ -198,7 +198,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                                 }
                               },
                               child: Chip(
-                                backgroundColor: const Color(0xffF9F9F9),
+                                backgroundColor: const Color(0xffFFF0F0),
                                 labelPadding: const EdgeInsets.symmetric(horizontal: 5),
                                 label: Image.asset(IconPath.searchTag, width: 20,),
                                 shape: RoundedRectangleBorder(

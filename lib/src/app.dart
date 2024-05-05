@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend.dart';
+import 'package:mococo_mobile/src/pages/codi_record/codi_record.dart';
 import 'components/image_data.dart';
 import 'controller/bottom_nav_controller.dart';
 
@@ -36,7 +37,7 @@ class App extends GetView<BottomNavController> {
                 key: controller.navigatorKey3,
                 onGenerateRoute: (routeSettings) {
                   return MaterialPageRoute(
-                    builder: (context) => const Center(child: Text('CODY_RECORD')));
+                    builder: (context) => const CodiRecord());
                 },
               ),
             ],
@@ -47,6 +48,7 @@ class App extends GetView<BottomNavController> {
               type: BottomNavigationBarType.fixed,
               currentIndex: controller.pageIndex.value,
               onTap: controller.changeBottomNav,
+              backgroundColor: Colors.white,
               selectedItemColor: Colors.black,
               selectedLabelStyle: const TextStyle(fontSize: 11),
               unselectedLabelStyle: const TextStyle(fontSize: 11),
