@@ -119,7 +119,9 @@ class _ClosetState extends State<Closet> {
                   '선택',
                   style: TextStyle(color: Colors.black87),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                    _toggleSelectableState();
+                },
               ),
             ),
             Padding(
