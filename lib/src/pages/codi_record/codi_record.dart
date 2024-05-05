@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:postgres/postgres.dart';
+import 'package:mococo_mobile/src/widgets/codi_grid_view.dart';
 
 class CodiRecord extends StatefulWidget {
   const CodiRecord({super.key});
@@ -14,27 +13,28 @@ class CodiRecord extends StatefulWidget {
 class _CodiRecordState extends State<CodiRecord> {
 
   List<bool> _selectedView = [true, false];
+  int itemCount = 9;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed,),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-             Row(
-               children: [
-                 const Spacer(),
-                 Stack(
+            Row(
+              children: [
+                const Spacer(),
+                Stack(
                   children: [
                     Container(
                       width: 112,
                       height: 38,
                       decoration: BoxDecoration(
-                          color: const Color(0xffF9F9F9),
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all( color: const Color(0xffCACACA) )
+                        color: const Color(0xffF9F9F9),
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all( color: const Color(0xffCACACA) )
                       ),
                     ),
                     Positioned(
@@ -42,21 +42,20 @@ class _CodiRecordState extends State<CodiRecord> {
                       top: -5,
                       child: ChoiceChip(
                         showCheckmark: false,
-                        backgroundColor: Colors.transparent,
                         selectedColor: const Color(0xffFFF0F0),
-                        label: Text("전체"),
+                        label: const Text("전체"),
                         labelStyle: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: _selectedView[0]
-                              ? const Color(0xffF6747E)
-                              : Colors.black,
+                            ? const Color(0xffF6747E)
+                            : Colors.black,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                           side: BorderSide(
                             color: _selectedView[0]
-                                ? const Color(0xffF6747E)
-                                : Colors.transparent,
+                              ? const Color(0xffF6747E)
+                              : Colors.transparent,
                           ),
                         ),
                         selected: _selectedView[0],
@@ -73,21 +72,20 @@ class _CodiRecordState extends State<CodiRecord> {
                       top: -5,
                       child: ChoiceChip(
                         showCheckmark: false,
-                        // backgroundColor: Colors.transparent,
                         selectedColor: const Color(0xffFFF0F0),
-                        label: Text("달력"),
+                        label: const Text("달력"),
                         labelStyle: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: _selectedView[1]
-                              ? const Color(0xffF6747E)
-                              : Colors.black,
+                            ? const Color(0xffF6747E)
+                            : Colors.black,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                           side: BorderSide(
                             color: _selectedView[1]
-                                ? const Color(0xffF6747E)
-                                : Colors.transparent,
+                              ? const Color(0xffF6747E)
+                              : Colors.transparent,
                           ),
                         ),
                         selected: _selectedView[1],
@@ -100,9 +98,23 @@ class _CodiRecordState extends State<CodiRecord> {
                       ),
                     )
                   ],
-                             ),
-               ],
-             ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (_selectedView[0])
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text('$itemCount개',),
+                      const Spacer()
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                ],
+              ),
+            Expanded(child: CodiGridView()),
           ],
         ),
       )
