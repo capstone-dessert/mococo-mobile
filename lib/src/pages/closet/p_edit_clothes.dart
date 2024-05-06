@@ -69,7 +69,13 @@ class _EditClothesState extends State<EditClothes> {
   }
 
   void _onBackButtonPressed() {
-    Navigator.pop(context);
+    AlertModal.show(
+      context,
+      message: '정보 수정을 취소하시겠습니까?',
+      onConfirm: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
   void _onSaveButtonPressed() {
