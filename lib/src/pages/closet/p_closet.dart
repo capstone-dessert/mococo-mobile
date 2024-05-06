@@ -45,10 +45,7 @@ class _ClosetState extends State<Closet> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children:
-                      List.generate(
-                        queries.length,
-                              (index) {
+                    children: List.generate(queries.length, (index) {
                           return Padding(
                               padding: const EdgeInsets.only(right: 8),
                               child: Chip(
@@ -108,32 +105,38 @@ class _ClosetState extends State<Closet> {
                   ),
                 ),
               ),
-              Padding(
-                padding:
-                EdgeInsets.only(top: _isClothesSelected ? 0 : 58, left: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(_isClothesSelected ? '${_selectedClothesIndices.length}개' : '$itemCount개',),
-                  ],
-                ),
+            Padding(
+              padding:
+                  EdgeInsets.only(top: _isClothesSelected ? 0 : 58, left: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _isClothesSelected
+                        ? '${_selectedClothesIndices.length}개'
+                        : '$itemCount개',
+                  ),
+                ],
               ),
+            ),
             Positioned(
               top: 40,
               right: 0,
-              child: _isClothesSelected ? SizedBox() : TextButton(
-                child: const Text(
-                  '선택',
-                  style: TextStyle(color: Colors.black87),
-                ),
-                onPressed: () {
-                    _toggleSelectableState();
-                },
-              ),
+              child: _isClothesSelected
+                  ? SizedBox()
+                  : TextButton(
+                      child: const Text(
+                        '선택',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      onPressed: () {
+                        _toggleSelectableState();
+                      },
+                    ),
             ),
             Padding(
-              padding:
-              EdgeInsets.only(top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
+              padding: EdgeInsets.only(
+                  top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
                 onClothesDetail: _onClothesDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
@@ -174,13 +177,14 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    if(_selectedClothesIndices.length > 0) {
+    if (_selectedClothesIndices.length > 0) {
       AlertModal.show(
         context,
-        message: _selectedClothesIndices.length.toString()+'개의 의류를 삭제하시겠습니까?',
+        message: _selectedClothesIndices.length.toString() + '개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Closet()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Closet()));
         },
       );
     }
