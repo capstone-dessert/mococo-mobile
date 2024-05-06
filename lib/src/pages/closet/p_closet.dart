@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../clothes.dart';
-import '../../widgets/get_image_modal.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/image_list.dart';
+import '../../widgets/modal.dart';
 import 'p_clothes_detail.dart';
 
 class Closet extends StatefulWidget {
@@ -167,8 +165,16 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    if(_selectedClothesIndices.length > 0)
-      AlertModal.show(context, _selectedClothesIndices.length.toString()+"개의 의류를 삭제하시겠습니까?", true); // 삭제 상황 여부 = true
+    if(_selectedClothesIndices.length > 0) {
+      AlertModal.show(
+        context,
+        message: _selectedClothesIndices.length.toString()+'개의 의류를 삭제하시겠습니까?',
+        onConfirm: () {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Closet()));
+        },
+      );
+    }
   }
 
   void _onLeftLogoAppBar(bool isLeftLogoAppBar) {
