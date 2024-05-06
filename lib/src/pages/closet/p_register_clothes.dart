@@ -138,7 +138,7 @@ class _RegisterClothState extends State<RegisterCloth> {
       context,
       message: '등록을 취소하시겠습니까?',
       onConfirm: () {
-        Navigator.pop(context); // 모달 창 닫기
+        Navigator.pop(context);
       },
     );
   }
@@ -148,8 +148,7 @@ class _RegisterClothState extends State<RegisterCloth> {
       context,
       message: '의류를 등록하시겠습니까?',
       onConfirm: () {
-        Navigator.pop(context); // 모달 창 닫기
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Closet())); // 페이지 이동
+        Navigator.pop(context);
       },
     );
   }

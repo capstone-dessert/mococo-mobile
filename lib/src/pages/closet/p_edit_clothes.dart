@@ -77,7 +77,7 @@ class _EditClothesState extends State<EditClothes> {
       context,
       message: '상세 정보를 저장하시겠습니까?',
       onConfirm: () {
-        Navigator.pop(context); // 모달 창 닫기
+        Navigator.pop(context);
       },
     );
   }

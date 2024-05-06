@@ -152,13 +152,7 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    // GetImageModal.show(context);  // TODO  고쳐라 밑에 딜릿버튼처럼
-    // GetImageModal.show(
-    //   context,
-    //   onConfirm: () {
-    //     Navigator.pop(context); // 모달 창 닫기
-    //   },
-    // );
+    GetImageModal.show(context);
   }
 
   void _onClothesDetail(BuildContext context, Clothes cloth) {
@@ -176,8 +170,8 @@ class _ClosetState extends State<Closet> {
         context,
         message: _selectedClothesIndices.length.toString()+'개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
-          Navigator.pop(context); // 모달 창 닫기
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Closet())); // 페이지 이동
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Closet()));
         },
       );
     }
