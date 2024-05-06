@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../components/image_data.dart';
-import '../../widgets/app_bar.dart';
-
-import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
-import '../../components/image_data.dart';
-import '../../widgets/alert_modal.dart';
 import '../../widgets/app_bar.dart';
 import '../../clothes.dart';
-import '../../widgets/clothes_details.dart';
+import '../../widgets/modal.dart';
 import '../../widgets/tag_list.dart';
+import 'p_closet.dart';
 
 class EditClothes extends StatefulWidget {
   final Clothes clothes;
@@ -79,6 +73,12 @@ class _EditClothesState extends State<EditClothes> {
   }
 
   void _onSaveButtonPressed() {
-    print("save");
+    AlertModal.show(
+      context,
+      message: '상세 정보를 저장하시겠습니까?',
+      onConfirm: () {
+        Navigator.pop(context); // 모달 창 닫기
+      },
+    );
   }
 }

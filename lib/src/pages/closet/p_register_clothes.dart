@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/widgets/tag_list.dart';
-import '../../widgets/alert_modal.dart';
 import '../../widgets/app_bar.dart';
-import '../../widgets/get_image_modal.dart';
+import '../../widgets/modal.dart';
+import 'p_closet.dart';
 
 class RegisterCloth extends StatefulWidget {
   final String imagePath;
@@ -135,11 +134,24 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onBackButtonPressed() {
-    AlertModal.show(context, "의류 등록을 취소하시겠습니까?", false); // 삭제 상황 여부 = false
+    AlertModal.show(
+      context,
+      message: '등록을 취소하시겠습니까?',
+      onConfirm: () {
+        Navigator.pop(context); // 모달 창 닫기
+      },
+    );
   }
 
   void _onSaveButtonPressed() {
-    print("save");
+    AlertModal.show(
+      context,
+      message: '의류를 등록하시겠습니까?',
+      onConfirm: () {
+        Navigator.pop(context); // 모달 창 닫기
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Closet())); // 페이지 이동
+      },
+    );
   }
 
   void _onAddButtonPressed(BuildContext context) {

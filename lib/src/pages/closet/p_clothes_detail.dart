@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../components/image_data.dart';
 import '../../widgets/app_bar.dart';
-
-import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
-import '../../components/image_data.dart';
-import '../../widgets/alert_modal.dart';
-import '../../widgets/app_bar.dart';
 import '../../clothes.dart';
-import '../../widgets/clothes_details.dart';
+import '../../widgets/modal.dart';
 import '../../widgets/tag_list.dart';
+import 'p_closet.dart';
 
 class ClothesDetail extends StatefulWidget {
   const ClothesDetail({Key? key, required this.clothes}) : super(key: key);
@@ -46,11 +42,8 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CategoryTag(primaryCategory: '상의', subCategory: '반소매 티셔츠'),
-                  // const Divider(color: Color(0xffF0F0F0),),
                   ColorTag(colorList: ["빨강", "주황"]),
-                  // const Divider(color: Color(0xffF0F0F0),),
                   DetailTag(detailList: ["나이키", "체크 패턴"]),
-                  // const Divider(color: Color(0xffF0F0F0),),
                   Column(children: [
                     SizedBox(
                       height: 15,
@@ -148,6 +141,13 @@ class _ClothesDetailState extends State<ClothesDetail> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    AlertModal.show(context, "해당 의류를 삭제하시겠습니까?", true); // 삭제 상황 여부 = true
+    AlertModal.show(
+      context,
+      message: '해당 의류를 삭제하시겠습니까?',
+      onConfirm: () {
+        Navigator.pop(context); // 모달 창 닫기
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Closet())); // 페이지 이동
+      },
+    );
   }
 }
