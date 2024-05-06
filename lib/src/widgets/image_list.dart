@@ -87,7 +87,9 @@ class GridviewPageState extends State<GridviewPage> {
   void _navigateToClothesDetail(BuildContext context, int index) {
     if (!widget.selectedClothesIndices.contains(index)) {
       widget.onClothesDetail(
-          context, Clothes(index: index, name: 'Cloth $index'));
+        context,
+        Clothes(index: index, imagePath: IconPath.topSample),
+      );
     }
   }
 }

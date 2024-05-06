@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../clothes.dart';
-import '../../widgets/get_image_modal.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/image_list.dart';
+import '../../widgets/modal.dart';
 import 'p_clothes_detail.dart';
 
 class Closet extends StatefulWidget {
@@ -47,7 +45,10 @@ class _ClosetState extends State<Closet> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: List.generate(queries.length, (index) {
+                    children:
+                      List.generate(
+                        queries.length,
+                              (index) {
                           return Padding(
                               padding: const EdgeInsets.only(right: 8),
                               child: Chip(
@@ -107,36 +108,32 @@ class _ClosetState extends State<Closet> {
                   ),
                 ),
               ),
-            Padding(
-              padding:
-                  EdgeInsets.only(top: _isClothesSelected ? 0 : 58, left: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _isClothesSelected
-                        ? '${_selectedClothesIndices.length}개'
-                        : '$itemCount개',
-                  ),
-                ],
+              Padding(
+                padding:
+                EdgeInsets.only(top: _isClothesSelected ? 0 : 58, left: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(_isClothesSelected ? '${_selectedClothesIndices.length}개' : '$itemCount개',),
+                  ],
+                ),
               ),
-            ),
             Positioned(
               top: 40,
               right: 0,
-              child: _isClothesSelected
-                  ? SizedBox()
-                  : TextButton(
-                      child: const Text(
-                        '선택',
-                        style: TextStyle(color: Colors.black87),
-                      ),
-                      onPressed: () {},
-                    ),
+              child: _isClothesSelected ? SizedBox() : TextButton(
+                child: const Text(
+                  '선택',
+                  style: TextStyle(color: Colors.black87),
+                ),
+                onPressed: () {
+                    _toggleSelectableState();
+                },
+              ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
+              padding:
+              EdgeInsets.only(top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
                 onClothesDetail: _onClothesDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
@@ -177,11 +174,16 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    if (_selectedClothesIndices.length > 0)
+    if(_selectedClothesIndices.length > 0) {
       AlertModal.show(
-          context,
-          _selectedClothesIndices.length.toString() + "개의 의류를 삭제하시겠습니까?",
-          true); // 삭제 상황 여부 = true
+        context,
+        message: _selectedClothesIndices.length.toString()+'개의 의류를 삭제하시겠습니까?',
+        onConfirm: () {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Closet()));
+        },
+      );
+    }
   }
 
   void _onLeftLogoAppBar(bool isLeftLogoAppBar) {

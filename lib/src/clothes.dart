@@ -1,6 +1,6 @@
 class Clothes {
   final int index;
-  final String name;
+  final String imagePath;
 
-  Clothes({required this.index, required this.name});
+  Clothes({required this.index, required this.imagePath});
 }
