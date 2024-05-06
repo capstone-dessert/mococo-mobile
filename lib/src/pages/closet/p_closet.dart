@@ -26,13 +26,13 @@ class _ClosetState extends State<Closet> {
     return Scaffold(
       appBar: _isClothesSelected
           ? TextTitleAppBar(
-        title: "의류 선택",
-        buttonNum: 1,
-        onBackButtonPressed: _onBackButtonPressed,
-        onDeleteButtonPressed: () {
-          _onDeleteButtonPressed(context);
-        },
-      )
+              title: "의류 선택",
+              buttonNum: 1,
+              onBackButtonPressed: _onBackButtonPressed,
+              onDeleteButtonPressed: () {
+                _onDeleteButtonPressed(context);
+              },
+            )
           : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
       body: Container(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -45,86 +45,98 @@ class _ClosetState extends State<Closet> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children:
-                      List.generate(
-                        queries.length,
-                              (index) {
+                    children: List.generate(queries.length, (index) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: OutlinedButton(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Chip(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 9, horizontal: 15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
                                 backgroundColor: const Color(0xffF9F9F9),
-                                side: const BorderSide(
-                                  color: Color(0xffCACACA),
+                                label: Text(
+                                  queries[index],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                side: BorderSide(
+                                  color: const Color(0xffCACACA),
                                   width: 1.5,
                                 ),
-                                minimumSize: Size.zero,
-                                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 17),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: Text(
-                                queries[index],
-                                style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
-                              ),
-                            ),
-                          );
-                        }
-                      ) + [
-                        Padding(
-                          padding: const EdgeInsets.only(),
-                          child: OutlinedButton(
-                            onPressed: () async {
-                              var newQueries =  await Get.to(() => const SearchClothes(), arguments: queries.toSet());
-                              if (newQueries == [] || newQueries == null) {
-                                setQueries(["전체"]);
-                              } else {
-                                setQueries(newQueries);
-                              }
-                            },
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: const Color(0xffF9F9F9),
-                              side: const BorderSide(
-                                color: Color(0xffF6747E),
-                                width: 1.5,
-                              ),
-                              minimumSize: Size.zero,
-                              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: Image.asset(IconPath.searchTag, width: 20,)
+                              ));
+                        }) +
+                        [
+                          Padding(
+                            padding: const EdgeInsets.only(),
+                            child: OutlinedButton(
+                                onPressed: () async {
+                                  var newQueries = await Get.to(
+                                      () => const SearchClothes(),
+                                      arguments: queries.toSet());
+                                  if (newQueries == [] || newQueries == null) {
+                                    setQueries(["전체"]);
+                                  } else {
+                                    setQueries(newQueries);
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: const Color(0xffF9F9F9),
+                                  side: const BorderSide(
+                                    color: Color(0xffF6747E),
+                                    width: 1.5,
+                                  ),
+                                  minimumSize: Size.zero,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 9, horizontal: 15),
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Image.asset(
+                                  IconPath.searchTag,
+                                  width: 20,
+                                )),
                           ),
-                        ),
-                      ],
+                        ],
                   ),
                 ),
               ),
-              Padding(
-                padding:
-                EdgeInsets.only(top: _isClothesSelected ? 0 : 58, left: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(_isClothesSelected ? '${_selectedClothesIndices.length}개' : '$itemCount개',),
-                  ],
-                ),
+            Padding(
+              padding:
+                  EdgeInsets.only(top: _isClothesSelected ? 0 : 58, left: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _isClothesSelected
+                        ? '${_selectedClothesIndices.length}개'
+                        : '$itemCount개',
+                  ),
+                ],
               ),
+            ),
             Positioned(
               top: 40,
               right: 0,
-              child: _isClothesSelected ? SizedBox() : TextButton(
-                child: const Text(
-                  '선택',
-                  style: TextStyle(color: Colors.black87),
-                ),
-                onPressed: () {
-                    _toggleSelectableState();
-                },
-              ),
+              child: _isClothesSelected
+                  ? SizedBox()
+                  : TextButton(
+                      child: const Text(
+                        '선택',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      onPressed: () {
+                        _toggleSelectableState();
+                      },
+                    ),
             ),
             Padding(
-              padding:
-              EdgeInsets.only(top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
+              padding: EdgeInsets.only(
+                  top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
                 onClothesDetail: _onClothesDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
@@ -165,13 +177,14 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    if(_selectedClothesIndices.length > 0) {
+    if (_selectedClothesIndices.length > 0) {
       AlertModal.show(
         context,
-        message: _selectedClothesIndices.length.toString()+'개의 의류를 삭제하시겠습니까?',
+        message: _selectedClothesIndices.length.toString() + '개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Closet()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Closet()));
         },
       );
     }
