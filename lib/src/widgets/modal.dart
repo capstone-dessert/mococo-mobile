@@ -15,7 +15,7 @@ class GetImageModal {
             onPressed: () async {
               final pickedImage = await picker.getImage(source: ImageSource.gallery);
               if (pickedImage != null) {
-                Navigator.pop(context); // 모달창 닫기
+                Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path)));
               }
             },
@@ -25,7 +25,7 @@ class GetImageModal {
             onPressed: () async {
               final pickedImage = await picker.getImage(source: ImageSource.camera);
               if (pickedImage != null) {
-                Navigator.pop(context); // 모달창 닫기
+                Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path)));
               }
             },
