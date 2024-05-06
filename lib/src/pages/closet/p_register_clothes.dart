@@ -1,11 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 import 'package:mococo_mobile/src/widgets/tag_list.dart';
 import '../../widgets/alert_modal.dart';
 import '../../widgets/app_bar.dart';
@@ -80,6 +77,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                 children: [
                   if (!_isDeleteButtonPressed)
                     FloatingActionButton(
+                      heroTag: 'unique_tag_1',
                       onPressed: () {
                         _onAddButtonPressed(context);
                       },
@@ -89,6 +87,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                     ),
                   if (_isDeleteButtonPressed) ...[
                     FloatingActionButton(
+                      heroTag: 'unique_tag_2',
                       onPressed: () {
                         setState(() {
                           _isDeleteButtonPressed = !_isDeleteButtonPressed;
@@ -101,6 +100,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                     ),
                     SizedBox(width: 20),
                     FloatingActionButton(
+                      heroTag: 'unique_tag_3',
                       onPressed: () {
                         _cropImage();
                       },

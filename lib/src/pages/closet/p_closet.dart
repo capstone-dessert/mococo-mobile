@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/pages/closet/p_register_clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/widgets/alert_modal.dart';
 import '../../clothes.dart';
@@ -155,6 +155,7 @@ class _ClosetState extends State<Closet> {
 
   void _onAddButtonPressed(BuildContext context) {
     GetImageModal.show(context);
+    // Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: "imagePath"))); // 바로 이동하면 하단바 있음
   }
 
   void _onClothesDetail(BuildContext context, Clothes cloth) {

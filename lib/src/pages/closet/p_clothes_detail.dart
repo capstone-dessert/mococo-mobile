@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../components/image_data.dart';
+import '../../widgets/app_bar.dart';
+
+import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 import '../../components/image_data.dart';
 import '../../widgets/alert_modal.dart';
@@ -26,118 +30,105 @@ class _ClothesDetailState extends State<ClothesDetail> {
         onEditButtonPressed: () => _onEditButtonPressed(context),
         onDeleteButtonPressed: () => _onDeleteButtonPressed(context),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text('Index: ${widget.clothes.index}'),
-              SizedBox(
-                height: 180,
-                child: Image.asset(IconPath.topSample),
-              ),
-              const Column(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Text('Index: ${widget.clothes.index}'),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 180,
+              child: Image.asset(IconPath.topSample),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CategoryTag(primaryCategory: '상의', subCategory: '반소매 티셔츠'),
-                ],
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  children: [
-                    ColorTag(colorList: ["빨강", "주황"]),
-                  ],
-                ),
-              ),
-             const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                  // const Divider(color: Color(0xffF0F0F0),),
+                  ColorTag(colorList: ["빨강", "주황"]),
+                  // const Divider(color: Color(0xffF0F0F0),),
                   DetailTag(detailList: ["나이키", "체크 패턴"]),
+                  // const Divider(color: Color(0xffF0F0F0),),
+                  Column(children: [
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "정보",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "착용 횟수",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                " |",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                " 3회",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "마지막 착용 날짜",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                " |",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                " 2024",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  ),
                 ],
               ),
-              const Column(
-                children: [
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "정보",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-              padding: EdgeInsets.only(left: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 5, left: 0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "정보",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              " |",
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              " 3회",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "마지막 착용 날짜",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              " |",
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              " 2024",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -151,7 +142,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditClothes(context: context),
+        builder: (context) => EditClothes(context: context, clothes: widget.clothes),
       ),
     );
   }
