@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xffF6747E),
           surfaceTint: Colors.transparent,
+          background: Colors.white
         ),
       ),
       localizationsDelegates: const [
