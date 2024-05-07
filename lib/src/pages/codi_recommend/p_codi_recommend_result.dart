@@ -235,36 +235,6 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
     );
   }
 
-  // void _showModalBottomSheet() {
-  //   Get.bottomSheet(
-  //     isScrollControlled: true,
-  //     backgroundColor: Colors.white,
-  //     elevation: 0,
-  //
-  //     shape: const RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(20),
-  //           topRight: Radius.circular(20),
-  //         )
-  //     ),
-  //     Padding(
-  //       padding: EdgeInsets.all(16),
-  //       child: Container(
-  //         width: MediaQuery.of(context).size.width,
-  //         constraints: BoxConstraints(
-  //           minHeight: 250,
-  //           maxHeight: MediaQuery.of(context).size.height - 150,
-  //         ),
-  //         child: Column(
-  //           children: [
-  //
-  //           ],
-  //         ),
-  //       ),
-  //     )
-  //   );
-  // }
-
   void _onBackButtonPressed() {
     Navigator.pop(context);
   }
