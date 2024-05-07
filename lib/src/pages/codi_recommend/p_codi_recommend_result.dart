@@ -96,7 +96,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
             ),
             const Divider(color: Color(0xffF0F0F0),),
             const SizedBox(height: 8),
-            // 의류 사진
+            // TODO: 의류 데이터 가져와서 연결
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -105,7 +105,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: GestureDetector(
-                        onTap: () {_showModalBottomSheet(["상의"]);}, // 카테고리 ... 나중에..
+                        onTap: () {_showModalBottomSheet(["상의"]);},
                         child: Image.asset(IconPath.topSample,),
                       ),
                     ),

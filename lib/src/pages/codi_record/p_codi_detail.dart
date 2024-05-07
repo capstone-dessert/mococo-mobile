@@ -20,6 +20,7 @@ class _CodiDetailState extends State<CodiDetail> {
   Widget build(BuildContext context) {
     Map codiItem = Codi.getCodiItemByIndex(widget.index);
     DateTime date = codiItem["date"];
+    List<String> schedule = codiItem["schedule"] ?? ["기타"];
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "코디 상세 정보",
@@ -69,6 +70,57 @@ class _CodiDetailState extends State<CodiDetail> {
                 )
               ],
             ),
+            const SizedBox(height: 6),
+            Container(
+              height: 370,
+              color: Colors.black12,
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Wrap(
+                spacing: 8,
+                children: List.generate(
+                  schedule.length,
+                      (index) {
+                    return Chip(
+                      backgroundColor: const Color(0xffF9F9F9),
+                      label: Text(schedule[index]),
+                      labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        side: const BorderSide(color: Color(0xffCACACA),),
+                      ),
+                    );
+                  }
+                )
+              ),
+            ),
+            const Divider(color: Color(0xffF0F0F0),),
+            const SizedBox(height: 8),
+            // 의류 사진
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Image.asset(IconPath.topSample,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Container(color: Colors.black12, width:150,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Container(color: Colors.black12, width:150,),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16)
           ],
         ),
       ),
