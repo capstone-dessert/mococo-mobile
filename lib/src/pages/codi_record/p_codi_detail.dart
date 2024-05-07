@@ -42,7 +42,7 @@ class _CodiDetailState extends State<CodiDetail> {
                   style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
-                // TODO: 데이터 가져와서 넣기
+                // TODO: 위치, 날씨 데이터 가져와서 넣기
                 SizedBox(width: 24, height: 24, child: Image.asset(IconPath.mococoLogo),),
                 const SizedBox(width: 6),
                 const Text.rich(
@@ -71,6 +71,7 @@ class _CodiDetailState extends State<CodiDetail> {
               ],
             ),
             const SizedBox(height: 6),
+            // TODO: 코디 사진
             Container(
               height: 370,
               color: Colors.black12,
@@ -98,7 +99,7 @@ class _CodiDetailState extends State<CodiDetail> {
             ),
             const Divider(color: Color(0xffF0F0F0),),
             const SizedBox(height: 8),
-            // 의류 사진
+            // TODO: 의류 사진
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
