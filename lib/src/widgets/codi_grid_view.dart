@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/codi.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_detail.dart';
 
-import '../components/image_data.dart';
-
 class CodiGridView extends StatefulWidget {
   const CodiGridView({super.key});
 
@@ -32,7 +30,6 @@ class _CodiGridViewState extends State<CodiGridView> {
         return GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(index: index,)));
-
           },
           child: Column(
             children: [
@@ -50,14 +47,6 @@ class _CodiGridViewState extends State<CodiGridView> {
           ),
         );
       },
-
     );
   }
-
-  // void _navigateToCodiDetail(BuildContext context, int index) {
-  //   if (!widget.selectedClothesIndices.contains(index)) {
-  //     widget.onClothesDetail(
-  //         context, Clothes(index: index, name: 'Cloth $index'));
-  //   }
-  // }
 }

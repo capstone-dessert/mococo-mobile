@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/codi.dart';
+import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
+import 'package:mococo_mobile/src/widgets/modal.dart';
 
 import '../../components/image_data.dart';
 
@@ -67,7 +69,8 @@ class _CodiDetailState extends State<CodiDetail> {
                 const Text(
                   "전주시",
                   style: TextStyle(fontSize: 16, color: Color(0xff494949), fontWeight: FontWeight.w600),
-                )
+                ),
+                const SizedBox(width: 4),
               ],
             ),
             const SizedBox(height: 6),
@@ -137,6 +140,13 @@ class _CodiDetailState extends State<CodiDetail> {
   }
 
   void _onDeleteButtonPressed() {
-
+    AlertModal.show(
+      context,
+      message: '코디를 삭제하시겠습니까?',
+      onConfirm: () {
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const CodiRecord()));
+      },
+    );
   }
 }

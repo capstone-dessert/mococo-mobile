@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
+import 'package:mococo_mobile/src/widgets/codi_calendar_view.dart';
 import 'package:mococo_mobile/src/widgets/codi_grid_view.dart';
 
 class CodiRecord extends StatefulWidget {
@@ -115,6 +116,8 @@ class _CodiRecordState extends State<CodiRecord> {
               ),
             if (_selectedView[0])
               const Expanded(child: CodiGridView()),
+            if (_selectedView[1])
+              CodiCalendarView(),
           ],
         ),
       )
