@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../components/image_data.dart';
 
 class EditableDate extends StatefulWidget {
-  const EditableDate({super.key});
+  const EditableDate({super.key, required this.isCenter});
+
+  final bool isCenter;
 
   @override
   State<EditableDate> createState() => _EditableDateState();
@@ -16,7 +18,10 @@ class _EditableDateState extends State<EditableDate> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(width: 25,),
+        if (widget.isCenter)
+          const SizedBox(width: 25),
+        if (widget.isCenter == false)
+          const SizedBox(width: 6),
         TextButton(
           onPressed: () async {
             final selectedDate = await showDatePicker(context: context, firstDate: DateTime(2000), lastDate: DateTime(2100),);
