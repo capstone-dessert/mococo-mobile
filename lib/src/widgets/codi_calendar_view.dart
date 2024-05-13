@@ -77,6 +77,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
           eventLoader: _getEventsForDay,
         ),
         const SizedBox(height: 16),
+        // TODO: 스크롤 문제
         Expanded(
           child: SingleChildScrollView(
             child: GridView.builder(
