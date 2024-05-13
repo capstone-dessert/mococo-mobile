@@ -87,7 +87,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
                 Map codiItem = Codi.getCodiItemByIndex(_getEventsForDay(selectedDay)[index]);
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(index: index,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(index: codiItem["index"],)));
                   },
                   child: Column(
                     children: [
