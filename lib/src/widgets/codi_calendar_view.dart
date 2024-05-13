@@ -33,11 +33,15 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
           locale: 'ko_KR',
           headerStyle: const HeaderStyle(
             titleCentered: true,
-              titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              formatButtonVisible: false,
+            titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            formatButtonVisible: false,
           ),
           calendarStyle: const CalendarStyle(
+            defaultTextStyle: TextStyle(fontSize: 16),
+            holidayTextStyle: TextStyle(fontSize: 16),
+            weekendTextStyle: TextStyle(fontSize: 16),
             todayTextStyle: TextStyle(
+              fontSize: 16,
               color: Color(0xffF6747E),
               fontWeight: FontWeight.w500
             ),
@@ -46,6 +50,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
               shape: BoxShape.circle,
             ),
             selectedTextStyle: TextStyle(
+              fontSize: 16,
               color: Color(0xffF6747E)
             ),
             selectedDecoration: BoxDecoration(
