@@ -41,7 +41,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                   style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
-                // 날씨 아이콘
+                // TODO: 날씨 아이콘
                 SizedBox(width: 24, height: 24, child: Image.asset(IconPath.mococoLogo),),
                 const SizedBox(width: 6),
                 const Text.rich(
@@ -71,6 +71,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
               ],
             ),
             const SizedBox(height: 6),
+            // TODO: 코디 사진
             Container(
               height: 370,
               color: Colors.black12,
@@ -135,6 +136,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
     );
   }
 
+  // TODO: SearchBottomSheet로 바꾸기
   void _showModalBottomSheet(queries) {
     int itemCount = 9; // 아이템 개수 나중에 수정
     showModalBottomSheet(
