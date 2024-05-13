@@ -60,9 +60,9 @@ class _CodiRecommendState extends State<CodiRecommend> {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            const EditableDate(),
+            const EditableDate(isCenter: true,),
             const SizedBox(height: 16),
-            const EditableWeather(),
+            const EditableWeather(isSmall: false),
             const SizedBox(height: 16),
             const ScheduleTagPicker(),
             const Spacer(),

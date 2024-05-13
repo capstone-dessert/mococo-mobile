@@ -14,6 +14,7 @@ class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: AppBar(
           toolbarHeight: 90,
           scrolledUnderElevation: 0,
+          backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           titleSpacing: 3,
           title: Image.asset(IconPath.logo, width: 140),
@@ -49,6 +50,7 @@ class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
         toolbarHeight: 90,
         centerTitle: true,
         scrolledUnderElevation: 0,
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: SizedBox(width: 140, child: Image.asset(IconPath.logo)),
       ),
@@ -75,6 +77,7 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
     toolbarHeight: 90,
     centerTitle: true,
     scrolledUnderElevation: 0,
+    backgroundColor: Colors.white,
     automaticallyImplyLeading: true,
     title: Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 30),

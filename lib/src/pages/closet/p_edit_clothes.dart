@@ -3,7 +3,6 @@ import '../../widgets/app_bar.dart';
 import '../../clothes.dart';
 import '../../widgets/modal.dart';
 import '../../widgets/tag_list.dart';
-import 'p_closet.dart';
 
 class EditClothes extends StatefulWidget {
   final Clothes clothes;

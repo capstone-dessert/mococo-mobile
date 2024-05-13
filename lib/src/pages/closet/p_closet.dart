@@ -46,62 +46,45 @@ class _ClosetState extends State<Closet> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: List.generate(queries.length, (index) {
-                          return Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Chip(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 9, horizontal: 15),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                backgroundColor: const Color(0xffF9F9F9),
-                                label: Text(
-                                  queries[index],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                side: BorderSide(
-                                  color: const Color(0xffCACACA),
-                                  width: 1.5,
-                                ),
-                              ));
-                        }) +
-                        [
-                          Padding(
-                            padding: const EdgeInsets.only(),
-                            child: OutlinedButton(
-                                onPressed: () async {
-                                  var newQueries = await Get.to(
-                                      () => const SearchClothes(),
-                                      arguments: queries.toSet());
-                                  if (newQueries == [] || newQueries == null) {
-                                    setQueries(["전체"]);
-                                  } else {
-                                    setQueries(newQueries);
-                                  }
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: const Color(0xffF9F9F9),
-                                  side: const BorderSide(
-                                    color: Color(0xffF6747E),
-                                    width: 1.5,
-                                  ),
-                                  minimumSize: Size.zero,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 9, horizontal: 15),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Image.asset(
-                                  IconPath.searchTag,
-                                  width: 20,
-                                )),
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          backgroundColor: const Color(0xffF9F9F9),
+                          label: Text(queries[index]),
+                          labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            side: const BorderSide(color: Color(0xffCACACA),),
                           ),
-                        ],
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        )
+                      );
+                    }) + [
+                      Padding(
+                        padding: const EdgeInsets.only(),
+                        child: OutlinedButton(
+                            onPressed: () async {
+                              var newQueries = await Get.to(() => const SearchClothes(), arguments: queries.toSet());
+                              if (newQueries == [] || newQueries == null) {
+                                setQueries(["전체"]);
+                              } else {
+                                setQueries(newQueries);
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: const Color(0xffF9F9F9),
+                              side: const BorderSide(
+                                color: Color(0xffF6747E),
+                                width: 1.5,
+                              ),
+                              minimumSize: Size.zero,
+                              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Image.asset(IconPath.searchTag, width: 20,)
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -123,7 +106,7 @@ class _ClosetState extends State<Closet> {
               top: 40,
               right: 0,
               child: _isClothesSelected
-                  ? SizedBox()
+                  ? const SizedBox()
                   : TextButton(
                       child: const Text(
                         '선택',
@@ -177,14 +160,14 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    if (_selectedClothesIndices.length > 0) {
+    if (_selectedClothesIndices.isNotEmpty) {
       AlertModal.show(
         context,
-        message: _selectedClothesIndices.length.toString() + '개의 의류를 삭제하시겠습니까?',
+        message: '${_selectedClothesIndices.length}개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
           Navigator.pop(context);
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Closet()));
+              context, MaterialPageRoute(builder: (context) => const Closet()));
         },
       );
     }

@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/widgets/tag_list.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/modal.dart';
-import 'p_closet.dart';
 
 class RegisterCloth extends StatefulWidget {
   final String imagePath;

@@ -41,7 +41,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                   style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
-                // 날씨 아이콘
+                // TODO: 날씨 아이콘
                 SizedBox(width: 24, height: 24, child: Image.asset(IconPath.mococoLogo),),
                 const SizedBox(width: 6),
                 const Text.rich(
@@ -66,10 +66,12 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                 const Text(
                   "전주시",
                   style: TextStyle(fontSize: 16, color: Color(0xff494949), fontWeight: FontWeight.w600),
-                )
+                ),
+                const SizedBox(width: 4),
               ],
             ),
             const SizedBox(height: 6),
+            // TODO: 코디 사진
             Container(
               height: 370,
               color: Colors.black12,
@@ -96,7 +98,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
             ),
             const Divider(color: Color(0xffF0F0F0),),
             const SizedBox(height: 8),
-            // 의류 사진
+            // TODO: 의류 데이터 가져와서 연결
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -105,7 +107,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: GestureDetector(
-                        onTap: () {_showModalBottomSheet(["상의"]);}, // 카테고리 ... 나중에..
+                        onTap: () {_showModalBottomSheet(["상의"]);},
                         child: Image.asset(IconPath.topSample,),
                       ),
                     ),
@@ -134,6 +136,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
     );
   }
 
+  // TODO: SearchBottomSheet로 바꾸기
   void _showModalBottomSheet(queries) {
     int itemCount = 9; // 아이템 개수 나중에 수정
     showModalBottomSheet(
@@ -234,36 +237,6 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
         }
     );
   }
-
-  // void _showModalBottomSheet() {
-  //   Get.bottomSheet(
-  //     isScrollControlled: true,
-  //     backgroundColor: Colors.white,
-  //     elevation: 0,
-  //
-  //     shape: const RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(20),
-  //           topRight: Radius.circular(20),
-  //         )
-  //     ),
-  //     Padding(
-  //       padding: EdgeInsets.all(16),
-  //       child: Container(
-  //         width: MediaQuery.of(context).size.width,
-  //         constraints: BoxConstraints(
-  //           minHeight: 250,
-  //           maxHeight: MediaQuery.of(context).size.height - 150,
-  //         ),
-  //         child: Column(
-  //           children: [
-  //
-  //           ],
-  //         ),
-  //       ),
-  //     )
-  //   );
-  // }
 
   void _onBackButtonPressed() {
     Navigator.pop(context);
