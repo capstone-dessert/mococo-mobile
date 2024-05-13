@@ -17,7 +17,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
-  static Map<DateTime, List<int>> codiItems = Codi.getCodiEvents();
+  static Map<DateTime, List<int>> events = Codi.getCodiEvents();
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +47,13 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
           color: Color(0xffFEEEEF),
           shape: BoxShape.circle,
         ),
+        markerDecoration: BoxDecoration(
+          color: Color(0xffF6747E),
+          shape: BoxShape.circle,
+        ),
+        markersMaxCount: 3,
+        markerSize: 5,
+        markerMargin: EdgeInsets.symmetric(horizontal: 1)
       ),
       onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
         setState((){
@@ -58,11 +65,10 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
         return isSameDay(selectedDay, day);
       },
       eventLoader: _getEventsForDay,
-
     );
   }
 
   List<int> _getEventsForDay(DateTime day) {
-    return codiItems[day] ?? [];
+    return events[DateTime(day.year, day.month, day.day)] ?? [];
   }
 }
