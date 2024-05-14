@@ -42,9 +42,11 @@ class _ClosetState extends State<Closet> {
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(queries.length, (index) {
-                      return Padding(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4, left: 8),
+                    child: Row(
+                      children: List.generate(queries.length, (index) {
+                        return Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: Chip(
                             backgroundColor: const Color(0xffF9F9F9),
@@ -55,12 +57,12 @@ class _ClosetState extends State<Closet> {
                               side: const BorderSide(color: Color(0xffCACACA),),
                             ),
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          )
-                      );
-                    }) + [
-                      Padding(
-                        padding: const EdgeInsets.only(),
-                        child: OutlinedButton(
+                          ),
+                        );
+                      }) + [
+                        Padding(
+                          padding: const EdgeInsets.only(),
+                          child: OutlinedButton(
                             onPressed: () async {
                               var newQueries = await Get.to(() => const SearchClothes(), arguments: queries.toSet());
                               if (newQueries == [] || newQueries == null) {
@@ -79,10 +81,11 @@ class _ClosetState extends State<Closet> {
                               padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            child: Image.asset(IconPath.searchTag, width: 20,)
+                            child: Image.asset(IconPath.searchTag, width: 20,),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
