@@ -39,25 +39,23 @@ class _ClosetState extends State<Closet> {
         child: Stack(
           children: <Widget>[
             if (!_isClothesSelected)
-              Positioned(
-                top: 5,
-                left: 6,
+              Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: List.generate(queries.length, (index) {
                       return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Chip(
-                          backgroundColor: const Color(0xffF9F9F9),
-                          label: Text(queries[index]),
-                          labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: const BorderSide(color: Color(0xffCACACA),),
-                          ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        )
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Chip(
+                            backgroundColor: const Color(0xffF9F9F9),
+                            label: Text(queries[index]),
+                            labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: const BorderSide(color: Color(0xffCACACA),),
+                            ),
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          )
                       );
                     }) + [
                       Padding(
@@ -136,7 +134,10 @@ class _ClosetState extends State<Closet> {
   }
 
   void setQueries(newQueries) {
-    queries = newQueries;
+    setState(() {
+      queries.clear();
+      queries.addAll(newQueries);
+    });
   }
 
   void _onBackButtonPressed() {

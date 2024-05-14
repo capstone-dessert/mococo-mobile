@@ -124,10 +124,10 @@ class SearchClothesState extends State<SearchClothes> {
                           backgroundColor: const Color(0xffF6747E),
                         ),
                         onPressed: () {
-                          _onSearchButtonPressed(); // 쿼리에 검색 키워드 저장 후 전달
-                          Get.back();
-                          // Get.back(result: queries.toList());
-                          queries.clear(); // 검색 이후 쿼리 비우기
+                          queries.clear(); // 검색 전 쿼리 비우기
+                          _onSearchButtonPressed(); // 쿼리에 검색 키워드 저장
+                          Get.back(result: queries.toList());
+                          queries.clear(); // 검색 후 쿼리 비우기
                         },
                         child: const Text(
                           "검색",
