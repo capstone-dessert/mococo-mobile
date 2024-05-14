@@ -15,6 +15,9 @@ class EditClothes extends StatefulWidget {
 
 class _EditClothesState extends State<EditClothes> {
   String? selectedPrimaryCategory;
+  Set<String> selectedSubCategories = {};
+  Set<String> selectedColors = {};
+  Set<String> selectedDetailTags = {};
 
   void setSelectedPrimaryCategory(selectedPrimaryCategory) {
     setState(() {
@@ -52,13 +55,13 @@ class _EditClothesState extends State<EditClothes> {
               if (selectedPrimaryCategory != null)
                 Column(
                   children: [
-                    SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!),
+                    SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!, selectedSubCategories: selectedSubCategories),
                     Divider(color: Color(0xffF0F0F0),),
                   ],
                 ),
-              ColorTagPicker(),
+              ColorTagPicker(selectedColors: selectedColors),
               Divider(color: Color(0xffF0F0F0),),
-              DetailTagPicker(),
+              DetailTagPicker(selectedDetailTags: selectedDetailTags),
               SizedBox(height: 16)
             ],
           ),
