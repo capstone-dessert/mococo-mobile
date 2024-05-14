@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mococo_mobile/src/widgets/tag_list.dart';
+import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/modal.dart';
 

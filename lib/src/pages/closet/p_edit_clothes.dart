@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/app_bar.dart';
 import '../../clothes.dart';
 import '../../widgets/modal.dart';
-import '../../widgets/tag_list.dart';
+import '../../widgets/tag_pickers.dart';
 
 class EditClothes extends StatefulWidget {
   final Clothes clothes;

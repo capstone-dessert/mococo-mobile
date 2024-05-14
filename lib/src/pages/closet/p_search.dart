@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/tag_list.dart';
+import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class SearchClothes extends StatefulWidget {
   const SearchClothes({super.key});
