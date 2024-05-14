@@ -17,8 +17,7 @@ class SearchBottomSheet extends StatefulWidget {
 }
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
-  bool _isClothesSelected = false;
-  List<int> _selectedClothesIndices = [];
+  List queries = ["전체"];
   double _sheetPosition = 0.25;
   final double _dragSensitivity = 600;
   int itemCount = 9; // 아이템 개수 나중에 수정
@@ -27,111 +26,130 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   Widget build(BuildContext context) {
     List queries = widget.queries;
     return DraggableScrollableSheet(
-        initialChildSize: _sheetPosition,
-        builder: (BuildContext context, ScrollController scrollController) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20, offset: Offset(0, -0.1))],
+      initialChildSize: _sheetPosition,
+      builder: (BuildContext context, ScrollController scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              child: Column(
-                children: [
-                  Grabber(
-                    onVerticalDragUpdate: (DragUpdateDetails details) {
-                      setState(() {
-                        _sheetPosition -= details.delta.dy / _dragSensitivity;
-                        if (_sheetPosition < 0.25) {
-                          _sheetPosition = 0.25;
-                        }
-                        if (_sheetPosition > 1.0) {
-                          _sheetPosition = 1.0;
-                        }
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          children:
-                          List.generate(
-                              queries.length,
-                                  (index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Chip(
-                                    backgroundColor: const Color(0xffF9F9F9),
-                                    label: Text(queries[index]),
-                                    labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      side: const BorderSide(color: Color(0xffCACACA),),
-                                    ),
-                                  ),
-                                );
-                              }
-                          ) + [
-                            Padding(
-                              padding: const EdgeInsets.only(),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  var newQueries =  await Get.to(() => const SearchClothes(), arguments: queries.toSet());
-                                  if (newQueries == [] || newQueries == null) {
-                                    queries = ["전체"];
-                                  } else {
-                                    queries = newQueries;
-                                  }
-                                },
-                                child: Chip(
-                                  backgroundColor: const Color(0xffFFF0F0),
-                                  labelPadding: const EdgeInsets.symmetric(horizontal: 5),
-                                  label: Image.asset(IconPath.searchTag, width: 20,),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    side: const BorderSide(color: Color(0xffF6747E),),
-                                  ),
-
-                                ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 20,
+                offset: Offset(0, -0.1),
+              )
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Grabber(
+                  onVerticalDragUpdate: (DragUpdateDetails details) {
+                    setState(() {
+                      _sheetPosition -= details.delta.dy / _dragSensitivity;
+                      if (_sheetPosition < 0.25) {
+                        _sheetPosition = 0.25;
+                      }
+                      if (_sheetPosition > 1.0) {
+                        _sheetPosition = 1.0;
+                      }
+                    });
+                  },
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4, left: 8),
+                    child: Row(
+                      children: List.generate(queries.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Chip(
+                            backgroundColor: const Color(0xffF9F9F9),
+                            label: Text(queries[index]),
+                            labelStyle: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: const BorderSide(
+                                color: Color(0xffCACACA),
                               ),
-                            ),]
-                      ),
+                            ),
+                            materialTapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        );
+                      }) + [
+                        Padding(
+                          padding: const EdgeInsets.only(),
+                          child: OutlinedButton(
+                            onPressed: () async {
+                              var newQueries = await Get.to(() =>
+                              const SearchClothes(),
+                                  arguments: queries.toSet());
+                              if (newQueries == [] || newQueries == null) {
+                                setQueries(["전체"]);
+                              } else {
+                                setQueries(newQueries);
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: const Color(0xffF9F9F9),
+                              side: const BorderSide(
+                                color: Color(0xffF6747E),
+                                width: 1.5,
+                              ),
+                              minimumSize: Size.zero,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 9, horizontal: 15),
+                              tapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Image.asset(
+                              IconPath.searchTag,
+                              width: 20,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Text('$itemCount개',),
-                              const Spacer()
-                            ],
-                          ),
-                          // TODO: GridviewPage 띄우기
-                          GridviewPage(
-                            onClothesDetail: _onClothesDetail,
-                            onLeftLogoAppBar: _onLeftLogoAppBar,
-                            isClothesSelected: _isClothesSelected,
-                            selectedClothesIndices: _selectedClothesIndices,
-                            toggleSelectableState: _toggleSelectableState,
-                            itemCount: itemCount,
-                          )
-                        ],
-                      )
-                  )
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12, left: 16),
+                  child: Row(
+                    children: [
+                      Text('$itemCount개'),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: GridviewPage(
+                    onClothesDetail: _onClothesDetail,
+                    itemCount: itemCount,
+                  ),
+                ),
+              ],
             ),
-          );
-        }
+          ),
+        );
+      },
     );
+  }
+
+  void setQueries(newQueries) {
+    setState(() {
+      queries.clear();
+      queries.addAll(newQueries);
+    });
   }
 
   void _onClothesDetail(BuildContext context, Clothes cloth) {
@@ -142,20 +160,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
       ),
     );
   }
-
-  void _onLeftLogoAppBar(bool isLeftLogoAppBar) {
-    setState(() {
-      _isClothesSelected = !isLeftLogoAppBar;
-    });
-  }
-
-  void _toggleSelectableState() {
-    setState(() {
-      _isClothesSelected = true;
-    });
-  }
 }
-
 
 
 class Grabber extends StatelessWidget {
@@ -189,4 +194,3 @@ class Grabber extends StatelessWidget {
     );
   }
 }
-

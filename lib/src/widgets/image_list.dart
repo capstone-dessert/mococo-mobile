@@ -5,20 +5,20 @@ import '../clothes.dart';
 class GridviewPage extends StatefulWidget {
   const GridviewPage({
     Key? key,
-    required this.onClothesDetail,
-    required this.onLeftLogoAppBar,
-    required this.selectedClothesIndices,
-    required this.toggleSelectableState,
-    required this.isClothesSelected,
-    required this.itemCount,
+    this.onClothesDetail,
+    this.onLeftLogoAppBar,
+    this.selectedClothesIndices,
+    this.toggleSelectableState,
+    this.isClothesSelected,
+    this.itemCount,
   }) : super(key: key);
 
-  final Function(BuildContext context, Clothes cloth) onClothesDetail;
-  final Function(bool isLeftLogoAppBar) onLeftLogoAppBar;
-  final bool isClothesSelected;
-  final List<int> selectedClothesIndices;
-  final VoidCallback toggleSelectableState;
-  final int itemCount;
+  final Function(BuildContext context, Clothes cloth)? onClothesDetail;
+  final Function(bool isLeftLogoAppBar)? onLeftLogoAppBar;
+  final bool? isClothesSelected;
+  final List<int>? selectedClothesIndices;
+  final VoidCallback? toggleSelectableState;
+  final int? itemCount;
 
   @override
   GridviewPageState createState() => GridviewPageState();
@@ -30,7 +30,7 @@ class GridviewPageState extends State<GridviewPage> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: widget.itemCount,
+      itemCount: widget.itemCount ?? 0,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 3 / 4,
@@ -39,35 +39,32 @@ class GridviewPageState extends State<GridviewPage> {
       ),
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
-          onTap: () { // 의류 상세 페이지 이동
-            if (!widget.isClothesSelected) {
+          onTap: () {
+            if (widget.isClothesSelected != true) {
               _navigateToClothesDetail(context, index);
-            }
-            else {
-              widget.toggleSelectableState();
-              if (widget.selectedClothesIndices.contains(index)) {
-                widget.selectedClothesIndices.remove(index);
-              } else {
-                widget.selectedClothesIndices.add(index);
-              }
+            } else {
+              widget.toggleSelectableState?.call();
+              _toggleSelectedIndex(index);
             }
           },
-          onLongPress: () { // 의류 삭제 페이지 이동
-            widget.toggleSelectableState();
-            longPressedIndex = index;
-            widget.selectedClothesIndices.add(index); // 길게 누른 이미지 기본 체크
+          onLongPress: () {
+            widget.toggleSelectableState?.call();
+            setState(() {
+              longPressedIndex = index;
+              _toggleSelectedIndex(index);
+            });
           },
           child: Stack(
             children: [
               _buildClothesImage(index),
-              if (widget.selectedClothesIndices.contains(index))
+              if (widget.selectedClothesIndices?.contains(index) == true)
                 Positioned(
                   top: 5,
                   right: 5,
                   child: Checkbox(
                     value: true,
                     onChanged: (bool? value) {},
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     activeColor: Theme.of(context).primaryColor,
                   ),
                 ),
@@ -80,16 +77,24 @@ class GridviewPageState extends State<GridviewPage> {
 
   Widget _buildClothesImage(int index) {
     return Image.asset(
-      IconPath.topSample,
+      IconPath.topSample ?? '',
     );
   }
 
   void _navigateToClothesDetail(BuildContext context, int index) {
-    if (!widget.selectedClothesIndices.contains(index)) {
-      widget.onClothesDetail(
+    if (widget.selectedClothesIndices?.contains(index) != true) {
+      widget.onClothesDetail?.call(
         context,
-        Clothes(index: index, imagePath: IconPath.topSample),
+        Clothes(index: index, imagePath: IconPath.topSample ?? ''),
       );
+    }
+  }
+
+  void _toggleSelectedIndex(int index) {
+    if (widget.selectedClothesIndices?.contains(index) == true) {
+      widget.selectedClothesIndices?.remove(index);
+    } else {
+      widget.selectedClothesIndices?.add(index);
     }
   }
 }
