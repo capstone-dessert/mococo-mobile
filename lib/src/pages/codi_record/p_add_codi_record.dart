@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/editable_date.dart';
-import 'package:mococo_mobile/src/widgets/editable_weather.dart';
+import 'package:mococo_mobile/src/widgets/date.dart';
+import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
@@ -30,9 +30,9 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                 const SizedBox(height: 16),
                 const Row(
                   children: [
-                    EditableDate(isCenter: false,),
+                    Date(isCenter: false, isEditable: true,),
                     Spacer(),
-                    EditableWeather(isSmall: true)
+                    Weather(isSmall: true, isEditable: true,)
                   ],
                 ),
                 const SizedBox(height: 6),

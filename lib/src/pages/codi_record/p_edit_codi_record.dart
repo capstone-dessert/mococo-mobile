@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/editable_date.dart';
-import 'package:mococo_mobile/src/widgets/editable_weather.dart';
+import 'package:mococo_mobile/src/widgets/date.dart';
+import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class EditCodiRecord extends StatefulWidget {
-  const EditCodiRecord({super.key});
+  const EditCodiRecord({super.key, required this.codiItem});
+
+  final Map codiItem;
 
   @override
   State<EditCodiRecord> createState() => _EditCodiRecordState();
@@ -16,9 +18,11 @@ class EditCodiRecord extends StatefulWidget {
 class _EditCodiRecordState extends State<EditCodiRecord> {
 
   Set<int> selectedClothesIndex = {};
+  Map codiItem = {};
 
   @override
   Widget build(BuildContext context) {
+    codiItem = widget.codiItem;
     return Scaffold(
       appBar: TextTitleAppBar(title: "코디 수정", buttonNum: 3, onBackButtonPressed: _onBackButtonPressed, onSaveButtonPressed: _onSaveButtonPressed,),
       body: Stack(
@@ -28,18 +32,18 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                const Row(
+                Row(
                   children: [
-                    EditableDate(isCenter: false,),
-                    Spacer(),
-                    EditableWeather(isSmall: true)
+                    Date(isCenter: false, isEditable: true, date: codiItem["date"],),
+                    const Spacer(),
+                    Weather(isSmall: true, isEditable: true, location: codiItem["location"],)
                   ],
                 ),
                 const SizedBox(height: 6),
                 // TODO: 코디 사진
                 Container(
                   height: 370,
-                  color: Colors.black12,
+                  child: Image.asset(codiItem["image"]),
                 ),
                 const SizedBox(height: 8),
                 const ScheduleTagPicker(),

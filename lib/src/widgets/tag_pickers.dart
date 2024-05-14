@@ -346,7 +346,9 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
 
 
 class ScheduleTagPicker extends StatefulWidget {
-  const ScheduleTagPicker({super.key});
+  const ScheduleTagPicker({super.key, this.selectedScheduleTags = const {}});
+
+  final Set<String> selectedScheduleTags;
 
   @override
   State<ScheduleTagPicker> createState() => _ScheduleTagPickerState();
@@ -359,6 +361,7 @@ class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
 
   @override
   Widget build(BuildContext context) {
+    selectedScheduleTags = widget.selectedScheduleTags;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(

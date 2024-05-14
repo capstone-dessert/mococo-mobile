@@ -1,13 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
 import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import '../../data/network.dart';
-import '../../widgets/editable_date.dart';
-import '../../widgets/editable_weather.dart';
+import '../../widgets/date.dart';
+import '../../widgets/weather.dart';
 
 class CodiRecommend extends StatefulWidget {
   const CodiRecommend({super.key});
@@ -60,9 +58,9 @@ class _CodiRecommendState extends State<CodiRecommend> {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            const EditableDate(isCenter: true,),
+            const Date(isCenter: true, isEditable: true,),
             const SizedBox(height: 16),
-            const EditableWeather(isSmall: false),
+            const Weather(isSmall: false, isEditable: true,),
             const SizedBox(height: 16),
             const ScheduleTagPicker(),
             const Spacer(),
