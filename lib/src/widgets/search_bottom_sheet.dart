@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
@@ -8,9 +9,7 @@ import '../pages/closet/p_clothes_detail.dart';
 import 'image_list.dart';
 
 class SearchBottomSheet extends StatefulWidget {
-  const SearchBottomSheet({super.key, required this.queries});
-
-  final List queries;
+  const SearchBottomSheet({super.key});
 
   @override
   State<SearchBottomSheet> createState() => _SearchBottomSheetState();
@@ -24,7 +23,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    List queries = widget.queries;
     return DraggableScrollableSheet(
       initialChildSize: _sheetPosition,
       builder: (BuildContext context, ScrollController scrollController) {
@@ -61,79 +59,77 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     });
                   },
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4, left: 8),
-                    child: Row(
-                      children: List.generate(queries.length, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: Chip(
-                            backgroundColor: const Color(0xffF9F9F9),
-                            label: Text(queries[index]),
-                            labelStyle: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: const BorderSide(
-                                color: Color(0xffCACACA),
+                const Padding(padding: EdgeInsets.only(top: 10),),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4, left: 8),
+                        child: Row(
+                          children: List.generate(queries.length, (index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Chip(
+                                backgroundColor: const Color(0xffF9F9F9),
+                                label: Text(queries[index]),
+                                labelStyle: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  side: const BorderSide(
+                                    color: Color(0xffCACACA),
+                                  ),
+                                ),
+                                materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                              ),
+                            );
+                          }) + [
+                            Padding(
+                              padding: const EdgeInsets.only(),
+                              child: OutlinedButton(
+                                onPressed: () async {
+                                  var newQueries = await Get.to(() => const SearchClothes(), arguments: queries.toSet());
+                                  if (newQueries == [] || newQueries == null) {
+                                    setQueries(["전체"]);
+                                  } else {
+                                    setQueries(newQueries);
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: const Color(0xffF9F9F9),
+                                  side: const BorderSide(
+                                    color: Color(0xffF6747E),
+                                    width: 1.5,
+                                  ),
+                                  minimumSize: Size.zero,
+                                  padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Image.asset(IconPath.searchTag, width: 20,),
                               ),
                             ),
-                            materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap,
-                          ),
-                        );
-                      }) + [
-                        Padding(
-                          padding: const EdgeInsets.only(),
-                          child: OutlinedButton(
-                            onPressed: () async {
-                              var newQueries = await Get.to(() =>
-                              const SearchClothes(),
-                                  arguments: queries.toSet());
-                              if (newQueries == [] || newQueries == null) {
-                                setQueries(["전체"]);
-                              } else {
-                                setQueries(newQueries);
-                              }
-                            },
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: const Color(0xffF9F9F9),
-                              side: const BorderSide(
-                                color: Color(0xffF6747E),
-                                width: 1.5,
-                              ),
-                              minimumSize: Size.zero,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 9, horizontal: 15),
-                              tapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: Image.asset(
-                              IconPath.searchTag,
-                              width: 20,
-                            ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 12, left: 16),
-                  child: Row(
-                    children: [
-                      Text('$itemCount개'),
-                      const Spacer(),
-                    ],
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12, left: 16),
+                      child: Row(
+                        children: [
+                          Text('$itemCount개'),
+                          const Spacer(),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 Expanded(
                   child: GridviewPage(
-                    onClothesDetail: _onClothesDetail,
                     itemCount: itemCount,
                   ),
                 ),
@@ -143,6 +139,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         );
       },
     );
+
   }
 
   void setQueries(newQueries) {
@@ -151,17 +148,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
       queries.addAll(newQueries);
     });
   }
-
-  void _onClothesDetail(BuildContext context, Clothes cloth) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothes: cloth),
-      ),
-    );
-  }
 }
-
 
 class Grabber extends StatelessWidget {
   const Grabber({

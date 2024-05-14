@@ -170,9 +170,5 @@ class SearchClothesState extends State<SearchClothes> {
         queries.add(selectedDetailTags);
       }
     }
-
-    if (kDebugMode) {
-      print("Queries: $queries");
-    }
   }
 }

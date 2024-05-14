@@ -57,7 +57,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
               ],
             ),
           ),
-          const SearchBottomSheet(queries: ["전체"],),
+          const SearchBottomSheet(),
         ],
       ),
     );
