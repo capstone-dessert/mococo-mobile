@@ -3,6 +3,10 @@ import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 
+import '../clothes.dart';
+import '../pages/closet/p_clothes_detail.dart';
+import 'image_list.dart';
+
 class SearchBottomSheet extends StatefulWidget {
   const SearchBottomSheet({super.key, required this.queries});
 
@@ -13,7 +17,8 @@ class SearchBottomSheet extends StatefulWidget {
 }
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
-
+  bool _isClothesSelected = false;
+  List<int> _selectedClothesIndices = [];
   double _sheetPosition = 0.25;
   final double _dragSensitivity = 600;
   int itemCount = 9; // 아이템 개수 나중에 수정
@@ -110,7 +115,14 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                             ],
                           ),
                           // TODO: GridviewPage 띄우기
-                          // GridviewPage()
+                          GridviewPage(
+                            onClothesDetail: _onClothesDetail,
+                            onLeftLogoAppBar: _onLeftLogoAppBar,
+                            isClothesSelected: _isClothesSelected,
+                            selectedClothesIndices: _selectedClothesIndices,
+                            toggleSelectableState: _toggleSelectableState,
+                            itemCount: itemCount,
+                          )
                         ],
                       )
                   )
@@ -120,6 +132,27 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           );
         }
     );
+  }
+
+  void _onClothesDetail(BuildContext context, Clothes cloth) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ClothesDetail(clothes: cloth),
+      ),
+    );
+  }
+
+  void _onLeftLogoAppBar(bool isLeftLogoAppBar) {
+    setState(() {
+      _isClothesSelected = !isLeftLogoAppBar;
+    });
+  }
+
+  void _toggleSelectableState() {
+    setState(() {
+      _isClothesSelected = true;
+    });
   }
 }
 
@@ -156,3 +189,4 @@ class Grabber extends StatelessWidget {
     );
   }
 }
+

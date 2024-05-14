@@ -76,23 +76,33 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
 
 
 class SubCategoryTagPicker extends StatefulWidget {
-  const SubCategoryTagPicker({super.key, required this.primaryCategory});
+  const SubCategoryTagPicker({
+    Key? key,
+    required this.primaryCategory,
+    required this.selectedSubCategories,
+  }) : super(key: key);
 
   final String primaryCategory;
+  final Set<String> selectedSubCategories;
 
   @override
   State<SubCategoryTagPicker> createState() => _SubCategoryTagPickerState();
 }
 
 class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
+  late List<String> subCategories;
+  late Set<String> selectedSubCategories;
 
-  List<String> subCategories = [];
-  Set<String> selectedSubCategories = {};
+  @override
+  void initState() {
+    super.initState();
+    // 초기 상태 설정
+    subCategories = Category.getSubCategories(widget.primaryCategory);
+    selectedSubCategories = widget.selectedSubCategories;
+  }
 
   @override
   Widget build(BuildContext context) {
-    subCategories = Category.getSubCategories(widget.primaryCategory);
-    selectedSubCategories.removeWhere((element) => !subCategories.contains(element));
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -111,7 +121,7 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
             spacing: 8,
             children: List.generate(
               subCategories.length,
-                (index) {
+                  (index) {
                 return FilterChip(
                   showCheckmark: false,
                   backgroundColor: const Color(0xffF9F9F9),
@@ -144,7 +154,7 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );
@@ -153,13 +163,25 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
 
 
 class ColorTagPicker extends StatefulWidget {
-  const ColorTagPicker({super.key});
+  const ColorTagPicker({Key? key,
+    required this.selectedColors,
+  }) : super(key: key);
+
+  final Set<String> selectedColors;
 
   @override
   State<ColorTagPicker> createState() => _ColorTagPickerState();
 }
 
 class _ColorTagPickerState extends State<ColorTagPicker> {
+  Set<String> selectedColors = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // 초기 상태 설정
+    selectedColors = widget.selectedColors;
+  }
 
   List colors = [
     ["화이트", Colors.white],
@@ -180,7 +202,6 @@ class _ColorTagPickerState extends State<ColorTagPicker> {
     ["베이지", const Color(0xffEBDDCC)],
     ["브라운", Colors.brown]
   ];
-  Set<String> selectedColors = {};
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +278,11 @@ class _ColorTagPickerState extends State<ColorTagPicker> {
 
 
 class DetailTagPicker extends StatefulWidget {
-  const DetailTagPicker({super.key});
+  const DetailTagPicker({Key? key,
+    required this.selectedDetailTags,
+  }) : super(key: key);
+
+  final Set<String> selectedDetailTags;
 
   @override
   State<DetailTagPicker> createState() => _DetailTagPickerState();
@@ -267,6 +292,13 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
 
   List detailTags = ["브랜드", "패턴", "기장", "소매"];
   Set<String> selectedDetailTags = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // 초기 상태 설정
+    selectedDetailTags = widget.selectedDetailTags;
+  }
 
   @override
   Widget build(BuildContext context) {
