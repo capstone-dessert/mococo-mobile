@@ -103,6 +103,8 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
 
   @override
   Widget build(BuildContext context) {
+    subCategories = Category.getSubCategories(widget.primaryCategory);
+    selectedSubCategories.removeWhere((element) => !subCategories.contains(element));
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
