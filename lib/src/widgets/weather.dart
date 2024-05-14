@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import '../components/image_data.dart';
 
-class EditableWeather extends StatefulWidget {
-  const EditableWeather({super.key, required this.isSmall});
+class Weather extends StatefulWidget {
+  const Weather({super.key, required this.isSmall, required this.isEditable, this.location});
 
   final bool isSmall;
+  final bool isEditable;
+  final String? location;
 
   @override
-  State<EditableWeather> createState() => _EditableWeatherState();
+  State<Weather> createState() => _WeatherState();
 }
 
-class _EditableWeatherState extends State<EditableWeather> {
+class _WeatherState extends State<Weather> {
+
+  // TODO: 위치 받아오기
+  String location = "전주시";
+
   @override
   Widget build(BuildContext context) {
+    if (widget.location != null) {
+      location = widget.location!;
+    }
     if (!widget.isSmall) {
       return Stack(
         children: [
@@ -42,9 +51,9 @@ class _EditableWeatherState extends State<EditableWeather> {
                   ),
                   child: Row(
                     children: [
-                      const Text(
-                        "전주시",      // TODO: 위치 받아오기
-                        style: TextStyle(fontSize: 18, color: Colors.black, decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
+                      Text(
+                        location,
+                        style: const TextStyle(fontSize: 18, color: Colors.black, decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(width: 3,),
                       SizedBox(width: 22, child: Image.asset(IconPath.editCondition,),)
@@ -110,7 +119,8 @@ class _EditableWeatherState extends State<EditableWeather> {
               )
           ),
           const SizedBox(width: 7),
-          TextButton(
+          if (widget.isEditable)
+            TextButton(
               onPressed: () {_showModalBottomSheet();},
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
@@ -119,14 +129,19 @@ class _EditableWeatherState extends State<EditableWeather> {
               ),
               child: Row(
                 children: [
-                  const Text(
-                    "전주시",      // TODO: 위치 받아오기
-                    style: TextStyle(fontSize: 16, color: Color(0xff494949),decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
+                  Text(
+                    location,
+                    style: const TextStyle(fontSize: 16, color: Color(0xff494949),decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(width: 22, child: Image.asset(IconPath.editCondition,),)
                 ],
               )
-          ),
+            )
+          else
+            Text(
+              location,
+              style: const TextStyle(fontSize: 16, color: Color(0xff494949), fontWeight: FontWeight.w600),
+            ),
           const SizedBox(width: 4),
         ],
       );

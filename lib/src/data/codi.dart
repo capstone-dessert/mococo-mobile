@@ -1,16 +1,16 @@
 class Codi {
   static List<Map<String, Object>> codiItems = [
-    {"index": 0, "image": "assets/images/topSample.png", "date": DateTime(2024, 5, 5), "schedule": ["데이트", "운동"]},
-    {"index": 1, "image": "assets/images/topSample.png", "date": DateTime(2024, 5, 4), "schedule": ["데이트"]},
-    {"index": 2, "image": "assets/images/topSample.png", "date": DateTime(2024, 5, 3), "schedule": ["데이트"]},
-    {"index": 3, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 2), "schedule": ["데이트"]},
-    {"index": 4, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": ["데이트"]},
-    {"index": 5, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": ["데이트"]},
-    {"index": 6, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": ["데이트"]},
-    {"index": 7, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": ["데이트"]},
-    {"index": 8, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": ["데이트"]},
-    {"index": 9, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": ["데이트"]},
-    {"index": 10, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": ["데이트"]},
+    {"index": 0, "image": "assets/images/topSample.png", "date": DateTime(2024, 5, 5), "schedule": {"데이트", "운동"}, "location": "전주시"},
+    {"index": 1, "image": "assets/images/topSample.png", "date": DateTime(2024, 5, 4), "schedule": {"데이트"}, "location": "서울특별시"},
+    {"index": 2, "image": "assets/images/topSample.png", "date": DateTime(2024, 5, 3), "schedule": {"데이트"}, "location": "부산광역시"},
+    {"index": 3, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 2), "schedule": {"데이트"}, "location": "전주시"},
+    {"index": 4, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": {"데이트"}, "location": "전주시"},
+    {"index": 5, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": {"데이트"}, "location": "전주시"},
+    {"index": 6, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": {"데이트"}, "location": "전주시"},
+    {"index": 7, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": {"데이트"}, "location": "전주시"},
+    {"index": 8, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": {"데이트"}, "location": "전주시"},
+    {"index": 9, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": {"데이트"}, "location": "전주시"},
+    {"index": 10, "image": "assets/images/tmp.png", "date": DateTime(2024, 5, 1), "schedule": {"데이트"}, "location": "전주시"},
   ];
 
   static int getLengthCodiItems() {

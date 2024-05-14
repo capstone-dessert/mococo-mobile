@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/widgets/tags.dart';
 import '../../components/image_data.dart';
 import '../../widgets/app_bar.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 import '../../clothes.dart';
 import '../../widgets/modal.dart';
-import '../../widgets/tag_list.dart';
 import 'p_closet.dart';
 
 class ClothesDetail extends StatefulWidget {

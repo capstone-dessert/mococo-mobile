@@ -2,7 +2,7 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
-// import 'package:mococo_mobile/src/widgets/tag_list.dart';
+// import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 // import '../components/image_data.dart';
 //
 // class CustomChip extends StatelessWidget {
