@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/codi.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
+import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 
@@ -136,7 +137,7 @@ class _CodiDetailState extends State<CodiDetail> {
   }
 
   void _onEditButtonPressed() {
-
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const EditCodiRecord()));
   }
 
   void _onDeleteButtonPressed() {
