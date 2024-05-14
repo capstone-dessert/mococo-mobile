@@ -25,7 +25,7 @@ class _CodiDetailState extends State<CodiDetail> {
   @override
   Widget build(BuildContext context) {
     codiItem = Codi.getCodiItemByIndex(widget.index);
-    List<String> schedule = codiItem["schedule"] ?? ["기타"];
+    List<String> schedule = codiItem["schedule"].toList() ?? [];
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "코디 상세 정보",

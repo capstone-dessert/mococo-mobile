@@ -46,7 +46,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                   child: Image.asset(codiItem["image"]),
                 ),
                 const SizedBox(height: 8),
-                const ScheduleTagPicker(),
+                ScheduleTagPicker(selectedScheduleTags: codiItem["schedule"],),
               ],
             ),
           ),
