@@ -14,9 +14,8 @@ class AddCodiRecord extends StatefulWidget {
 }
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
-
-  List queries = ["전체"];
-  Set<int> selectedClothesIndex = {};
+  List<Widget> codiImages = [];
+  bool isClothesSelected = false;
   String? selectedScheduleTag;
 
   void setSelectedScheduleTag(selectedScheduleTag) {
@@ -32,7 +31,12 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TextTitleAppBar(title: "코디 기록", buttonNum: 3, onBackButtonPressed: _onBackButtonPressed, onSaveButtonPressed: _onSaveButtonPressed,),
+      appBar: TextTitleAppBar(
+        title: "코디 기록",
+        buttonNum: 3,
+        onBackButtonPressed: _onBackButtonPressed,
+        onSaveButtonPressed: _onSaveButtonPressed,
+      ),
       body: Stack(
         children: [
           Padding(
@@ -48,38 +52,35 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                   ],
                 ),
                 const SizedBox(height: 6),
-                if (selectedClothesIndex.isEmpty)
-                  Container(
-                    height: 370,
-                    child: const Center(
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: isClothesSelected ?
+                    Column(
+                      children: codiImages,
+                    ) :
+                    Container(
+                      height: 370,
+                      child: const Center(
                         child: Text(
                           "코디할 옷을 선택하세요",
-                          style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                        )
+                          style: TextStyle(
+                            color: Color(0xff999999),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                // TODO: 코디 사진
-                if (selectedClothesIndex.isNotEmpty)
-                  Container(
-                    height: 370,
-                    color: Colors.black12,
-                  ),
-                // const SizedBox(height: 8),
+                ),
                 ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
               ],
             ),
           ),
-          const SearchBottomSheet(sheetPosition: 0.20),
+          SearchBottomSheet(sheetPosition: 0.20,),
         ],
       ),
     );
-  }
-
-  void setQueries(newQueries) {
-    setState(() {
-      queries.clear();
-      queries.addAll(newQueries);
-    });
   }
 
   void _onBackButtonPressed() {

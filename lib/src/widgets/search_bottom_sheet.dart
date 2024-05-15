@@ -19,7 +19,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   List queries = ["전체"];
   double _sheetPosition;
   final double _dragSensitivity = 600;
-  int itemCount = 9; // 아이템 개수 나중에 수정
+  int itemCount = 15; // 아이템 개수 나중에 수정
+  bool _isMultiClothesSelected = false; // 다중 선택 상태
 
   _SearchBottomSheetState(this._sheetPosition);
 
@@ -134,6 +135,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   child: GridviewPage(
                     state: "codi",
                     itemCount: itemCount,
+                    isMultiClothesSelected: _isMultiClothesSelected,
                   ),
                 ),
               ],
@@ -151,6 +153,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
       queries.addAll(newQueries);
     });
   }
+
 }
 
 class Grabber extends StatelessWidget {
