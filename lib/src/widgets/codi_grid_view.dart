@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/data/codi.dart';
+import 'package:mococo_mobile/src/models/codi.dart';
+import 'package:mococo_mobile/src/models/codi_list.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_detail.dart';
+import 'package:mococo_mobile/src/jsons.dart';
 
 class CodiGridView extends StatefulWidget {
   const CodiGridView({super.key});
@@ -15,8 +16,9 @@ class CodiGridView extends StatefulWidget {
 class _CodiGridViewState extends State<CodiGridView> {
   @override
   Widget build(BuildContext context) {
+    CodiList codiList = CodiList.fromJson(codiJson);
     return GridView.builder(
-      itemCount: Codi.getLengthCodiItems(),
+      itemCount: codiList.list!.length,
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -25,11 +27,11 @@ class _CodiGridViewState extends State<CodiGridView> {
         crossAxisSpacing: 8,
       ),
       itemBuilder: (BuildContext context, int index) {
-        Map codiItem = Codi.getCodiItemByIndex(index);
-        DateTime date = codiItem["date"] as DateTime;
+        Codi codiItem = codiList.list![index];
+        DateTime date = codiItem.date;
         return GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(index: index,)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: index,)));
           },
           child: Column(
             children: [
@@ -41,7 +43,7 @@ class _CodiGridViewState extends State<CodiGridView> {
                 ),
               ),
               Expanded(
-                  child: Image.asset(codiItem["image"].toString(),)
+                  child: Image.asset(codiItem.image)
               ),
             ],
           ),

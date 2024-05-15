@@ -19,4 +19,14 @@ class CodiList {
     <String, dynamic> {
       'list': list
     };
+
+  Codi? getCodiById(int id) {
+    if (list == null) return null;
+    for (var item in list!) {
+      if (item.id == id) {
+        return item;
+      }
+    }
+    return null;
+  }
 }

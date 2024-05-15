@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
@@ -9,7 +10,7 @@ import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 class EditCodiRecord extends StatefulWidget {
   const EditCodiRecord({super.key, required this.codiItem});
 
-  final Map codiItem;
+  final Codi codiItem;
 
   @override
   State<EditCodiRecord> createState() => _EditCodiRecordState();
@@ -18,7 +19,7 @@ class EditCodiRecord extends StatefulWidget {
 class _EditCodiRecordState extends State<EditCodiRecord> {
 
   Set<int> selectedClothesIndex = {};
-  Map codiItem = {};
+  Codi? codiItem;
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +35,19 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Date(isCenter: false, isEditable: true, date: codiItem["date"],),
+                    Date(isCenter: false, isEditable: true, date: codiItem!.date,),
                     const Spacer(),
-                    Weather(isSmall: true, isEditable: true, location: codiItem["location"],)
+                    Weather(isSmall: true, isEditable: true, location: codiItem!.weather.location,)
                   ],
                 ),
                 const SizedBox(height: 6),
                 // TODO: 코디 사진
                 Container(
                   height: 370,
-                  child: Image.asset(codiItem["image"]),
+                  child: Image.asset(codiItem!.image),
                 ),
                 const SizedBox(height: 8),
-                ScheduleTagPicker(selectedScheduleTags: codiItem["schedule"],),
+                ScheduleTagPicker(selectedScheduleTags: codiItem!.schedules,),
               ],
             ),
           ),

@@ -2,8 +2,8 @@ import 'dart:io';
 
 class Clothes {
   final int id;
-  // TODO: image Type - File / XFile
-  final File image;
+  // TODO: to image Type(File / XFile)
+  final String image;
   final String primaryCategory;
   final String subCategory;
   final Set colors;
@@ -21,7 +21,7 @@ class Clothes {
   factory Clothes.fromJson(Map<String, dynamic> json) {
     return Clothes(
       id: json['id'] as int,
-      image: json['image'] as File,
+      image: json['image'],
       primaryCategory: json['primaryCategory'] as String,
       subCategory: json['subCategory'] as String,
       colors: json['colors'] as Set,

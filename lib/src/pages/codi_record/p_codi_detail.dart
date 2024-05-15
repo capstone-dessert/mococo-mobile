@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/data/codi.dart';
+import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
+import 'package:mococo_mobile/src/jsons.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
@@ -10,9 +11,9 @@ import 'package:mococo_mobile/src/widgets/weather.dart';
 import '../../components/image_data.dart';
 
 class CodiDetail extends StatefulWidget {
-  const CodiDetail({super.key, required this.index});
+  const CodiDetail({super.key, required this.id});
 
-  final int index;
+  final int id;
 
   @override
   State<CodiDetail> createState() => _CodiDetailState();
@@ -20,12 +21,12 @@ class CodiDetail extends StatefulWidget {
 
 class _CodiDetailState extends State<CodiDetail> {
 
-  Map codiItem = {};
+  Codi? codiItem;
 
   @override
   Widget build(BuildContext context) {
-    codiItem = Codi.getCodiItemByIndex(widget.index);
-    List<String> schedule = codiItem["schedule"].toList() ?? [];
+    codiItem = Codi.fromJson(getCodiJsonById(widget.id)!);
+    List schedule = codiItem!.schedules.toList() ?? [];
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "코디 상세 정보",
@@ -42,10 +43,10 @@ class _CodiDetailState extends State<CodiDetail> {
             Row(
               children: [
                 const SizedBox(width: 6),
-                Date(isCenter: false, isEditable: false, date: codiItem["date"],),
+                Date(isCenter: false, isEditable: false, date: codiItem!.date,),
                 const Spacer(),
                 // TODO: 위치, 날씨 데이터 가져와서 넣기
-                Weather(isSmall: true, isEditable: false, location: codiItem["location"],),
+                Weather(isSmall: true, isEditable: false, location: codiItem!.weather.location,),
                 const SizedBox(width: 4),
               ],
             ),
@@ -53,7 +54,7 @@ class _CodiDetailState extends State<CodiDetail> {
             // TODO: 코디 사진
             Container(
               height: 370,
-              child: Image.asset(codiItem["image"]),
+              child: Image.asset(codiItem!.image),
             ),
             const SizedBox(height: 8),
             SizedBox(
@@ -112,7 +113,7 @@ class _CodiDetailState extends State<CodiDetail> {
   }
 
   void _onEditButtonPressed() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => EditCodiRecord(codiItem: codiItem)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EditCodiRecord(codiItem: codiItem!)));
   }
 
   void _onDeleteButtonPressed() {

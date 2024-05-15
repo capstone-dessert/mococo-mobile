@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:mococo_mobile/src/data/codi.dart';
+import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_detail.dart';
+import 'package:mococo_mobile/src/jsons.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CodiCalendarView extends StatefulWidget {
@@ -20,7 +19,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
-  static Map<DateTime, List<int>> events = Codi.getCodiEvents();
+  static Map<DateTime, List<int>> events = getCodiEvents();
 
   @override
   Widget build(BuildContext context) {
@@ -90,15 +89,15 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
                 crossAxisSpacing: 8,
               ),
               itemBuilder: (context, index) {
-                Map codiItem = Codi.getCodiItemByIndex(_getEventsForDay(selectedDay)[index]);
+                Codi codiItem = Codi.fromJson(getCodiJsonById(_getEventsForDay(selectedDay)[index])!);
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(index: codiItem["id"],)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
                   },
                   child: Column(
                     children: [
                       Expanded(
-                          child: Image.asset(codiItem["image"].toString(),)
+                          child: Image.asset(codiItem.image, )
                       ),
                     ],
                   ),

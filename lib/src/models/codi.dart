@@ -4,8 +4,8 @@ import 'package:mococo_mobile/src/models/weather.dart';
 
 class Codi {
   final int id;
-  // TODO: image Type - File / XFile
-  final File image;
+  // TODO: to image Type(File / XFile)
+  final String image;
   final DateTime date;
   final Weather weather;
   final Set schedules;
@@ -23,21 +23,21 @@ class Codi {
   factory Codi.fromJson(Map<String, dynamic> json) {
     return Codi(
         id: json['id'] as int,
-        image: json['image'] as File,
-        date: json['date'] as DateTime,
-        weather: json['weather'] as Weather,
+        image: json['image'],
+        date: DateTime.parse(json['date']),
+        weather: Weather(location: json["location"], highTemperature: 25, lowTemperature: 19, weatherCondition: "맑음"),
         schedules: json['schedules'] as Set,
         clothes: json['clothes'] as Set
     );
   }
 
   Map<String, dynamic> toJson() =>
-      {
-        'id': id,
-        'image': image,
-        'date': date,
-        'weather': weather,
-        'schedules': schedules,
-        'clothes': clothes,
-      };
+    {
+      'id': id,
+      'image': image,
+      'date': date.toIso8601String(),
+      'location': weather.location,
+      'schedules': schedules,
+      'clothes': clothes,
+    };
 }
