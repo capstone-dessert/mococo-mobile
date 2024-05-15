@@ -7,7 +7,7 @@ import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'image_list.dart';
 
 class SearchBottomSheet extends StatefulWidget {
-  const SearchBottomSheet({super.key, required this.sheetPosition});
+  const SearchBottomSheet({Key? key, required this.sheetPosition}) : super(key: key);
 
   final double sheetPosition;
 
@@ -20,7 +20,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   double _sheetPosition;
   final double _dragSensitivity = 600;
   int itemCount = 15; // 아이템 개수 나중에 수정
-  bool _isMultiClothesSelected = false; // 다중 선택 상태
+  bool isClothesSelected = false; // 단일 선택 상태
 
   _SearchBottomSheetState(this._sheetPosition);
 
@@ -135,7 +135,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   child: GridviewPage(
                     state: "codi",
                     itemCount: itemCount,
-                    isMultiClothesSelected: _isMultiClothesSelected,
+                    isClothesSelected: isClothesSelected,
+                    onClothesSelected: _onClothesSelected,
                   ),
                 ),
               ],
@@ -144,7 +145,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         );
       },
     );
-
   }
 
   void setQueries(newQueries) {
@@ -154,7 +154,13 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     });
   }
 
+  void _onClothesSelected() { // 단일 선택 상태로 변환
+    setState(() {
+      isClothesSelected = true;
+    });
+  }
 }
+
 
 class Grabber extends StatelessWidget {
   const Grabber({

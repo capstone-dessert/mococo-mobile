@@ -33,6 +33,8 @@ class GridviewPage extends StatefulWidget {
 class GridviewPageState extends State<GridviewPage> {
   int? longPressedIndex;
   String? state;
+  bool? isClothesSelected = false;
+  bool? isMultiClothesSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +49,18 @@ class GridviewPageState extends State<GridviewPage> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
-            // 단일 선택 and 의류 상세 정보 조회
+            print(isClothesSelected);
+            print(isMultiClothesSelected);
+            // 단일 선택 and 옷장 페이지일 때 의류 상세 정보 페이지 이동
             if (widget.isMultiClothesSelected == false && widget.state == "detail") {
               _navigateToClothesDetail(context, index);
             }
-            // 단일 선택 and 코디 기록 시 의류 선택
+            // 단일 선택 and 코디 기록 페이지일 때 의류 이미지 배치
             else if(widget.isMultiClothesSelected == false && widget.state == "codi"){
               // TODO 이미지 배치
+              print("단일 선택 and 코디 기록");
             }
-            // 다중 선택 and 체크박스 변경
+            // 다중 선택일 때 체크박스 변경
             else {
               widget.onMultiClothesSelected?.call();
               _toggleSelectedIndex(index);
