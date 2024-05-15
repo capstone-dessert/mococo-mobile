@@ -5,6 +5,7 @@ import '../clothes.dart';
 class GridviewPage extends StatefulWidget {
   const GridviewPage({
     Key? key,
+    this.state,
     this.onClothesDetail,
     this.onLeftLogoAppBar,
     this.selectedClothesIndices,
@@ -13,6 +14,7 @@ class GridviewPage extends StatefulWidget {
     this.itemCount,
   }) : super(key: key);
 
+  final String? state;
   final Function(BuildContext context, Clothes cloth)? onClothesDetail;
   final Function(bool isLeftLogoAppBar)? onLeftLogoAppBar;
   final bool? isClothesSelected;
@@ -26,6 +28,7 @@ class GridviewPage extends StatefulWidget {
 
 class GridviewPageState extends State<GridviewPage> {
   int? longPressedIndex;
+  String? state;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +43,17 @@ class GridviewPageState extends State<GridviewPage> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
-            if (widget.isClothesSelected != true) {
-              _navigateToClothesDetail(context, index);
-            } else {
-              widget.toggleSelectableState?.call();
-              _toggleSelectedIndex(index);
+            if (widget.state == "detail") { // 의류 상세 정보로 이동
+              if (widget.isClothesSelected != true) {
+                _navigateToClothesDetail(context, index);
+              } else {
+                widget.toggleSelectableState?.call();
+                _toggleSelectedIndex(index);
+              }
+            }
+            else if(widget.state == "codi"){ // 의류 이미지를 코디에 추가
+              // TODO 배치되도록
+              print("codi state");
             }
           },
           onLongPress: () {

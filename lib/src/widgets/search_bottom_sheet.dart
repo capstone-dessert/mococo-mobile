@@ -129,6 +129,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 ),
                 Expanded(
                   child: GridviewPage(
+                    state: "codi",
                     itemCount: itemCount,
                   ),
                 ),

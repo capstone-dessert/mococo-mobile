@@ -122,6 +122,7 @@ class _ClosetState extends State<Closet> {
               padding: EdgeInsets.only(
                   top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
+                state: "detail",
                 onClothesDetail: _onClothesDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
                 isClothesSelected: _isClothesSelected,

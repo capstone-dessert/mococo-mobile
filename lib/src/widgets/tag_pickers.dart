@@ -433,7 +433,6 @@ class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
                       setState(() {
                         selectedScheduleTag = scheduleTags[index];
                       });
-                      // 상위 위젯에 선택된 스케줄 태그를 전달하는 콜백 함수 호출
                       widget.setSelectedScheduleTag(scheduleTags[index]);
                     }
                   },
