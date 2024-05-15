@@ -67,7 +67,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
               ],
             ),
           ),
-          const SearchBottomSheet(),
+          const SearchBottomSheet(sheetPosition: 0.20),
         ],
       ),
     );

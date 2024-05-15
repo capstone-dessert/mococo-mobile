@@ -121,14 +121,19 @@ class _ColorTagState extends State<ColorTag> {
                 if (widget.colorList.contains(colorData[0]))
                   Chip(
                     backgroundColor: const Color(0xffF9F9F9),
-                    avatar: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: const Color(0xffD9D9D9),
-                      child: CircleAvatar(
-                        radius: 9,
+                    avatar: colorData[1] == Colors.white
+                      ? CircleAvatar(
+                        radius: 30,
+                        backgroundColor: const Color(0xffD9D9D9),
+                        child: CircleAvatar(
+                          radius: 9,
+                          backgroundColor: colorData[1],
+                        ),
+                      )
+                      : CircleAvatar(
+                        radius: 30,
                         backgroundColor: colorData[1],
                       ),
-                    ),
                     label: Text(colorData[0]),
                     labelStyle: const TextStyle(
                       fontWeight: FontWeight.w700,
