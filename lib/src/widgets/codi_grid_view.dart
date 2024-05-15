@@ -31,7 +31,7 @@ class _CodiGridViewState extends State<CodiGridView> {
         DateTime date = codiItem.date;
         return GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: index,)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
           },
           child: Column(
             children: [

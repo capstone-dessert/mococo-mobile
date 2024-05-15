@@ -51,7 +51,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
               ],
             ),
           ),
-          const SearchBottomSheet(),
+          const SearchBottomSheet(sheetPosition: 0.2,),
         ],
       ),
     );

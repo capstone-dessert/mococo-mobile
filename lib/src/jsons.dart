@@ -32,7 +32,7 @@ final Map<String, dynamic> codiJson = {
 
 Map<String, dynamic>? getCodiJsonById(int id) {
   for (var item in codiJson["list"]) {
-    if (item.id == id) {
+    if (item["id"] == id) {
       return item;
     }
   }
