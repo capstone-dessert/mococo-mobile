@@ -165,9 +165,7 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
 
 
 class ColorTagPicker extends StatefulWidget {
-  const ColorTagPicker({Key? key,
-    required this.selectedColors,
-  }) : super(key: key);
+  const ColorTagPicker({Key? key, required this.selectedColors,}) : super(key: key);
 
   final Set<String> selectedColors;
 
@@ -280,9 +278,7 @@ class _ColorTagPickerState extends State<ColorTagPicker> {
 
 
 class DetailTagPicker extends StatefulWidget {
-  const DetailTagPicker({Key? key,
-    required this.selectedDetailTags,
-  }) : super(key: key);
+  const DetailTagPicker({Key? key, required this.selectedDetailTags,}) : super(key: key);
 
   final Set<String> selectedDetailTags;
 
@@ -378,11 +374,10 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
   }
 }
 
-
 class ScheduleTagPicker extends StatefulWidget {
-  const ScheduleTagPicker({super.key, this.selectedScheduleTags = const {}});
+  const ScheduleTagPicker({Key? key, required this.setSelectedScheduleTag,}) : super(key: key);
 
-  final Set selectedScheduleTags;
+  final Function(String) setSelectedScheduleTag;
 
   @override
   State<ScheduleTagPicker> createState() => _ScheduleTagPickerState();
@@ -391,11 +386,10 @@ class ScheduleTagPicker extends StatefulWidget {
 class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
 
   List scheduleTags = ["데이트", "운동", "출근"];
-  Set selectedScheduleTags = {};
+  String? selectedScheduleTag;
 
   @override
   Widget build(BuildContext context) {
-    selectedScheduleTags = widget.selectedScheduleTags;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -415,34 +409,33 @@ class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
             children: List.generate(
               scheduleTags.length,
                   (index) {
-                return FilterChip(
+                return ChoiceChip(
                   showCheckmark: false,
                   backgroundColor: const Color(0xffF9F9F9),
                   selectedColor: const Color(0xffFFF0F0),
                   label: Text(scheduleTags[index]),
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: selectedScheduleTags.contains(scheduleTags[index])
+                    color: selectedScheduleTag == scheduleTags[index]
                         ? const Color(0xffF6747E)
                         : Colors.black,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(
-                      color: selectedScheduleTags.contains(scheduleTags[index])
+                      color: selectedScheduleTag == scheduleTags[index]
                           ? const Color(0xffF6747E)
                           : const Color(0xffCACACA),
                     ),
                   ),
-                  selected: selectedScheduleTags.contains(scheduleTags[index]),
+                  selected: selectedScheduleTag == scheduleTags[index],
                   onSelected: (bool selected) {
-                    setState(() {
-                      if (selected) {
-                        selectedScheduleTags.add(scheduleTags[index]);
-                      } else {
-                        selectedScheduleTags.remove(scheduleTags[index]);
-                      }
-                    });
+                    if (selected) {
+                      setState(() {
+                        selectedScheduleTag = scheduleTags[index];
+                      });
+                      widget.setSelectedScheduleTag(scheduleTags[index]);
+                    }
                   },
                 );
               },
@@ -453,4 +446,3 @@ class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
     );
   }
 }
-

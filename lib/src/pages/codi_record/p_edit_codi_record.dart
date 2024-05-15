@@ -20,6 +20,17 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
 
   Set<int> selectedClothesIndex = {};
   Codi? codiItem;
+  String? selectedScheduleTag;
+
+  void setSelectedScheduleTag(selectedScheduleTag) {
+    setState(() {
+      if (selectedScheduleTag == "null") {
+        this.selectedScheduleTag = null;
+      } else {
+        this.selectedScheduleTag = selectedScheduleTag;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +58,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                   child: Image.asset(codiItem!.image),
                 ),
                 const SizedBox(height: 8),
-                ScheduleTagPicker(selectedScheduleTags: codiItem!.schedules,),
+                // ScheduleTagPicker(selectedScheduleTags: codiItem!.schedules,),
+                ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
               ],
             ),
           ),

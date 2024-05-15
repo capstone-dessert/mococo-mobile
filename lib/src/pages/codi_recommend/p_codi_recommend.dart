@@ -18,6 +18,17 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
   double? myLatitude;
   double? myLongitude;
+  String? selectedScheduleTag;
+
+  void setSelectedScheduleTag(selectedScheduleTag) {
+    setState(() {
+      if (selectedScheduleTag == "null") {
+        this.selectedScheduleTag = null;
+      } else {
+        this.selectedScheduleTag = selectedScheduleTag;
+      }
+    });
+  }
 
   // @override
   // void initState() {
@@ -62,7 +73,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
             const SizedBox(height: 16),
             const Weather(isSmall: false, isEditable: true,),
             const SizedBox(height: 16),
-            const ScheduleTagPicker(),
+            ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
             const Spacer(),
             // 추천 버튼
             Padding(

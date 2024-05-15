@@ -7,15 +7,25 @@ import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class AddCodiRecord extends StatefulWidget {
-  const AddCodiRecord({super.key});
+  const AddCodiRecord({Key? key}) : super(key: key);
 
   @override
   State<AddCodiRecord> createState() => _AddCodiRecordState();
 }
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
-
   Set<int> selectedClothesIndex = {};
+  String? selectedScheduleTag;
+
+  void setSelectedScheduleTag(selectedScheduleTag) {
+    setState(() {
+      if (selectedScheduleTag == "null") {
+        this.selectedScheduleTag = null;
+      } else {
+        this.selectedScheduleTag = selectedScheduleTag;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +50,10 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                   Container(
                     height: 370,
                     child: const Center(
-                      child: Text(
-                        "코디할 옷을 선택하세요",
-                        style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                      )
+                        child: Text(
+                          "코디할 옷을 선택하세요",
+                          style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                        )
                     ),
                   ),
                 // TODO: 코디 사진
@@ -52,8 +62,8 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                     height: 370,
                     color: Colors.black12,
                   ),
-                const SizedBox(height: 8),
-                const ScheduleTagPicker(),
+                // const SizedBox(height: 8),
+                ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
               ],
             ),
           ),
@@ -74,8 +84,6 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   }
 
   void _onSaveButtonPressed() {
-  // TODO: saveButton
+    // TODO: 저장 버튼 처리
   }
 }
-
-
