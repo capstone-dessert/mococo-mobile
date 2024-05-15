@@ -39,30 +39,30 @@ class _ClosetState extends State<Closet> {
         child: Stack(
           children: <Widget>[
             if (!_isClothesSelected)
-              Positioned(
-                top: 5,
-                left: 6,
+              Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(queries.length, (index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Chip(
-                          backgroundColor: const Color(0xffF9F9F9),
-                          label: Text(queries[index]),
-                          labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: const BorderSide(color: Color(0xffCACACA),),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4, left: 8),
+                    child: Row(
+                      children: List.generate(queries.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Chip(
+                            backgroundColor: const Color(0xffF9F9F9),
+                            label: Text(queries[index]),
+                            labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: const BorderSide(color: Color(0xffCACACA),),
+                            ),
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        )
-                      );
-                    }) + [
-                      Padding(
-                        padding: const EdgeInsets.only(),
-                        child: OutlinedButton(
+                        );
+                      }) + [
+                        Padding(
+                          padding: const EdgeInsets.only(),
+                          child: OutlinedButton(
                             onPressed: () async {
                               var newQueries = await Get.to(() => const SearchClothes(), arguments: queries.toSet());
                               if (newQueries == [] || newQueries == null) {
@@ -81,10 +81,11 @@ class _ClosetState extends State<Closet> {
                               padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            child: Image.asset(IconPath.searchTag, width: 20,)
+                            child: Image.asset(IconPath.searchTag, width: 20,),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -136,7 +137,10 @@ class _ClosetState extends State<Closet> {
   }
 
   void setQueries(newQueries) {
-    queries = newQueries;
+    setState(() {
+      queries.clear();
+      queries.addAll(newQueries);
+    });
   }
 
   void _onBackButtonPressed() {

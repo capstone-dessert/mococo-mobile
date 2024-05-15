@@ -20,9 +20,13 @@ class _RegisterClothState extends State<RegisterCloth> {
   File? _croppedFile; // 크롭된 이미지 파일
   bool _isDeleteButtonPressed = false; // 삭제 버튼 눌림 여부
 
+  String? selectedPrimaryCategory;
+  Set<String> selectedSubCategories = {};
+  Set<String> selectedColors = {};
+  Set<String> selectedDetailTags = {};
+
   // TODO: 위젯에서 쿼리 받아오기
   Set queries = {};
-  String? selectedPrimaryCategory;
 
   void setSelectedPrimaryCategory(selectedPrimaryCategory) {
     setState(() {
@@ -117,13 +121,13 @@ class _RegisterClothState extends State<RegisterCloth> {
               if (selectedPrimaryCategory != null)
                 Column(
                   children: [
-                    SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!),
+                    SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!, selectedSubCategories: selectedSubCategories,),
                     Divider(color: Color(0xffF0F0F0)),
                   ],
                 ),
-              ColorTagPicker(),
+              ColorTagPicker(selectedColors: selectedColors),
               Divider(color: Color(0xffF0F0F0)),
-              DetailTagPicker(),
+              DetailTagPicker(selectedDetailTags: selectedDetailTags),
               SizedBox(height: 16),
             ],
           ),
