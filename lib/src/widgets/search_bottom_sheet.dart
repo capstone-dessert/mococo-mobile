@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-
-import '../clothes.dart';
-import '../pages/closet/p_clothes_detail.dart';
 import 'image_list.dart';
 
 class SearchBottomSheet extends StatefulWidget {
@@ -17,6 +14,7 @@ class SearchBottomSheet extends StatefulWidget {
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
   List queries = ["전체"];
+  // final double minChildSize = 0.1;
   double _sheetPosition = 0.25;
   final double _dragSensitivity = 600;
   int itemCount = 9; // 아이템 개수 나중에 수정
@@ -25,6 +23,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: _sheetPosition,
+      // minChildSize: minChildSize,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           decoration: BoxDecoration(
