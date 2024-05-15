@@ -4,27 +4,30 @@ import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 
-import '../clothes.dart';
-import '../pages/closet/p_clothes_detail.dart';
 import 'image_list.dart';
 
 class SearchBottomSheet extends StatefulWidget {
-  const SearchBottomSheet({super.key});
+  const SearchBottomSheet({super.key, required this.sheetPosition});
+
+  final double sheetPosition;
 
   @override
-  State<SearchBottomSheet> createState() => _SearchBottomSheetState();
+  State<SearchBottomSheet> createState() => _SearchBottomSheetState(sheetPosition);
 }
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
   List queries = ["전체"];
-  double _sheetPosition = 0.25;
+  double _sheetPosition;
   final double _dragSensitivity = 600;
   int itemCount = 9; // 아이템 개수 나중에 수정
+
+  _SearchBottomSheetState(this._sheetPosition);
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: _sheetPosition,
+      minChildSize: 0.1,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           decoration: BoxDecoration(
@@ -50,8 +53,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   onVerticalDragUpdate: (DragUpdateDetails details) {
                     setState(() {
                       _sheetPosition -= details.delta.dy / _dragSensitivity;
-                      if (_sheetPosition < 0.25) {
-                        _sheetPosition = 0.25;
+                      if (_sheetPosition < 0.18) {
+                        _sheetPosition = 0.18;
                       }
                       if (_sheetPosition > 1.0) {
                         _sheetPosition = 1.0;
@@ -59,7 +62,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     });
                   },
                 ),
-                const Padding(padding: EdgeInsets.only(top: 10),),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -165,7 +167,8 @@ class Grabber extends StatelessWidget {
       onVerticalDragUpdate: onVerticalDragUpdate,
       child: Container(
         width: double.infinity,
-        color: Colors.white,
+        height: 12,
+        color: Colors.transparent,
         child: Align(
           alignment: Alignment.topCenter,
           child: Container(

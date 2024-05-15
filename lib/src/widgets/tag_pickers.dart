@@ -382,7 +382,7 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
 class ScheduleTagPicker extends StatefulWidget {
   const ScheduleTagPicker({super.key, this.selectedScheduleTags = const {}});
 
-  final Set<String> selectedScheduleTags;
+  final Set selectedScheduleTags;
 
   @override
   State<ScheduleTagPicker> createState() => _ScheduleTagPickerState();
@@ -391,7 +391,7 @@ class ScheduleTagPicker extends StatefulWidget {
 class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
 
   List scheduleTags = ["데이트", "운동", "출근"];
-  Set<String> selectedScheduleTags = {};
+  Set selectedScheduleTags = {};
 
   @override
   Widget build(BuildContext context) {
