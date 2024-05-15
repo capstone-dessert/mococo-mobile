@@ -16,6 +16,7 @@ class CodiRecommend extends StatefulWidget {
 
 class _CodiRecommendState extends State<CodiRecommend> {
 
+  List queries = ["전체"];
   double? myLatitude;
   double? myLongitude;
   String? selectedScheduleTag;
@@ -97,6 +98,13 @@ class _CodiRecommendState extends State<CodiRecommend> {
         ),
       ),
     );
+  }
+
+  void setQueries(newQueries) {
+    setState(() {
+      queries.clear();
+      queries.addAll(newQueries);
+    });
   }
 }
 

@@ -14,6 +14,8 @@ class AddCodiRecord extends StatefulWidget {
 }
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
+
+  List queries = ["전체"];
   Set<int> selectedClothesIndex = {};
   String? selectedScheduleTag;
 
@@ -73,6 +75,13 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     );
   }
 
+  void setQueries(newQueries) {
+    setState(() {
+      queries.clear();
+      queries.addAll(newQueries);
+    });
+  }
+
   void _onBackButtonPressed() {
     AlertModal.show(
       context,
@@ -86,4 +95,5 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   void _onSaveButtonPressed() {
     // TODO: 저장 버튼 처리
   }
+
 }
