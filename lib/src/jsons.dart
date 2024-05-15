@@ -36,6 +36,7 @@ Map<String, dynamic>? getCodiJsonById(int id) {
       return item;
     }
   }
+  return null;
 }
 
 
