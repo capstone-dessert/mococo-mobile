@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 
-import '../clothes.dart';
-import '../pages/closet/p_clothes_detail.dart';
 import 'image_list.dart';
 
 class SearchBottomSheet extends StatefulWidget {

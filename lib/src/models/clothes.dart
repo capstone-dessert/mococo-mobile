@@ -30,12 +30,12 @@ class Clothes {
   }
 
   Map<String, dynamic> toJson() =>
-      {
-        'id': id,
-        'image': image,
-        'primaryCategory': primaryCategory,
-        'subCategory': subCategory,
-        'colors': colors,
-        'detailTags': detailTags,
-      };
+    {
+      'id': id,
+      'image': image,
+      'primaryCategory': primaryCategory,
+      'subCategory': subCategory,
+      'colors': colors,
+      'detailTags': detailTags,
+    };
 }
