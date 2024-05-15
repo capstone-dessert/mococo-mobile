@@ -28,4 +28,14 @@ class Clothes {
       detailTags: json['detailTags'] as Set
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'id': id,
+        'image': image,
+        'primaryCategory': primaryCategory,
+        'subCategory': subCategory,
+        'colors': colors,
+        'detailTags': detailTags,
+      };
 }
