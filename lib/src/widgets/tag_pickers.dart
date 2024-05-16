@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/category.dart';
-
-import '../components/image_data.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 
 class PrimaryCategoryTagPicker extends StatefulWidget {
   const PrimaryCategoryTagPicker({super.key, required this.setSelectedPrimaryCategory});

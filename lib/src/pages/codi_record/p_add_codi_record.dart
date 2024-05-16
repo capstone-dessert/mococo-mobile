@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
-import '../../components/image_data.dart';
 import 'dart:math';
 
 class AddCodiRecord extends StatefulWidget {

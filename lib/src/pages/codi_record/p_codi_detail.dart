@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
-import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
-import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/jsons.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
-
-import '../../components/image_data.dart';
+import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
+import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
 
 class CodiDetail extends StatefulWidget {
   const CodiDetail({super.key, required this.id});

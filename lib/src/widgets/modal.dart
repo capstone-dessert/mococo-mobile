@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../pages/closet/p_register_clothes.dart';
+import 'package:mococo_mobile/src/pages/closet/p_register_clothes.dart';
 
 class GetImageModal {
   static Future<void> show(BuildContext context) async {

@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
-
-import '../../components/image_data.dart';
 
 class CodiRecommendResult extends StatefulWidget {
   const CodiRecommendResult({Key? key}) : super(key: key);

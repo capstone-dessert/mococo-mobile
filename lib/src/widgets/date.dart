@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/image_data.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 
 class Date extends StatefulWidget {
   const Date({super.key, required this.isCenter, required this.isEditable, this.date});

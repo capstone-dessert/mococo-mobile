@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/clothes.dart';
+import 'package:mococo_mobile/src/widgets/app_bar.dart';
+import 'package:mococo_mobile/src/widgets/image_list.dart';
+import 'package:mococo_mobile/src/widgets/modal.dart';
+import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-import '../../clothes.dart';
-import '../../widgets/app_bar.dart';
-import '../../widgets/image_list.dart';
-import '../../widgets/modal.dart';
-import 'p_clothes_detail.dart';
 
 class Closet extends StatefulWidget {
   const Closet({Key? key});
