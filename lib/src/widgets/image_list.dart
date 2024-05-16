@@ -67,11 +67,13 @@ class GridviewPageState extends State<GridviewPage> {
             }
           },
           onLongPress: () {
-            setState(() {
-              widget.onMultiClothesSelected?.call();
-              longPressedIndex = index;
-              _toggleSelectedIndex(index);
-            });
+            if(widget.state != "codi") {
+              setState(() {
+                widget.onMultiClothesSelected?.call();
+                longPressedIndex = index;
+                _toggleSelectedIndex(index);
+              });
+            }
           },
           child: Stack(
             children: [
