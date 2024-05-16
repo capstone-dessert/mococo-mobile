@@ -56,9 +56,7 @@ class GridviewPageState extends State<GridviewPage> {
             // 단일 선택 and 코디 기록 페이지일 때 의류 이미지 배치
             else if (!widget.isMultiClothesSelected! && widget.state == "codi") {
               widget.onClothesSelected?.call();
-              print("단일 선택 and 코디 기록");
-              // TODO 이미지 배치
-              _showClothes(context, index);
+              widget.selectedClothesIndices?.add(index); // 의류 목록에 추가
             }
             // 다중 선택일 때 체크박스 변경
             else {
@@ -78,7 +76,7 @@ class GridviewPageState extends State<GridviewPage> {
           child: Stack(
             children: [
               _buildClothesImage(index),
-              if (widget.selectedClothesIndices?.contains(index) == true)
+              if (widget.selectedClothesIndices?.contains(index) == true && widget.isMultiClothesSelected == true)
                 Positioned(
                   top: 5,
                   right: 5,
@@ -109,10 +107,6 @@ class GridviewPageState extends State<GridviewPage> {
         Clothes(index: index, imagePath: IconPath.topSample ?? ''),
       );
     }
-  }
-
-  void _showClothes(BuildContext context, int index) {
-
   }
 
   void _toggleSelectedIndex(int index) {

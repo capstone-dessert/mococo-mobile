@@ -6,11 +6,10 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
+import '../../components/image_data.dart';
+
 class AddCodiRecord extends StatefulWidget {
-  final bool isClothesSelected;
-
-  const AddCodiRecord({Key? key, required this.isClothesSelected}) : super(key: key);
-
+  const AddCodiRecord({Key? key}) : super(key: key);
 
   @override
   State<AddCodiRecord> createState() => _AddCodiRecordState();
@@ -20,7 +19,21 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   List<Widget> codiImages = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
+  List<int> selectedClothesIndices = [];
   String? selectedScheduleTag;
+
+  void setSelectedStatus(bool status) {
+    setState(() {
+      isClothesSelected = status;
+    });
+  }
+
+  void setSelectedClothesIndices(List<int> selectedIndices) {
+    setState(() {
+      selectedClothesIndices = selectedIndices;
+    });
+  }
+
 
   void setSelectedScheduleTag(selectedScheduleTag) {
     setState(() {
@@ -56,61 +69,35 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                   ],
                 ),
                 const SizedBox(height: 6),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: widget.isClothesSelected ?
-                    Container(
-                      height: 370,
-                      child: const Center(
-                        child: Text(
-                          "코디할 옷을 선택했어요",
-                          style: TextStyle(
-                            color: Color(0xff999999),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ) :
-                    // Column(
-                    //   children: codiImages,
-                    // ) :
-                    Container(
-                      height: 370,
-                      child: const Center(
-                        child: Text(
-                          "코디할 옷을 선택하세요",
-                          style: TextStyle(
-                            color: Color(0xff999999),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
+                // ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag), // 약속 태그 박스 위 위치
+                selectedClothesIndices.isEmpty ?
+                Container(
+                  height: 400,
+                  child: const Center(
+                      child: Text(
+                        "코디할 옷을 선택하세요",
+                        style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                      )
+                  ),
+                ) :
+                Container(
+                  height: 400,
+                  child: GridView.count(
+                    crossAxisCount: selectedClothesIndices.length,
+                    children: selectedClothesIndices.map((index) {
+                      return _buildClothesImage(index);
+                    }).toList(),
                   ),
                 ),
-                ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
+              ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag), // 약속 태그 박스 아래 위치
               ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.20,),
+          SearchBottomSheet(sheetPosition: 0.20, setSelectedStatus: setSelectedStatus, setSelectedClothesIndices: setSelectedClothesIndices),
         ],
       ),
     );
   }
-
-  // void _onClothesSelected() { // 단일 선택 상태로 변환
-  //   setState(() {
-  //     widget.isClothesSelected = true;
-  //   });
-  // }
-  //
-  // void _onMultiClothesSelected() { // 다중 선택 상태로 변환
-  //   setState(() {
-  //     widget.isMultiClothesSelected = true;
-  //   });
-  // }
 
   void _onBackButtonPressed() {
     AlertModal.show(
@@ -126,4 +113,9 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     // TODO: 저장 버튼 처리
   }
 
+  Widget _buildClothesImage(int index) {
+    return Image.asset(
+      IconPath.topSample ?? '',
+    );
+  }
 }

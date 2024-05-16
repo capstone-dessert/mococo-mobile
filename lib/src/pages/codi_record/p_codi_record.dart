@@ -126,6 +126,6 @@ class _CodiRecordState extends State<CodiRecord> {
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCodiRecord(isClothesSelected: false)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCodiRecord()));
   }
 }

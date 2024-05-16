@@ -8,7 +8,8 @@ import '../../widgets/date.dart';
 import '../../widgets/weather.dart';
 
 class CodiRecommend extends StatefulWidget {
-  const CodiRecommend({super.key});
+  const CodiRecommend({Key? key}) : super(key: key);
+
 
   @override
   State<CodiRecommend> createState() => _CodiRecommendState();
@@ -20,6 +21,14 @@ class _CodiRecommendState extends State<CodiRecommend> {
   double? myLatitude;
   double? myLongitude;
   String? selectedScheduleTag;
+  bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
+
+  void setSearchStatus(bool status) {
+    setState(() {
+      isClothesSelected = status;
+    });
+  }
 
   void setSelectedScheduleTag(selectedScheduleTag) {
     setState(() {
