@@ -40,8 +40,7 @@ class _ClosetState extends State<Closet> {
         child: Stack(
           children: <Widget>[
             if (!isMultiClothesSelected)
-              Expanded(
-                child: SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, left: 8),
@@ -89,7 +88,6 @@ class _ClosetState extends State<Closet> {
                     ),
                   ),
                 ),
-              ),
             Padding(
               padding:
                   EdgeInsets.only(top: isMultiClothesSelected ? 0 : 58, left: 12),

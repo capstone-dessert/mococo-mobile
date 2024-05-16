@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import '../clothes.dart';
@@ -33,8 +34,6 @@ class GridviewPage extends StatefulWidget {
 class GridviewPageState extends State<GridviewPage> {
   int? longPressedIndex;
   String? state;
-  bool? isClothesSelected = false;
-  bool? isMultiClothesSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +48,17 @@ class GridviewPageState extends State<GridviewPage> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
-            print(isClothesSelected);
-            print(isMultiClothesSelected);
             // 단일 선택 and 옷장 페이지일 때 의류 상세 정보 페이지 이동
-            if (widget.isMultiClothesSelected == false && widget.state == "detail") {
+            if (!widget.isMultiClothesSelected! && widget.state == "detail") {
+              widget.onClothesSelected?.call();
               _navigateToClothesDetail(context, index);
             }
             // 단일 선택 and 코디 기록 페이지일 때 의류 이미지 배치
-            else if(widget.isMultiClothesSelected == false && widget.state == "codi"){
-              // TODO 이미지 배치
+            else if (!widget.isMultiClothesSelected! && widget.state == "codi") {
+              widget.onClothesSelected?.call();
               print("단일 선택 and 코디 기록");
+              // TODO 이미지 배치
+              _showClothes(context, index);
             }
             // 다중 선택일 때 체크박스 변경
             else {
@@ -67,8 +67,8 @@ class GridviewPageState extends State<GridviewPage> {
             }
           },
           onLongPress: () {
-            widget.onMultiClothesSelected?.call();
             setState(() {
+              widget.onMultiClothesSelected?.call();
               longPressedIndex = index;
               _toggleSelectedIndex(index);
             });
@@ -107,6 +107,10 @@ class GridviewPageState extends State<GridviewPage> {
         Clothes(index: index, imagePath: IconPath.topSample ?? ''),
       );
     }
+  }
+
+  void _showClothes(BuildContext context, int index) {
+
   }
 
   void _toggleSelectedIndex(int index) {

@@ -21,6 +21,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   final double _dragSensitivity = 600;
   int itemCount = 15; // 아이템 개수 나중에 수정
   bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
 
   _SearchBottomSheetState(this._sheetPosition);
 
@@ -137,6 +138,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     itemCount: itemCount,
                     isClothesSelected: isClothesSelected,
                     onClothesSelected: _onClothesSelected,
+                    isMultiClothesSelected: isMultiClothesSelected,
+                    onMultiClothesSelected: _onMultiClothesSelected,
                   ),
                 ),
               ],
@@ -157,6 +160,12 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   void _onClothesSelected() { // 단일 선택 상태로 변환
     setState(() {
       isClothesSelected = true;
+    });
+  }
+
+  void _onMultiClothesSelected() { // 다중 선택 상태로 변환
+    setState(() {
+      isMultiClothesSelected = true;
     });
   }
 }

@@ -7,7 +7,10 @@ import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class AddCodiRecord extends StatefulWidget {
-  const AddCodiRecord({Key? key}) : super(key: key);
+  final bool isClothesSelected;
+
+  const AddCodiRecord({Key? key, required this.isClothesSelected}) : super(key: key);
+
 
   @override
   State<AddCodiRecord> createState() => _AddCodiRecordState();
@@ -15,7 +18,8 @@ class AddCodiRecord extends StatefulWidget {
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
   List<Widget> codiImages = [];
-  bool isClothesSelected = false;
+  bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
   String? selectedScheduleTag;
 
   void setSelectedScheduleTag(selectedScheduleTag) {
@@ -54,10 +58,23 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                 const SizedBox(height: 6),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: isClothesSelected ?
-                    Column(
-                      children: codiImages,
+                    child: widget.isClothesSelected ?
+                    Container(
+                      height: 370,
+                      child: const Center(
+                        child: Text(
+                          "코디할 옷을 선택했어요",
+                          style: TextStyle(
+                            color: Color(0xff999999),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ) :
+                    // Column(
+                    //   children: codiImages,
+                    // ) :
                     Container(
                       height: 370,
                       child: const Center(
@@ -82,6 +99,18 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       ),
     );
   }
+
+  // void _onClothesSelected() { // 단일 선택 상태로 변환
+  //   setState(() {
+  //     widget.isClothesSelected = true;
+  //   });
+  // }
+  //
+  // void _onMultiClothesSelected() { // 다중 선택 상태로 변환
+  //   setState(() {
+  //     widget.isMultiClothesSelected = true;
+  //   });
+  // }
 
   void _onBackButtonPressed() {
     AlertModal.show(
