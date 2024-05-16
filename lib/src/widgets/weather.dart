@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/image_data.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 
 class Weather extends StatefulWidget {
   const Weather({super.key, required this.isSmall, required this.isEditable, this.location});

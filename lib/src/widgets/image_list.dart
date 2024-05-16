@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import '../clothes.dart';
@@ -9,8 +10,10 @@ class GridviewPage extends StatefulWidget {
     this.onClothesDetail,
     this.onLeftLogoAppBar,
     this.selectedClothesIndices,
-    this.toggleSelectableState,
     this.isClothesSelected,
+    this.onClothesSelected,
+    this.isMultiClothesSelected,
+    this.onMultiClothesSelected,
     this.itemCount,
   }) : super(key: key);
 
@@ -18,8 +21,10 @@ class GridviewPage extends StatefulWidget {
   final Function(BuildContext context, Clothes cloth)? onClothesDetail;
   final Function(bool isLeftLogoAppBar)? onLeftLogoAppBar;
   final bool? isClothesSelected;
+  final bool? isMultiClothesSelected;
   final List<int>? selectedClothesIndices;
-  final VoidCallback? toggleSelectableState;
+  final VoidCallback? onClothesSelected;
+  final VoidCallback? onMultiClothesSelected;
   final int? itemCount;
 
   @override
@@ -43,30 +48,35 @@ class GridviewPageState extends State<GridviewPage> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
-            if (widget.state == "detail") { // 의류 상세 정보로 이동
-              if (widget.isClothesSelected != true) {
-                _navigateToClothesDetail(context, index);
-              } else {
-                widget.toggleSelectableState?.call();
-                _toggleSelectedIndex(index);
-              }
+            // 단일 선택 and 옷장 페이지일 때 의류 상세 정보 페이지 이동
+            if (!widget.isMultiClothesSelected! && widget.state == "detail") {
+              widget.onClothesSelected?.call();
+              _navigateToClothesDetail(context, index);
             }
-            else if(widget.state == "codi"){ // 의류 이미지를 코디에 추가
-              // TODO 배치되도록
-              print("codi state");
+            // 단일 선택 and 코디 기록 페이지일 때 의류 이미지 배치
+            else if (!widget.isMultiClothesSelected! && widget.state == "codi") {
+              widget.onClothesSelected?.call();
+              widget.selectedClothesIndices?.add(index); // 의류 목록에 추가
+            }
+            // 다중 선택일 때 체크박스 변경
+            else {
+              widget.onMultiClothesSelected?.call();
+              _toggleSelectedIndex(index);
             }
           },
           onLongPress: () {
-            widget.toggleSelectableState?.call();
-            setState(() {
-              longPressedIndex = index;
-              _toggleSelectedIndex(index);
-            });
+            if(widget.state != "codi") {
+              setState(() {
+                widget.onMultiClothesSelected?.call();
+                longPressedIndex = index;
+                _toggleSelectedIndex(index);
+              });
+            }
           },
           child: Stack(
             children: [
               _buildClothesImage(index),
-              if (widget.selectedClothesIndices?.contains(index) == true)
+              if (widget.selectedClothesIndices?.contains(index) == true && widget.isMultiClothesSelected == true)
                 Positioned(
                   top: 5,
                   right: 5,
@@ -106,4 +116,5 @@ class GridviewPageState extends State<GridviewPage> {
       widget.selectedClothesIndices?.add(index);
     }
   }
+
 }

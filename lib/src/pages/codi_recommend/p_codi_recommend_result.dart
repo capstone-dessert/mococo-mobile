@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 
-import '../../components/image_data.dart';
-
 class CodiRecommendResult extends StatefulWidget {
-  const CodiRecommendResult({super.key});
+  const CodiRecommendResult({Key? key}) : super(key: key);
+
 
   @override
   State<CodiRecommendResult> createState() => _CodiRecommendResultState();
@@ -17,6 +15,22 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
 
   DateTime date = DateTime.now();
   List tags = ["데이트"];
+  bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
+  List<int> selectedClothesIndices = [];
+
+  void setSearchStatus(bool status) {
+    setState(() {
+      isClothesSelected = status;
+    });
+  }
+
+  void setSelectedClothesIndices(List<int> selectedIndices) {
+    setState(() {
+      selectedClothesIndices = selectedIndices;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +148,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
               ],
             ),
           ),
-          const SearchBottomSheet(sheetPosition: 0.18,),
+          SearchBottomSheet(sheetPosition: 0.18, setSelectedStatus: setSearchStatus, setSelectedClothesIndices: setSelectedClothesIndices),
         ],
       )
     );

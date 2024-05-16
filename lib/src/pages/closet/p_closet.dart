@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/clothes.dart';
+import 'package:mococo_mobile/src/widgets/app_bar.dart';
+import 'package:mococo_mobile/src/widgets/image_list.dart';
+import 'package:mococo_mobile/src/widgets/modal.dart';
+import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-import '../../clothes.dart';
-import '../../widgets/app_bar.dart';
-import '../../widgets/image_list.dart';
-import '../../widgets/modal.dart';
-import 'p_clothes_detail.dart';
 
 class Closet extends StatefulWidget {
   const Closet({Key? key});
@@ -16,15 +16,16 @@ class Closet extends StatefulWidget {
 }
 
 class _ClosetState extends State<Closet> {
-  bool _isClothesSelected = false;
+  bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
   List<int> _selectedClothesIndices = [];
   List queries = ["전체"];
-  int itemCount = 9;
+  int itemCount = 15;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _isClothesSelected
+      appBar: isMultiClothesSelected
           ? TextTitleAppBar(
               title: "의류 선택",
               buttonNum: 1,
@@ -38,9 +39,8 @@ class _ClosetState extends State<Closet> {
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Stack(
           children: <Widget>[
-            if (!_isClothesSelected)
-              Expanded(
-                child: SingleChildScrollView(
+            if (!isMultiClothesSelected)
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, left: 8),
@@ -88,15 +88,14 @@ class _ClosetState extends State<Closet> {
                     ),
                   ),
                 ),
-              ),
             Padding(
               padding:
-                  EdgeInsets.only(top: _isClothesSelected ? 0 : 58, left: 12),
+                  EdgeInsets.only(top: isMultiClothesSelected ? 0 : 58, left: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    _isClothesSelected
+                    isMultiClothesSelected
                         ? '${_selectedClothesIndices.length}개'
                         : '$itemCount개',
                   ),
@@ -106,7 +105,7 @@ class _ClosetState extends State<Closet> {
             Positioned(
               top: 40,
               right: 0,
-              child: _isClothesSelected
+              child: isMultiClothesSelected
                   ? const SizedBox()
                   : TextButton(
                       child: const Text(
@@ -114,20 +113,22 @@ class _ClosetState extends State<Closet> {
                         style: TextStyle(color: Colors.black87),
                       ),
                       onPressed: () {
-                        _toggleSelectableState();
+                        _onMultiClothesSelected();
                       },
                     ),
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: _isClothesSelected ? 24 : 90, right: 6, left: 6),
+                  top: isMultiClothesSelected ? 24 : 90, right: 6, left: 6),
               child: GridviewPage(
                 state: "detail",
                 onClothesDetail: _onClothesDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
-                isClothesSelected: _isClothesSelected,
+                isClothesSelected: isClothesSelected,
+                onClothesSelected: _onClothesSelected,
+                isMultiClothesSelected: isMultiClothesSelected,
+                onMultiClothesSelected: _onMultiClothesSelected,
                 selectedClothesIndices: _selectedClothesIndices,
-                toggleSelectableState: _toggleSelectableState,
                 itemCount: itemCount,
               ),
             ),
@@ -136,6 +137,7 @@ class _ClosetState extends State<Closet> {
       ),
     );
   }
+
 
   void setQueries(newQueries) {
     setState(() {
@@ -146,7 +148,8 @@ class _ClosetState extends State<Closet> {
 
   void _onBackButtonPressed() {
     setState(() {
-      _isClothesSelected = false;
+      isClothesSelected = false;
+      isMultiClothesSelected = false;
       _selectedClothesIndices.clear();
     });
   }
@@ -180,13 +183,19 @@ class _ClosetState extends State<Closet> {
 
   void _onLeftLogoAppBar(bool isLeftLogoAppBar) {
     setState(() {
-      _isClothesSelected = !isLeftLogoAppBar;
+      isMultiClothesSelected = !isLeftLogoAppBar;
     });
   }
 
-  void _toggleSelectableState() {
+  void _onClothesSelected() { // 단일 선택 상태로 변환
     setState(() {
-      _isClothesSelected = true;
+      isClothesSelected = true;
+    });
+  }
+
+  void _onMultiClothesSelected() { // 다중 선택 상태로 변환
+    setState(() {
+      isMultiClothesSelected = true;
     });
   }
 }

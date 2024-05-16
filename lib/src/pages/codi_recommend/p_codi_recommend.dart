@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
-import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
+import 'package:mococo_mobile/src/data/network.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
-import '../../data/network.dart';
-import '../../widgets/date.dart';
-import '../../widgets/weather.dart';
+import 'package:mococo_mobile/src/widgets/date.dart';
+import 'package:mococo_mobile/src/widgets/weather.dart';
+import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
 
 class CodiRecommend extends StatefulWidget {
-  const CodiRecommend({super.key});
+  const CodiRecommend({Key? key}) : super(key: key);
+
 
   @override
   State<CodiRecommend> createState() => _CodiRecommendState();
@@ -16,9 +17,18 @@ class CodiRecommend extends StatefulWidget {
 
 class _CodiRecommendState extends State<CodiRecommend> {
 
+  List queries = ["전체"];
   double? myLatitude;
   double? myLongitude;
   String? selectedScheduleTag;
+  bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
+
+  void setSearchStatus(bool status) {
+    setState(() {
+      isClothesSelected = status;
+    });
+  }
 
   void setSelectedScheduleTag(selectedScheduleTag) {
     setState(() {
@@ -97,6 +107,13 @@ class _CodiRecommendState extends State<CodiRecommend> {
         ),
       ),
     );
+  }
+
+  void setQueries(newQueries) {
+    setState(() {
+      queries.clear();
+      queries.addAll(newQueries);
+    });
   }
 }
 

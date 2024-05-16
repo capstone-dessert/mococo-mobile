@@ -21,6 +21,21 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   Set<int> selectedClothesIndex = {};
   Codi? codiItem;
   String? selectedScheduleTag;
+  bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
+  List<int> selectedClothesIndices = [];
+
+  void setSelectedStatus(bool status) {
+    setState(() {
+      isClothesSelected = status;
+    });
+  }
+
+  void setSelectedClothesIndices(List<int> selectedIndices) {
+    setState(() {
+      selectedClothesIndices = selectedIndices;
+    });
+  }
 
   void setSelectedScheduleTag(selectedScheduleTag) {
     setState(() {
@@ -63,7 +78,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
               ],
             ),
           ),
-          const SearchBottomSheet(sheetPosition: 0.2,),
+          SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIndices: setSelectedClothesIndices),
         ],
       ),
     );

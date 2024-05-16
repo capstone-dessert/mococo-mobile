@@ -1,15 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-
+import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'image_list.dart';
 
 class SearchBottomSheet extends StatefulWidget {
-  const SearchBottomSheet({super.key, required this.sheetPosition});
+  const SearchBottomSheet({Key? key, required this.sheetPosition, required this.setSelectedStatus, required this.setSelectedClothesIndices}) : super(key: key);
 
   final double sheetPosition;
+  final Function(bool) setSelectedStatus;
+  final Function(List<int>) setSelectedClothesIndices;
 
   @override
   State<SearchBottomSheet> createState() => _SearchBottomSheetState(sheetPosition);
@@ -19,7 +21,10 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   List queries = ["전체"];
   double _sheetPosition;
   final double _dragSensitivity = 600;
-  int itemCount = 9; // 아이템 개수 나중에 수정
+  int itemCount = 15; // TODO 아이템 개수 나중에 수정
+  bool isClothesSelected = false; // 단일 선택 상태
+  bool isMultiClothesSelected = false; // 다중 선택 상태
+  List<int> selectedClothesIndices = [];
 
   _SearchBottomSheetState(this._sheetPosition);
 
@@ -133,6 +138,12 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 Expanded(
                   child: GridviewPage(
                     state: "codi",
+                    onClothesDetail: _onClothesDetail,
+                    isClothesSelected: isClothesSelected,
+                    onClothesSelected: _onClothesSelected,
+                    isMultiClothesSelected: isMultiClothesSelected,
+                    onMultiClothesSelected: _onMultiClothesSelected,
+                    selectedClothesIndices: selectedClothesIndices,
                     itemCount: itemCount,
                   ),
                 ),
@@ -142,7 +153,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         );
       },
     );
-
   }
 
   void setQueries(newQueries) {
@@ -151,7 +161,33 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
       queries.addAll(newQueries);
     });
   }
+
+  void _onClothesSelected() {
+    setState(() {
+      isClothesSelected = true;
+    });
+    // 상태를 부모 위젯으로 전달
+    widget.setSelectedStatus(true);
+    widget.setSelectedClothesIndices(selectedClothesIndices);
+  }
+
+
+  void _onMultiClothesSelected() { // 다중 선택 상태로 변환
+    setState(() {
+      isMultiClothesSelected = true;
+    });
+  }
+
+  void _onClothesDetail(BuildContext context, Clothes cloth) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ClothesDetail(clothes: cloth),
+      ),
+    );
+  }
 }
+
 
 class Grabber extends StatelessWidget {
   const Grabber({

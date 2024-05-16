@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../widgets/app_bar.dart';
-import '../../clothes.dart';
-import '../../widgets/modal.dart';
-import '../../widgets/tag_pickers.dart';
+import 'package:mococo_mobile/src/clothes.dart';
+import 'package:mococo_mobile/src/widgets/app_bar.dart';
+import 'package:mococo_mobile/src/widgets/modal.dart';
+import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class EditClothes extends StatefulWidget {
   final Clothes clothes;

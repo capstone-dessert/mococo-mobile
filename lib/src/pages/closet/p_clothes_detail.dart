@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
-import '../../components/image_data.dart';
-import '../../widgets/app_bar.dart';
+import 'package:mococo_mobile/src/widgets/modal.dart';
+import 'package:mococo_mobile/src/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
-import '../../clothes.dart';
-import '../../widgets/modal.dart';
-import 'p_closet.dart';
+import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 
 class ClothesDetail extends StatefulWidget {
   const ClothesDetail({Key? key, required this.clothes}) : super(key: key);
