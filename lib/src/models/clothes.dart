@@ -8,6 +8,8 @@ class Clothes {
   final String subCategory;
   final Set colors;
   final Set detailTags;
+  final int wearCount;
+  final String? lastWornDate;
 
   const Clothes({
     required this.id,
@@ -15,7 +17,9 @@ class Clothes {
     required this.primaryCategory,
     required this.subCategory,
     required this.colors,
-    required this.detailTags
+    required this.detailTags,
+    required this.wearCount,
+    required this.lastWornDate,
   });
 
   factory Clothes.fromJson(Map<String, dynamic> json) {
@@ -25,9 +29,12 @@ class Clothes {
       primaryCategory: json['primaryCategory'] as String,
       subCategory: json['subCategory'] as String,
       colors: json['colors'] as Set,
-      detailTags: json['detailTags'] as Set
+      detailTags: json['detailTags'] as Set,
+      wearCount: json['wearCount'] as int,
+      lastWornDate: json['wearCount'] == 0 ? null : json['lastWornDate'],
     );
   }
+
 
   Map<String, dynamic> toJson() =>
     {
@@ -37,5 +44,7 @@ class Clothes {
       'subCategory': subCategory,
       'colors': colors,
       'detailTags': detailTags,
+      'wearCount': wearCount,
+      'lastWornDate': lastWornDate,
     };
 }

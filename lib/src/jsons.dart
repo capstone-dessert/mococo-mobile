@@ -1,16 +1,16 @@
 final Map<String, dynamic> clothesJson = {
   "list": [
-    {"id": 0, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정", "화이트"}, "detailTags": {"Detail"}},
-    {"id": 1, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 2, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 3, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 4, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 5, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 6, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 7, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 8, "image": "assets/images/tmp.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 9, "image": "assets/images/tmp.png", "primaryCategory": "상의", "subCategory": "null", "colors": {"검정"}, "detailTags": {"Detail"}},
-    {"id": 10, "image": "assets/images/tmp.png", "primaryCategory": "상의", "subCategory": "null", "colors": {"검정"}, "detailTags": {"Detail"}},
+    {"id": 0, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"블랙", "화이트"}, "detailTags": {"Detail"}, "wearCount": 3, "lastWornDate": "2024-03-02"},
+    {"id": 1, "image": "assets/images/topSample2.png", "primaryCategory": "상의", "subCategory": "니트", "colors": {"화이트"}, "detailTags": {"Detail"}, "wearCount": 2, "lastWornDate": "2024-03-02"},
+    {"id": 2, "image": "assets/images/topSample2.png", "primaryCategory": "상의", "subCategory": "니트", "colors": {"화이트"}, "detailTags": {"Detail"}, "wearCount": 3, "lastWornDate": "2024-03-02"},
+    {"id": 3, "image": "assets/images/pants.png", "primaryCategory": "하의", "subCategory": "청바지", "colors": {"블랙"}, "detailTags": {"Detail"}, "wearCount": 5, "lastWornDate": "2024-03-02"},
+    {"id": 4, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"블랙", "화이트"}, "detailTags": {"Detail"}, "wearCount": 7, "lastWornDate": "2024-03-02"},
+    {"id": 5, "image": "assets/images/pants.png", "primaryCategory": "하의", "subCategory": "청바지", "colors": {"검정"}, "detailTags": {"Detail"}, "wearCount": 3, "lastWornDate": "2024-03-02"},
+    {"id": 6, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"블랙", "화이트"}, "detailTags": {"Detail"}, "wearCount": 8, "lastWornDate": "2024-03-02"},
+    {"id": 7, "image": "assets/images/topSample.png", "primaryCategory": "상의", "subCategory": "반소매 티셔츠", "colors": {"블랙", "화이트"}, "detailTags": {"Detail"}, "wearCount": 4, "lastWornDate": "2024-03-02"},
+    {"id": 8, "image": "assets/images/pants.png", "primaryCategory": "하의", "subCategory": "청바지", "colors": {"블랙"}, "detailTags": {"Detail"}, "wearCount": 2, "lastWornDate": "2024-03-02"},
+    {"id": 9, "image": "assets/images/topSample2.png", "primaryCategory": "상의", "subCategory": "니트", "colors": {"화이트"}, "detailTags": {"Detail"}, "wearCount": 1, "lastWornDate": "2024-03-02"},
+    {"id": 10, "image": "assets/images/topSample2.png", "primaryCategory": "상의", "subCategory": "니트", "colors": {"화이트"}, "detailTags": {"Detail"}, "wearCount": 0, "lastWornDate": "null"},
   ]
 };
 
@@ -40,18 +40,17 @@ Map<String, dynamic>? getCodiJsonById(int id) {
 }
 
 
-
 Map<DateTime, List<int>> getCodiEvents() {
   Map<DateTime, List<int>> events = {};
 
   for (var item in codiJson["list"]) {
-    DateTime date = item['date'] as DateTime;
-    int index = item['index'] as int;
+    DateTime date = DateTime.parse(item['date']);
+    int id = item['id'];
 
     if (!events.containsKey(date)) {
-      events[date] = [index];
+      events[date] = [id];
     } else {
-      events[date]!.add(index);
+      events[date]!.add(id);
     }
   }
   return events;

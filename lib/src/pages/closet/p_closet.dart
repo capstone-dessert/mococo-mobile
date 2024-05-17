@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
-import 'package:mococo_mobile/src/clothes.dart';
+import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/image_list.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
+
+import '../../jsons.dart';
 
 class Closet extends StatefulWidget {
   const Closet({Key? key});
@@ -20,7 +22,21 @@ class _ClosetState extends State<Closet> {
   bool isMultiClothesSelected = false; // 다중 선택 상태
   List<int> _selectedClothesIndices = [];
   List queries = ["전체"];
-  int itemCount = 15;
+  final List<Clothes> clothesList = [];
+  int? itemCount;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadClothesData();
+    itemCount = clothesList.length;
+  }
+
+  void _loadClothesData() {
+    for (var json in clothesJson['list']) {
+      clothesList.add(Clothes.fromJson(json));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
