@@ -63,6 +63,7 @@ class _RegisterClothState extends State<RegisterCloth> {
           child: Column(
             children: [
               Center(
+                // TODO 이미지 서버에 보내서 분류, 배경 제거
                 child: _pickedFile != null
                     ? Image.file(
                   File(_pickedFile!.path),

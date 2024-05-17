@@ -8,6 +8,9 @@ import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'dart:math';
 
+import '../../jsons.dart';
+import '../../models/clothes.dart';
+
 class AddCodiRecord extends StatefulWidget {
   const AddCodiRecord({Key? key}) : super(key: key);
 
@@ -21,7 +24,22 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   List<int> selectedClothesIndices = [];
+  final List<Clothes> clothesList = [];
   String? selectedScheduleTag;
+  int? itemCount;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadClothesData();
+    itemCount = clothesList.length;
+  }
+
+  void _loadClothesData() {
+    for (var json in clothesJson['list']) {
+      clothesList.add(Clothes.fromJson(json));
+    }
+  }
 
   void setSelectedStatus(bool status) {
     setState(() {
@@ -110,13 +128,13 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     // TODO: 저장 버튼 처리
   }
 
-  Widget _buildClothesImage(int index, double imageSize) {
+  Widget _buildClothesImage(Clothes clothes, int index, double imageSize) {
     return GestureDetector(
       onPanUpdate: (details) {
         _handleDrag(details, index);
       },
       child: Image.asset(
-        IconPath.topSample ?? '',
+        clothes.image,
         width: imageSize,
       ),
     );
@@ -141,7 +159,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       return Positioned(
         left: left,
         top: top,
-        child: _buildClothesImage(entry.value, 150),
+        child: _buildClothesImage(clothesList[index], entry.value, 150),
       );
     }).toList();
   }
