@@ -171,13 +171,13 @@ class _RegisterClothState extends State<RegisterCloth> {
     if (_pickedFile != null) {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile!.path,
-        aspectRatioPresets: [CropAspectRatioPreset.square],
+        aspectRatio: CropAspectRatio(ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
         androidUiSettings: AndroidUiSettings(
           toolbarTitle: '크롭하기',
           toolbarColor: Colors.redAccent,
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false,
+          lockAspectRatio: true, // 비율 잠금
         ),
         iosUiSettings: IOSUiSettings(
           minimumAspectRatio: 1.0,
