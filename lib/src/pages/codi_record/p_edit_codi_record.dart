@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -8,10 +6,9 @@ import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
-
-import '../../jsons.dart';
-import '../../models/clothes.dart';
-import 'p_add_codi_record.dart';
+import 'package:mococo_mobile/src/jsons.dart';
+import 'package:mococo_mobile/src/models/clothes.dart';
+import 'dart:math';
 
 class EditCodiRecord extends StatefulWidget {
   const EditCodiRecord({super.key, required this.codiItem});
@@ -94,10 +91,21 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                   ],
                 ),
                 const SizedBox(height: 6),
+                selectedClothesIndices.isEmpty ?
                 Container(
                   color: Colors.black12,
                   height: 400,
+                  child: Center(
+                      child: Text(
+                        "기존 코디",
+                        style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                      )
+                  ),
                   // child: Image.asset(codiItem!.image),  // TODO: 기존 코디 사진 불러오기
+                ) :
+                Container(
+                  color: Colors.black12,
+                  height: 400,
                   child: Stack(
                     children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
                   ),
