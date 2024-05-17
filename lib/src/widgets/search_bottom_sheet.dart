@@ -4,6 +4,7 @@ import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
+import 'package:mococo_mobile/src/jsons.dart';
 import 'image_list.dart';
 
 class SearchBottomSheet extends StatefulWidget {
@@ -18,15 +19,30 @@ class SearchBottomSheet extends StatefulWidget {
 }
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
+  final List<Clothes> clothesList = [];
+  List<int> selectedClothesIndices = [];
+  int? itemCount;
   List queries = ["전체"];
   double _sheetPosition;
   final double _dragSensitivity = 600;
-  int itemCount = 15; // TODO 아이템 개수 나중에 수정
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
-  List<int> selectedClothesIndices = [];
+
 
   _SearchBottomSheetState(this._sheetPosition);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadClothesData();
+    itemCount = clothesList.length;
+  }
+
+  void _loadClothesData() {
+    for (var json in clothesJson['list']) {
+      clothesList.add(Clothes.fromJson(json));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

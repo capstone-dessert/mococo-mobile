@@ -18,12 +18,12 @@ class Closet extends StatefulWidget {
 }
 
 class _ClosetState extends State<Closet> {
+  final List<Clothes> clothesList = [];
+  List<int> selectedClothesIndices = [];
+  int? itemCount;
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
-  List<int> _selectedClothesIndices = [];
   List queries = ["전체"];
-  final List<Clothes> clothesList = [];
-  int? itemCount;
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _ClosetState extends State<Closet> {
                 children: [
                   Text(
                     isMultiClothesSelected
-                        ? '${_selectedClothesIndices.length}개'
+                        ? '${selectedClothesIndices.length}개'
                         : '$itemCount개',
                   ),
                 ],
@@ -144,7 +144,7 @@ class _ClosetState extends State<Closet> {
                 onClothesSelected: _onClothesSelected,
                 isMultiClothesSelected: isMultiClothesSelected,
                 onMultiClothesSelected: _onMultiClothesSelected,
-                selectedClothesIndices: _selectedClothesIndices,
+                selectedClothesIndices: selectedClothesIndices,
                 itemCount: itemCount,
               ),
             ),
@@ -166,7 +166,7 @@ class _ClosetState extends State<Closet> {
     setState(() {
       isClothesSelected = false;
       isMultiClothesSelected = false;
-      _selectedClothesIndices.clear();
+      selectedClothesIndices.clear();
     });
   }
 
@@ -184,10 +184,10 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    if (_selectedClothesIndices.isNotEmpty) {
+    if (selectedClothesIndices.isNotEmpty) {
       AlertModal.show(
         context,
-        message: '${_selectedClothesIndices.length}개의 의류를 삭제하시겠습니까?',
+        message: '${selectedClothesIndices.length}개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
           Navigator.pop(context);
           Navigator.push(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class Clothes {
   final int id;
   // TODO: to image Type(File / XFile)

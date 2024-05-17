@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/jsons.dart';
+import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
@@ -7,9 +8,6 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'dart:math';
-
-import '../../jsons.dart';
-import '../../models/clothes.dart';
 
 class AddCodiRecord extends StatefulWidget {
   const AddCodiRecord({Key? key}) : super(key: key);
@@ -19,14 +17,14 @@ class AddCodiRecord extends StatefulWidget {
 }
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
+  final List<Clothes> clothesList = [];
+  List<int> selectedClothesIndices = [];
+  int? itemCount;
   List<Widget> codiImages = [];
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
-  List<int> selectedClothesIndices = [];
-  final List<Clothes> clothesList = [];
   String? selectedScheduleTag;
-  int? itemCount;
 
   @override
   void initState() {
@@ -126,6 +124,14 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
 
   void _onSaveButtonPressed() {
     // TODO: 저장 버튼 처리
+    // print(selectedClothesIndices);
+    AlertModal.show(
+      context,
+      message: '코디를 기록하시겠습니까?',
+      onConfirm: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
   Widget _buildClothesImage(Clothes clothes, int index, double imageSize) {
@@ -134,7 +140,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         _handleDrag(details, index);
       },
       child: Image.asset(
-        clothes.image,
+        clothesList[index].image,
         width: imageSize,
       ),
     );
