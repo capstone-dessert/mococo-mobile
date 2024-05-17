@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/components/image_data.dart';
-import '../clothes.dart';
+import 'package:mococo_mobile/src/models/clothes.dart';
+import 'package:mococo_mobile/src/jsons.dart';
 
 class GridviewPage extends StatefulWidget {
   const GridviewPage({
@@ -34,11 +33,26 @@ class GridviewPage extends StatefulWidget {
 class GridviewPageState extends State<GridviewPage> {
   int? longPressedIndex;
   String? state;
+  final List<Clothes> clothesList = [];
+  int? itemCount;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadClothesData();
+    itemCount = clothesList.length;
+  }
+
+  void _loadClothesData() {
+    for (var json in clothesJson['list']) {
+      clothesList.add(Clothes.fromJson(json));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: widget.itemCount ?? 0,
+      itemCount: clothesList.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 3 / 4,
@@ -51,7 +65,7 @@ class GridviewPageState extends State<GridviewPage> {
             // 단일 선택 and 옷장 페이지일 때 의류 상세 정보 페이지 이동
             if (!widget.isMultiClothesSelected! && widget.state == "detail") {
               widget.onClothesSelected?.call();
-              _navigateToClothesDetail(context, index);
+              _navigateToClothesDetail(context, clothesList[index]);
             }
             // 단일 선택 and 코디 기록 페이지일 때 의류 이미지 배치
             else if (!widget.isMultiClothesSelected! && widget.state == "codi") {
@@ -75,7 +89,7 @@ class GridviewPageState extends State<GridviewPage> {
           },
           child: Stack(
             children: [
-              _buildClothesImage(index),
+              _buildClothesImage(clothesList[index]),
               if (widget.selectedClothesIndices?.contains(index) == true && widget.isMultiClothesSelected == true)
                 Positioned(
                   top: 5,
@@ -94,18 +108,15 @@ class GridviewPageState extends State<GridviewPage> {
     );
   }
 
-  Widget _buildClothesImage(int index) {
+  Widget _buildClothesImage(Clothes clothes) {
     return Image.asset(
-      IconPath.topSample ?? '',
+      clothes.image,
     );
   }
 
-  void _navigateToClothesDetail(BuildContext context, int index) {
-    if (widget.selectedClothesIndices?.contains(index) != true) {
-      widget.onClothesDetail?.call(
-        context,
-        Clothes(index: index, imagePath: IconPath.topSample ?? ''),
-      );
+  void _navigateToClothesDetail(BuildContext context, Clothes cloth) {
+    if (cloth.id >= 0 && cloth.id < clothesList.length) {
+      widget.onClothesDetail?.call(context, cloth);
     }
   }
 

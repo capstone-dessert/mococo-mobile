@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
-import 'package:mococo_mobile/src/clothes.dart';
+import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 
@@ -16,8 +15,11 @@ class ClothesDetail extends StatefulWidget {
 }
 
 class _ClothesDetailState extends State<ClothesDetail> {
+
   @override
   Widget build(BuildContext context) {
+    final clothes = widget.clothes;
+
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "상세 정보",
@@ -30,20 +32,20 @@ class _ClothesDetailState extends State<ClothesDetail> {
         child: Column(
           children: [
             SizedBox(height: 20),
-            Text('Index: ${widget.clothes.index}'),
+            Text('Index: ${clothes.id}'),
             SizedBox(height: 20),
             SizedBox(
               height: 180,
-              child: Image.asset(IconPath.topSample),
+              child: Image.asset(clothes.image),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryTag(primaryCategory: '상의', subCategory: '반소매 티셔츠'),
-                  ColorTag(colorList: ["빨강", "주황"]),
-                  DetailTag(detailList: ["나이키", "체크 패턴"]),
+                  CategoryTag(primaryCategory: clothes.primaryCategory, subCategory: clothes.subCategory),
+                  ColorTag(colorList: List<String>.from(clothes.colors.toList())),
+                  DetailTag(detailList: List<String>.from(clothes.detailTags.toList())),
                   Column(children: [
                     SizedBox(
                       height: 15,
@@ -73,14 +75,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                                 ),
                               ),
                               Text(
-                                " |",
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                " 3회",
+                                "  "+widget.clothes.wearCount.toString()+"번",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -98,14 +93,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                                 ),
                               ),
                               Text(
-                                " |",
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                " 2024",
+                                "  "+widget.clothes.lastWornDate.toString(),
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,

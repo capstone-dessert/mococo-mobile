@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/category.dart';
 
 class CategoryTag extends StatefulWidget {
-  const CategoryTag({super.key, required this.primaryCategory, this.subCategory});
+  const CategoryTag({Key? key, required this.primaryCategory, this.subCategory,}) : super(key: key);
 
   final String primaryCategory;
   final String? subCategory;
@@ -71,7 +71,7 @@ class _CategoryTagState extends State<CategoryTag> {
 
 
 class ColorTag extends StatefulWidget {
-  const ColorTag({super.key, required this.colorList});
+  const ColorTag({Key? key, required this.colorList,}) : super(key: key);
 
   final List<String> colorList;
 
@@ -99,8 +99,6 @@ class _ColorTagState extends State<ColorTag> {
     ["베이지", const Color(0xffEBDDCC)],
     ["브라운", Colors.brown]
   ];
-
-  Set<String> selectedColors = {};
 
   @override
   Widget build(BuildContext context) {
@@ -154,12 +152,12 @@ class _ColorTagState extends State<ColorTag> {
 
 
 class DetailTag extends StatefulWidget {
-  const DetailTag({super.key, required this.detailList});
+  const DetailTag({Key? key, required this.detailList,}) : super(key: key);
 
   final List<String> detailList;
 
   @override
-  State<DetailTag> createState() => _DetailTagState();
+  _DetailTagState createState() => _DetailTagState();
 }
 
 class _DetailTagState extends State<DetailTag> {
