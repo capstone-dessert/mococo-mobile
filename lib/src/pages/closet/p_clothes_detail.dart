@@ -47,21 +47,15 @@ class _ClothesDetailState extends State<ClothesDetail> {
                   ColorTag(colorList: List<String>.from(clothes.colors.toList())),
                   DetailTag(detailList: List<String>.from(clothes.detailTags.toList())),
                   Column(children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      "정보",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    // Text(
+                    //   "정보",
+                    //   style: TextStyle(
+                    //     fontSize: 20,
+                    //     fontWeight: FontWeight.w700,
+                    //   ),
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 8),
+                      padding: const EdgeInsets.only(top:5, left: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -83,6 +77,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                               ),
                             ],
                           ),
+                          SizedBox(height: 5,),
                           Row(
                             children: [
                               Text(
