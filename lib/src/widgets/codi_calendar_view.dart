@@ -36,33 +36,33 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
             formatButtonVisible: false,
           ),
           calendarStyle: const CalendarStyle(
-            defaultTextStyle: TextStyle(fontSize: 16),
-            holidayTextStyle: TextStyle(fontSize: 16),
-            weekendTextStyle: TextStyle(fontSize: 16),
-            todayTextStyle: TextStyle(
-              fontSize: 16,
-              color: Color(0xffF6747E),
-              fontWeight: FontWeight.w500
-            ),
-            todayDecoration: BoxDecoration(
-              color: Colors.transparent,
-              shape: BoxShape.circle,
-            ),
-            selectedTextStyle: TextStyle(
-              fontSize: 16,
-              color: Color(0xffF6747E)
-            ),
-            selectedDecoration: BoxDecoration(
-              color: Color(0xffFEEEEF),
-              shape: BoxShape.circle,
-            ),
-            markerDecoration: BoxDecoration(
-              color: Color(0xffF6747E),
-              shape: BoxShape.circle,
-            ),
-            markersMaxCount: 3,
-            markerSize: 5,
-            markerMargin: EdgeInsets.symmetric(horizontal: 1)
+              defaultTextStyle: TextStyle(fontSize: 16),
+              holidayTextStyle: TextStyle(fontSize: 16),
+              weekendTextStyle: TextStyle(fontSize: 16),
+              todayTextStyle: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xffF6747E),
+                  fontWeight: FontWeight.w500
+              ),
+              todayDecoration: BoxDecoration(
+                color: Colors.transparent,
+                shape: BoxShape.circle,
+              ),
+              selectedTextStyle: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xffF6747E)
+              ),
+              selectedDecoration: BoxDecoration(
+                color: Color(0xffFEEEEF),
+                shape: BoxShape.circle,
+              ),
+              markerDecoration: BoxDecoration(
+                color: Color(0xffF6747E),
+                shape: BoxShape.circle,
+              ),
+              markersMaxCount: 3,
+              markerSize: 5,
+              markerMargin: EdgeInsets.symmetric(horizontal: 1)
           ),
           onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
             setState((){
@@ -76,7 +76,6 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
           eventLoader: _getEventsForDay,
         ),
         const SizedBox(height: 16),
-        // TODO: 스크롤 문제
         Expanded(
           child: SingleChildScrollView(
             child: GridView.builder(

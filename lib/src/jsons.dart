@@ -40,18 +40,17 @@ Map<String, dynamic>? getCodiJsonById(int id) {
 }
 
 
-
 Map<DateTime, List<int>> getCodiEvents() {
   Map<DateTime, List<int>> events = {};
 
   for (var item in codiJson["list"]) {
-    DateTime date = item['date'] as DateTime;
-    int index = item['index'] as int;
+    DateTime date = DateTime.parse(item['date']);
+    int id = item['id'];
 
     if (!events.containsKey(date)) {
-      events[date] = [index];
+      events[date] = [id];
     } else {
-      events[date]!.add(index);
+      events[date]!.add(id);
     }
   }
   return events;
