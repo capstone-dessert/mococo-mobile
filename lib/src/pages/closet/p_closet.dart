@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/image_list.dart';
+import 'package:mococo_mobile/src/widgets/clothes_grid_view.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
@@ -136,7 +136,7 @@ class _ClosetState extends State<Closet> {
             Padding(
               padding: EdgeInsets.only(
                   top: isMultiClothesSelected ? 24 : 90, right: 6, left: 6),
-              child: GridviewPage(
+              child: ClothesGridView(
                 state: "detail",
                 onClothesDetail: _onClothesDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
