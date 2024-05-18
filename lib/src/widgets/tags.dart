@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/category.dart';
+import 'package:mococo_mobile/src/data/color.dart';
 
 class CategoryTag extends StatefulWidget {
-  const CategoryTag({Key? key, required this.primaryCategory, this.subCategory,}) : super(key: key);
+  const CategoryTag({super.key, required this.primaryCategory, this.subCategory});
 
   final String primaryCategory;
   final String? subCategory;
 
   @override
-  _CategoryTagState createState() => _CategoryTagState();
+  State<CategoryTag> createState() => _CategoryTagState();
 }
 
 class _CategoryTagState extends State<CategoryTag> {
+
   late List<String> subCategories;
+  late List primaryCategories;
+
+  @override
+  void initState() {
+    super.initState();
+    primaryCategories = Category.getPrimaryCategories();
+    subCategories = Category.getSubCategories(widget.primaryCategory);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final primaryCategories = Category.getPrimaryCategories();
-    subCategories = Category.getSubCategories(widget.primaryCategory);
-
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
               Text(
                 "카테고리",
@@ -32,7 +39,7 @@ class _CategoryTagState extends State<CategoryTag> {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Wrap(
             spacing: 8,
             children: [
@@ -41,24 +48,23 @@ class _CategoryTagState extends State<CategoryTag> {
                   Chip(
                     backgroundColor: const Color(0xffF9F9F9),
                     label: Text(primaryCategory),
-                    labelStyle: TextStyle(fontWeight: FontWeight.w700),
+                    labelStyle: const TextStyle(fontWeight: FontWeight.w700),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
-                      side: BorderSide(color: const Color(0xffCACACA)),
+                      side: const BorderSide(color: Color(0xffCACACA)),
                     ),
                   ),
-              if (widget.subCategory != null &&
-                  subCategories.contains(widget.subCategory))
+              if (widget.subCategory != null && subCategories.contains(widget.subCategory))
                 Chip(
                   backgroundColor: const Color(0xffF9F9F9),
                   label: Text(widget.subCategory!),
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: const Color(0xffCACACA)),
+                    side: const BorderSide(color: Color(0xffCACACA)),
                   ),
                 ),
             ],
@@ -70,35 +76,18 @@ class _CategoryTagState extends State<CategoryTag> {
 }
 
 
-class ColorTag extends StatefulWidget {
-  const ColorTag({Key? key, required this.colorList,}) : super(key: key);
+class ColorTags extends StatefulWidget {
+  const ColorTags({super.key, required this.colorList});
 
   final List<String> colorList;
 
   @override
-  _ColorTagState createState() => _ColorTagState();
+  State<ColorTags> createState() => _ColorTagsState();
 }
 
-class _ColorTagState extends State<ColorTag> {
-  List colors = [
-    ["화이트", Colors.white],
-    ["블랙", Colors.black],
-    ["그레이", const Color(0xffCDCDCD)],
-    ["차콜", const Color(0xff6D6D6D)],
-    ["빨강", Colors.red],
-    ["핑크", const Color(0xffFF63CA)],
-    ["네이비", const Color(0xff002F89)],
-    ["파랑", const Color(0xff0057FF)],
-    ["하늘", const Color(0xffAFECFF)],
-    ["보라", const Color(0xff7D00FA)],
-    ["카키", const Color(0xff5C7300)],
-    ["초록", Colors.green],
-    ["민트", const Color(0xff9BFFCE)],
-    ["노랑", Colors.yellow],
-    ["주황", Colors.orange],
-    ["베이지", const Color(0xffEBDDCC)],
-    ["브라운", Colors.brown]
-  ];
+class _ColorTagsState extends State<ColorTags> {
+
+  List colors = ColorList.getColorList();
 
   @override
   Widget build(BuildContext context) {
@@ -151,22 +140,23 @@ class _ColorTagState extends State<ColorTag> {
 }
 
 
-class DetailTag extends StatefulWidget {
-  const DetailTag({Key? key, required this.detailList,}) : super(key: key);
+class DetailTags extends StatefulWidget {
+  const DetailTags({super.key, required this.detailTagList});
 
-  final List<String> detailList;
+  final List<String> detailTagList;
 
   @override
-  _DetailTagState createState() => _DetailTagState();
+  State<DetailTags> createState() => _DetailTagsState();
 }
 
-class _DetailTagState extends State<DetailTag> {
-  List<String> detailTags = [];
+class _DetailTagsState extends State<DetailTags> {
+
+  late List<String> detailTags;
 
   @override
   void initState() {
     super.initState();
-    detailTags = widget.detailList;
+    detailTags = widget.detailTagList;
   }
 
   @override
@@ -211,20 +201,20 @@ class _DetailTagState extends State<DetailTag> {
 }
 
 class ScheduleTags extends StatelessWidget {
-  const ScheduleTags({super.key, required this.schedules});
+  const ScheduleTags({super.key, required this.scheduleList});
 
-  final List<String> schedules;
+  final List<String> scheduleList;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 8,
       children: List.generate(
-        schedules.length,
+        scheduleList.length,
             (index) {
           return Chip(
             backgroundColor: const Color(0xffF9F9F9),
-            label: Text(schedules[index]),
+            label: Text(scheduleList[index]),
             labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),

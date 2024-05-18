@@ -52,8 +52,8 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CategoryTag(primaryCategory: clothes.primaryCategory, subCategory: clothes.subCategory),
-                  ColorTag(colorList: List<String>.from(clothes.colors.toList())),
-                  DetailTag(detailList: List<String>.from(clothes.detailTags.toList())),
+                  ColorTags(colorList: List<String>.from(clothes.colors.toList())),
+                  DetailTags(detailTagList: List<String>.from(clothes.detailTags.toList())),
                   Column(children: [
                     // Text(
                     //   "정보",

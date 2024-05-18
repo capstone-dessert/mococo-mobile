@@ -10,7 +10,7 @@ import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'dart:math';
 
 class AddCodiRecord extends StatefulWidget {
-  const AddCodiRecord({Key? key}) : super(key: key);
+  const AddCodiRecord({super.key});
 
   @override
   State<AddCodiRecord> createState() => _AddCodiRecordState();

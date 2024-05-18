@@ -65,7 +65,7 @@ class _CodiDetailState extends State<CodiDetail> {
             const SizedBox(height: 8),
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: ScheduleTags(schedules: codiItem.schedules.toList() as List<String>)
+              child: ScheduleTags(scheduleList: codiItem.schedules.toList() as List<String>)
             ),
             const Divider(color: Color(0xffF0F0F0),),
             const SizedBox(height: 8),
