@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/jsons.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
@@ -7,19 +8,26 @@ import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 
 class ClothesDetail extends StatefulWidget {
-  const ClothesDetail({Key? key, required this.clothes}) : super(key: key);
-  final Clothes clothes;
+  const ClothesDetail({super.key, required this.clothesId});
+
+  final int clothesId;
 
   @override
-  _ClothesDetailState createState() => _ClothesDetailState();
+  State<ClothesDetail> createState() => _ClothesDetailState();
 }
 
 class _ClothesDetailState extends State<ClothesDetail> {
 
+  late Clothes clothes;
+
+  @override
+  void initState() {
+    super.initState();
+    clothes = Clothes.fromJson(getClothesJsonById(widget.clothesId)!);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final clothes = widget.clothes;
-
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "상세 정보",
@@ -44,8 +52,8 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CategoryTag(primaryCategory: clothes.primaryCategory, subCategory: clothes.subCategory),
-                  ColorTag(colorList: List<String>.from(clothes.colors.toList())),
-                  DetailTag(detailList: List<String>.from(clothes.detailTags.toList())),
+                  ColorTags(colorList: List<String>.from(clothes.colors.toList())),
+                  DetailTags(detailTagList: List<String>.from(clothes.detailTags.toList())),
                   Column(children: [
                     // Text(
                     //   "정보",
@@ -69,7 +77,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                                 ),
                               ),
                               Text(
-                                "  "+widget.clothes.wearCount.toString()+"번",
+                                "  " + clothes.wearCount.toString()+"번",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -88,7 +96,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                                 ),
                               ),
                               Text(
-                                "  "+widget.clothes.lastWornDate.toString(),
+                                "  " + clothes.lastWornDate.toString(),
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -118,7 +126,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditClothes(context: context, clothes: widget.clothes),
+        builder: (context) => EditClothes(context: context, clothes: clothes),
       ),
     );
   }

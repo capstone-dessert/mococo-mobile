@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/jsons.dart';
 
-class GridviewPage extends StatefulWidget {
-  const GridviewPage({
+class ClothesGridView extends StatefulWidget {
+  const ClothesGridView({
     Key? key,
     this.state,
     this.onClothesDetail,
@@ -27,10 +27,10 @@ class GridviewPage extends StatefulWidget {
   final int? itemCount;
 
   @override
-  GridviewPageState createState() => GridviewPageState();
+  ClothesGridViewState createState() => ClothesGridViewState();
 }
 
-class GridviewPageState extends State<GridviewPage> {
+class ClothesGridViewState extends State<ClothesGridView> {
   int? longPressedIndex;
   String? state;
   final List<Clothes> clothesList = [];
@@ -91,7 +91,7 @@ class GridviewPageState extends State<GridviewPage> {
           },
           child: Stack(
             children: [
-              _buildClothesImage(clothesList[index]),
+              Center(child: _buildClothesImage(clothesList[index])),
               if (widget.selectedClothesIndices?.contains(index) == true) // 선택된 의류 체크박스로 표시
                 Positioned(
                   top: 5,

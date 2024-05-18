@@ -5,7 +5,7 @@ import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'package:mococo_mobile/src/jsons.dart';
-import 'image_list.dart';
+import 'clothes_grid_view.dart';
 
 class SearchBottomSheet extends StatefulWidget {
   const SearchBottomSheet({Key? key, required this.sheetPosition, required this.setSelectedStatus, required this.setSelectedClothesIndices}) : super(key: key);
@@ -152,7 +152,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   ],
                 ),
                 Expanded(
-                  child: GridviewPage(
+                  child: ClothesGridView(
                     state: "codi",
                     onClothesDetail: _onClothesDetail,
                     isClothesSelected: isClothesSelected,
@@ -198,7 +198,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothes: cloth),
+        builder: (_) => ClothesDetail(clothesId: cloth.id,),
       ),
     );
   }

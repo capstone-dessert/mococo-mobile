@@ -13,8 +13,7 @@ class CodiRecord extends StatefulWidget {
 
 class _CodiRecordState extends State<CodiRecord> {
 
-  List<bool> _selectedView = [true, false];
-  int itemCount = 9;
+  final List<bool> _selectedView = [true, false];
 
   @override
   Widget build(BuildContext context) {
@@ -27,94 +26,10 @@ class _CodiRecordState extends State<CodiRecord> {
             Row(
               children: [
                 const Spacer(),
-                Stack(
-                  children: [
-                    Container(
-                      width: 112,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffF9F9F9),
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all( color: const Color(0xffCACACA) )
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: -5,
-                      child: ChoiceChip(
-                        showCheckmark: false,
-                        selectedColor: const Color(0xffFFF0F0),
-                        label: const Text("전체"),
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: _selectedView[0]
-                            ? const Color(0xffF6747E)
-                            : Colors.black,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          side: BorderSide(
-                            color: _selectedView[0]
-                              ? const Color(0xffF6747E)
-                              : Colors.transparent,
-                          ),
-                        ),
-                        selected: _selectedView[0],
-                        onSelected: (selected) {
-                          setState(() {
-                            _selectedView[0] = true;
-                            _selectedView[1] = false;
-                          });
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      left: 52,
-                      top: -5,
-                      child: ChoiceChip(
-                        showCheckmark: false,
-                        selectedColor: const Color(0xffFFF0F0),
-                        label: const Text("달력"),
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: _selectedView[1]
-                            ? const Color(0xffF6747E)
-                            : Colors.black,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          side: BorderSide(
-                            color: _selectedView[1]
-                              ? const Color(0xffF6747E)
-                              : Colors.transparent,
-                          ),
-                        ),
-                        selected: _selectedView[1],
-                        onSelected: (selected) {
-                          setState(() {
-                            _selectedView[0] = false;
-                            _selectedView[1] = true;
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                ),
+                _viewToggleButton(),
               ],
             ),
             const SizedBox(height: 8),
-            if (_selectedView[0])
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Text('$itemCount개',),
-                      const Spacer()
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ),
             if (_selectedView[0])
               const Expanded(child: CodiGridView()),
             if (_selectedView[1])
@@ -127,5 +42,83 @@ class _CodiRecordState extends State<CodiRecord> {
 
   void _onAddButtonPressed(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCodiRecord()));
+  }
+
+  Widget _viewToggleButton() {
+    return Stack(
+      children: [
+        Container(
+          width: 102,
+          height: 38,
+          decoration: BoxDecoration(
+              color: const Color(0xffF9F9F9),
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all( color: const Color(0xffCACACA) )
+          ),
+        ),
+        Positioned(
+          left: 0,
+          top: -5,
+          child: ChoiceChip(
+            showCheckmark: false,
+            selectedColor: const Color(0xffFFF0F0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+            label: const Text("전체"),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: _selectedView[0]
+                  ? const Color(0xffF6747E)
+                  : Colors.black,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: _selectedView[0]
+                    ? const Color(0xffF6747E)
+                    : Colors.transparent,
+              ),
+            ),
+            selected: _selectedView[0],
+            onSelected: (selected) {
+              setState(() {
+                _selectedView[0] = true;
+                _selectedView[1] = false;
+              });
+            },
+          ),
+        ),
+        Positioned(
+          left: 48,
+          top: -5,
+          child: ChoiceChip(
+            showCheckmark: false,
+            selectedColor: const Color(0xffFFF0F0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+            label: const Text("달력"),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: _selectedView[1]
+                  ? const Color(0xffF6747E)
+                  : Colors.black,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: _selectedView[1]
+                    ? const Color(0xffF6747E)
+                    : Colors.transparent,
+              ),
+            ),
+            selected: _selectedView[1],
+            onSelected: (selected) {
+              setState(() {
+                _selectedView[0] = false;
+                _selectedView[1] = true;
+              });
+            },
+          ),
+        )
+      ],
+    );
   }
 }

@@ -13,20 +13,25 @@ class CodiCalendarView extends StatefulWidget {
 
 class _CodiCalendarViewState extends State<CodiCalendarView> {
 
-  DateTime selectedDay = DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-  );
-  DateTime focusedDay = DateTime.now();
-  static Map<DateTime, List<int>> events = getCodiEvents();
+  late DateTime selectedDay;
+  late DateTime focusedDay;
+  static late Map<DateTime, List<int>> events;
+
+  @override
+  void initState() {
+    super.initState();
+    var today = DateTime.now();
+    selectedDay = DateTime(today.year, today.month, today.day);
+    focusedDay = DateTime.now();
+    events = getCodiEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         TableCalendar(
-          focusedDay: DateTime.now(),
+          focusedDay: focusedDay,
           firstDay: DateTime.utc(2000),
           lastDay: DateTime.utc(2100),
           locale: 'ko_KR',
@@ -77,32 +82,30 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
         ),
         const SizedBox(height: 16),
         Expanded(
-          child: SingleChildScrollView(
-            child: GridView.builder(
-              shrinkWrap: true,
-              itemCount: _getEventsForDay(selectedDay).length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 3 / 4,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-              ),
-              itemBuilder: (context, index) {
-                Codi codiItem = Codi.fromJson(getCodiJsonById(_getEventsForDay(selectedDay)[index])!);
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
-                  },
-                  child: Column(
-                    children: [
-                      Expanded(
-                          child: Image.asset(codiItem.image, )
-                      ),
-                    ],
-                  ),
-                );
-              },
+          child: GridView.builder(
+            shrinkWrap: true,
+            itemCount: _getEventsForDay(selectedDay).length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 3 / 4,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
             ),
+            itemBuilder: (context, index) {
+              Codi codiItem = Codi.fromJson(getCodiJsonById(_getEventsForDay(selectedDay)[index])!);
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
+                },
+                child: Column(
+                  children: [
+                    Expanded(
+                        child: Image.asset(codiItem.image)
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ],
