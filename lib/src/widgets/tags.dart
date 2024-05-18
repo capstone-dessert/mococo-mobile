@@ -209,3 +209,30 @@ class _DetailTagState extends State<DetailTag> {
     );
   }
 }
+
+class ScheduleTags extends StatelessWidget {
+  const ScheduleTags({super.key, required this.schedules});
+
+  final List<String> schedules;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      children: List.generate(
+        schedules.length,
+            (index) {
+          return Chip(
+            backgroundColor: const Color(0xffF9F9F9),
+            label: Text(schedules[index]),
+            labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              side: const BorderSide(color: Color(0xffCACACA),),
+            ),
+          );
+        }
+      )
+    );
+  }
+}

@@ -198,7 +198,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothes: cloth),
+        builder: (_) => ClothesDetail(clothesId: cloth.id,),
       ),
     );
   }

@@ -178,7 +178,7 @@ class _ClosetState extends State<Closet> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothes: cloth),
+        builder: (_) => ClothesDetail(clothesId: cloth.id,),
       ),
     );
   }
