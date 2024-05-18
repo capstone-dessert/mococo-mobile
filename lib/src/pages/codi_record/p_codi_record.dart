@@ -53,7 +53,7 @@ class _CodiRecordState extends State<CodiRecord> {
     return Stack(
       children: [
         Container(
-          width: 106,
+          width: 102,
           height: 38,
           decoration: BoxDecoration(
               color: const Color(0xffF9F9F9),
@@ -67,7 +67,7 @@ class _CodiRecordState extends State<CodiRecord> {
           child: ChoiceChip(
             showCheckmark: false,
             selectedColor: const Color(0xffFFF0F0),
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
             label: const Text("전체"),
             labelStyle: TextStyle(
               fontWeight: FontWeight.w700,
@@ -93,12 +93,12 @@ class _CodiRecordState extends State<CodiRecord> {
           ),
         ),
         Positioned(
-          left: 50,
+          left: 48,
           top: -5,
           child: ChoiceChip(
             showCheckmark: false,
             selectedColor: const Color(0xffFFF0F0),
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
             label: const Text("달력"),
             labelStyle: TextStyle(
               fontWeight: FontWeight.w700,
