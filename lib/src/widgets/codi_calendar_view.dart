@@ -77,32 +77,30 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
         ),
         const SizedBox(height: 16),
         Expanded(
-          child: SingleChildScrollView(
-            child: GridView.builder(
-              shrinkWrap: true,
-              itemCount: _getEventsForDay(selectedDay).length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 3 / 4,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-              ),
-              itemBuilder: (context, index) {
-                Codi codiItem = Codi.fromJson(getCodiJsonById(_getEventsForDay(selectedDay)[index])!);
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
-                  },
-                  child: Column(
-                    children: [
-                      Expanded(
-                          child: Image.asset(codiItem.image)
-                      ),
-                    ],
-                  ),
-                );
-              },
+          child: GridView.builder(
+            shrinkWrap: true,
+            itemCount: _getEventsForDay(selectedDay).length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 3 / 4,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
             ),
+            itemBuilder: (context, index) {
+              Codi codiItem = Codi.fromJson(getCodiJsonById(_getEventsForDay(selectedDay)[index])!);
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
+                },
+                child: Column(
+                  children: [
+                    Expanded(
+                        child: Image.asset(codiItem.image)
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ],

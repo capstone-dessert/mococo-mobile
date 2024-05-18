@@ -13,12 +13,7 @@ class CodiRecord extends StatefulWidget {
 
 class _CodiRecordState extends State<CodiRecord> {
 
-  List<bool> _selectedView = [true, false];
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final List<bool> _selectedView = [true, false];
 
   @override
   Widget build(BuildContext context) {
