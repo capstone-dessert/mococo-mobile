@@ -1,7 +1,9 @@
-import 'package:mococo_mobile/src/models/clothes.dart';
+
+
+import 'package:mococo_mobile/src/models/clothes_preview.dart';
 
 class ClothesList {
-  final List<Clothes>? list;
+  final List<ClothesPreview>? list;
 
   const ClothesList({
     required this.list
@@ -9,9 +11,9 @@ class ClothesList {
 
   factory ClothesList.fromJson(Map<String, dynamic> json) {
     return ClothesList(
-        list: (json['list'] as List<dynamic>?)
-            ?.map((e) => Clothes.fromJson(e as Map<String, dynamic>))
-            .toList()
+      list: (json['list'] as List<dynamic>?)
+        ?.map((e) => ClothesPreview.fromJson(e as Map<String, dynamic>))
+        .toList()
     );
   }
 
