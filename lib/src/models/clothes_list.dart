@@ -1,5 +1,3 @@
-
-
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 
 class ClothesList {
@@ -21,4 +19,14 @@ class ClothesList {
     <String, dynamic> {
       'list': list
     };
+
+  ClothesPreview? getClothesPreviewById(int id) {
+    if (list == null) return null;
+    for (var item in list!) {
+      if (item.id == id) {
+        return item;
+      }
+    }
+    return null;
+  }
 }
