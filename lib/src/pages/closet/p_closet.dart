@@ -11,10 +11,10 @@ import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import '../../jsons.dart';
 
 class Closet extends StatefulWidget {
-  const Closet({Key? key});
+  const Closet({super.key});
 
   @override
-  _ClosetState createState() => _ClosetState();
+  State<Closet> createState() => _ClosetState();
 }
 
 class _ClosetState extends State<Closet> {

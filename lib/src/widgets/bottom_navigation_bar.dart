@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src//components/image_data.dart';
 
 class SearchBottomNavBar extends StatelessWidget {
+  const SearchBottomNavBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(

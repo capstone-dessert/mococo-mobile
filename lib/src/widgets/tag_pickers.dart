@@ -76,10 +76,10 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
 
 class SubCategoryTagPicker extends StatefulWidget {
   const SubCategoryTagPicker({
-    Key? key,
+    super.key,
     required this.primaryCategory,
     required this.selectedSubCategories,
-  }) : super(key: key);
+  });
 
   final String primaryCategory;
   final Set<String> selectedSubCategories;
@@ -164,7 +164,7 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
 
 
 class ColorTagPicker extends StatefulWidget {
-  const ColorTagPicker({Key? key, required this.selectedColors,}) : super(key: key);
+  const ColorTagPicker({super.key, required this.selectedColors,});
 
   final Set<String> selectedColors;
 
@@ -277,7 +277,7 @@ class _ColorTagPickerState extends State<ColorTagPicker> {
 
 
 class DetailTagPicker extends StatefulWidget {
-  const DetailTagPicker({Key? key, required this.selectedDetailTags,}) : super(key: key);
+  const DetailTagPicker({super.key, required this.selectedDetailTags,});
 
   final Set<String> selectedDetailTags;
 
@@ -374,7 +374,7 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
 }
 
 class ScheduleTagPicker extends StatefulWidget {
-  const ScheduleTagPicker({Key? key, required this.setSelectedScheduleTag,}) : super(key: key);
+  const ScheduleTagPicker({super.key, required this.setSelectedScheduleTag,});
 
   final Function(String) setSelectedScheduleTag;
 

@@ -9,7 +9,7 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 class RegisterCloth extends StatefulWidget {
   final String imagePath;
 
-  const RegisterCloth({Key? key, required this.imagePath}) : super(key: key);
+  const RegisterCloth({super.key, required this.imagePath});
 
   @override
   State<RegisterCloth> createState() => _RegisterClothState();
@@ -72,9 +72,9 @@ class _RegisterClothState extends State<RegisterCloth> {
                     ? Image.file(
                   File(_croppedFile!.path),
                 )
-                    : Text("이미지가 없습니다."),
+                    : const Text("이미지가 없습니다."),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -101,7 +101,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                       tooltip: 'Delete',
                       child: const Icon(Icons.delete),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     FloatingActionButton(
                       heroTag: 'unique_tag_3',
                       onPressed: () {
@@ -114,22 +114,22 @@ class _RegisterClothState extends State<RegisterCloth> {
                   ],
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               PrimaryCategoryTagPicker(
                 setSelectedPrimaryCategory: setSelectedPrimaryCategory,
               ),
-              Divider(color: Color(0xffF0F0F0)),
+              const Divider(color: Color(0xffF0F0F0)),
               if (selectedPrimaryCategory != null)
                 Column(
                   children: [
                     SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!, selectedSubCategories: selectedSubCategories,),
-                    Divider(color: Color(0xffF0F0F0)),
+                    const Divider(color: Color(0xffF0F0F0)),
                   ],
                 ),
               ColorTagPicker(selectedColors: selectedColors),
-              Divider(color: Color(0xffF0F0F0)),
+              const Divider(color: Color(0xffF0F0F0)),
               DetailTagPicker(selectedDetailTags: selectedDetailTags),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -172,15 +172,15 @@ class _RegisterClothState extends State<RegisterCloth> {
     if (_pickedFile != null) {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile!.path,
-        aspectRatio: CropAspectRatio(ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
-        androidUiSettings: AndroidUiSettings(
+        aspectRatio: const CropAspectRatio(ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
+        androidUiSettings: const AndroidUiSettings(
           toolbarTitle: '크롭하기',
           toolbarColor: Colors.redAccent,
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: true, // 비율 잠금
         ),
-        iosUiSettings: IOSUiSettings(
+        iosUiSettings: const IOSUiSettings(
           minimumAspectRatio: 1.0,
         ),
       );

@@ -39,15 +39,15 @@ class _ClothesDetailState extends State<ClothesDetail> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Index: ${clothes.id}'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               height: 180,
               child: Image.asset(clothes.image),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,7 +69,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "착용 횟수",
                                 style: TextStyle(
                                   fontSize: 18,
@@ -77,18 +77,18 @@ class _ClothesDetailState extends State<ClothesDetail> {
                                 ),
                               ),
                               Text(
-                                "  " + clothes.wearCount.toString()+"번",
-                                style: TextStyle(
+                                "  ${clothes.wearCount}번",
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 5,),
+                          const SizedBox(height: 5,),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "마지막 착용 날짜",
                                 style: TextStyle(
                                   fontSize: 18,
@@ -96,8 +96,8 @@ class _ClothesDetailState extends State<ClothesDetail> {
                                 ),
                               ),
                               Text(
-                                "  " + clothes.lastWornDate.toString(),
-                                style: TextStyle(
+                                "  ${clothes.lastWornDate}",
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -137,7 +137,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
       message: '해당 의류를 삭제하시겠습니까?',
       onConfirm: () {
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Closet()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const Closet()));
       },
     );
   }

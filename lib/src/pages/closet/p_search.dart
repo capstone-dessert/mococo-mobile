@@ -4,7 +4,7 @@ import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class SearchClothes extends StatefulWidget {
-  const SearchClothes({Key? key});
+  const SearchClothes({super.key});
 
   @override
   SearchClothesState createState() => SearchClothesState();

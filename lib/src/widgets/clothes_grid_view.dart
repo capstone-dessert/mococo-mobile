@@ -6,7 +6,7 @@ import 'package:mococo_mobile/src/models/clothes_preview.dart';
 
 class ClothesGridView extends StatefulWidget {
   const ClothesGridView({
-    Key? key,
+    super.key,
     this.state,
     this.onClothesDetail,
     this.onLeftLogoAppBar,
@@ -16,7 +16,7 @@ class ClothesGridView extends StatefulWidget {
     this.isMultiClothesSelected,
     this.onMultiClothesSelected,
     this.itemCount,
-  }) : super(key: key);
+  });
 
   final String? state;
   final Function(BuildContext context, Clothes cloth)? onClothesDetail;
