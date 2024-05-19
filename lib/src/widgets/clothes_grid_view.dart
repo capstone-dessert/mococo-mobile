@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/jsons.dart';
+import 'package:mococo_mobile/src/models/clothes_list.dart';
+import 'package:mococo_mobile/src/models/clothes_preview.dart';
 
 class ClothesGridView extends StatefulWidget {
   const ClothesGridView({
@@ -129,5 +131,94 @@ class ClothesGridViewState extends State<ClothesGridView> {
       widget.selectedClothesIndices?.add(index);
     }
   }
+}
 
+
+class ClothesGridPicker extends StatefulWidget {
+  const ClothesGridPicker({super.key, required this.clothesList, this.selectedClothesIndices, this.onClothesSelected});
+
+  final ClothesList clothesList;
+  final List<int>? selectedClothesIndices;
+  final VoidCallback? onClothesSelected;
+
+  @override
+  State<ClothesGridPicker> createState() => _ClothesGridPickerState();
+}
+
+class _ClothesGridPickerState extends State<ClothesGridPicker> {
+
+  late ClothesList clothesList;
+
+  @override
+  void initState() {
+    super.initState();
+    clothesList = widget.clothesList;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                '${clothesList.list!.length}개',
+                style: const TextStyle(color: Color(0xff888888)),
+              ),
+              const Spacer()
+            ],
+          ),
+          const SizedBox(height: 12),
+          GridView.builder(
+            itemCount: clothesList.list!.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 3 / 5,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              ClothesPreview codiItem = clothesList.list![index];
+              return GestureDetector(
+                onTap: () {
+                  widget.onClothesSelected?.call();
+                  setState(() {
+                    _toggleSelectedIndex(index);
+                  });
+                },
+                child: Stack(
+                  children: [
+                    Center(child: Image.asset(codiItem.image)),
+                    // 선택된 의류 체크박스로 표시
+                    if (widget.selectedClothesIndices?.contains(index) == true)
+                      Positioned(
+                        top: 5,
+                        right: 5,
+                        child: Checkbox(
+                          value: true,
+                          onChanged: (bool? value) {},
+                          shape: const CircleBorder(),
+                          activeColor: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _toggleSelectedIndex(int index) {
+    if (widget.selectedClothesIndices?.contains(index) == true) {
+      widget.selectedClothesIndices?.remove(index);
+    } else {
+      widget.selectedClothesIndices?.add(index);
+    }
+  }
 }

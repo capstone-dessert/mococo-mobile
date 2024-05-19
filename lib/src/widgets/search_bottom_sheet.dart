@@ -1,47 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
-import 'package:mococo_mobile/src/models/clothes.dart';
+import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'package:mococo_mobile/src/jsons.dart';
 import 'clothes_grid_view.dart';
 
 class SearchBottomSheet extends StatefulWidget {
-  const SearchBottomSheet({Key? key, required this.sheetPosition, required this.setSelectedStatus, required this.setSelectedClothesIndices}) : super(key: key);
+  const SearchBottomSheet({
+    super.key,
+    required this.sheetPosition,
+    required this.setSelectedStatus,
+    required this.setSelectedClothesIndices
+  });
 
   final double sheetPosition;
   final Function(bool) setSelectedStatus;
   final Function(List<int>) setSelectedClothesIndices;
 
   @override
-  State<SearchBottomSheet> createState() => _SearchBottomSheetState(sheetPosition);
+  State<SearchBottomSheet> createState() => _SearchBottomSheetState();
 }
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
-  final List<Clothes> clothesList = [];
+
+  late ClothesList clothesList;
+  late double _sheetPosition;
+  late int itemCount;
+
   List<int> selectedClothesIndices = [];
-  int? itemCount;
   List queries = ["전체"];
-  double _sheetPosition;
   final double _dragSensitivity = 600;
   bool isClothesSelected = false; // 단일 선택 상태
-  bool isMultiClothesSelected = false; // 다중 선택 상태
-
-
-  _SearchBottomSheetState(this._sheetPosition);
+  // bool isMultiClothesSelected = false; // 다중 선택 상태
 
   @override
   void initState() {
     super.initState();
-    _loadClothesData();
-    itemCount = clothesList.length;
-  }
-
-  void _loadClothesData() {
-    for (var json in clothesJson['list']) {
-      clothesList.add(Clothes.fromJson(json));
-    }
+    _sheetPosition = widget.sheetPosition;
+    clothesList = ClothesList.fromJson(clothesJson);
+    itemCount = clothesList.list!.length;
   }
 
   @override
@@ -61,12 +59,12 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 20,
-                offset: Offset(0, -0.1),
+                offset: const Offset(0, -0.1),
               )
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -74,8 +72,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   onVerticalDragUpdate: (DragUpdateDetails details) {
                     setState(() {
                       _sheetPosition -= details.delta.dy / _dragSensitivity;
-                      if (_sheetPosition < 0.18) {
-                        _sheetPosition = 0.18;
+                      if (_sheetPosition < 0.11) {
+                        _sheetPosition = 0.11;
                       }
                       if (_sheetPosition > 1.0) {
                         _sheetPosition = 1.0;
@@ -89,7 +87,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 4, left: 8),
+                        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8),
                         child: Row(
                           children: List.generate(queries.length, (index) {
                             return Padding(
@@ -140,28 +138,12 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12, left: 16),
-                      child: Row(
-                        children: [
-                          Text('$itemCount개'),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
+                const SizedBox(height: 10),
                 Expanded(
-                  child: ClothesGridView(
-                    state: "codi",
-                    onClothesDetail: _onClothesDetail,
-                    isClothesSelected: isClothesSelected,
-                    onClothesSelected: _onClothesSelected,
-                    isMultiClothesSelected: isMultiClothesSelected,
-                    onMultiClothesSelected: _onMultiClothesSelected,
-                    selectedClothesIndices: selectedClothesIndices,
-                    itemCount: itemCount,
-                  ),
+                  child:
+                  ClothesGridPicker(clothesList: clothesList, onClothesSelected: _onClothesSelected, selectedClothesIndices: selectedClothesIndices)
                 ),
               ],
             ),
@@ -186,22 +168,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     widget.setSelectedStatus(true);
     widget.setSelectedClothesIndices(selectedClothesIndices);
   }
-
-
-  void _onMultiClothesSelected() { // 다중 선택 상태로 변환
-    setState(() {
-      isMultiClothesSelected = true;
-    });
-  }
-
-  void _onClothesDetail(BuildContext context, Clothes cloth) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothesId: cloth.id,),
-      ),
-    );
-  }
 }
 
 
@@ -215,7 +181,6 @@ class Grabber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onVerticalDragUpdate: onVerticalDragUpdate,
       child: Container(
