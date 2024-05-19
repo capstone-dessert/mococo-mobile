@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class CodiPreview {
   final int id;
   // TODO: to image Type(File / XFile)
