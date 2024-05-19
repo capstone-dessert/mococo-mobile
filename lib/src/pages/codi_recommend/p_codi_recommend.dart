@@ -8,7 +8,7 @@ import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
 
 class CodiRecommend extends StatefulWidget {
-  const CodiRecommend({Key? key}) : super(key: key);
+  const CodiRecommend({super.key});
 
 
   @override

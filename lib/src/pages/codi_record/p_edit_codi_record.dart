@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/models/clothes_list.dart';
+import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
@@ -7,7 +9,6 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/jsons.dart';
-import 'package:mococo_mobile/src/models/clothes.dart';
 import 'dart:math';
 
 class EditCodiRecord extends StatefulWidget {
@@ -20,7 +21,8 @@ class EditCodiRecord extends StatefulWidget {
 }
 
 class _EditCodiRecordState extends State<EditCodiRecord> {
-  final List<Clothes> clothesList = [];
+
+  late final ClothesList clothesList;
   List<int> selectedClothesIndices = [];
   Set<int> selectedClothesIndex = {};
   Codi? codiItem;
@@ -34,14 +36,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   @override
   void initState() {
     super.initState();
-    _loadClothesData();
-    itemCount = clothesList.length;
-  }
-
-  void _loadClothesData() {
-    for (var json in clothesJson['list']) {
-      clothesList.add(Clothes.fromJson(json));
-    }
+    clothesList = ClothesList.fromJson(clothesJson);
+    itemCount = clothesList.list!.length;
   }
 
   void setSelectedStatus(bool status) {
@@ -95,11 +91,11 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                 Container(
                   color: Colors.black12,
                   height: 400,
-                  child: Center(
-                      child: Text(
-                        "기존 코디",
-                        style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                      )
+                  child: const Center(
+                    child: Text(
+                      "기존 코디",
+                      style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                    )
                   ),
                   // child: Image.asset(codiItem!.image),  // TODO: 기존 코디 사진 불러오기
                 ) :
@@ -142,13 +138,13 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     );
   }
 
-  Widget _buildClothesImage(Clothes clothes, int index, double imageSize) {
+  Widget _buildClothesImage(ClothesPreview clothesPreview, int index, double imageSize) {
     return GestureDetector(
       onPanUpdate: (details) {
         _handleDrag(details, index);
       },
       child: Image.asset(
-        clothesList[index].image,
+        clothesList.list![index].image,
         width: imageSize,
       ),
     );
@@ -173,7 +169,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
       return Positioned(
         left: left,
         top: top,
-        child: _buildClothesImage(clothesList[index], entry.value, 150),
+        child: _buildClothesImage(clothesList.list![index], entry.value, 150),
       );
     }).toList();
   }

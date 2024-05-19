@@ -7,10 +7,10 @@ import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 class EditClothes extends StatefulWidget {
   final Clothes clothes;
   final BuildContext context;
-  const EditClothes({Key? key, required this.context, required this.clothes}) : super(key: key);
+  const EditClothes({super.key, required this.context, required this.clothes});
 
   @override
-  _EditClothesState createState() => _EditClothesState();
+  State<EditClothes> createState() => _EditClothesState();
 }
 
 class _EditClothesState extends State<EditClothes> {
@@ -43,26 +43,26 @@ class _EditClothesState extends State<EditClothes> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text('Index: ${widget.clothes.id}'),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 height: 180,
                 child: Image.asset(widget.clothes.image),
               ),
               PrimaryCategoryTagPicker(setSelectedPrimaryCategory: setSelectedPrimaryCategory,),
-              Divider(color: Color(0xffF0F0F0),),
+              const Divider(color: Color(0xffF0F0F0),),
               if (selectedPrimaryCategory != null)
                 Column(
                   children: [
                     SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!, selectedSubCategories: selectedSubCategories),
-                    Divider(color: Color(0xffF0F0F0),),
+                    const Divider(color: Color(0xffF0F0F0),),
                   ],
                 ),
               ColorTagPicker(selectedColors: selectedColors),
-              Divider(color: Color(0xffF0F0F0),),
+              const Divider(color: Color(0xffF0F0F0),),
               DetailTagPicker(selectedDetailTags: selectedDetailTags),
-              SizedBox(height: 16)
+              const SizedBox(height: 16)
             ],
           ),
         ),

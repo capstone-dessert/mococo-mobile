@@ -4,7 +4,7 @@ import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 
 class CodiRecommendResult extends StatefulWidget {
-  const CodiRecommendResult({Key? key}) : super(key: key);
+  const CodiRecommendResult({super.key});
 
 
   @override

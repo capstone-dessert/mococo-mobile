@@ -65,7 +65,7 @@ class CenterLogoAppBar extends StatelessWidget implements PreferredSizeWidget{
 
 class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
   TextTitleAppBar({
-    Key? key,
+    super.key,
     required String title,
     required int buttonNum,
     VoidCallback? onBackButtonPressed,
@@ -73,7 +73,6 @@ class TextTitleAppBar extends AppBar implements PreferredSizeWidget {
     VoidCallback? onEditButtonPressed,
     VoidCallback? onSaveButtonPressed,
   }) : super(
-    key: key,
     toolbarHeight: 90,
     centerTitle: true,
     scrolledUnderElevation: 0,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/jsons.dart';
-import 'package:mococo_mobile/src/models/clothes.dart';
+import 'package:mococo_mobile/src/models/clothes_list.dart';
+import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
@@ -17,7 +18,8 @@ class AddCodiRecord extends StatefulWidget {
 }
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
-  final List<Clothes> clothesList = [];
+
+  late final ClothesList clothesList;
   List<int> selectedClothesIndices = [];
   int? itemCount;
   List<Widget> codiImages = [];
@@ -29,14 +31,8 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   @override
   void initState() {
     super.initState();
-    _loadClothesData();
-    itemCount = clothesList.length;
-  }
-
-  void _loadClothesData() {
-    for (var json in clothesJson['list']) {
-      clothesList.add(Clothes.fromJson(json));
-    }
+    clothesList = ClothesList.fromJson(clothesJson);
+    itemCount = clothesList.list!.length;
   }
 
   void setSelectedStatus(bool status) {
@@ -89,10 +85,10 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                 const SizedBox(
                   height: 400,
                   child: Center(
-                      child: Text(
-                        "코디할 옷을 선택하세요",
-                        style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                      )
+                    child: Text(
+                      "코디할 옷을 선택하세요",
+                      style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                    )
                   ),
                 ) :
                 Container(
@@ -102,6 +98,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                     children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
                   ),
                 ),
+                const SizedBox(height: 8),
                 ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
               ],
             ),
@@ -134,13 +131,13 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     );
   }
 
-  Widget _buildClothesImage(Clothes clothes, int index, double imageSize) {
+  Widget _buildClothesImage(ClothesPreview clothesPreview, int index, double imageSize) {
     return GestureDetector(
       onPanUpdate: (details) {
         _handleDrag(details, index);
       },
       child: Image.asset(
-        clothesList[index].image,
+        clothesList.list![index].image,
         width: imageSize,
       ),
     );
@@ -165,7 +162,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       return Positioned(
         left: left,
         top: top,
-        child: _buildClothesImage(clothesList[index], entry.value, 150),
+        child: _buildClothesImage(clothesList.list![index], entry.value, 150),
       );
     }).toList();
   }

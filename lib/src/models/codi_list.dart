@@ -1,7 +1,7 @@
-import 'package:mococo_mobile/src/models/codi.dart';
+import 'package:mococo_mobile/src/models/codi_preview.dart';
 
 class CodiList {
-  final List<Codi>? list;
+  final List<CodiPreview>? list;
 
   const CodiList({
     required this.list
@@ -10,8 +10,8 @@ class CodiList {
   factory CodiList.fromJson(Map<String, dynamic> json) {
     return CodiList(
       list: (json['list'] as List<dynamic>?)
-          ?.map((e) => Codi.fromJson(e as Map<String, dynamic>))
-          .toList()
+        ?.map((e) => CodiPreview.fromJson(e as Map<String, dynamic>))
+        .toList()
     );
   }
 
@@ -19,14 +19,4 @@ class CodiList {
     <String, dynamic> {
       'list': list
     };
-
-  Codi? getCodiById(int id) {
-    if (list == null) return null;
-    for (var item in list!) {
-      if (item.id == id) {
-        return item;
-      }
-    }
-    return null;
-  }
 }

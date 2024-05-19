@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/models/codi_list.dart';
+import 'package:mococo_mobile/src/models/codi_preview.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_detail.dart';
 import 'package:mococo_mobile/src/jsons.dart';
 
@@ -47,7 +47,7 @@ class _CodiGridViewState extends State<CodiGridView> {
               crossAxisSpacing: 8,
             ),
             itemBuilder: (BuildContext context, int index) {
-              Codi codiItem = codiList.list![index];
+              CodiPreview codiItem = codiList.list![index];
               DateTime date = codiItem.date;
               return GestureDetector(
                 onTap: () {
@@ -63,7 +63,7 @@ class _CodiGridViewState extends State<CodiGridView> {
                       ),
                     ),
                     Expanded(
-                        child: Image.asset(codiItem.image)
+                      child: Image.asset(codiItem.image)
                     ),
                   ],
                 ),

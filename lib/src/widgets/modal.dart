@@ -65,7 +65,7 @@ class AlertModal {
           width: MediaQuery.of(context).size.width,
           child: Text(
             message,
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
         ),
