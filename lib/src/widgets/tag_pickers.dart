@@ -3,9 +3,14 @@ import 'package:mococo_mobile/src/data/category.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 
 class PrimaryCategoryTagPicker extends StatefulWidget {
-  const PrimaryCategoryTagPicker({super.key, required this.setSelectedPrimaryCategory});
+  const PrimaryCategoryTagPicker({
+    super.key,
+    required this.selectedPrimaryCategory,
+    required this.setSelectedPrimaryCategory
+  });
 
   final Function(String) setSelectedPrimaryCategory;
+  final String? selectedPrimaryCategory;
 
   @override
   PrimaryCategoryTagPickerState createState() => PrimaryCategoryTagPickerState();
@@ -13,8 +18,17 @@ class PrimaryCategoryTagPicker extends StatefulWidget {
 
 class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
 
-  int selectedIndex = -1;
-  List primaryCategories = Category.getPrimaryCategories();
+  late List primaryCategories;
+  String? selectedPrimaryCategory;
+  int? selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    primaryCategories = Category.getPrimaryCategories();
+    selectedPrimaryCategory = widget.selectedPrimaryCategory;
+    selectedIndex = getSelectedIndexByString(selectedPrimaryCategory);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +73,7 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
                   selected: selectedIndex == index,
                   onSelected: (bool selected) {
                     setState(() {
-                      selectedIndex = selected ? index : -1;
+                      selectedIndex = selected ? index : null;
                     });
                     widget.setSelectedPrimaryCategory(selected ? primaryCategories[index] : "null");
                   },
@@ -70,6 +84,25 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
         ],
       ),
     );
+  }
+
+  int? getSelectedIndexByString(String? selectedPrimaryCategory) {
+    if (selectedIndex == null) {
+      return null;
+    }
+    for (int i = 0; i < primaryCategories.length; i++) {
+      if (selectedPrimaryCategory == primaryCategories[i]) {
+        return i;
+      }
+    }
+    return null;
+  }
+
+  void resetSelection() {
+    setState(() {
+      selectedPrimaryCategory = null;
+      selectedIndex = null;
+    });
   }
 }
 
@@ -95,7 +128,6 @@ class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
   @override
   void initState() {
     super.initState();
-    // 초기 상태 설정
     subCategories = Category.getSubCategories(widget.primaryCategory);
     selectedSubCategories = widget.selectedSubCategories;
   }
@@ -178,7 +210,6 @@ class _ColorTagPickerState extends State<ColorTagPicker> {
   @override
   void initState() {
     super.initState();
-    // 초기 상태 설정
     selectedColors = widget.selectedColors;
   }
 
@@ -293,7 +324,6 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
   @override
   void initState() {
     super.initState();
-    // 초기 상태 설정
     selectedDetailTags = widget.selectedDetailTags;
   }
 

@@ -50,7 +50,7 @@ class _EditClothesState extends State<EditClothes> {
                 height: 180,
                 child: Image.asset(widget.clothes.image),
               ),
-              PrimaryCategoryTagPicker(setSelectedPrimaryCategory: setSelectedPrimaryCategory,),
+              PrimaryCategoryTagPicker(selectedPrimaryCategory: null, setSelectedPrimaryCategory: setSelectedPrimaryCategory,),
               const Divider(color: Color(0xffF0F0F0),),
               if (selectedPrimaryCategory != null)
                 Column(
