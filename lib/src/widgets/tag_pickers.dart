@@ -87,7 +87,7 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
   }
 
   int? getSelectedIndexByString(String? selectedPrimaryCategory) {
-    if (selectedIndex == null) {
+    if (selectedPrimaryCategory == null) {
       return null;
     }
     for (int i = 0; i < primaryCategories.length; i++) {
@@ -107,6 +107,100 @@ class PrimaryCategoryTagPickerState extends State<PrimaryCategoryTagPicker> {
 }
 
 
+class SubCategoryTagSinglePicker extends StatefulWidget {
+  const SubCategoryTagSinglePicker({super.key, required this.primaryCategory, required this.selectedSubCategory});
+
+  final String primaryCategory;
+  final String? selectedSubCategory;
+
+  @override
+  State<SubCategoryTagSinglePicker> createState() => _SubCategoryTagSinglePickerState();
+}
+
+class _SubCategoryTagSinglePickerState extends State<SubCategoryTagSinglePicker> {
+
+  late List subCategories;
+  String? selectedSubCategory;
+  int? selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    subCategories = Category.getSubCategories(widget.primaryCategory);
+    selectedSubCategory = widget.selectedSubCategory;
+    selectedIndex = getSelectedIndexByString(selectedSubCategory);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Text(
+                "카테고리",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: List.generate(
+              subCategories.length,
+                  (index) {
+                return ChoiceChip(
+                  showCheckmark: false,
+                  backgroundColor: const Color(0xffF9F9F9),
+                  selectedColor: const Color(0xffFFF0F0),
+                  label: Text(subCategories[index]),
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: selectedIndex == index
+                        ? const Color(0xffF6747E)
+                        : Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    side: BorderSide(
+                      color: selectedIndex == index
+                          ? const Color(0xffF6747E)
+                          : const Color(0xffCACACA),
+                    ),
+                  ),
+                  selected: selectedIndex == index,
+                  onSelected: (bool selected) {
+                    setState(() {
+                      selectedIndex = selected ? index : null;
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  int? getSelectedIndexByString(String? selectedSubCategory) {
+    if (selectedSubCategory == null) {
+      return null;
+    }
+    for (int i = 0; i < subCategories.length; i++) {
+      if (selectedSubCategory == subCategories[i]) {
+        return i;
+      }
+    }
+    return null;
+  }
+}
+
+
+
 class SubCategoryTagPicker extends StatefulWidget {
   const SubCategoryTagPicker({
     super.key,
@@ -122,6 +216,7 @@ class SubCategoryTagPicker extends StatefulWidget {
 }
 
 class _SubCategoryTagPickerState extends State<SubCategoryTagPicker> {
+
   late List<String> subCategories;
   late Set<String> selectedSubCategories;
 
@@ -404,8 +499,9 @@ class _DetailTagPickerState extends State<DetailTagPicker> {
 }
 
 class ScheduleTagPicker extends StatefulWidget {
-  const ScheduleTagPicker({super.key, required this.setSelectedScheduleTag,});
+  const ScheduleTagPicker({super.key, required this.selectedScheduleTag, required this.setSelectedScheduleTag});
 
+  final String? selectedScheduleTag;
   final Function(String) setSelectedScheduleTag;
 
   @override
@@ -416,6 +512,12 @@ class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
 
   List scheduleTags = ["데이트", "운동", "출근"];
   String? selectedScheduleTag;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedScheduleTag = widget.selectedScheduleTag;
+  }
 
   @override
   Widget build(BuildContext context) {

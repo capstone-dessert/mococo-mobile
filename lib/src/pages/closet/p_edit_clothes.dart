@@ -5,19 +5,32 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class EditClothes extends StatefulWidget {
+  const EditClothes({super.key, required this.context, required this.clothes});
+
   final Clothes clothes;
   final BuildContext context;
-  const EditClothes({super.key, required this.context, required this.clothes});
 
   @override
   State<EditClothes> createState() => _EditClothesState();
 }
 
 class _EditClothesState extends State<EditClothes> {
+
+  late Clothes clothes;
   String? selectedPrimaryCategory;
-  Set<String> selectedSubCategories = {};
+  String? selectedSubCategory;
   Set<String> selectedColors = {};
   Set<String> selectedDetailTags = {};
+
+  @override
+  void initState() {
+    super.initState();
+    clothes = widget.clothes;
+    selectedPrimaryCategory = clothes.primaryCategory;
+    selectedSubCategory = clothes.subCategory;
+    selectedColors = clothes.colors as Set<String>;
+    selectedDetailTags = clothes.detailTags as Set<String>;
+  }
 
   void setSelectedPrimaryCategory(selectedPrimaryCategory) {
     setState(() {
@@ -44,18 +57,22 @@ class _EditClothesState extends State<EditClothes> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Text('Index: ${widget.clothes.id}'),
-              const SizedBox(height: 20),
               SizedBox(
                 height: 180,
                 child: Image.asset(widget.clothes.image),
               ),
-              PrimaryCategoryTagPicker(selectedPrimaryCategory: null, setSelectedPrimaryCategory: setSelectedPrimaryCategory,),
+              PrimaryCategoryTagPicker(
+                selectedPrimaryCategory: selectedPrimaryCategory,
+                setSelectedPrimaryCategory: setSelectedPrimaryCategory,
+              ),
               const Divider(color: Color(0xffF0F0F0),),
               if (selectedPrimaryCategory != null)
                 Column(
                   children: [
-                    SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!, selectedSubCategories: selectedSubCategories),
+                    SubCategoryTagSinglePicker(
+                      primaryCategory: selectedPrimaryCategory!,
+                      selectedSubCategory: selectedSubCategory,
+                    ),
                     const Divider(color: Color(0xffF0F0F0),),
                   ],
                 ),

@@ -8,7 +8,7 @@ class Codi {
   final String image;
   final DateTime date;
   final Weather weather;
-  final Set schedules;
+  final String schedule;
   final Set clothes;
 
   const Codi({
@@ -16,7 +16,7 @@ class Codi {
     required this.image,
     required this.date,
     required this.weather,
-    required this.schedules,
+    required this.schedule,
     required this.clothes
   });
 
@@ -26,7 +26,7 @@ class Codi {
         image: json['image'],
         date: DateTime.parse(json['date']),
         weather: Weather(location: json["location"], highTemperature: 25, lowTemperature: 19, weatherCondition: "맑음"),
-        schedules: json['schedules'] as Set,
+        schedule: json['schedules'],
         clothes: json['clothes'] as Set
     );
   }
@@ -37,7 +37,7 @@ class Codi {
       'image': image,
       'date': date.toIso8601String(),
       'location': weather.location,
-      'schedules': schedules,
+      'schedules': schedule,
       'clothes': clothes,
     };
 }

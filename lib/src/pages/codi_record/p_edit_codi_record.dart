@@ -25,8 +25,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   late final ClothesList clothesList;
   List<int> selectedClothesIndices = [];
   Set<int> selectedClothesIndex = {};
-  Codi? codiItem;
-  int? itemCount;
+  late Codi codiItem;
   List<Widget> codiImages = [];
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
@@ -37,7 +36,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   void initState() {
     super.initState();
     clothesList = ClothesList.fromJson(clothesJson);
-    itemCount = clothesList.list!.length;
+    codiItem = widget.codiItem;
+    selectedScheduleTag = codiItem.schedule;
   }
 
   void setSelectedStatus(bool status) {
@@ -81,9 +81,9 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Date(isCenter: false, isEditable: true, date: codiItem!.date,),
+                    Date(isCenter: false, isEditable: true, date: codiItem.date,),
                     const Spacer(),
-                    Weather(isSmall: true, isEditable: true, location: codiItem!.weather.location,)
+                    Weather(isSmall: true, isEditable: true, location: codiItem.weather.location,)
                   ],
                 ),
                 const SizedBox(height: 6),
@@ -106,7 +106,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                     children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
                   ),
                 ),
-                ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
+                const SizedBox(height: 8),
+                ScheduleTagPicker(selectedScheduleTag: selectedScheduleTag, setSelectedScheduleTag: setSelectedScheduleTag),
               ],
             ),
           ),
