@@ -116,6 +116,7 @@ class _RegisterClothState extends State<RegisterCloth> {
               ),
               const SizedBox(height: 20),
               PrimaryCategoryTagPicker(
+                selectedPrimaryCategory: null,
                 setSelectedPrimaryCategory: setSelectedPrimaryCategory,
               ),
               const Divider(color: Color(0xffF0F0F0)),

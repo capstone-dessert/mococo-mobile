@@ -83,7 +83,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
             const SizedBox(height: 16),
             const Weather(isSmall: false, isEditable: true,),
             const SizedBox(height: 16),
-            ScheduleTagPicker(setSelectedScheduleTag: setSelectedScheduleTag),
+            ScheduleTagPicker(selectedScheduleTag: null, setSelectedScheduleTag: setSelectedScheduleTag),
             const Spacer(),
             // 추천 버튼
             Padding(

@@ -17,6 +17,8 @@ class SearchClothesState extends State<SearchClothes> {
   Set<String> selectedColors = {};
   Set<String> selectedDetailTags = {};
 
+  final GlobalKey<PrimaryCategoryTagPickerState> _primaryCategoryKey = GlobalKey<PrimaryCategoryTagPickerState>();
+
   void setSelectedPrimaryCategory(selectedPrimaryCategory) {
     setState(() {
       if (selectedPrimaryCategory == "null") {
@@ -55,11 +57,11 @@ class SearchClothesState extends State<SearchClothes> {
           child: Column(
             children: [
               PrimaryCategoryTagPicker(
-                setSelectedPrimaryCategory: setSelectedPrimaryCategory,
+                key: _primaryCategoryKey,
+                selectedPrimaryCategory: selectedPrimaryCategory,
+                setSelectedPrimaryCategory: setSelectedPrimaryCategory
               ),
-              const Divider(
-                color: Color(0xffF0F0F0),
-              ),
+              const Divider(color: Color(0xffF0F0F0)),
               if (selectedPrimaryCategory != null)
                 Column(
                   children: [
@@ -101,7 +103,14 @@ class SearchClothesState extends State<SearchClothes> {
                         style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Color(0xffCACACA))),
                         onPressed: () {
-                          queries.clear();
+                          setState(() {
+                            selectedPrimaryCategory = null;
+
+                            selectedSubCategories.clear();
+                            selectedColors.clear();
+                            selectedDetailTags.clear();
+                          });
+                          _primaryCategoryKey.currentState?.resetSelection();
                         },
                         child: const Text(
                           "초기화",

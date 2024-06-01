@@ -201,28 +201,23 @@ class _DetailTagsState extends State<DetailTags> {
 }
 
 class ScheduleTags extends StatelessWidget {
-  const ScheduleTags({super.key, required this.scheduleList});
+  const ScheduleTags({super.key, required this.schedule});
 
-  final List<String> scheduleList;
+  final String schedule;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 8,
-      children: List.generate(
-        scheduleList.length,
-            (index) {
-          return Chip(
-            backgroundColor: const Color(0xffF9F9F9),
-            label: Text(scheduleList[index]),
-            labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              side: const BorderSide(color: Color(0xffCACACA),),
-            ),
-          );
-        }
-      )
+      children: [Chip(
+        backgroundColor: const Color(0xffF9F9F9),
+        label: Text(schedule),
+        labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          side: const BorderSide(color: Color(0xffCACACA),),
+        ),
+      )]
     );
   }
 }

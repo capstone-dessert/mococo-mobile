@@ -16,17 +16,17 @@ final Map<String, dynamic> clothesJson = {
 
 final Map<String, dynamic> codiJson = {
   "list": [
-    {"id": 0, "image": "assets/images/topSample.png", "date": "2024-05-05", "location": "전주시", "schedules": {"데이트", "운동"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 1, "image": "assets/images/topSample.png", "date": "2024-05-04", "location": "서울특별시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}}},
-    {"id": 2, "image": "assets/images/topSample.png", "date": "2024-05-03", "location": "부산광역시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 3, "image": "assets/images/topSample.png", "date": "2024-05-02", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 4, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 5, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 6, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 7, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 8, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 9, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
-    {"id": 10, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": {"데이트"}, "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 0, "image": "assets/images/topSample.png", "date": "2024-05-05", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 1, "image": "assets/images/topSample.png", "date": "2024-05-04", "location": "서울특별시", "schedules": "운동", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}}},
+    {"id": 2, "image": "assets/images/topSample.png", "date": "2024-05-03", "location": "부산광역시", "schedules": "출근", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 3, "image": "assets/images/topSample.png", "date": "2024-05-02", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 4, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 5, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 6, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 7, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 8, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 9, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
+    {"id": 10, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
   ]
 };
 
