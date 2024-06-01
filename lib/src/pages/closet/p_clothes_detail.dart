@@ -40,8 +40,6 @@ class _ClothesDetailState extends State<ClothesDetail> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Text('Index: ${clothes.id}'),
-            const SizedBox(height: 20),
             SizedBox(
               height: 180,
               child: Image.asset(clothes.image),
