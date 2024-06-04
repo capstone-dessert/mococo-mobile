@@ -63,6 +63,17 @@ Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
   }
 }
 
+// TODO: [002] 의류 등록 - addClothes
 // void addClothes(Map<String, dynamic> data) {
 //   http.post(Uri.parse('$server/api/clothing/add'), headers: {'Content-Type': 'multipart/form-data'}, body: );
 // }
+
+// TODO: [004] 의류 정보 수정 - editClothes
+// TODO: [006][007] 의류 삭제 - deleteClothes
+// TODO: [008] 의류 검색 - searchClothes
+
+// TODO: [011] 코디 기록 전체 조회 - fetchAllCodi
+// TODO: [012] 코디 기록 날짜별 조회 - ?
+// TODO: [013] 코디 기록 - addCodi
+// TODO: [014] 코디 기록 상세 조회 - fetchCodi
+// TODO: [015] 코디 기록 삭제 - deleteCodi
