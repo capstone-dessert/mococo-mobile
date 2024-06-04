@@ -62,9 +62,38 @@ Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
 }
 
 // TODO: [002] 의류 등록 - addClothes
-// void addClothes(Map<String, dynamic> data) {
-//   http.post(Uri.parse('$server/api/clothing/add'), headers: {'Content-Type': 'multipart/form-data'}, body: );
-// }
+void addClothes(Map<String, dynamic> data) async{
+  final url = Uri.parse('$server/api/clothing/add');
+
+  var request = http.MultipartRequest('POST', url);
+
+  request.fields['category'] = data['primaryCategory'] as String;
+  request.fields['subcategory'] = data['subCategory'] as String;
+
+  List<String> colors = (data['colors'] as List).map((color) => color.toString()).toList();
+  request.fields['colors'] = jsonEncode(colors);
+
+  List<String> tags = (data['detailTags'] as List).map((tag) => tag.toString()).toList();
+  request.fields['tags'] = jsonEncode(tags);
+
+  XFile imageFile = data['image'] as XFile;
+  var stream = http.ByteStream(imageFile.openRead());
+  var length = await imageFile.length();
+  var multipartFile = http.MultipartFile('image', stream, length, filename: imageFile.name);
+
+  request.files.add(multipartFile);
+
+  try {
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print('Clothes added successfully!');
+    } else {
+      throw Exception('Failed to add clothes. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error adding clothes: $e');
+  }
+}
 
 // TODO: [004] 의류 정보 수정 - editClothes
 // TODO: [006][007] 의류 삭제 - deleteClothes
