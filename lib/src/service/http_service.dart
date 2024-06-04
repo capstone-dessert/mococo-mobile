@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 
@@ -36,3 +37,32 @@ Future<Clothes> fetchClothes(int id) async {
     throw Exception('Failed to load clothes');
   }
 }
+
+Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
+  final url = Uri.parse('$server/api/image/classify');
+  var request = http.MultipartRequest('POST', url);
+
+  var stream = http.ByteStream(imageFile.openRead());
+  var length = await imageFile.length();
+  var multipartFile = http.MultipartFile('file', stream, length, filename: imageFile.name);
+
+  request.files.add(multipartFile);
+
+  try {
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      var responseBody = await response.stream.bytesToString();
+      Map<String, dynamic> responseData = {};
+      responseData['primaryCategory'] = responseBody;
+      return responseData;
+    } else {
+      throw Exception('Failed to classify image. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error classifying image: $e');
+  }
+}
+
+// void addClothes(Map<String, dynamic> data) {
+//   http.post(Uri.parse('$server/api/clothing/add'), headers: {'Content-Type': 'multipart/form-data'}, body: );
+// }

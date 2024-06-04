@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
@@ -19,6 +20,8 @@ class _RegisterClothState extends State<RegisterCloth> {
   XFile? _pickedFile; // 이미지 파일
   File? _croppedFile; // 크롭된 이미지 파일
   bool _isDeleteButtonPressed = false; // 삭제 버튼 눌림 여부
+
+  late Map<String, dynamic> classifiedInfo;
 
   String? selectedPrimaryCategory;
   Set<String> selectedSubCategories = {};
@@ -46,6 +49,15 @@ class _RegisterClothState extends State<RegisterCloth> {
     if (_pickedFile != null) {
       _isDeleteButtonPressed = true;
     }
+    classifyImage(_pickedFile!).then((value) {
+      setState(() {
+        classifiedInfo = value;
+        // TODO: UI에 classifiedInfo 적용
+      });
+    }).catchError((error) {
+      print("Error classifying image: $error");
+    });
+
   }
 
   @override
@@ -65,13 +77,9 @@ class _RegisterClothState extends State<RegisterCloth> {
               Center(
                 // TODO 이미지 서버에 보내서 분류, 배경 제거
                 child: _pickedFile != null
-                    ? Image.file(
-                  File(_pickedFile!.path),
-                )
+                    ? Image.file(File(_pickedFile!.path))
                     : _croppedFile != null
-                    ? Image.file(
-                  File(_croppedFile!.path),
-                )
+                    ? Image.file(File(_croppedFile!.path))
                     : const Text("이미지가 없습니다."),
               ),
               const SizedBox(height: 20),
