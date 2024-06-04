@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
-import 'package:mococo_mobile/src/models/clothes.dart';
+import 'package:mococo_mobile/src/models/clothes_list.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/clothes_grid_view.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/pages/closet/p_clothes_detail.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 
-import '../../jsons.dart';
 
 class Closet extends StatefulWidget {
   const Closet({super.key});
@@ -18,7 +18,7 @@ class Closet extends StatefulWidget {
 }
 
 class _ClosetState extends State<Closet> {
-  final List<Clothes> clothesList = [];
+  late ClothesList clothesList;
   List<int> selectedClothesIndices = [];
   int? itemCount;
   bool isClothesSelected = false; // 단일 선택 상태
@@ -28,14 +28,14 @@ class _ClosetState extends State<Closet> {
   @override
   void initState() {
     super.initState();
-    _loadClothesData();
-    itemCount = clothesList.length;
-  }
-
-  void _loadClothesData() {
-    for (var json in clothesJson['list']) {
-      clothesList.add(Clothes.fromJson(json));
-    }
+    fetchClothesAll().then((value) {
+      setState(() {
+        clothesList = value;
+        itemCount = clothesList.list!.length;
+      });
+    }).catchError((error) {
+      print("Error fetching clothes list: $error");
+    });
   }
 
   @override
@@ -145,7 +145,7 @@ class _ClosetState extends State<Closet> {
                 isMultiClothesSelected: isMultiClothesSelected,
                 onMultiClothesSelected: _onMultiClothesSelected,
                 selectedClothesIndices: selectedClothesIndices,
-                itemCount: itemCount,
+                clothesList: clothesList,
               ),
             ),
           ],
@@ -174,11 +174,11 @@ class _ClosetState extends State<Closet> {
     GetImageModal.show(context);
   }
 
-  void _onClothesDetail(BuildContext context, Clothes cloth) {
+  void _onClothesDetail(BuildContext context, int id) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothesId: cloth.id,),
+        builder: (_) => ClothesDetail(clothesId: id),
       ),
     );
   }

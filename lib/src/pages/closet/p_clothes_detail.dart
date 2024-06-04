@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/jsons.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
@@ -23,7 +24,13 @@ class _ClothesDetailState extends State<ClothesDetail> {
   @override
   void initState() {
     super.initState();
-    clothes = Clothes.fromJson(getClothesJsonById(widget.clothesId)!);
+    fetchClothes(widget.clothesId).then((value) {
+      setState(() {
+        clothes = value;
+      });
+    }).catchError((error) {
+      print("Error fetching clothes: $error");
+    });
   }
 
   @override
@@ -42,7 +49,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
             const SizedBox(height: 20),
             SizedBox(
               height: 180,
-              child: Image.asset(clothes.image),
+              child: Image.memory(clothes.image),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16),
@@ -50,63 +57,63 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CategoryTag(primaryCategory: clothes.primaryCategory, subCategory: clothes.subCategory),
-                  ColorTags(colorList: List<String>.from(clothes.colors.toList())),
-                  DetailTags(detailTagList: List<String>.from(clothes.detailTags.toList())),
-                  Column(children: [
-                    // Text(
-                    //   "정보",
-                    //   style: TextStyle(
-                    //     fontSize: 20,
-                    //     fontWeight: FontWeight.w700,
-                    //   ),
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.only(top:5, left: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Text(
-                                "착용 횟수",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                "  ${clothes.wearCount}번",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 5,),
-                          Row(
-                            children: [
-                              const Text(
-                                "마지막 착용 날짜",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                "  ${clothes.lastWornDate}",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                  ),
+                  ColorTags(colorList: clothes.colors.toList()),
+                  DetailTags(detailTagList: clothes.detailTags.toList()),
+                  // Column(children: [
+                  //   // Text(
+                  //   //   "정보",
+                  //   //   style: TextStyle(
+                  //   //     fontSize: 20,
+                  //   //     fontWeight: FontWeight.w700,
+                  //   //   ),
+                  //   // ),
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(top:5, left: 8),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             const Text(
+                  //               "착용 횟수",
+                  //               style: TextStyle(
+                  //                 fontSize: 18,
+                  //                 fontWeight: FontWeight.w600,
+                  //               ),
+                  //             ),
+                  //             Text(
+                  //               "  ${clothes.wearCount}번",
+                  //               style: const TextStyle(
+                  //                 fontSize: 18,
+                  //                 fontWeight: FontWeight.w400,
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         const SizedBox(height: 5,),
+                  //         Row(
+                  //           children: [
+                  //             const Text(
+                  //               "마지막 착용 날짜",
+                  //               style: TextStyle(
+                  //                 fontSize: 18,
+                  //                 fontWeight: FontWeight.w600,
+                  //               ),
+                  //             ),
+                  //             Text(
+                  //               "  ${clothes.lastWornDate}",
+                  //               style: const TextStyle(
+                  //                 fontSize: 18,
+                  //                 fontWeight: FontWeight.w400,
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ],
+                  // ),
                 ],
               ),
             ),

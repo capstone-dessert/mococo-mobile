@@ -136,7 +136,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       onPanUpdate: (details) {
         _handleDrag(details, index);
       },
-      child: Image.asset(
+      child: Image.memory(
         clothesList.list![index].image,
         width: imageSize,
       ),

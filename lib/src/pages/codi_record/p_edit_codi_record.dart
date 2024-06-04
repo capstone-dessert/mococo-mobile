@@ -144,7 +144,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
       onPanUpdate: (details) {
         _handleDrag(details, index);
       },
-      child: Image.asset(
+      child: Image.memory(
         clothesList.list![index].image,
         width: imageSize,
       ),

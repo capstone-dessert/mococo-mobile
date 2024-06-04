@@ -59,7 +59,7 @@ class _EditClothesState extends State<EditClothes> {
               const SizedBox(height: 20),
               SizedBox(
                 height: 180,
-                child: Image.asset(widget.clothes.image),
+                child: Image.memory(clothes.image),
               ),
               PrimaryCategoryTagPicker(
                 selectedPrimaryCategory: selectedPrimaryCategory,

@@ -15,18 +15,18 @@ class ClothesGridView extends StatefulWidget {
     this.onClothesSelected,
     this.isMultiClothesSelected,
     this.onMultiClothesSelected,
-    this.itemCount,
+    required this.clothesList,
   });
 
   final String? state;
-  final Function(BuildContext context, Clothes cloth)? onClothesDetail;
+  final Function(BuildContext context, int id)? onClothesDetail;
   final Function(bool isLeftLogoAppBar)? onLeftLogoAppBar;
   final bool? isClothesSelected;
   final bool? isMultiClothesSelected;
   final List<int>? selectedClothesIndices;
   final VoidCallback? onClothesSelected;
   final VoidCallback? onMultiClothesSelected;
-  final int? itemCount;
+  final ClothesList clothesList;
 
   @override
   ClothesGridViewState createState() => ClothesGridViewState();
@@ -35,26 +35,20 @@ class ClothesGridView extends StatefulWidget {
 class ClothesGridViewState extends State<ClothesGridView> {
   int? longPressedIndex;
   String? state;
-  final List<Clothes> clothesList = [];
+  late ClothesList clothesList;
   int? itemCount;
 
   @override
   void initState() {
     super.initState();
-    _loadClothesData();
-    itemCount = clothesList.length;
-  }
-
-  void _loadClothesData() {
-    for (var json in clothesJson['list']) {
-      clothesList.add(Clothes.fromJson(json));
-    }
+    clothesList = widget.clothesList;
+    itemCount = clothesList.list!.length;
   }
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: clothesList.length,
+      itemCount: clothesList.list!.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 3 / 4,
@@ -67,7 +61,7 @@ class ClothesGridViewState extends State<ClothesGridView> {
             // 단일 선택 and 옷장 페이지일 때 의류 상세 정보 페이지 이동
             if (!widget.isMultiClothesSelected! && widget.state == "detail") {
               widget.onClothesSelected?.call();
-              _navigateToClothesDetail(context, clothesList[index]);
+              _navigateToClothesDetail(context, clothesList.list![index].id);
             }
             // 단일 선택 and 코디 기록 페이지일 때 의류 이미지 배치
             else if (!widget.isMultiClothesSelected! && widget.state == "codi") {
@@ -93,7 +87,7 @@ class ClothesGridViewState extends State<ClothesGridView> {
           },
           child: Stack(
             children: [
-              Center(child: _buildClothesImage(clothesList[index])),
+              Center(child: Image.memory(clothesList.list![index].image)),
               if (widget.selectedClothesIndices?.contains(index) == true) // 선택된 의류 체크박스로 표시
                 Positioned(
                   top: 5,
@@ -112,16 +106,8 @@ class ClothesGridViewState extends State<ClothesGridView> {
     );
   }
 
-  Widget _buildClothesImage(Clothes clothes) {
-    return Image.asset(
-      clothes.image,
-    );
-  }
-
-  void _navigateToClothesDetail(BuildContext context, Clothes cloth) {
-    if (cloth.id >= 0 && cloth.id < clothesList.length) {
-      widget.onClothesDetail?.call(context, cloth);
-    }
+  void _navigateToClothesDetail(BuildContext context, int id) {
+    widget.onClothesDetail?.call(context, id);
   }
 
   void _toggleSelectedIndex(int index) {
@@ -191,7 +177,7 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
                 },
                 child: Stack(
                   children: [
-                    Center(child: Image.asset(codiItem.image)),
+                    Center(child: Image.memory(codiItem.image)),
                     // 선택된 의류 체크박스로 표시
                     if (widget.selectedClothesIndices?.contains(index) == true)
                       Positioned(

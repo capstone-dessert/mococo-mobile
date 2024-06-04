@@ -14,14 +14,9 @@ class CategoryTag extends StatefulWidget {
 
 class _CategoryTagState extends State<CategoryTag> {
 
-  late List<String> subCategories;
-  late List primaryCategories;
-
   @override
   void initState() {
     super.initState();
-    primaryCategories = Category.getPrimaryCategories();
-    subCategories = Category.getSubCategories(widget.primaryCategory);
   }
 
   @override
@@ -43,18 +38,16 @@ class _CategoryTagState extends State<CategoryTag> {
           Wrap(
             spacing: 8,
             children: [
-              for (var primaryCategory in primaryCategories)
-                if (primaryCategory == widget.primaryCategory)
-                  Chip(
-                    backgroundColor: const Color(0xffF9F9F9),
-                    label: Text(primaryCategory),
-                    labelStyle: const TextStyle(fontWeight: FontWeight.w700),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      side: const BorderSide(color: Color(0xffCACACA)),
-                    ),
-                  ),
-              if (widget.subCategory != null && subCategories.contains(widget.subCategory))
+              Chip(
+                backgroundColor: const Color(0xffF9F9F9),
+                label: Text(widget.primaryCategory),
+                labelStyle: const TextStyle(fontWeight: FontWeight.w700),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                  side: const BorderSide(color: Color(0xffCACACA)),
+                ),
+              ),
+              if (widget.subCategory != null)
                 Chip(
                   backgroundColor: const Color(0xffF9F9F9),
                   label: Text(widget.subCategory!),
@@ -79,7 +72,7 @@ class _CategoryTagState extends State<CategoryTag> {
 class ColorTags extends StatefulWidget {
   const ColorTags({super.key, required this.colorList});
 
-  final List<String> colorList;
+  final List colorList;
 
   @override
   State<ColorTags> createState() => _ColorTagsState();
@@ -143,7 +136,7 @@ class _ColorTagsState extends State<ColorTags> {
 class DetailTags extends StatefulWidget {
   const DetailTags({super.key, required this.detailTagList});
 
-  final List<String> detailTagList;
+  final List detailTagList;
 
   @override
   State<DetailTags> createState() => _DetailTagsState();
@@ -151,7 +144,7 @@ class DetailTags extends StatefulWidget {
 
 class _DetailTagsState extends State<DetailTags> {
 
-  late List<String> detailTags;
+  late List detailTags;
 
   @override
   void initState() {
