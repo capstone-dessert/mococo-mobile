@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
+import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
 
 class SearchClothes extends StatefulWidget {
   const SearchClothes({super.key});
@@ -11,40 +12,24 @@ class SearchClothes extends StatefulWidget {
 }
 
 class SearchClothesState extends State<SearchClothes> {
-  Set queries = {};
-  String? selectedPrimaryCategory;
-  Set<String> selectedSubCategories = {};
-  Set<String> selectedColors = {};
-  Set<String> selectedDetailTags = {};
 
-  final GlobalKey<PrimaryCategoryTagPickerState> _primaryCategoryKey = GlobalKey<PrimaryCategoryTagPickerState>();
+  late Map<String, dynamic> selectedInfo;
 
-  void setSelectedPrimaryCategory(selectedPrimaryCategory) {
-    setState(() {
-      if (selectedPrimaryCategory == "null") {
-        this.selectedPrimaryCategory = null;
-      } else {
-        this.selectedPrimaryCategory = selectedPrimaryCategory;
-      }
-    });
-  }
+  List<String> queries = [];
 
-  void setSelectedSubCategories(Set<String> selectedSubCategories) {
-    setState(() {
-      this.selectedSubCategories = selectedSubCategories;
-    });
-  }
-
-  void setSelectedColors(Set<String> selectedColors) {
-    setState(() {
-      this.selectedColors = selectedColors;
-    });
+  @override
+  void initState() {
+    super.initState();
+    selectedInfo = {
+      'category': null,
+      'subcategory': null,
+      'colors': null,
+      'tags': null
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    queries = Get.arguments;
-    queries.remove("전체");
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "검색",
@@ -56,127 +41,128 @@ class SearchClothesState extends State<SearchClothes> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              PrimaryCategoryTagPicker(
-                key: _primaryCategoryKey,
-                selectedPrimaryCategory: selectedPrimaryCategory,
-                setSelectedPrimaryCategory: setSelectedPrimaryCategory
-              ),
-              const Divider(color: Color(0xffF0F0F0)),
-              if (selectedPrimaryCategory != null)
-                Column(
-                  children: [
-                    SubCategoryTagPicker(
-                      primaryCategory: selectedPrimaryCategory!,
-                      selectedSubCategories: selectedSubCategories,
-                    ),
-                    const Divider(
-                      color: Color(0xffF0F0F0),
-                    ),
-                  ],
-                ),
-              ColorTagPicker(selectedColors: selectedColors),
-              const Divider(
-                color: Color(0xffF0F0F0),
-              ),
-              DetailTagPicker(selectedDetailTags: selectedDetailTags),
-              const SizedBox(height: 16)
+              TagPicker(setSelectedInfo: setSelectedInfo)
             ],
           ),
         ),
       ),
       bottomNavigationBar: Container(
-          height: 83,
-          decoration: const BoxDecoration(
-              border: Border(top: BorderSide(color: Colors.black12))),
-          alignment: Alignment.topCenter,
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  const SizedBox(width: 16),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      height: 52,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Color(0xffCACACA))),
-                        onPressed: () {
-                          setState(() {
-                            selectedPrimaryCategory = null;
-
-                            selectedSubCategories.clear();
-                            selectedColors.clear();
-                            selectedDetailTags.clear();
+        height: 83,
+        decoration: const BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.black12))),
+        alignment: Alignment.topCenter,
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const SizedBox(width: 16),
+                Expanded(
+                  flex: 1,
+                  child: SizedBox(
+                    height: 52,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(
+                          color: Color(0xffCACACA)
+                        )
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          selectedInfo = {
+                            'category': null,
+                            'subcategory': null,
+                            'colors': null,
+                            'tags': null
+                          };
+                        });
+                      },
+                      child: const Text(
+                        "초기화",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 2,
+                  child: SizedBox(
+                    height: 52,
+                    child: FilledButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: const Color(0xffF6747E),
+                      ),
+                      onPressed: () {
+                        setQueries();
+                        var clothesList;
+                        if (queries == ["전체"]) {
+                          fetchClothesAll().then((value) {
+                            clothesList = value;
+                            Get.back(result: {'newQueries': queries, 'clothesList': clothesList});
+                          }).catchError((error) {
+                            print("Error fetching clothes list: $error");
                           });
-                          _primaryCategoryKey.currentState?.resetSelection();
-                        },
-                        child: const Text(
-                          "초기화",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500),
+                        } else {
+                          searchClothes(selectedInfo).then((value) {
+                            clothesList = value;
+                            Get.back(result: {'newQueries': queries, 'clothesList': clothesList});
+                          }).catchError((error) {
+                            print("Error fetching clothes list: $error");
+                          });
+                        }
+                      },
+                      child: const Text(
+                        "검색",
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 2,
-                    child: SizedBox(
-                      height: 52,
-                      child: FilledButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: const Color(0xffF6747E),
-                        ),
-                        onPressed: () {
-                          queries.clear(); // 검색 전 쿼리 비우기
-                          _onSearchButtonPressed(); // 쿼리에 검색 키워드 저장
-                          Get.back(result: queries.toList());
-                          queries.clear(); // 검색 후 쿼리 비우기
-                        },
-                        child: const Text(
-                          "검색",
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                ],
-              ),
-            ],
-          )),
+                ),
+                const SizedBox(width: 16),
+              ],
+            ),
+          ],
+        )
+      ),
     );
+  }
+
+  void setSelectedInfo(Map<String, dynamic> newSelectedInfo) {
+    selectedInfo = newSelectedInfo;
+    print(selectedInfo);
   }
 
   void _onBackButtonPressed() {
     Get.back();
   }
 
-  void _onSearchButtonPressed() {
-    if(selectedPrimaryCategory != null || selectedColors.isNotEmpty || selectedDetailTags.isNotEmpty) {
+  void setQueries() {
+    queries.clear();
 
-      if(selectedPrimaryCategory != null) { // PrimaryCategory 검색 조건
-        queries.add(selectedPrimaryCategory);
+    if (selectedInfo['category'] != null) {
+      queries.add(selectedInfo['category']);
+    }
+    if (selectedInfo['subcategory'] != null) {
+      queries.add(selectedInfo['subcategory']);
+    }
+    if (selectedInfo['colors'] != null) {
+      queries.addAll(selectedInfo['colors'].toList());
+    }
+    if (selectedInfo['detailTags'] != null) {
+      queries.addAll(selectedInfo['detailTags'].toList());
+    }
 
-        if(selectedSubCategories.isNotEmpty) { // PrimaryCategory + SubCategory 검색 조건
-          queries.addAll(selectedSubCategories);
-        }
-      }
-
-      if(selectedColors.isNotEmpty) { // Colors 검색 조건
-        queries.addAll(selectedColors);
-      }
-
-      if(selectedDetailTags.isNotEmpty) { // DetailTags 검색 조건
-        queries.add(selectedDetailTags);
-      }
+    if (queries.isEmpty) {
+      queries.add("전체");
     }
   }
 }

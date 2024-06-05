@@ -31,7 +31,7 @@ class _ClosetState extends State<Closet> {
     fetchClothesAll().then((value) {
       setState(() {
         clothesList = value;
-        itemCount = clothesList.list!.length;
+        itemCount = clothesList.list.length;
       });
     }).catchError((error) {
       print("Error fetching clothes list: $error");
@@ -80,12 +80,12 @@ class _ClosetState extends State<Closet> {
                           padding: const EdgeInsets.only(),
                           child: OutlinedButton(
                             onPressed: () async {
-                              var newQueries = await Get.to(() => const SearchClothes(), arguments: queries.toSet());
-                              if (newQueries == [] || newQueries == null) {
-                                setQueries(["전체"]);
-                              } else {
-                                setQueries(newQueries);
-                              }
+                              var result = await Get.to(() => const SearchClothes());
+                              setState(() {
+                                queries = result['newQueries'];
+                                clothesList = result['clothesList'];
+                                itemCount = clothesList.list.length;
+                              });
                             },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: const Color(0xffF9F9F9),
@@ -138,6 +138,7 @@ class _ClosetState extends State<Closet> {
                   top: isMultiClothesSelected ? 24 : 90, right: 6, left: 6),
               child: ClothesGridView(
                 state: "detail",
+                getClothesList: getClothesList,
                 onClothesDetail: _onClothesDetail,
                 onLeftLogoAppBar: _onLeftLogoAppBar,
                 isClothesSelected: isClothesSelected,
@@ -154,12 +155,8 @@ class _ClosetState extends State<Closet> {
     );
   }
 
-
-  void setQueries(newQueries) {
-    setState(() {
-      queries.clear();
-      queries.addAll(newQueries);
-    });
+  ClothesList getClothesList() {
+    return clothesList;
   }
 
   void _onBackButtonPressed() {
