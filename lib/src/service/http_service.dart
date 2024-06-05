@@ -60,7 +60,7 @@ Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
     throw Exception('Error classifying image: $e');
   }
 }
-2
+
 void addClothes(Map<String, dynamic> data) async{
   final url = Uri.parse('$server/api/clothing/add');
 

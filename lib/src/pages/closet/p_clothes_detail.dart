@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/jsons.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
