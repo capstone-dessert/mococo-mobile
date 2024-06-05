@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
-import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
+import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
 
 class EditClothes extends StatefulWidget {
   const EditClothes({super.key, required this.context, required this.clothes});
@@ -17,29 +17,18 @@ class EditClothes extends StatefulWidget {
 class _EditClothesState extends State<EditClothes> {
 
   late Clothes clothes;
-  String? selectedPrimaryCategory;
-  String? selectedSubCategory;
-  Set<String> selectedColors = {};
-  Set<String> selectedDetailTags = {};
+  late Map<String, dynamic> selectedInfo;
 
   @override
   void initState() {
     super.initState();
     clothes = widget.clothes;
-    selectedPrimaryCategory = clothes.primaryCategory;
-    selectedSubCategory = clothes.subCategory;
-    selectedColors = clothes.colors as Set<String>;
-    selectedDetailTags = clothes.detailTags as Set<String>;
-  }
-
-  void setSelectedPrimaryCategory(selectedPrimaryCategory) {
-    setState(() {
-      if (selectedPrimaryCategory == "null") {
-        this.selectedPrimaryCategory = null;
-      } else {
-        this.selectedPrimaryCategory = selectedPrimaryCategory;
-      }
-    });
+    selectedInfo = {
+      'category': clothes.primaryCategory,
+      'subcategory': clothes.subCategory,
+      'colors': clothes.colors,
+      'tags': clothes.detailTags
+    };
   }
 
   @override
@@ -61,30 +50,23 @@ class _EditClothesState extends State<EditClothes> {
                 height: 180,
                 child: Image.memory(clothes.image),
               ),
-              PrimaryCategoryTagPicker(
-                selectedPrimaryCategory: selectedPrimaryCategory,
-                setSelectedPrimaryCategory: setSelectedPrimaryCategory,
+              TagPicker(
+                setSelectedInfo: setSelectedInfo,
+                selectedPrimaryCategory: clothes.primaryCategory,
+                selectedSubcategory: clothes.subCategory,
+                selectedColors: Set<String>.from(clothes.colors),
+                selectedDetailTags: Set<String>.from(clothes.detailTags),
               ),
-              const Divider(color: Color(0xffF0F0F0),),
-              if (selectedPrimaryCategory != null)
-                Column(
-                  children: [
-                    SubCategoryTagSinglePicker(
-                      primaryCategory: selectedPrimaryCategory!,
-                      selectedSubCategory: selectedSubCategory,
-                    ),
-                    const Divider(color: Color(0xffF0F0F0),),
-                  ],
-                ),
-              ColorTagPicker(selectedColors: selectedColors),
-              const Divider(color: Color(0xffF0F0F0),),
-              DetailTagPicker(selectedDetailTags: selectedDetailTags),
               const SizedBox(height: 16)
             ],
           ),
         ),
       ),
     );
+  }
+
+  void setSelectedInfo(Map<String, dynamic> newSelectedInfo) {
+    selectedInfo = newSelectedInfo;
   }
 
   void _onBackButtonPressed() {
@@ -102,6 +84,7 @@ class _EditClothesState extends State<EditClothes> {
       context,
       message: '상세 정보를 저장하시겠습니까?',
       onConfirm: () {
+        // TODO: 의류 정보 수정
         Navigator.pop(context);
       },
     );
