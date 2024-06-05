@@ -80,13 +80,25 @@ class _EditClothesState extends State<EditClothes> {
   }
 
   void _onSaveButtonPressed() {
-    AlertModal.show(
-      context,
-      message: '상세 정보를 저장하시겠습니까?',
-      onConfirm: () {
-        // TODO: 의류 정보 수정
-        Navigator.pop(context);
-      },
-    );
+    if (selectedInfo.values.contains(null)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "각 태그 선택은 필수입니다.",
+              style: TextStyle(color: Colors.white),
+            ),
+            duration: Duration(seconds: 1),
+          )
+      );
+    } else {
+      AlertModal.show(
+        context,
+        message: '상세 정보를 저장하시겠습니까?',
+        onConfirm: () {
+          // TODO: 의류 정보 수정
+          Navigator.pop(context);
+        },
+      );
+    }
   }
 }
