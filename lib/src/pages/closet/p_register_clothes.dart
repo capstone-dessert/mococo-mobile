@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
+import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
@@ -22,24 +23,7 @@ class _RegisterClothState extends State<RegisterCloth> {
   bool _isDeleteButtonPressed = false; // 삭제 버튼 눌림 여부
 
   late Map<String, dynamic> classifiedInfo;
-
-  String? selectedPrimaryCategory;
-  Set<String> selectedSubCategories = {};
-  Set<String> selectedColors = {};
-  Set<String> selectedDetailTags = {};
-
-  // TODO: 위젯에서 쿼리 받아오기
-  Set queries = {};
-
-  void setSelectedPrimaryCategory(selectedPrimaryCategory) {
-    setState(() {
-      if (selectedPrimaryCategory == "null") {
-        this.selectedPrimaryCategory = null;
-      } else {
-        this.selectedPrimaryCategory = selectedPrimaryCategory;
-      }
-    });
-  }
+  late Map<String, dynamic> selectedInfo;
 
   @override
   void initState() {
@@ -49,6 +33,7 @@ class _RegisterClothState extends State<RegisterCloth> {
     if (_pickedFile != null) {
       _isDeleteButtonPressed = true;
     }
+
     classifyImage(_pickedFile!).then((value) {
       setState(() {
         classifiedInfo = value;
@@ -59,6 +44,12 @@ class _RegisterClothState extends State<RegisterCloth> {
       print("Error classifying image: $error");
     });
 
+    selectedInfo = {
+      'category': null,
+      'subcategory': null,
+      'colors': null,
+      'tags': null
+    };
   }
 
   @override
@@ -124,27 +115,17 @@ class _RegisterClothState extends State<RegisterCloth> {
                 ],
               ),
               const SizedBox(height: 20),
-              PrimaryCategoryTagPicker(
-                selectedPrimaryCategory: null,
-                setSelectedPrimaryCategory: setSelectedPrimaryCategory,
-              ),
-              const Divider(color: Color(0xffF0F0F0)),
-              if (selectedPrimaryCategory != null)
-                Column(
-                  children: [
-                    SubCategoryTagPicker(primaryCategory: selectedPrimaryCategory!, selectedSubCategories: selectedSubCategories,),
-                    const Divider(color: Color(0xffF0F0F0)),
-                  ],
-                ),
-              ColorTagPicker(selectedColors: selectedColors),
-              const Divider(color: Color(0xffF0F0F0)),
-              DetailTagPicker(selectedDetailTags: selectedDetailTags),
+              TagPicker(setSelectedInfo: setSelectedInfo),
               const SizedBox(height: 16),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void setSelectedInfo(Map<String, dynamic> newSelectedInfo) {
+    selectedInfo = newSelectedInfo;
   }
 
   void _onBackButtonPressed() {
@@ -158,13 +139,27 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onSaveButtonPressed() {
-    AlertModal.show(
-      context,
-      message: '의류를 등록하시겠습니까?',
-      onConfirm: () {
-        Navigator.pop(context);
-      },
-    );
+    if (selectedInfo.values.contains(null)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "각 태그 선택은 필수입니다.",
+            style: TextStyle(color: Colors.white),
+          ),
+          duration: Duration(seconds: 1),
+        )
+      );
+    } else {
+      AlertModal.show(
+        context,
+        message: '의류를 등록하시겠습니까?',
+        onConfirm: () {
+          selectedInfo['image'] = _pickedFile;
+          addClothes(selectedInfo);
+          Navigator.pop(context);
+        },
+      );
+    }
   }
 
   void _onAddButtonPressed(BuildContext context) {

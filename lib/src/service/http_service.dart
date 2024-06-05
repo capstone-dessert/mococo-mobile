@@ -60,21 +60,23 @@ Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
     throw Exception('Error classifying image: $e');
   }
 }
-
-// TODO: [002] 의류 등록 - addClothes
+2
 void addClothes(Map<String, dynamic> data) async{
   final url = Uri.parse('$server/api/clothing/add');
 
   var request = http.MultipartRequest('POST', url);
 
-  request.fields['category'] = data['primaryCategory'] as String;
-  request.fields['subcategory'] = data['subCategory'] as String;
+  request.fields['category'] = data['category'];
+  request.fields['subcategory'] = data['subcategory'];
 
   List<String> colors = (data['colors'] as List).map((color) => color.toString()).toList();
   request.fields['colors'] = jsonEncode(colors);
 
-  List<String> tags = (data['detailTags'] as List).map((tag) => tag.toString()).toList();
-  request.fields['tags'] = jsonEncode(tags);
+  if (data['tags'] != null) {
+    List<String> tags =
+        (data['tags'] as List).map((tag) => tag.toString()).toList();
+    request.fields['tags'] = jsonEncode(tags);
+  } 
 
   XFile imageFile = data['image'] as XFile;
   var stream = http.ByteStream(imageFile.openRead());
@@ -85,7 +87,7 @@ void addClothes(Map<String, dynamic> data) async{
 
   try {
     var response = await request.send();
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('Clothes added successfully!');
     } else {
       throw Exception('Failed to add clothes. Status code: ${response.statusCode}');
