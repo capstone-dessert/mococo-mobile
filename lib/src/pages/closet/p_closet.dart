@@ -19,7 +19,7 @@ class Closet extends StatefulWidget {
 
 class _ClosetState extends State<Closet> {
 
-  late ClothesList? clothesList;
+  late ClothesList clothesList;
   bool isLoading = true;
   List<int> selectedClothesIndices = [];
   bool isClothesSelected = false; // 단일 선택 상태
@@ -41,19 +41,19 @@ class _ClosetState extends State<Closet> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: isMultiClothesSelected
-          ? TextTitleAppBar(
-              title: "의류 선택",
-              buttonNum: 1,
-              onBackButtonPressed: _onBackButtonPressed,
-              onDeleteButtonPressed: () {
-                _onDeleteButtonPressed(context);
-              },
-            )
-          : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
+        ? TextTitleAppBar(
+          title: "의류 선택",
+          buttonNum: 1,
+          onBackButtonPressed: _onBackButtonPressed,
+          onDeleteButtonPressed: () {
+            _onDeleteButtonPressed(context);
+          },
+        )
+        : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
       body: Container(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.black12),)
+          ? const Center(child: CircularProgressIndicator(color: Colors.black12))
           : Stack(
           children: <Widget>[
             if (!isMultiClothesSelected)
@@ -118,7 +118,7 @@ class _ClosetState extends State<Closet> {
                   Text(
                     isMultiClothesSelected
                         ? '${selectedClothesIndices.length}개'
-                        : '${clothesList!.list.length}개',
+                        : '${clothesList.list.length}개',
                   ),
                 ],
               ),
@@ -153,7 +153,7 @@ class _ClosetState extends State<Closet> {
                 isMultiClothesSelected: isMultiClothesSelected,
                 onMultiClothesSelected: _onMultiClothesSelected,
                 selectedClothesIndices: selectedClothesIndices,
-                clothesList: clothesList!,
+                clothesList: clothesList,
               ),
             ),
           ],
@@ -163,7 +163,7 @@ class _ClosetState extends State<Closet> {
   }
 
   ClothesList getClothesList() {
-    return clothesList!;
+    return clothesList;
   }
 
   void reloadList() {
