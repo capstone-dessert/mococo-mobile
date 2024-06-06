@@ -150,8 +150,9 @@ class _ClothesDetailState extends State<ClothesDetail> {
       context,
       message: '해당 의류를 삭제하시겠습니까?',
       onConfirm: () {
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const Closet()));
+        deleteClothes([clothes.id]).then((_) {
+          Navigator.pop(context);
+        });
       },
     );
   }

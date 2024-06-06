@@ -96,7 +96,6 @@ Future<void> addClothes(Map<String, dynamic> data) async{
 }
 
 Future<void> editClothes(int id, Map<String, dynamic> data) async{
-  print(data);
   final url = Uri.parse('$server/api/clothing/$id');
 
   var request = http.MultipartRequest('PUT', url);
@@ -122,7 +121,7 @@ Future<void> editClothes(int id, Map<String, dynamic> data) async{
   try {
     var response = await request.send();
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print('Clothes added successfully!');
+      print('Clothes edited successfully!');
     } else {
       throw Exception('Failed to edit clothes. Status code: ${response.statusCode}');
     }
@@ -132,6 +131,21 @@ Future<void> editClothes(int id, Map<String, dynamic> data) async{
 }
 
 // TODO: [006][007] 의류 삭제 - deleteClothes
+Future<void> deleteClothes(List<int> idList) async {
+  for (var id in idList) {
+    try {
+      var response = await http.delete(Uri.parse('$server/api/clothing/$id'));
+      print(response.body);
+      if (response.statusCode ~/ 100 == 2) {
+        print('Clothes($id) deleted successfully!');
+      } else {
+        throw Exception('Failed to delete clothes. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error deleting clothes($id): $e');
+    }
+  }
+}
 
 Future<ClothesList> searchClothes(Map<String, dynamic> selectedInfo) async {
   Map<String, dynamic> data = {};
