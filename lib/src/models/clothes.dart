@@ -1,13 +1,14 @@
+import 'dart:typed_data';
+
 class Clothes {
   final int id;
-  // TODO: to image Type(File / XFile)
-  final String image;
+  final Uint8List image;
   final String primaryCategory;
   final String subCategory;
   final Set colors;
   final Set detailTags;
-  final int wearCount;
-  final String? lastWornDate;
+  // final int wearCount;
+  // final String? lastWornDate;
 
   const Clothes({
     required this.id,
@@ -16,20 +17,20 @@ class Clothes {
     required this.subCategory,
     required this.colors,
     required this.detailTags,
-    required this.wearCount,
-    required this.lastWornDate,
+    // required this.wearCount,
+    // required this.lastWornDate,
   });
 
   factory Clothes.fromJson(Map<String, dynamic> json) {
     return Clothes(
       id: json['id'] as int,
       image: json['image'],
-      primaryCategory: json['primaryCategory'] as String,
-      subCategory: json['subCategory'] as String,
-      colors: json['colors'] as Set,
-      detailTags: json['detailTags'] as Set,
-      wearCount: json['wearCount'] as int,
-      lastWornDate: json['wearCount'] == 0 ? null : json['lastWornDate'],
+      primaryCategory: json['category'] as String,
+      subCategory: json['subcategory'] as String,
+      colors: json['colors'].toSet(),
+      detailTags: json['tags'].toSet(),
+      // wearCount: json['wearCount'] as int,
+      // lastWornDate: json['wearCount'] == 0 ? null : json['lastWornDate'],
     );
   }
 
@@ -38,11 +39,11 @@ class Clothes {
     {
       'id': id,
       'image': image,
-      'primaryCategory': primaryCategory,
-      'subCategory': subCategory,
+      'category': primaryCategory,
+      'subcategory': subCategory,
       'colors': colors,
-      'detailTags': detailTags,
-      'wearCount': wearCount,
-      'lastWornDate': lastWornDate,
+      'tags': detailTags,
+      // 'wearCount': wearCount,
+      // 'lastWornDate': lastWornDate,
     };
 }

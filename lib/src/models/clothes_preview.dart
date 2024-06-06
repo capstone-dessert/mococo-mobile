@@ -1,7 +1,8 @@
+import 'dart:typed_data';
+
 class ClothesPreview {
   final int id;
-  // TODO: to image Type(File / XFile)
-  final String image;
+  final Uint8List image;
 
   const ClothesPreview({
     required this.id,
