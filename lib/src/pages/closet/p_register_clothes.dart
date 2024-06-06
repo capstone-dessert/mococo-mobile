@@ -127,6 +127,25 @@ class _RegisterClothState extends State<RegisterCloth> {
     selectedInfo = newSelectedInfo;
   }
 
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _onBackButtonPressed() {
     AlertModal.show(
       context,
@@ -153,9 +172,12 @@ class _RegisterClothState extends State<RegisterCloth> {
         context,
         message: '의류를 등록하시겠습니까?',
         onConfirm: () {
+          _showLoadingDialog(context);
           selectedInfo['image'] = _pickedFile;
-          addClothes(selectedInfo);
-          Navigator.pop(context);
+          addClothes(selectedInfo).then((Null) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          });
         },
       );
     }

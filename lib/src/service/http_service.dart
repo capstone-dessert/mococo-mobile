@@ -61,7 +61,7 @@ Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
   }
 }
 
-void addClothes(Map<String, dynamic> data) async{
+Future<void> addClothes(Map<String, dynamic> data) async{
   final url = Uri.parse('$server/api/clothing/add');
 
   var request = http.MultipartRequest('POST', url);
