@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -72,10 +73,8 @@ Future<void> addClothes(Map<String, dynamic> data) async{
   List<String> colors = (data['colors'] as List).map((color) => color.toString()).toList();
   request.fields['colors'] = colors.join(',');
 
-  if (data['tags'] != null) {
-    List<String> tags = (data['tags'] as List).map((tag) => tag.toString()).toList();
-    request.fields['tags'] = tags.join(',');
-  }
+  List<String> tags = (data['tags'] as List).map((tag) => tag.toString()).toList();
+  request.fields['tags'] = tags.join(',');
 
   XFile imageFile = data['image'] as XFile;
   var stream = http.ByteStream(imageFile.openRead());
@@ -96,7 +95,42 @@ Future<void> addClothes(Map<String, dynamic> data) async{
   }
 }
 
-// TODO: [004] 의류 정보 수정 - editClothes
+Future<void> editClothes(int id, Map<String, dynamic> data) async{
+  print(data);
+  final url = Uri.parse('$server/api/clothing/$id');
+
+  var request = http.MultipartRequest('PUT', url);
+
+  request.fields['category'] = data['category'];
+  request.fields['subcategory'] = data['subcategory'];
+
+  List<String> colors = (List.from(data['colors'])).map((color) => color.toString()).toList();
+  request.fields['colors'] = colors.join(',');
+
+  List<String> tags = (List.from(data['tags'])).map((tag) => tag.toString()).toList();
+  request.fields['tags'] = tags.join(',');
+
+  final tempDir = Directory.systemTemp;
+  final tempPath = tempDir.path;
+  final filePath = '$tempPath/temp_image.jpg';
+  File(filePath).writeAsBytesSync(data['image']);
+
+  var multipartFile = await http.MultipartFile.fromPath('image', filePath);
+
+  request.files.add(multipartFile);
+
+  try {
+    var response = await request.send();
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print('Clothes added successfully!');
+    } else {
+      throw Exception('Failed to edit clothes. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error editing clothes: $e');
+  }
+}
+
 // TODO: [006][007] 의류 삭제 - deleteClothes
 
 Future<ClothesList> searchClothes(Map<String, dynamic> selectedInfo) async {

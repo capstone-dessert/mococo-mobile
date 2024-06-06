@@ -150,7 +150,6 @@ class SearchClothesState extends State<SearchClothes> {
     showDialog(
       context: context,
       barrierDismissible: false,
-
       builder: (BuildContext context) {
         return const Dialog(
           backgroundColor: Colors.transparent,

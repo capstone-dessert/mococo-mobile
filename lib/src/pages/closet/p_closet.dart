@@ -167,7 +167,7 @@ class _ClosetState extends State<Closet> {
     return clothesList;
   }
 
-  void reloadList() {
+  void reloadData() {
     setState(() {
       isLoading = true;
       fetchClothesAll().then((value) {
@@ -188,7 +188,7 @@ class _ClosetState extends State<Closet> {
   }
 
   Future<void> _onAddButtonPressed(BuildContext context) async {
-    GetImageModal.show(context, reloadList);
+    GetImageModal.show(context, reloadData);
   }
 
   void _onClothesDetail(BuildContext context, int id) {
