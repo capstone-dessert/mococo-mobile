@@ -29,7 +29,7 @@ Future<Clothes> fetchClothes(int id) async {
   final response = await http.get(Uri.parse('$server/api/clothing/$id'));
   final imageResponse = await http.get(Uri.parse('$server/api/clothing/image/$id'));
   if (response.statusCode == 200 && imageResponse.statusCode == 200) {
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
+    Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
     jsonData['image'] = imageResponse.bodyBytes;
     var parsingData = Clothes.fromJson(jsonData);
     return parsingData;
@@ -70,13 +70,12 @@ void addClothes(Map<String, dynamic> data) async{
   request.fields['subcategory'] = data['subcategory'];
 
   List<String> colors = (data['colors'] as List).map((color) => color.toString()).toList();
-  request.fields['colors'] = jsonEncode(colors);
+  request.fields['colors'] = colors.join(',');
 
   if (data['tags'] != null) {
-    List<String> tags =
-        (data['tags'] as List).map((tag) => tag.toString()).toList();
-    request.fields['tags'] = jsonEncode(tags);
-  } 
+    List<String> tags = (data['tags'] as List).map((tag) => tag.toString()).toList();
+    request.fields['tags'] = tags.join(',');
+  }
 
   XFile imageFile = data['image'] as XFile;
   var stream = http.ByteStream(imageFile.openRead());
