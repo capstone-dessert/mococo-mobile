@@ -170,8 +170,10 @@ class _ClosetState extends State<Closet> {
     setState(() {
       isLoading = true;
       fetchClothesAll().then((value) {
-        clothesList = value;
-        isLoading = false;
+        setState(() {
+          clothesList = value;
+          isLoading = false;
+        });
       });
     });
   }
