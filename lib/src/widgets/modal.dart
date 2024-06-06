@@ -13,7 +13,7 @@ class GetImageModal {
           CupertinoActionSheetAction(
             isDefaultAction: true,
             onPressed: () async {
-              final pickedImage = await picker.getImage(source: ImageSource.gallery);
+              final pickedImage = await picker.pickImage(source: ImageSource.gallery);
               if (pickedImage != null) {
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadData: reloadList)));
@@ -23,7 +23,7 @@ class GetImageModal {
           ),
           CupertinoActionSheetAction(
             onPressed: () async {
-              final pickedImage = await picker.getImage(source: ImageSource.camera);
+              final pickedImage = await picker.pickImage(source: ImageSource.camera);
               if (pickedImage != null) {
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadData: reloadList)));

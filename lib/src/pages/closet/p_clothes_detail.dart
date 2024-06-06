@@ -5,7 +5,6 @@ import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
-import 'package:mococo_mobile/src/pages/closet/p_closet.dart';
 
 class ClothesDetail extends StatefulWidget {
   const ClothesDetail({super.key, required this.clothesId});
