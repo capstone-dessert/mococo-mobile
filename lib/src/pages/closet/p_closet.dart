@@ -19,8 +19,8 @@ class Closet extends StatefulWidget {
 
 class _ClosetState extends State<Closet> {
 
-  late Future<ClothesList> clothesListFuture;
   late ClothesList clothesList;
+  bool isLoading = true;
   List<int> selectedClothesIndices = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
@@ -29,150 +29,154 @@ class _ClosetState extends State<Closet> {
   @override
   void initState() {
     super.initState();
-    clothesListFuture = fetchClothesAll();
+    fetchClothesAll().then((value) {
+      setState(() {
+        clothesList = value;
+        isLoading = false;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: isMultiClothesSelected
-          ? TextTitleAppBar(
-              title: "의류 선택",
-              buttonNum: 1,
-              onBackButtonPressed: _onBackButtonPressed,
-              onDeleteButtonPressed: () {
-                _onDeleteButtonPressed(context);
-              },
-            )
-          : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
-      body: FutureBuilder(
-        future: clothesListFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: Colors.black12,));
-          } else if (snapshot.hasError) {
-            return Text('FutureBuilder Error: ${snapshot.error}');
-          } else {
-            clothesList = snapshot.data!;
-            return Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Stack(
-                children: <Widget>[
-                  if (!isMultiClothesSelected)
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4, left: 8),
-                        child: Row(
-                          children: List.generate(queries.length, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Chip(
-                                backgroundColor: const Color(0xffF9F9F9),
-                                label: Text(queries[index]),
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  side: const BorderSide(
-                                    color: Color(0xffCACACA),),
-                                ),
-                                materialTapTargetSize: MaterialTapTargetSize
-                                    .shrinkWrap,
-                              ),
-                            );
-                          }) + [
-                            Padding(
-                              padding: const EdgeInsets.only(),
-                              child: OutlinedButton(
-                                onPressed: () async {
-                                  var result = await Get
-                                      .to(() => const SearchClothes());
-                                  setState(() {
-                                    queries = result['newQueries'];
-                                    clothesList = result['clothesList'];
-                                  });
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: const Color(0xffF9F9F9),
-                                  side: const BorderSide(
-                                    color: Color(0xffF6747E),
-                                    width: 1.5,
-                                  ),
-                                  minimumSize: Size.zero,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 9, horizontal: 15),
-                                  tapTargetSize: MaterialTapTargetSize
-                                      .shrinkWrap,
-                                ),
-                                child: Image.asset(
-                                  IconPath.searchTag, width: 20,),
+        ? TextTitleAppBar(
+          title: "의류 선택",
+          buttonNum: 1,
+          onBackButtonPressed: _onBackButtonPressed,
+          onDeleteButtonPressed: () {
+            _onDeleteButtonPressed(context);
+          },
+        )
+        : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
+      body: Container(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: isLoading
+          ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+          : Stack(
+            children: <Widget>[
+              if (!isMultiClothesSelected)
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4, left: 8),
+                    child: Row(
+                      children: List.generate(queries.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Chip(
+                            backgroundColor: const Color(0xffF9F9F9),
+                            label: Text(queries[index]),
+                            labelStyle: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: const BorderSide(
+                                color: Color(0xffCACACA)
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  Padding(
-                    padding:
-                    EdgeInsets.only(
-                        top: isMultiClothesSelected ? 0 : 58, left: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          isMultiClothesSelected
-                              ? '${selectedClothesIndices.length}개'
-                              : '${clothesList.list.length}개',
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        );
+                      }) + [
+                        Padding(
+                          padding: const EdgeInsets.only(),
+                          child: OutlinedButton(
+                            onPressed: () async {
+                              var result = await Get.to(() => const SearchClothes());
+                              setState(() {
+                                queries = result['newQueries'];
+                                clothesList = result['clothesList'];
+                              });
+                            },
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: const Color(0xffF9F9F9),
+                              side: const BorderSide(
+                                color: Color(0xffF6747E),
+                                width: 1.5,
+                              ),
+                              minimumSize: Size.zero,
+                              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Image.asset(IconPath.searchTag, width: 20,),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: 40,
-                    right: 0,
-                    child: isMultiClothesSelected
-                        ? const SizedBox()
-                        : TextButton(
-                      child: const Text(
-                        '선택',
-                        style: TextStyle(color: Colors.black87),
-                      ),
-                      onPressed: () {
-                        _onMultiClothesSelected();
-                      },
+                ),
+              Padding(
+                padding:
+                EdgeInsets.only(
+                    top: isMultiClothesSelected ? 0 : 58, left: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      isMultiClothesSelected
+                          ? '${selectedClothesIndices.length}개'
+                          : '${clothesList.list.length}개',
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: isMultiClothesSelected ? 24 : 90,
-                        right: 6,
-                        left: 6),
-                    child: ClothesGridView(
-                      state: "detail",
-                      getClothesList: getClothesList,
-                      onClothesDetail: _onClothesDetail,
-                      onLeftLogoAppBar: _onLeftLogoAppBar,
-                      isClothesSelected: isClothesSelected,
-                      onClothesSelected: _onClothesSelected,
-                      isMultiClothesSelected: isMultiClothesSelected,
-                      onMultiClothesSelected: _onMultiClothesSelected,
-                      selectedClothesIndices: selectedClothesIndices,
-                      clothesList: clothesList,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            );
-          }
-        },
-      ),
+              Positioned(
+                top: 40,
+                right: 0,
+                child: isMultiClothesSelected
+                  ? const SizedBox()
+                  : TextButton(
+                    child: const Text(
+                      '선택',
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                    onPressed: () {
+                      _onMultiClothesSelected();
+                    },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: isMultiClothesSelected ? 24 : 90,
+                  right: 6,
+                  left: 6
+                ),
+                child: ClothesGridView(
+                  state: "detail",
+                  getClothesList: getClothesList,
+                  onClothesDetail: _onClothesDetail,
+                  onLeftLogoAppBar: _onLeftLogoAppBar,
+                  isClothesSelected: isClothesSelected,
+                  onClothesSelected: _onClothesSelected,
+                  isMultiClothesSelected: isMultiClothesSelected,
+                  onMultiClothesSelected: _onMultiClothesSelected,
+                  selectedClothesIndices: selectedClothesIndices,
+                  clothesList: clothesList,
+                ),
+              ),
+            ],
+        ),
+      )
     );
   }
 
   ClothesList getClothesList() {
     return clothesList;
+  }
+
+  void reloadData() {
+    setState(() {
+      isLoading = true;
+      fetchClothesAll().then((value) {
+        setState(() {
+          clothesList = value;
+          isLoading = false;
+        });
+      });
+    });
   }
 
   void _onBackButtonPressed() {
@@ -183,8 +187,8 @@ class _ClosetState extends State<Closet> {
     });
   }
 
-  void _onAddButtonPressed(BuildContext context) {
-    GetImageModal.show(context);
+  Future<void> _onAddButtonPressed(BuildContext context) async {
+    GetImageModal.show(context, reloadData);
   }
 
   void _onClothesDetail(BuildContext context, int id) {
@@ -202,9 +206,10 @@ class _ClosetState extends State<Closet> {
         context,
         message: '${selectedClothesIndices.length}개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
-          Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Closet()));
+          deleteClothes(selectedClothesIndices).then((_) {
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const Closet()));
+          });
         },
       );
     }

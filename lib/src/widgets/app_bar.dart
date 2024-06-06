@@ -5,7 +5,7 @@ import 'package:mococo_mobile/src/components/image_data.dart';
 class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
   const LeftLogoAppBar({super.key, required this.onAddButtonPressed});
 
-  final void Function(BuildContext) onAddButtonPressed;
+  final Function(BuildContext) onAddButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,9 @@ class LeftLogoAppBar extends StatelessWidget implements PreferredSizeWidget {
           title: Image.asset(IconPath.logo, width: 140),
           actions: [
             TextButton(
-                onPressed: () => onAddButtonPressed(context),
+                onPressed: () {
+                  onAddButtonPressed(context);
+                },
                 style: TextButton.styleFrom(
                   minimumSize: Size.zero,
                   padding: EdgeInsets.zero,

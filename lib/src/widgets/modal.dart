@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/pages/closet/p_register_clothes.dart';
 
 class GetImageModal {
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, Function reloadList) async {
     final picker = ImagePicker();
     showCupertinoModalPopup<void>(
       context: context,
@@ -13,20 +13,20 @@ class GetImageModal {
           CupertinoActionSheetAction(
             isDefaultAction: true,
             onPressed: () async {
-              final pickedImage = await picker.getImage(source: ImageSource.gallery);
+              final pickedImage = await picker.pickImage(source: ImageSource.gallery);
               if (pickedImage != null) {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path)));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadData: reloadList)));
               }
             },
             child: const Text('갤러리'),
           ),
           CupertinoActionSheetAction(
             onPressed: () async {
-              final pickedImage = await picker.getImage(source: ImageSource.camera);
+              final pickedImage = await picker.pickImage(source: ImageSource.camera);
               if (pickedImage != null) {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path)));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadData: reloadList)));
               }
             },
             child: const Text('카메라'),

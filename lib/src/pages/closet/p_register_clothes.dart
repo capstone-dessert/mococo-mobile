@@ -8,9 +8,14 @@ import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 
 class RegisterCloth extends StatefulWidget {
-  final String imagePath;
+  const RegisterCloth({
+    super.key,
+    required this.imagePath,
+    required this.reloadData
+  });
 
-  const RegisterCloth({super.key, required this.imagePath});
+  final String imagePath;
+  final Function reloadData;
 
   @override
   State<RegisterCloth> createState() => _RegisterClothState();
@@ -131,7 +136,6 @@ class _RegisterClothState extends State<RegisterCloth> {
     showDialog(
       context: context,
       barrierDismissible: false,
-
       builder: (BuildContext context) {
         return const Dialog(
           backgroundColor: Colors.transparent,
@@ -174,9 +178,10 @@ class _RegisterClothState extends State<RegisterCloth> {
         onConfirm: () {
           _showLoadingDialog(context);
           selectedInfo['image'] = _pickedFile;
-          addClothes(selectedInfo).then((Null) {
+          addClothes(selectedInfo).then((_) {
             Navigator.pop(context);
             Navigator.pop(context);
+            widget.reloadData();
           });
         },
       );
@@ -184,7 +189,7 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    GetImageModal.show(context);
+    GetImageModal.show(context, widget.reloadData);
   }
 
   void _imageClear() {

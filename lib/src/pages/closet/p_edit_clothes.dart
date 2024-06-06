@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
 
 class EditClothes extends StatefulWidget {
-  const EditClothes({super.key, required this.context, required this.clothes});
+  const EditClothes({
+    super.key,
+    required this.clothes,
+    required this.reloadData
+  });
 
   final Clothes clothes;
-  final BuildContext context;
+  final Function reloadData;
 
   @override
   State<EditClothes> createState() => _EditClothesState();
@@ -65,6 +70,24 @@ class _EditClothesState extends State<EditClothes> {
     );
   }
 
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void setSelectedInfo(Map<String, dynamic> newSelectedInfo) {
     selectedInfo = newSelectedInfo;
   }
@@ -93,10 +116,15 @@ class _EditClothesState extends State<EditClothes> {
     } else {
       AlertModal.show(
         context,
-        message: '상세 정보를 저장하시겠습니까?',
+        message: '수정된 정보를 저장하시겠습니까?',
         onConfirm: () {
-          // TODO: 의류 정보 수정
-          Navigator.pop(context);
+          _showLoadingDialog(context);
+          selectedInfo['image'] = clothes.image;
+          editClothes(clothes.id, selectedInfo).then((_) {
+            widget.reloadData();
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.pop(context);
+          });
         },
       );
     }
