@@ -8,9 +8,14 @@ import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 
 class RegisterCloth extends StatefulWidget {
-  final String imagePath;
+  const RegisterCloth({
+    super.key,
+    required this.imagePath,
+    required this.reloadList
+  });
 
-  const RegisterCloth({super.key, required this.imagePath});
+  final String imagePath;
+  final Function reloadList;
 
   @override
   State<RegisterCloth> createState() => _RegisterClothState();
@@ -177,6 +182,7 @@ class _RegisterClothState extends State<RegisterCloth> {
           addClothes(selectedInfo).then((Null) {
             Navigator.pop(context);
             Navigator.pop(context);
+            widget.reloadList();
           });
         },
       );
@@ -184,7 +190,7 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    GetImageModal.show(context);
+    GetImageModal.show(context, widget.reloadList);
   }
 
   void _imageClear() {

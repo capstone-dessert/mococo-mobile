@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
@@ -99,17 +100,21 @@ class SearchClothesState extends State<SearchClothes> {
                       ),
                       onPressed: () {
                         setQueries();
-                        var clothesList;
+                        ClothesList clothesList;
                         if (queries == ["전체"]) {
+                          _showLoadingDialog(context);
                           fetchClothesAll().then((value) {
                             clothesList = value;
+                            Navigator.pop(context);
                             Get.back(result: {'newQueries': queries, 'clothesList': clothesList});
                           }).catchError((error) {
                             print("Error fetching clothes list: $error");
                           });
                         } else {
+                          _showLoadingDialog(context);
                           searchClothes(selectedInfo).then((value) {
                             clothesList = value;
+                            Navigator.pop(context);
                             Get.back(result: {'newQueries': queries, 'clothesList': clothesList});
                           }).catchError((error) {
                             print("Error fetching clothes list: $error");
@@ -139,6 +144,25 @@ class SearchClothesState extends State<SearchClothes> {
   void setSelectedInfo(Map<String, dynamic> newSelectedInfo) {
     selectedInfo = newSelectedInfo;
     print(selectedInfo);
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _onBackButtonPressed() {

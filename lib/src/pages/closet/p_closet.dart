@@ -19,7 +19,7 @@ class Closet extends StatefulWidget {
 
 class _ClosetState extends State<Closet> {
 
-  late Future<ClothesList> clothesListFuture;
+  late Future<ClothesList>? clothesListFuture;
   late ClothesList clothesList;
   List<int> selectedClothesIndices = [];
   bool isClothesSelected = false; // 단일 선택 상태
@@ -76,10 +76,10 @@ class _ClosetState extends State<Closet> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                   side: const BorderSide(
-                                    color: Color(0xffCACACA),),
+                                    color: Color(0xffCACACA)
+                                  ),
                                 ),
-                                materialTapTargetSize: MaterialTapTargetSize
-                                    .shrinkWrap,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
                             );
                           }) + [
@@ -87,8 +87,7 @@ class _ClosetState extends State<Closet> {
                               padding: const EdgeInsets.only(),
                               child: OutlinedButton(
                                 onPressed: () async {
-                                  var result = await Get
-                                      .to(() => const SearchClothes());
+                                  var result = await Get.to(() => const SearchClothes());
                                   setState(() {
                                     queries = result['newQueries'];
                                     clothesList = result['clothesList'];
@@ -101,13 +100,10 @@ class _ClosetState extends State<Closet> {
                                     width: 1.5,
                                   ),
                                   minimumSize: Size.zero,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 9, horizontal: 15),
-                                  tapTargetSize: MaterialTapTargetSize
-                                      .shrinkWrap,
+                                  padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 15),
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 ),
-                                child: Image.asset(
-                                  IconPath.searchTag, width: 20,),
+                                child: Image.asset(IconPath.searchTag, width: 20,),
                               ),
                             ),
                           ],
@@ -175,6 +171,13 @@ class _ClosetState extends State<Closet> {
     return clothesList;
   }
 
+  void reloadList() {
+    setState(() {
+      clothesListFuture = null;
+      clothesListFuture = fetchClothesAll();
+    });
+  }
+
   void _onBackButtonPressed() {
     setState(() {
       isClothesSelected = false;
@@ -183,8 +186,8 @@ class _ClosetState extends State<Closet> {
     });
   }
 
-  void _onAddButtonPressed(BuildContext context) {
-    GetImageModal.show(context);
+  Future<void> _onAddButtonPressed(BuildContext context) async {
+    GetImageModal.show(context, reloadList);
   }
 
   void _onClothesDetail(BuildContext context, int id) {
