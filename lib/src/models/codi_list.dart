@@ -14,7 +14,8 @@ class CodiList {
       return CodiList(
         list: (json['list'] as List<dynamic>)
           .map((e) => CodiPreview.fromJson(e as Map<String, dynamic>))
-          .toList());
+          .toList()
+      );
     }
   }
 

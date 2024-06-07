@@ -112,7 +112,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
               CodiPreview codiItem = getCodiPreviewById(_getEventsForDay(selectedDay)[index])!;
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id,)));
                 },
                 child: Column(
                   children: [

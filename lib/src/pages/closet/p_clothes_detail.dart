@@ -124,6 +124,24 @@ class _ClothesDetailState extends State<ClothesDetail> {
     );
   }
 
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void reloadData() {
     setState(() {
       isLoading = true;
@@ -149,7 +167,9 @@ class _ClothesDetailState extends State<ClothesDetail> {
       context,
       message: '해당 의류를 삭제하시겠습니까?',
       onConfirm: () {
+        // _showLoadingDialog(context);
         deleteClothes([clothes.id]).then((_) {
+          // Navigator.of(context, rootNavigator: true).pop();
           Navigator.pop(context);
         });
       },
