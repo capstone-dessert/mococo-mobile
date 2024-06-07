@@ -61,7 +61,8 @@ class _CodiRecommendState extends State<CodiRecommend> {
         myLocation.currentLatitude!,
         myLocation.currentLongitude!,
       );
-      print(gpsToGridData);
+      print(gpsToGridData.x);
+      print(gpsToGridData.y);
 
       Network network = Network(
         'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=500&pageNo=1&base_date=20240606&base_time=0500&nx=${gpsToGridData['x']}&ny=${gpsToGridData['y']}&dataType=JSON',
