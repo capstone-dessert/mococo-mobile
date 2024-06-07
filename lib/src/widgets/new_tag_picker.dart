@@ -33,9 +33,9 @@ class _TagPickerState extends State<TagPicker> {
     selectedInfo = {
       'category': widget.selectedPrimaryCategory,
       'subcategory': widget.selectedSubcategory,
-      'style': widget.selectedStyles,
-      'colors': widget.selectedColors,
-      'tags': widget.selectedDetailTags,
+      'styles': (widget.selectedStyles != null) ? widget.selectedStyles!.toList() : null,
+      'colors': (widget.selectedColors != null) ? widget.selectedColors!.toList() : null,
+      'tags': (widget.selectedDetailTags != null) ? widget.selectedDetailTags!.toList() : null,
     };
   }
 
@@ -46,21 +46,25 @@ class _TagPickerState extends State<TagPicker> {
       child: Column(
         children: [
           NewCategoryTagPicker(
-              setSelectedInfoValue: setSelectedInfoValue,
-              selectedPrimaryCategory: widget.selectedPrimaryCategory,
-              selectedSubcategory: widget.selectedSubcategory),
+            setSelectedInfoValue: setSelectedInfoValue,
+            selectedPrimaryCategory: widget.selectedPrimaryCategory,
+            selectedSubcategory: widget.selectedSubcategory
+          ),
           const Divider(color: Color(0xffF0F0F0)),
           NewStyleTagPicker(
-              setSelectedInfoValue: setSelectedInfoValue,
-              selectedStyles: widget.selectedStyles),
+            setSelectedInfoValue: setSelectedInfoValue,
+            selectedStyles: widget.selectedStyles
+          ),
           const Divider(color: Color(0xffF0F0F0)),
           NewColorTagPicker(
-              setSelectedInfoValue: setSelectedInfoValue,
-              selectedColors: widget.selectedColors),
+            setSelectedInfoValue: setSelectedInfoValue,
+            selectedColors: widget.selectedColors
+          ),
           const Divider(color: Color(0xffF0F0F0)),
           NewDetailTagPicker(
-              setSelectedInfoValue: setSelectedInfoValue,
-              selectedDetailTags: widget.selectedDetailTags),
+            setSelectedInfoValue: setSelectedInfoValue,
+            selectedDetailTags: widget.selectedDetailTags
+          ),
         ],
       ),
     );

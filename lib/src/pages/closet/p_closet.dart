@@ -213,7 +213,11 @@ class _ClosetState extends State<Closet> {
         context,
         message: '${selectedClothesIndices.length}개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
-          deleteClothes(selectedClothesIndices).then((_) {
+          List<int> selectedClothesIds = [];
+          for (var clothesIndices in selectedClothesIndices) {
+            selectedClothesIds.add(clothesList.list[clothesIndices].id);
+          }
+          deleteClothes(selectedClothesIds).then((_) {
             Navigator.pop(context);
             Navigator.push(context, MaterialPageRoute(builder: (context) => const Closet()));
           });

@@ -51,9 +51,9 @@ class _RegisterClothState extends State<RegisterCloth> {
     selectedInfo = {
       'category': null,
       'subcategory': null,
+      'styles': null,
       'colors': null,
       'tags': null,
-      'style': null,
     };
   }
 

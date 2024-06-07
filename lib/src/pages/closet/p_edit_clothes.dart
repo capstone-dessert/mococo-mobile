@@ -31,10 +31,11 @@ class _EditClothesState extends State<EditClothes> {
     selectedInfo = {
       'category': clothes.primaryCategory,
       'subcategory': clothes.subCategory,
-      'colors': clothes.colors,
-      'tags': clothes.detailTags,
-      'styles': clothes.style,
+      'styles': clothes.styles.toList(),
+      'colors': clothes.colors.toList(),
+      'tags': clothes.detailTags.toList(),
     };
+    print(selectedInfo);
   }
 
   @override
@@ -60,7 +61,7 @@ class _EditClothesState extends State<EditClothes> {
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,
-                selectedStyles: Set<String>.from(clothes.style),
+                selectedStyles: Set<String>.from(clothes.styles),
                 selectedColors: Set<String>.from(clothes.colors),
                 selectedDetailTags: Set<String>.from(clothes.detailTags),
               ),

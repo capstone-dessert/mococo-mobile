@@ -68,7 +68,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                           CategoryTag(
                               primaryCategory: clothes.primaryCategory,
                               subCategory: clothes.subCategory),
-                          StyleTags(styleList: clothes.style.toList()),
+                          StyleTags(styleList: clothes.styles.toList()),
                           ColorTags(colorList: clothes.colors.toList()),
                           DetailTags(
                               detailTagList: clothes.detailTags.toList()),

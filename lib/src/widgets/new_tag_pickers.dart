@@ -457,8 +457,7 @@ class _NewStyleTagPickerState extends State<NewStyleTagPicker> {
                   } else {
                     selectedStyleTags.remove(allStyleTags[index]);
                   }
-                  widget.setSelectedInfoValue(
-                      'style', selectedStyleTags.toList());
+                  widget.setSelectedInfoValue('styles', selectedStyleTags.toList());
                 });
               },
             );
