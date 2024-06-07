@@ -49,9 +49,9 @@ class _CodiRecordState extends State<CodiRecord> {
               ),
               const SizedBox(height: 8),
               if (_selectedView[0])
-                Expanded(child: CodiGridView(codiList: codiList, getCodiList: getCodiList)),
+                Expanded(child: CodiGridView(codiList: codiList, getCodiList: getCodiList, reloadCodiListData: reloadCodiListData)),
               if (_selectedView[1])
-                Expanded(child: CodiCalendarView(codiList: codiList, getCodiList: getCodiList)),
+                Expanded(child: CodiCalendarView(codiList: codiList, getCodiList: getCodiList, reloadCodiListData: reloadCodiListData)),
             ],
           ),
         )
@@ -60,6 +60,18 @@ class _CodiRecordState extends State<CodiRecord> {
 
   CodiList getCodiList() {
     return codiList;
+  }
+
+  void reloadCodiListData() {
+    setState(() {
+      isLoading = true;
+      fetchCodiAll().then((value) {
+        setState(() {
+          codiList = value;
+          isLoading = false;
+        });
+      });
+    });
   }
 
   void _onAddButtonPressed(BuildContext context) {

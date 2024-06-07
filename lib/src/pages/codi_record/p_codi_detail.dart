@@ -11,9 +11,15 @@ import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
 
 class CodiDetail extends StatefulWidget {
-  const CodiDetail({super.key, required this.codiId});
+  const CodiDetail({
+    super.key,
+    required this.codiId,
+    required this.reloadCodiListData
+  });
 
   final int codiId;
+
+  final Function reloadCodiListData;
 
   @override
   State<CodiDetail> createState() => _CodiDetailState();
@@ -85,7 +91,7 @@ class _CodiDetailState extends State<CodiDetail> {
                           padding: const EdgeInsets.only(right: 8),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ClothesDetail(clothesId: codi.clothes.list[index].id)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ClothesDetail(clothesId: codi.clothes.list[index].id, previousPage: "CodiDetail", reloadListData: widget.reloadCodiListData)));
                             },
                             child: Image.memory(codi.clothes.list[index].image)
                           ),

@@ -7,12 +7,14 @@ class CodiGridView extends StatefulWidget {
   const CodiGridView({
     super.key,
     required this.codiList,
-    required this.getCodiList
+    required this.getCodiList,
+    required this.reloadCodiListData
   });
 
   final CodiList codiList;
 
   final Function getCodiList;
+  final Function reloadCodiListData;
 
   @override
   State<CodiGridView> createState() => _CodiGridViewState();
@@ -64,7 +66,7 @@ class _CodiGridViewState extends State<CodiGridView> {
               DateTime date = codiItem.date;
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id, reloadCodiListData: widget.reloadCodiListData)));
                 },
                 child: Column(
                   children: [

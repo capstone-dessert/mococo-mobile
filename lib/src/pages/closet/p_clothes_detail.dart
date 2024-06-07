@@ -7,9 +7,17 @@ import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 
 class ClothesDetail extends StatefulWidget {
-  const ClothesDetail({super.key, required this.clothesId});
+  const ClothesDetail({
+    super.key,
+    required this.clothesId,
+    required this.previousPage,
+    required this.reloadListData
+  });
 
   final int clothesId;
+  final String previousPage;
+
+  final Function reloadListData;
 
   @override
   State<ClothesDetail> createState() => _ClothesDetailState();
@@ -142,7 +150,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
     );
   }
 
-  void reloadData() {
+  void reloadClothesData() {
     setState(() {
       isLoading = true;
       fetchClothes(widget.clothesId).then((value) {
@@ -159,7 +167,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
   }
 
   void _onEditButtonPressed(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => EditClothes(clothes: clothes, reloadData: reloadData)));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => EditClothes(clothes: clothes, reloadClothesData: reloadClothesData)));
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
@@ -167,10 +175,14 @@ class _ClothesDetailState extends State<ClothesDetail> {
       context,
       message: '해당 의류를 삭제하시겠습니까?',
       onConfirm: () {
-        // _showLoadingDialog(context);
+        _showLoadingDialog(context);
         deleteClothes([clothes.id]).then((_) {
-          // Navigator.of(context, rootNavigator: true).pop();
+          widget.reloadListData();
+          Navigator.of(context, rootNavigator: true).pop();
           Navigator.pop(context);
+          if (widget.previousPage == "CodiDetail") {
+            Navigator.pop(context);
+          }
         });
       },
     );

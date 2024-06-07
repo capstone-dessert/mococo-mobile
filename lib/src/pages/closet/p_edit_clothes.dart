@@ -9,11 +9,11 @@ class EditClothes extends StatefulWidget {
   const EditClothes({
     super.key,
     required this.clothes,
-    required this.reloadData
+    required this.reloadClothesData
   });
 
   final Clothes clothes;
-  final Function reloadData;
+  final Function reloadClothesData;
 
   @override
   State<EditClothes> createState() => _EditClothesState();
@@ -121,7 +121,7 @@ class _EditClothesState extends State<EditClothes> {
           _showLoadingDialog(context);
           selectedInfo['image'] = clothes.image;
           editClothes(clothes.id, selectedInfo).then((_) {
-            widget.reloadData();
+            widget.reloadClothesData();
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);
           });

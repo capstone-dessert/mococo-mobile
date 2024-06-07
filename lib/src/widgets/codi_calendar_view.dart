@@ -8,12 +8,14 @@ class CodiCalendarView extends StatefulWidget {
   const CodiCalendarView({
     super.key,
     required this.codiList,
-    required this.getCodiList
+    required this.getCodiList,
+    required this.reloadCodiListData
   });
 
   final CodiList codiList;
 
   final Function getCodiList;
+  final Function reloadCodiListData;
 
   @override
   State<CodiCalendarView> createState() => _CodiCalendarViewState();
@@ -112,7 +114,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
               CodiPreview codiItem = getCodiPreviewById(_getEventsForDay(selectedDay)[index])!;
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id, reloadCodiListData: widget.reloadCodiListData)));
                 },
                 child: Column(
                   children: [

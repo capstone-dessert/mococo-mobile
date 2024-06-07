@@ -167,7 +167,7 @@ class _ClosetState extends State<Closet> {
     return clothesList;
   }
 
-  void reloadData() {
+  void reloadClothesListData() {
     setState(() {
       isLoading = true;
       fetchClothesAll().then((value) {
@@ -188,14 +188,14 @@ class _ClosetState extends State<Closet> {
   }
 
   Future<void> _onAddButtonPressed(BuildContext context) async {
-    GetImageModal.show(context, reloadData);
+    GetImageModal.show(context, reloadClothesListData);
   }
 
   void _onClothesDetail(BuildContext context, int id) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothesId: id),
+        builder: (_) => ClothesDetail(clothesId: id, previousPage: "Closet", reloadListData: reloadClothesListData),
       ),
     );
   }

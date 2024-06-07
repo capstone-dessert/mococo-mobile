@@ -11,11 +11,11 @@ class RegisterCloth extends StatefulWidget {
   const RegisterCloth({
     super.key,
     required this.imagePath,
-    required this.reloadData
+    required this.reloadClothesListData
   });
 
   final String imagePath;
-  final Function reloadData;
+  final Function reloadClothesListData;
 
   @override
   State<RegisterCloth> createState() => _RegisterClothState();
@@ -181,7 +181,7 @@ class _RegisterClothState extends State<RegisterCloth> {
           addClothes(selectedInfo).then((_) {
             Navigator.pop(context);
             Navigator.pop(context);
-            widget.reloadData();
+            widget.reloadClothesListData();
           });
         },
       );
@@ -189,7 +189,7 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    GetImageModal.show(context, widget.reloadData);
+    GetImageModal.show(context, widget.reloadClothesListData);
   }
 
   void _imageClear() {
