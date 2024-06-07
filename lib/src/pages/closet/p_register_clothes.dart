@@ -35,16 +35,6 @@ class _RegisterClothState extends State<RegisterCloth> {
       _isDeleteButtonPressed = true;
     }
 
-    classifyImage(_pickedFile!).then((value) {
-      setState(() {
-        classifiedInfo = value;
-        print(classifiedInfo);
-        // TODO: UI에 classifiedInfo 적용
-      });
-    }).catchError((error) {
-      print("Error classifying image: $error");
-    });
-
     selectedInfo = {
       'category': null,
       'subcategory': null,
@@ -52,6 +42,20 @@ class _RegisterClothState extends State<RegisterCloth> {
       'tags': null,
       'style': null,
     };
+
+    classifyImage(_pickedFile!).then((value) {
+      setState(() {
+        classifiedInfo = value;
+        selectedInfo = {
+          'category': classifiedInfo['category'],
+          'colors': classifiedInfo['colors'],
+        };
+        print("이미지 분류 결과: $classifiedInfo");
+        // TODO: UI에 classifiedInfo 적용
+      });
+    }).catchError((error) {
+      print("Error classifying image: $error");
+    });
 
   }
 

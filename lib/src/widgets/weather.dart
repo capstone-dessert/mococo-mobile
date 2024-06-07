@@ -2,10 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 
 class Weather extends StatefulWidget {
-  const Weather({super.key, required this.isSmall, required this.isEditable, this.location});
+  const Weather({
+    Key? key,
+    required this.isSmall,
+    required this.isEditable,
+    this.maxTemperature,
+    this.minTemperature,
+    this.precipitationType,
+    this.skyState,
+    this.location,
+  }) : super(key: key);
 
   final bool isSmall;
   final bool isEditable;
+  final double? maxTemperature;
+  final double? minTemperature;
+  final int? precipitationType;
+  final int? skyState;
   final String? location;
 
   @override
@@ -61,14 +74,14 @@ class _WeatherState extends State<Weather> {
                   )
               )
           ),
-          const Positioned(
+          Positioned(
               left: 90,
               top: 50,
               child: Text.rich(
                   TextSpan(
                       children: [
                         TextSpan(
-                            text: '24℃',
+                            text: '${widget.maxTemperature?.toInt() ?? ''}℃',
                             style: TextStyle(color: Colors.red, fontSize: 17, fontWeight: FontWeight.w500)
                         ),
                         TextSpan(
@@ -76,21 +89,21 @@ class _WeatherState extends State<Weather> {
                             style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500)
                         ),
                         TextSpan(
-                            text: '11℃',
+                            text: '${widget.minTemperature?.toInt() ?? ''}℃',
                             style: TextStyle(color: Colors.blue, fontSize: 17, fontWeight: FontWeight.w500)
                         )
                       ]
                   )
               )
           ),
-          const Positioned(
-              left: 213,
-              top: 49,
-              child: Text(
-                '체감온도 24℃',
-                style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500),
-              )
-          )
+          // const Positioned(
+          //     left: 213,
+          //     top: 49,
+          //     child: Text(
+          //       '체감온도 24℃',
+          //       style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500),
+          //     )
+          // )
         ],
       );
     }

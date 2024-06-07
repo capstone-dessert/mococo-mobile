@@ -17,6 +17,18 @@ class CodiRecommend extends StatefulWidget {
 
 class _CodiRecommendState extends State<CodiRecommend> {
 
+  // 날씨 정보
+  double? maxTemperature;
+  double? minTemperature;
+  int? precipitationType;
+  int? skyState;
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation(); // 현재 위치 받아오기
+  }
+
   List queries = ["전체"];
   double? myLatitude;
   double? myLongitude;
@@ -40,35 +52,57 @@ class _CodiRecommendState extends State<CodiRecommend> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getLocation();
-  // }
 
   void getLocation() async {
     MyLocation myLocation = MyLocation();
     await myLocation.getCurrentLocation();
-    myLatitude = myLocation.currentLatitude;
-    myLongitude = myLocation.currentLongitude;
-    print(myLatitude);
-    print(myLongitude);
+    if (myLocation.currentLatitude != null && myLocation.currentLongitude != null) {
+      WeatherMapXY xy = changelaluMap(myLocation.currentLongitude, myLocation.currentLatitude);
+      print('변환한 X, Y !!!!!!!!!!!!!!!!!!!!: ${xy.x}, ${xy.y}');
 
-    Network network = Network('https://samples.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa797225412429c1c50c122a1');
+      // TODO 변환한 x, y로 값 대체해야 함
+      int x = xy.x;
+      int y = xy.y;
+      Network network = Network('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=500&pageNo=1&base_date=20240606&base_time=0500&nx=55&ny=127&dataType=JSON');
 
-    var weatherData = await network.getJsonData();
-    print(weatherData);
+      // 날씨 정보 추출
+      var weatherData = await network.getJsonData();
+      var weatherItems = weatherData['response']['body']['items']['item'];
+      for (var weatherItem in weatherItems) {
+        String category = weatherItem['category'];
+        dynamic fcstValue = weatherItem['fcstValue'];
+
+        switch (category) {
+          case 'TMX': // 최고기온
+            maxTemperature = double.tryParse(fcstValue.toString());
+            break;
+          case 'TMN': // 최저기온
+            minTemperature = double.tryParse(fcstValue.toString());
+            break;
+          case 'PTY': // 강수형태
+            precipitationType = int.tryParse(fcstValue.toString());
+            break;
+          case 'SKY': // 하늘상태
+            skyState = int.tryParse(fcstValue.toString());
+            break;
+          default:
+            break;
+        }
+      }
+
+      setState(() {
+        // 추출한 날씨 정보 업데이트
+        maxTemperature = maxTemperature;
+        minTemperature = minTemperature;
+        precipitationType = precipitationType;
+        skyState = skyState;
+      });
+    }
+    else {
+    print('현재 위치를 가져올 수 없습니다.');
+    }
+
   }
-
-  // void fetchData() async {
-  //
-  //     var myJson = weatherData['weather'][0]['description'];
-  //     print(myJson);
-  //   } else {
-  //     print(response.statusCode);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +115,14 @@ class _CodiRecommendState extends State<CodiRecommend> {
             const SizedBox(height: 16),
             const Date(isCenter: true, isEditable: true,),
             const SizedBox(height: 16),
-            const Weather(isSmall: false, isEditable: true,),
+            Weather(
+              isSmall: false,
+              isEditable: true,
+              maxTemperature: maxTemperature,
+              minTemperature: minTemperature,
+              precipitationType: precipitationType,
+              skyState: skyState,
+            ),
             const SizedBox(height: 16),
             ScheduleTagPicker(selectedScheduleTag: null, setSelectedScheduleTag: setSelectedScheduleTag),
             const Spacer(),
