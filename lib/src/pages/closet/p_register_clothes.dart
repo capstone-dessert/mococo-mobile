@@ -8,11 +8,8 @@ import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 
 class RegisterCloth extends StatefulWidget {
-  const RegisterCloth({
-    super.key,
-    required this.imagePath,
-    required this.reloadData
-  });
+  const RegisterCloth(
+      {super.key, required this.imagePath, required this.reloadData});
 
   final String imagePath;
   final Function reloadData;
@@ -52,7 +49,8 @@ class _RegisterClothState extends State<RegisterCloth> {
       'category': null,
       'subcategory': null,
       'colors': null,
-      'tags': null
+      'tags': null,
+      'style': null,
     };
   }
 
@@ -75,8 +73,8 @@ class _RegisterClothState extends State<RegisterCloth> {
                 child: _pickedFile != null
                     ? Image.file(File(_pickedFile!.path))
                     : _croppedFile != null
-                    ? Image.file(File(_croppedFile!.path))
-                    : const Text("이미지가 없습니다."),
+                        ? Image.file(File(_croppedFile!.path))
+                        : const Text("이미지가 없습니다."),
               ),
               const SizedBox(height: 20),
               Row(
@@ -162,15 +160,13 @@ class _RegisterClothState extends State<RegisterCloth> {
 
   void _onSaveButtonPressed() {
     if (selectedInfo.values.contains(null)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            "각 태그 선택은 필수입니다.",
-            style: TextStyle(color: Colors.white),
-          ),
-          duration: Duration(seconds: 1),
-        )
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "각 태그 선택은 필수입니다.",
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 1),
+      ));
     } else {
       AlertModal.show(
         context,
@@ -203,7 +199,8 @@ class _RegisterClothState extends State<RegisterCloth> {
     if (_pickedFile != null) {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile!.path,
-        aspectRatio: const CropAspectRatio(ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
+        aspectRatio: const CropAspectRatio(
+            ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
         androidUiSettings: const AndroidUiSettings(
           toolbarTitle: '크롭하기',
           toolbarColor: Colors.redAccent,

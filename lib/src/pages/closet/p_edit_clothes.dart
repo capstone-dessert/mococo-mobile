@@ -6,11 +6,8 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
 
 class EditClothes extends StatefulWidget {
-  const EditClothes({
-    super.key,
-    required this.clothes,
-    required this.reloadData
-  });
+  const EditClothes(
+      {super.key, required this.clothes, required this.reloadData});
 
   final Clothes clothes;
   final Function reloadData;
@@ -20,7 +17,6 @@ class EditClothes extends StatefulWidget {
 }
 
 class _EditClothesState extends State<EditClothes> {
-
   late Clothes clothes;
   late Map<String, dynamic> selectedInfo;
 
@@ -32,7 +28,8 @@ class _EditClothesState extends State<EditClothes> {
       'category': clothes.primaryCategory,
       'subcategory': clothes.subCategory,
       'colors': clothes.colors,
-      'tags': clothes.detailTags
+      'tags': clothes.detailTags,
+      'style': clothes.style,
     };
   }
 
@@ -59,6 +56,7 @@ class _EditClothesState extends State<EditClothes> {
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,
+                selectedStyle: Set<String>.from(clothes.style),
                 selectedColors: Set<String>.from(clothes.colors),
                 selectedDetailTags: Set<String>.from(clothes.detailTags),
               ),
@@ -104,15 +102,13 @@ class _EditClothesState extends State<EditClothes> {
 
   void _onSaveButtonPressed() {
     if (selectedInfo.values.contains(null)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "각 태그 선택은 필수입니다.",
-              style: TextStyle(color: Colors.white),
-            ),
-            duration: Duration(seconds: 1),
-          )
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "각 태그 선택은 필수입니다.",
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 1),
+      ));
     } else {
       AlertModal.show(
         context,
