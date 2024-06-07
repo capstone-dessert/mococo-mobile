@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
+import 'package:mococo_mobile/src/widgets/clothes_tag_picker.dart';
 
 class SearchClothes extends StatefulWidget {
   const SearchClothes({super.key});
@@ -42,7 +42,7 @@ class SearchClothesState extends State<SearchClothes> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TagPicker(setSelectedInfo: setSelectedInfo)
+              ClothesTagPicker(setSelectedInfo: setSelectedInfo)
             ],
           ),
         ),

@@ -3,10 +3,10 @@ import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
+import 'package:mococo_mobile/src/widgets/new_tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
-import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'dart:math';
 
 import '../../service/http_service.dart';
@@ -37,7 +37,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       setState(() {
         clothesList = value;
         isLoading = false;
-        itemCount = clothesList.list!.length;
+        itemCount = clothesList.list.length;
       });
     });
   }
@@ -111,7 +111,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    ScheduleTagPicker(selectedScheduleTag: null, setSelectedScheduleTag: setSelectedScheduleTag),
+                    NewScheduleTagPicker(selectedSchedule: null, setSelectedSchedule: setSelectedScheduleTag),
                   ],
                 ),
               ],
@@ -177,10 +177,10 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         return Positioned(
           left: left,
           top: top,
-          child: _buildClothesImage(clothesList.list![index], index, 150),
+          child: _buildClothesImage(clothesList.list[index], index, 150),
         );
       } else {
-        return SizedBox();
+        return const SizedBox();
       }
     }).toList();
   }

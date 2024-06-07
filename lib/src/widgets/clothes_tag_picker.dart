@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/widgets/new_tag_pickers.dart';
 
-class TagPicker extends StatefulWidget {
-  const TagPicker({
+class ClothesTagPicker extends StatefulWidget {
+  const ClothesTagPicker({
     super.key,
     required this.setSelectedInfo,
     this.selectedPrimaryCategory,
@@ -21,10 +21,10 @@ class TagPicker extends StatefulWidget {
   final Set<String>? selectedDetailTags;
 
   @override
-  State<TagPicker> createState() => _TagPickerState();
+  State<ClothesTagPicker> createState() => _ClothesTagPickerState();
 }
 
-class _TagPickerState extends State<TagPicker> {
+class _ClothesTagPickerState extends State<ClothesTagPicker> {
   late Map<String, dynamic> selectedInfo;
 
   @override

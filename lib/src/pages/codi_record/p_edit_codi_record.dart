@@ -4,10 +4,10 @@ import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
+import 'package:mococo_mobile/src/widgets/new_tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
-import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/jsons.dart';
 import 'dart:math';
 
@@ -107,7 +107,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                ScheduleTagPicker(selectedScheduleTag: selectedScheduleTag, setSelectedScheduleTag: setSelectedScheduleTag),
+                NewScheduleTagPicker(selectedSchedule: selectedScheduleTag, setSelectedSchedule: setSelectedScheduleTag),
               ],
             ),
           ),
@@ -145,7 +145,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         _handleDrag(details, index);
       },
       child: Image.memory(
-        clothesList.list![index].image,
+        clothesList.list[index].image,
         width: imageSize,
       ),
     );
@@ -170,7 +170,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
       return Positioned(
         left: left,
         top: top,
-        child: _buildClothesImage(clothesList.list![index], entry.value, 150),
+        child: _buildClothesImage(clothesList.list[index], entry.value, 150),
       );
     }).toList();
   }

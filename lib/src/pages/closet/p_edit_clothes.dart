@@ -3,7 +3,7 @@ import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
-import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
+import 'package:mococo_mobile/src/widgets/clothes_tag_picker.dart';
 
 class EditClothes extends StatefulWidget {
   const EditClothes({
@@ -57,7 +57,7 @@ class _EditClothesState extends State<EditClothes> {
                 height: 180,
                 child: Image.memory(clothes.image),
               ),
-              TagPicker(
+              ClothesTagPicker(
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,

@@ -3,11 +3,12 @@ import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/data/tag_data.dart';
 
 class NewCategoryTagPicker extends StatefulWidget {
-  const NewCategoryTagPicker(
-      {super.key,
-      required this.setSelectedInfoValue,
-      this.selectedPrimaryCategory,
-      this.selectedSubcategory});
+  const NewCategoryTagPicker({
+    super.key,
+    required this.setSelectedInfoValue,
+    this.selectedPrimaryCategory,
+    this.selectedSubcategory
+  });
 
   final Function setSelectedInfoValue;
 
@@ -97,11 +98,12 @@ class _NewCategoryTagPickerState extends State<NewCategoryTagPicker> {
 }
 
 class NewSubcategoryTagPicker extends StatefulWidget {
-  const NewSubcategoryTagPicker(
-      {super.key,
-      required this.setSelectedInfoValue,
-      required this.primaryCategory,
-      this.selectedSubcategory});
+  const NewSubcategoryTagPicker({
+    super.key,
+    required this.setSelectedInfoValue,
+    required this.primaryCategory,
+    this.selectedSubcategory
+  });
 
   final Function setSelectedInfoValue;
 
@@ -468,3 +470,85 @@ class _NewStyleTagPickerState extends State<NewStyleTagPicker> {
     );
   }
 }
+
+
+class NewScheduleTagPicker extends StatefulWidget {
+  const NewScheduleTagPicker({
+    super.key,
+    required this.setSelectedSchedule,
+    this.selectedSchedule
+  });
+
+  final Function setSelectedSchedule;
+
+  final String? selectedSchedule;
+
+  @override
+  State<NewScheduleTagPicker> createState() => _NewScheduleTagPickerState();
+}
+
+class _NewScheduleTagPickerState extends State<NewScheduleTagPicker> {
+  late List allSchedules;
+  String? selectedSchedule;
+  int? selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    allSchedules = Tag.getScheduleTags();
+    if (widget.selectedSchedule != null) {
+      selectedSchedule = widget.selectedSchedule;
+      selectedIndex = allSchedules.indexOf(selectedSchedule);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SizedBox(height: 8),
+      const Text(
+        "약속 종류",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      const SizedBox(height: 8),
+      Wrap(
+        spacing: 8,
+        children: List.generate(allSchedules.length, (index) {
+          return ChoiceChip(
+            showCheckmark: false,
+            backgroundColor: const Color(0xffF9F9F9),
+            selectedColor: const Color(0xffFFF0F0),
+            label: Text(allSchedules[index]),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: selectedIndex == index
+                ? const Color(0xffF6747E)
+                : Colors.black,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: selectedIndex == index
+                  ? const Color(0xffF6747E)
+                  : const Color(0xffCACACA),
+              ),
+            ),
+            selected: selectedIndex == index,
+            onSelected: (bool selected) {
+              setState(() {
+                selectedIndex = selected ? index : null;
+                selectedSchedule = selected ? allSchedules[index] : null;
+                widget.setSelectedSchedule(selectedSchedule);
+              });
+            },
+          );
+        }),
+      ),
+      const SizedBox(height: 8),
+    ]);
+  }
+}
+
