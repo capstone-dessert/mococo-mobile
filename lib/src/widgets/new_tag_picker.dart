@@ -7,7 +7,7 @@ class TagPicker extends StatefulWidget {
     required this.setSelectedInfo,
     this.selectedPrimaryCategory,
     this.selectedSubcategory,
-    this.selectedStyle,
+    this.selectedStyles,
     this.selectedColors,
     this.selectedDetailTags,
   });
@@ -16,7 +16,7 @@ class TagPicker extends StatefulWidget {
 
   final String? selectedPrimaryCategory;
   final String? selectedSubcategory;
-  final Set<String>? selectedStyle;
+  final Set<String>? selectedStyles;
   final Set<String>? selectedColors;
   final Set<String>? selectedDetailTags;
 
@@ -33,7 +33,7 @@ class _TagPickerState extends State<TagPicker> {
     selectedInfo = {
       'category': widget.selectedPrimaryCategory,
       'subcategory': widget.selectedSubcategory,
-      'style': widget.selectedStyle,
+      'style': widget.selectedStyles,
       'colors': widget.selectedColors,
       'tags': widget.selectedDetailTags,
     };
@@ -52,7 +52,7 @@ class _TagPickerState extends State<TagPicker> {
           const Divider(color: Color(0xffF0F0F0)),
           NewStyleTagPicker(
               setSelectedInfoValue: setSelectedInfoValue,
-              selectedStyle: widget.selectedStyle),
+              selectedStyles: widget.selectedStyles),
           const Divider(color: Color(0xffF0F0F0)),
           NewColorTagPicker(
               setSelectedInfoValue: setSelectedInfoValue,

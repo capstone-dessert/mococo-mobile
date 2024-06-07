@@ -168,6 +168,7 @@ class _RegisterClothState extends State<RegisterCloth> {
         duration: Duration(seconds: 1),
       ));
     } else {
+      print("의류 속성: $selectedInfo");
       AlertModal.show(
         context,
         message: '의류를 등록하시겠습니까?',

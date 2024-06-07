@@ -386,30 +386,30 @@ class NewStyleTagPicker extends StatefulWidget {
   const NewStyleTagPicker({
     super.key,
     required this.setSelectedInfoValue,
-    this.selectedStyle,
+    this.selectedStyles,
   });
 
   final Function setSelectedInfoValue;
 
-  final Set<String>? selectedStyle;
+  final Set<String>? selectedStyles;
 
   @override
   State<NewStyleTagPicker> createState() => _NewStyleTagPickerState();
 }
 
 class _NewStyleTagPickerState extends State<NewStyleTagPicker> {
-  late List allStyles;
-  Set<String>? selectedStyle;
+  late List allStyleTags;
+  late Set<String> selectedStyleTags;
   int? selectedIndex;
 
   @override
   void initState() {
     super.initState();
-    allStyles = Tag.getStyles();
-    if (widget.selectedStyle != null) {
-      selectedStyle = widget.selectedStyle!;
+    allStyleTags = Tag.getStyleTags();
+    if (widget.selectedStyles != null) {
+      selectedStyleTags = widget.selectedStyles!;
     } else {
-      selectedStyle = {};
+      selectedStyleTags = {};
     }
   }
 
@@ -429,39 +429,36 @@ class _NewStyleTagPickerState extends State<NewStyleTagPicker> {
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children: List.generate(allStyles.length, (index) {
+          children: List.generate(allStyleTags.length, (index) {
             return FilterChip(
               showCheckmark: false,
               backgroundColor: const Color(0xffF9F9F9),
               selectedColor: const Color(0xffFFF0F0),
-              label: Text(allStyles[index]),
+              label: Text(allStyleTags[index]),
               labelStyle: TextStyle(
                 fontWeight: FontWeight.w700,
-                color: selectedIndex == index
+                color: selectedStyleTags.contains(allStyleTags[index])
                     ? const Color(0xffF6747E)
                     : Colors.black,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(30.0),
                 side: BorderSide(
-                  color: selectedIndex == index
+                  color: selectedStyleTags.contains(allStyleTags[index])
                       ? const Color(0xffF6747E)
                       : const Color(0xffCACACA),
                 ),
               ),
-              // selected: selectedIndex == index,
-              selected: selectedStyle!.contains(allStyles[index][0]),
+              selected: selectedStyleTags.contains(allStyleTags[index]),
               onSelected: (bool selected) {
                 setState(() {
-                  // selectedIndex = selected ? index : null;
-                  // selectedStyle = selected ? allStyles[index] : null;
-                  // widget.setSelectedInfoValue('style', selectedStyle);
                   if (selected) {
-                    selectedStyle?.add(allStyles[index][0]);
+                    selectedStyleTags.add(allStyleTags[index]);
                   } else {
-                    selectedStyle?.remove(allStyles[index][0]);
+                    selectedStyleTags.remove(allStyleTags[index]);
                   }
-                  widget.setSelectedInfoValue('style', selectedStyle);
+                  widget.setSelectedInfoValue(
+                      'style', selectedStyleTags.toList());
                 });
               },
             );

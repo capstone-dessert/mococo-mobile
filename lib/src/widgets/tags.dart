@@ -3,6 +3,7 @@ import 'package:mococo_mobile/src/data/category.dart';
 import 'package:mococo_mobile/src/data/color.dart';
 
 import '../data/style.dart';
+import '../data/tag_data.dart';
 
 class CategoryTag extends StatefulWidget {
   const CategoryTag(
@@ -220,8 +221,9 @@ class ScheduleTags extends StatelessWidget {
   }
 }
 
+
 class StyleTags extends StatefulWidget {
-  const StyleTags({super.key, required this.styleList});
+  const StyleTags({Key? key, required this.styleList}) : super(key: key);
 
   final List styleList;
 
@@ -230,10 +232,10 @@ class StyleTags extends StatefulWidget {
 }
 
 class _StyleTagsState extends State<StyleTags> {
-  List styles = StyleList.getStyles();
-
   @override
   Widget build(BuildContext context) {
+    List styles = Tag.getStyleTags();
+
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -246,38 +248,29 @@ class _StyleTagsState extends State<StyleTags> {
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
-            children: [
-              for (var styleData in styles)
-                if (widget.styleList.contains(styleData[0]))
-                  Chip(
-                    backgroundColor: const Color(0xffF9F9F9),
-                    // avatar: styleData[1] == Colors.white
-                    //     ? CircleAvatar(
-                    //   radius: 30,
-                    //   backgroundColor: const Color(0xffD9D9D9),
-                    //   child: CircleAvatar(
-                    //     radius: 9,
-                    //     backgroundColor: colorData[1],
-                    //   ),
-                    // )
-                    //     : CircleAvatar(
-                    //   radius: 30,
-                    //   backgroundColor: colorData[1],
-                    // ),
-                    label: Text(styleData[0]),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      side: const BorderSide(color: Color(0xffCACACA)),
+            children: List.generate(
+              widget.styleList.length,
+                  (index) {
+                return Chip(
+                  backgroundColor: const Color(0xffF9F9F9),
+                  label: Text(widget.styleList[index]),
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: const BorderSide(
+                      color: Color(0xffCACACA),
                     ),
                   ),
-            ],
-          )
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
+
