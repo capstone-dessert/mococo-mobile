@@ -51,7 +51,7 @@ class _CodiRecordState extends State<CodiRecord> {
               if (_selectedView[0])
                 Expanded(child: CodiGridView(codiList: codiList, getCodiList: getCodiList)),
               if (_selectedView[1])
-                const Expanded(child: CodiCalendarView()),
+                Expanded(child: CodiCalendarView(codiList: codiList, getCodiList: getCodiList)),
             ],
           ),
         )

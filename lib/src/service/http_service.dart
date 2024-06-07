@@ -181,7 +181,6 @@ Future<ClothesList> searchClothes(Map<String, dynamic> selectedInfo) async {
   }
 }
 
-// TODO: [011] 코디 기록 전체 조회 - fetchCodiAll
 Future<CodiList> fetchCodiAll() async {
   final response = await http.get(Uri.parse('$server/api/outfit/all'));
   if (response.statusCode == 200) {
@@ -197,7 +196,6 @@ Future<CodiList> fetchCodiAll() async {
   }
 }
 
-// TODO: [012] 코디 기록 날짜별 조회 - ?
 // TODO: [013] 코디 기록 - addCodi
 // TODO: [014] 코디 기록 상세 조회 - fetchCodi
 // TODO: [015] 코디 기록 삭제 - deleteCodi

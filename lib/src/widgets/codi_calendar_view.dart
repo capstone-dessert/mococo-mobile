@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/models/codi.dart';
+import 'package:mococo_mobile/src/models/codi_list.dart';
+import 'package:mococo_mobile/src/models/codi_preview.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_detail.dart';
-import 'package:mococo_mobile/src/jsons.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CodiCalendarView extends StatefulWidget {
-  const CodiCalendarView({super.key});
+  const CodiCalendarView({
+    super.key,
+    required this.codiList,
+    required this.getCodiList
+  });
+
+  final CodiList codiList;
+
+  final Function getCodiList;
 
   @override
   State<CodiCalendarView> createState() => _CodiCalendarViewState();
@@ -15,7 +23,8 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
 
   late DateTime selectedDay;
   late DateTime focusedDay;
-  static late Map<DateTime, List<int>> events;
+  late CodiList codiList;
+  late Map<DateTime, List<int>> events;
 
   @override
   void initState() {
@@ -23,7 +32,15 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
     var today = DateTime.now();
     selectedDay = DateTime(today.year, today.month, today.day);
     focusedDay = DateTime.now();
-    events = getCodiEvents();
+    codiList = widget.codiList;
+    events = getCodiEvents(codiList);
+  }
+
+  @override
+  void didUpdateWidget(covariant CodiCalendarView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    codiList = widget.getCodiList();
+    events = getCodiEvents(codiList);
   }
 
   @override
@@ -92,7 +109,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
               crossAxisSpacing: 8,
             ),
             itemBuilder: (context, index) {
-              Codi codiItem = Codi.fromJson(getCodiJsonById(_getEventsForDay(selectedDay)[index])!);
+              CodiPreview codiItem = getCodiPreviewById(_getEventsForDay(selectedDay)[index])!;
               return GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
@@ -112,7 +129,32 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
     );
   }
 
+  Map<DateTime, List<int>> getCodiEvents(CodiList codiList) {
+    Map<DateTime, List<int>> events = {};
+
+    for (var item in codiList.list) {
+      DateTime date = item.date;
+      int id = item.id;
+
+      if (!events.containsKey(date)) {
+        events[date] = [id];
+      } else {
+        events[date]!.add(id);
+      }
+    }
+    return events;
+  }
+
   List<int> _getEventsForDay(DateTime day) {
     return events[DateTime(day.year, day.month, day.day)] ?? [];
+  }
+
+  CodiPreview? getCodiPreviewById(int id) {
+    for (var item in codiList.list) {
+      if (item.id == id) {
+        return item;
+      }
+    }
+    return null;
   }
 }
