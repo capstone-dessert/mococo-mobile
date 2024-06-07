@@ -144,17 +144,24 @@ class _ClosetState extends State<Closet> {
                   right: 6,
                   left: 6
                 ),
-                child: ClothesGridView(
-                  state: "detail",
-                  getClothesList: getClothesList,
-                  onClothesDetail: _onClothesDetail,
-                  onLeftLogoAppBar: _onLeftLogoAppBar,
-                  isClothesSelected: isClothesSelected,
-                  onClothesSelected: _onClothesSelected,
-                  isMultiClothesSelected: isMultiClothesSelected,
-                  onMultiClothesSelected: _onMultiClothesSelected,
-                  selectedClothesIndices: selectedClothesIndices,
-                  clothesList: clothesList,
+                child: RefreshIndicator(
+                  backgroundColor: Colors.white,
+                  color: Colors.black26,
+                  onRefresh: () async {
+                    reloadClothesListData();
+                  },
+                  child: ClothesGridView(
+                    state: "detail",
+                    getClothesList: getClothesList,
+                    onClothesDetail: _onClothesDetail,
+                    onLeftLogoAppBar: _onLeftLogoAppBar,
+                    isClothesSelected: isClothesSelected,
+                    onClothesSelected: _onClothesSelected,
+                    isMultiClothesSelected: isMultiClothesSelected,
+                    onMultiClothesSelected: _onMultiClothesSelected,
+                    selectedClothesIndices: selectedClothesIndices,
+                    clothesList: clothesList,
+                  ),
                 ),
               ),
             ],
@@ -167,7 +174,7 @@ class _ClosetState extends State<Closet> {
     return clothesList;
   }
 
-  void reloadData() {
+  void reloadClothesListData() {
     setState(() {
       isLoading = true;
       fetchClothesAll().then((value) {
@@ -188,14 +195,14 @@ class _ClosetState extends State<Closet> {
   }
 
   Future<void> _onAddButtonPressed(BuildContext context) async {
-    GetImageModal.show(context, reloadData);
+    GetImageModal.show(context, reloadClothesListData);
   }
 
   void _onClothesDetail(BuildContext context, int id) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ClothesDetail(clothesId: id),
+        builder: (_) => ClothesDetail(clothesId: id, previousPage: "Closet", reloadListData: reloadClothesListData),
       ),
     );
   }
@@ -206,7 +213,11 @@ class _ClosetState extends State<Closet> {
         context,
         message: '${selectedClothesIndices.length}개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
-          deleteClothes(selectedClothesIndices).then((_) {
+          List<int> selectedClothesIds = [];
+          for (var clothesIndices in selectedClothesIndices) {
+            selectedClothesIds.add(clothesList.list[clothesIndices].id);
+          }
+          deleteClothes(selectedClothesIds).then((_) {
             Navigator.pop(context);
             Navigator.push(context, MaterialPageRoute(builder: (context) => const Closet()));
           });

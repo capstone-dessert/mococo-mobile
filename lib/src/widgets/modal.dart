@@ -16,7 +16,7 @@ class GetImageModal {
               final pickedImage = await picker.pickImage(source: ImageSource.gallery);
               if (pickedImage != null) {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadData: reloadList)));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadClothesListData: reloadList)));
               }
             },
             child: const Text('갤러리'),
@@ -26,7 +26,7 @@ class GetImageModal {
               final pickedImage = await picker.pickImage(source: ImageSource.camera);
               if (pickedImage != null) {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadData: reloadList)));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterCloth(imagePath: pickedImage.path, reloadClothesListData: reloadList)));
               }
             },
             child: const Text('카메라'),

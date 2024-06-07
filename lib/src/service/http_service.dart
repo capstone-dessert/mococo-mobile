@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
+import 'package:mococo_mobile/src/models/codi.dart';
+import 'package:mococo_mobile/src/models/codi_list.dart';
 
 String server = dotenv.get('SERVER');
 
@@ -32,6 +35,7 @@ Future<Clothes> fetchClothes(int id) async {
   if (response.statusCode == 200 && imageResponse.statusCode == 200) {
     Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
     jsonData['image'] = imageResponse.bodyBytes;
+    print(jsonData);
     var parsingData = Clothes.fromJson(jsonData);
     return parsingData;
   } else {
@@ -50,12 +54,12 @@ Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
   request.files.add(multipartFile);
 
   try {
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      var responseBody = await response.stream.bytesToString();
+    var streamedResponse = await request.send();
+    if (streamedResponse.statusCode == 200) {
+      var responseBody = await streamedResponse.stream.bytesToString();
       return jsonDecode(responseBody);
     } else {
-      throw Exception('Failed to classify image. Status code: ${response.statusCode}');
+      throw Exception('Failed to classify image. Status code: ${streamedResponse.statusCode}');
     }
   } catch (e) {
     throw Exception('Error classifying image: $e');
@@ -73,6 +77,9 @@ Future<void> addClothes(Map<String, dynamic> data) async{
   List<String> colors = (data['colors'] as List).map((color) => color.toString()).toList();
   request.fields['colors'] = colors.join(',');
 
+  List<String> styles = (data['styles'] as List).map((style) => style.toString()).toList();
+  request.fields['styles'] = styles.join(',');
+
   List<String> tags = (data['tags'] as List).map((tag) => tag.toString()).toList();
   request.fields['tags'] = tags.join(',');
 
@@ -84,11 +91,12 @@ Future<void> addClothes(Map<String, dynamic> data) async{
   request.files.add(multipartFile);
 
   try {
-    var response = await request.send();
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    var streamedResponse = await request.send();
+    streamedResponse.printInfo();
+    if (streamedResponse.statusCode == 200 || streamedResponse.statusCode == 201) {
       print('Clothes added successfully!');
     } else {
-      throw Exception('Failed to add clothes. Status code: ${response.statusCode}');
+      throw Exception('Failed to add clothes. Status code: ${streamedResponse.statusCode}');
     }
   } catch (e) {
     throw Exception('Error adding clothes: $e');
@@ -96,6 +104,7 @@ Future<void> addClothes(Map<String, dynamic> data) async{
 }
 
 Future<void> editClothes(int id, Map<String, dynamic> data) async{
+  print(data);
   final url = Uri.parse('$server/api/clothing/$id');
 
   var request = http.MultipartRequest('PUT', url);
@@ -103,10 +112,13 @@ Future<void> editClothes(int id, Map<String, dynamic> data) async{
   request.fields['category'] = data['category'];
   request.fields['subcategory'] = data['subcategory'];
 
-  List<String> colors = (List.from(data['colors'])).map((color) => color.toString()).toList();
+  List<String> styles = (data['styles'] as List).map((style) => style.toString()).toList();
+  request.fields['styles'] = styles.join(',');
+
+  List<String> colors = (data['colors'] as List).map((color) => color.toString()).toList();
   request.fields['colors'] = colors.join(',');
 
-  List<String> tags = (List.from(data['tags'])).map((tag) => tag.toString()).toList();
+  List<String> tags = (data['tags'] as List).map((tag) => tag.toString()).toList();
   request.fields['tags'] = tags.join(',');
 
   final tempDir = Directory.systemTemp;
@@ -119,18 +131,19 @@ Future<void> editClothes(int id, Map<String, dynamic> data) async{
   request.files.add(multipartFile);
 
   try {
-    var response = await request.send();
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    var streamedResponse = await request.send();
+    if (streamedResponse.statusCode == 200 || streamedResponse.statusCode == 201) {
       print('Clothes edited successfully!');
     } else {
-      throw Exception('Failed to edit clothes. Status code: ${response.statusCode}');
+      var response = await http.Response.fromStream(streamedResponse);
+      print(response.body);
+      throw Exception('Failed to edit clothes. Status code: ${streamedResponse.statusCode}');
     }
   } catch (e) {
     throw Exception('Error editing clothes: $e');
   }
 }
 
-// TODO: [006][007] 의류 삭제 - deleteClothes
 Future<void> deleteClothes(List<int> idList) async {
   for (var id in idList) {
     try {
@@ -179,8 +192,40 @@ Future<ClothesList> searchClothes(Map<String, dynamic> selectedInfo) async {
   }
 }
 
-// TODO: [011] 코디 기록 전체 조회 - fetchAllCodi
-// TODO: [012] 코디 기록 날짜별 조회 - ?
-// TODO: [013] 코디 기록 - addCodi
+Future<CodiList> fetchCodiAll() async {
+  final response = await http.get(Uri.parse('$server/api/outfit/all'));
+  if (response.statusCode == 200) {
+    Map<String, dynamic> jsonData = {};
+    jsonData['list'] = jsonDecode(response.body);
+    for (int i = 0; i < jsonData['list'].length; i++) {
+      jsonData['list'][i]['image'] = "assets/images/tmp.png";
+    }
+    var parsingData = CodiList.fromJson(jsonData);
+    return parsingData;
+  } else {
+    throw Exception('Failed to load all codis');
+  }
+}
+
 // TODO: [014] 코디 기록 상세 조회 - fetchCodi
+Future<Codi> fetchCodi(int id) async {
+  final response = await http.get(Uri.parse('$server/api/outfit/$id'));
+  if (response.statusCode == 200) {
+    Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
+
+    jsonData['image'] = "assets/images/tmp.png";
+    print(jsonData["clothingItems"].length);
+    for (int i = 0; i < jsonData["clothingItems"].length; i++) {
+      var imageResponse = await http.get(Uri.parse('$server/api/clothing/image/$id'));
+      jsonData["clothingItems"][i]['image'] = imageResponse.bodyBytes;
+    }
+
+    var parsingData = Codi.fromJson(jsonData);
+    return parsingData;
+  } else {
+    throw Exception('Failed to load codi');
+  }
+}
+
+// TODO: [013] 코디 기록 - addCodi
 // TODO: [015] 코디 기록 삭제 - deleteCodi

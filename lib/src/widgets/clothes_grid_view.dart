@@ -34,23 +34,21 @@ class ClothesGridView extends StatefulWidget {
 }
 
 class ClothesGridViewState extends State<ClothesGridView> {
+
   int? longPressedIndex;
   String? state;
   late ClothesList clothesList;
-  int? itemCount;
 
   @override
   void initState() {
     super.initState();
     clothesList = widget.clothesList;
-    itemCount = clothesList.list.length;
   }
 
   @override
   void didUpdateWidget(covariant ClothesGridView oldWidget) {
     super.didUpdateWidget(oldWidget);
     clothesList = widget.getClothesList();
-    itemCount = clothesList.list.length;
   }
 
   @override
@@ -75,13 +73,13 @@ class ClothesGridViewState extends State<ClothesGridView> {
             else if (!widget.isMultiClothesSelected! && widget.state == "codi") {
               widget.onClothesSelected?.call();
               setState(() {
-                _toggleSelectedIndex(index);
+                _toggleSelectedId(index);
               });
             }
             // 다중 선택일 때 체크박스 변경
             else {
               widget.onMultiClothesSelected?.call();
-              _toggleSelectedIndex(index);
+              _toggleSelectedId(index);
             }
           },
           onLongPress: () {
@@ -89,7 +87,7 @@ class ClothesGridViewState extends State<ClothesGridView> {
               setState(() {
                 widget.onMultiClothesSelected?.call();
                 longPressedIndex = index;
-                _toggleSelectedIndex(index);
+                _toggleSelectedId(index);
               });
             }
           },
@@ -118,7 +116,7 @@ class ClothesGridViewState extends State<ClothesGridView> {
     widget.onClothesDetail?.call(context, id);
   }
 
-  void _toggleSelectedIndex(int index) {
+  void _toggleSelectedId(int index) {
     if (widget.selectedClothesIndices?.contains(index) == true) {
       widget.selectedClothesIndices?.remove(index);
     } else {

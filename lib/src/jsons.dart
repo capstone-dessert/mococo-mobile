@@ -29,38 +29,3 @@ final Map<String, dynamic> codiJson = {
     {"id": 10, "image": "assets/images/tmp.png", "date": "2024-05-01", "location": "전주시", "schedules": "데이트", "clothes": {{"id": 1, "image": "assets/images/topSample2.png"}, {"id": 2, "image": "assets/images/topSample.png"}}},
   ]
 };
-
-Map<String, dynamic>? getClothesJsonById(int id) {
-  for (var item in clothesJson["list"]) {
-    if (item["id"] == id) {
-      return item;
-    }
-  }
-  return null;
-}
-
-Map<String, dynamic>? getCodiJsonById(int id) {
-  for (var item in codiJson["list"]) {
-    if (item["id"] == id) {
-      return item;
-    }
-  }
-  return null;
-}
-
-
-Map<DateTime, List<int>> getCodiEvents() {
-  Map<DateTime, List<int>> events = {};
-
-  for (var item in codiJson["list"]) {
-    DateTime date = DateTime.parse(item['date']);
-    int id = item['id'];
-
-    if (!events.containsKey(date)) {
-      events[date] = [id];
-    } else {
-      events[date]!.add(id);
-    }
-  }
-  return events;
-}

@@ -3,20 +3,24 @@ import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
-import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
+import 'package:mococo_mobile/src/widgets/clothes_tag_picker.dart';
 
 class EditClothes extends StatefulWidget {
-  const EditClothes(
-      {super.key, required this.clothes, required this.reloadData});
+  const EditClothes({
+    super.key,
+    required this.clothes,
+    required this.reloadClothesData
+  });
 
   final Clothes clothes;
-  final Function reloadData;
+  final Function reloadClothesData;
 
   @override
   State<EditClothes> createState() => _EditClothesState();
 }
 
 class _EditClothesState extends State<EditClothes> {
+
   late Clothes clothes;
   late Map<String, dynamic> selectedInfo;
 
@@ -27,10 +31,11 @@ class _EditClothesState extends State<EditClothes> {
     selectedInfo = {
       'category': clothes.primaryCategory,
       'subcategory': clothes.subCategory,
-      'colors': clothes.colors,
-      'tags': clothes.detailTags,
-      'styles': clothes.style,
+      'styles': clothes.styles.toList(),
+      'colors': clothes.colors.toList(),
+      'tags': clothes.detailTags.toList(),
     };
+    print(selectedInfo);
   }
 
   @override
@@ -52,11 +57,11 @@ class _EditClothesState extends State<EditClothes> {
                 height: 180,
                 child: Image.memory(clothes.image),
               ),
-              TagPicker(
+              ClothesTagPicker(
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,
-                selectedStyles: Set<String>.from(clothes.style),
+                selectedStyles: Set<String>.from(clothes.styles),
                 selectedColors: Set<String>.from(clothes.colors),
                 selectedDetailTags: Set<String>.from(clothes.detailTags),
               ),
@@ -102,13 +107,15 @@ class _EditClothesState extends State<EditClothes> {
 
   void _onSaveButtonPressed() {
     if (selectedInfo.values.contains(null)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          "각 태그 선택은 필수입니다.",
-          style: TextStyle(color: Colors.white),
-        ),
-        duration: Duration(seconds: 1),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "각 태그 선택은 필수입니다.",
+            style: TextStyle(color: Colors.white),
+          ),
+          duration: Duration(seconds: 1),
+        )
+      );
     } else {
       AlertModal.show(
         context,
@@ -117,7 +124,7 @@ class _EditClothesState extends State<EditClothes> {
           _showLoadingDialog(context);
           selectedInfo['image'] = clothes.image;
           editClothes(clothes.id, selectedInfo).then((_) {
-            widget.reloadData();
+            widget.reloadClothesData();
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);
           });

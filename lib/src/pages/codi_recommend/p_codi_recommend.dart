@@ -20,7 +20,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
   List queries = ["전체"];
   double? myLatitude;
   double? myLongitude;
-  String? selectedScheduleTag;
+  String? selectedSchedule;
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
 
@@ -30,14 +30,8 @@ class _CodiRecommendState extends State<CodiRecommend> {
     });
   }
 
-  void setSelectedScheduleTag(selectedScheduleTag) {
-    setState(() {
-      if (selectedScheduleTag == "null") {
-        this.selectedScheduleTag = null;
-      } else {
-        this.selectedScheduleTag = selectedScheduleTag;
-      }
-    });
+  void setSelectedScheduleTag(schedule) {
+    selectedSchedule = schedule;
   }
 
   // @override
@@ -83,7 +77,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
             const SizedBox(height: 16),
             const Weather(isSmall: false, isEditable: true,),
             const SizedBox(height: 16),
-            ScheduleTagPicker(selectedScheduleTag: null, setSelectedScheduleTag: setSelectedScheduleTag),
+            NewScheduleTagPicker(selectedSchedule: null, setSelectedSchedule: setSelectedScheduleTag),
             const Spacer(),
             // 추천 버튼
             Padding(
@@ -96,7 +90,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CodiRecommendResult(scheduleTag: selectedScheduleTag),
+                        builder: (context) => CodiRecommendResult(scheduleTag: selectedSchedule),
                       ),
                     );
                   },

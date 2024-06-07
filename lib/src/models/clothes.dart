@@ -5,7 +5,7 @@ class Clothes {
   final Uint8List image;
   final String primaryCategory;
   final String subCategory;
-  final Set style;
+  final Set styles;
   final Set colors;
   final Set detailTags;
   // final int wearCount;
@@ -18,7 +18,7 @@ class Clothes {
     required this.subCategory,
     required this.colors,
     required this.detailTags,
-    required this.style,
+    required this.styles,
     // required this.wearCount,
     // required this.lastWornDate,
   });
@@ -29,7 +29,7 @@ class Clothes {
       image: json['image'],
       primaryCategory: json['category'] as String,
       subCategory: json['subcategory'] as String,
-      style: json['style'].toSet(),
+      styles: json['styles'].toSet(),
       colors: json['colors'].toSet(),
       detailTags: json['tags'].toSet(),
       // wearCount: json['wearCount'] as int,
@@ -42,7 +42,7 @@ class Clothes {
         'image': image,
         'category': primaryCategory,
         'subcategory': subCategory,
-        'style': style,
+        'styles': styles,
         'colors': colors,
         'tags': detailTags,
         // 'wearCount': wearCount,
