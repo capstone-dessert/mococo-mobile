@@ -51,5 +51,11 @@ class Tag {
   static List getDetailTags() {
     return detailTags;
   }
+
+  static List scheduleTags = ["간단 외출", "등교", "발표", "데이트", "출근", "면접", "운동", "파티", "결혼식"];
+
+  static List getScheduleTags() {
+    return scheduleTags;
+  }
 }
 
