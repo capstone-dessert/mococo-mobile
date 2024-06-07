@@ -38,7 +38,6 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         clothesList = value;
         isLoading = false;
         itemCount = clothesList.list!.length;
-        // print(clothesList.list.length); //3
       });
     });
   }
@@ -136,7 +135,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
 
   void _onSaveButtonPressed() {
     // TODO: 저장 버튼 처리
-    // print(selectedClothesIndices);
+    print(selectedClothesIndices);
     AlertModal.show(
       context,
       message: '코디를 기록하시겠습니까?',

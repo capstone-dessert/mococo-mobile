@@ -27,7 +27,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
   late ClothesList clothesList;
   bool isLoading = true;
-  late double _sheetPosition;
+  late double _sheetPosition = 0.20;
   late int itemCount;
 
   List<int> selectedClothesIndices = [];
