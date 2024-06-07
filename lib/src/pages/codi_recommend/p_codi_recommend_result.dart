@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
-import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 
 
 class CodiRecommendResult extends StatefulWidget {
-  const CodiRecommendResult({super.key});
+  final String? scheduleTag;
+
+  const CodiRecommendResult({Key? key, required this.scheduleTag}) : super(key: key);
 
   @override
   State<CodiRecommendResult> createState() => _CodiRecommendResultState();
@@ -14,7 +15,6 @@ class CodiRecommendResult extends StatefulWidget {
 class _CodiRecommendResultState extends State<CodiRecommendResult> {
 
   DateTime date = DateTime.now();
-  List tags = ["데이트"];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   List<int> selectedClothesIndices = [];
@@ -89,25 +89,25 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
               color: Colors.black12,
             ),
             const SizedBox(height: 8),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Wrap(
+            widget.scheduleTag != null ?
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Wrap(
                   spacing: 8,
-                  children: List.generate(
-                      tags.length,
-                          (index) {
-                        return Chip(
-                          backgroundColor: const Color(0xffF9F9F9),
-                          label: Text(tags[index]),
-                          labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: const BorderSide(color: Color(0xffCACACA),),
-                          ),
-                        );}
-                  )
-              ),
-            ),
+                  children: [
+                    Chip(
+                      backgroundColor: const Color(0xffF9F9F9),
+                      label: Text(widget.scheduleTag!),
+                      labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        side: const BorderSide(color: Color(0xffCACACA),),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : const SizedBox(), // 약속 종류 선택 안 하면 표시 X
             const Divider(color: Color(0xffF0F0F0),),
             const SizedBox(height: 8),
             // TODO: 의류 데이터 가져와서 연결
