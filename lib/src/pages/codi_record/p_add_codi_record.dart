@@ -28,7 +28,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
-  String? selectedScheduleTag;
+  String? selectedSchedule;
 
   @override
   void initState() {
@@ -54,14 +54,8 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     });
   }
 
-  void setSelectedScheduleTag(selectedScheduleTag) {
-    setState(() {
-      if (selectedScheduleTag == "null") {
-        this.selectedScheduleTag = null;
-      } else {
-        this.selectedScheduleTag = selectedScheduleTag;
-      }
-    });
+  void setSelectedScheduleTag(schedule) {
+    selectedSchedule = schedule;
   }
 
   @override

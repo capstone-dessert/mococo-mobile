@@ -30,14 +30,14 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
-  String? selectedScheduleTag;
+  String? selectedSchedule;
 
   @override
   void initState() {
     super.initState();
     clothesList = ClothesList.fromJson(clothesJson);
     codiItem = widget.codiItem;
-    selectedScheduleTag = codiItem.schedule;
+    selectedSchedule = codiItem.schedule;
   }
 
   void setSelectedStatus(bool status) {
@@ -52,14 +52,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     });
   }
 
-  void setSelectedScheduleTag(selectedScheduleTag) {
-    setState(() {
-      if (selectedScheduleTag == "null") {
-        this.selectedScheduleTag = null;
-      } else {
-        this.selectedScheduleTag = selectedScheduleTag;
-      }
-    });
+  void setSelectedScheduleTag(schedule) {
+    selectedSchedule = schedule;
   }
 
   @override
@@ -107,7 +101,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                NewScheduleTagPicker(selectedSchedule: selectedScheduleTag, setSelectedSchedule: setSelectedScheduleTag),
+                NewScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
               ],
             ),
           ),
