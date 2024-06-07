@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/models/codi_list.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/codi_calendar_view.dart';
 import 'package:mococo_mobile/src/widgets/codi_grid_view.dart';
@@ -15,29 +17,49 @@ class _CodiRecordState extends State<CodiRecord> {
 
   final List<bool> _selectedView = [true, false];
 
+  late CodiList codiList;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCodiAll().then((value) {
+      setState(() {
+        codiList = value;
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed,),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Spacer(),
-                _viewToggleButton(),
-              ],
-            ),
-            const SizedBox(height: 8),
-            if (_selectedView[0])
-              const Expanded(child: CodiGridView()),
-            if (_selectedView[1])
-              const Expanded(child: CodiCalendarView()),
-          ],
-        ),
-      )
+      body: isLoading
+        ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+        : Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const Spacer(),
+                  _viewToggleButton(),
+                ],
+              ),
+              const SizedBox(height: 8),
+              if (_selectedView[0])
+                Expanded(child: CodiGridView(codiList: codiList, getCodiList: getCodiList)),
+              if (_selectedView[1])
+                const Expanded(child: CodiCalendarView()),
+            ],
+          ),
+        )
     );
+  }
+
+  CodiList getCodiList() {
+    return codiList;
   }
 
   void _onAddButtonPressed(BuildContext context) {

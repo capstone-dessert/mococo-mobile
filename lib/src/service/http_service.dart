@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
+import 'package:mococo_mobile/src/models/clothes_preview.dart';
+import 'package:mococo_mobile/src/models/codi_list.dart';
 
 String server = dotenv.get('SERVER');
 
@@ -179,7 +181,22 @@ Future<ClothesList> searchClothes(Map<String, dynamic> selectedInfo) async {
   }
 }
 
-// TODO: [011] 코디 기록 전체 조회 - fetchAllCodi
+// TODO: [011] 코디 기록 전체 조회 - fetchCodiAll
+Future<CodiList> fetchCodiAll() async {
+  final response = await http.get(Uri.parse('$server/api/outfit/all'));
+  if (response.statusCode == 200) {
+    Map<String, dynamic> jsonData = {};
+    jsonData['list'] = jsonDecode(response.body);
+    for (int i = 0; i < jsonData['list'].length; i++) {
+      jsonData['list'][i]['image'] = "assets/images/tmp.png";
+    }
+    var parsingData = CodiList.fromJson(jsonData);
+    return parsingData;
+  } else {
+    throw Exception('Failed to load all codis');
+  }
+}
+
 // TODO: [012] 코디 기록 날짜별 조회 - ?
 // TODO: [013] 코디 기록 - addCodi
 // TODO: [014] 코디 기록 상세 조회 - fetchCodi

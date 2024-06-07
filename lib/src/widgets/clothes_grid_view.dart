@@ -34,23 +34,21 @@ class ClothesGridView extends StatefulWidget {
 }
 
 class ClothesGridViewState extends State<ClothesGridView> {
+
   int? longPressedIndex;
   String? state;
   late ClothesList clothesList;
-  int? itemCount;
 
   @override
   void initState() {
     super.initState();
     clothesList = widget.clothesList;
-    itemCount = clothesList.list.length;
   }
 
   @override
   void didUpdateWidget(covariant ClothesGridView oldWidget) {
     super.didUpdateWidget(oldWidget);
     clothesList = widget.getClothesList();
-    itemCount = clothesList.list.length;
   }
 
   @override
