@@ -93,7 +93,12 @@ class _CodiRecommendState extends State<CodiRecommend> {
                 height: 50,
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const CodiRecommendResult()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CodiRecommendResult(scheduleTag: selectedScheduleTag),
+                      ),
+                    );
                   },
                   style: TextButton.styleFrom(backgroundColor: const Color(0xffF6747E)),
                   child: const Text(

@@ -510,7 +510,7 @@ class ScheduleTagPicker extends StatefulWidget {
 
 class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
 
-  List scheduleTags = ["데이트", "운동", "출근"];
+  List scheduleTags = ["간단 외출", "등교", "발표", "데이트", "출근", "면접", "운동", "파티", "결혼식"];
   String? selectedScheduleTag;
 
   @override

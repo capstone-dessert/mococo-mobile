@@ -52,7 +52,8 @@ class _RegisterClothState extends State<RegisterCloth> {
       'category': null,
       'subcategory': null,
       'colors': null,
-      'tags': null
+      'tags': null,
+      'style': null,
     };
   }
 
@@ -73,8 +74,8 @@ class _RegisterClothState extends State<RegisterCloth> {
               Center(
                 // TODO 이미지 서버에 보내서 분류, 배경 제거
                 child: _pickedFile != null
-                    ? Image.file(File(_pickedFile!.path))
-                    : _croppedFile != null
+                  ? Image.file(File(_pickedFile!.path))
+                  : _croppedFile != null
                     ? Image.file(File(_croppedFile!.path))
                     : const Text("이미지가 없습니다."),
               ),
@@ -172,6 +173,7 @@ class _RegisterClothState extends State<RegisterCloth> {
         )
       );
     } else {
+      print("의류 속성: $selectedInfo");
       AlertModal.show(
         context,
         message: '의류를 등록하시겠습니까?',

@@ -32,7 +32,8 @@ class _EditClothesState extends State<EditClothes> {
       'category': clothes.primaryCategory,
       'subcategory': clothes.subCategory,
       'colors': clothes.colors,
-      'tags': clothes.detailTags
+      'tags': clothes.detailTags,
+      'styles': clothes.style,
     };
   }
 
@@ -59,6 +60,7 @@ class _EditClothesState extends State<EditClothes> {
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,
+                selectedStyles: Set<String>.from(clothes.style),
                 selectedColors: Set<String>.from(clothes.colors),
                 selectedDetailTags: Set<String>.from(clothes.detailTags),
               ),
@@ -105,13 +107,13 @@ class _EditClothesState extends State<EditClothes> {
   void _onSaveButtonPressed() {
     if (selectedInfo.values.contains(null)) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "각 태그 선택은 필수입니다.",
-              style: TextStyle(color: Colors.white),
-            ),
-            duration: Duration(seconds: 1),
-          )
+        const SnackBar(
+          content: Text(
+            "각 태그 선택은 필수입니다.",
+            style: TextStyle(color: Colors.white),
+          ),
+          duration: Duration(seconds: 1),
+        )
       );
     } else {
       AlertModal.show(

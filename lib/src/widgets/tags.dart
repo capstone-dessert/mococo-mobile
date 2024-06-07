@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/category.dart';
 import 'package:mococo_mobile/src/data/color.dart';
 
+import '../data/style.dart';
+import '../data/tag_data.dart';
+
 class CategoryTag extends StatefulWidget {
-  const CategoryTag({super.key, required this.primaryCategory, this.subCategory});
+  const CategoryTag(
+      {super.key, required this.primaryCategory, this.subCategory});
 
   final String primaryCategory;
   final String? subCategory;
@@ -13,7 +17,6 @@ class CategoryTag extends StatefulWidget {
 }
 
 class _CategoryTagState extends State<CategoryTag> {
-
   @override
   void initState() {
     super.initState();
@@ -68,7 +71,6 @@ class _CategoryTagState extends State<CategoryTag> {
   }
 }
 
-
 class ColorTags extends StatefulWidget {
   const ColorTags({super.key, required this.colorList});
 
@@ -79,7 +81,6 @@ class ColorTags extends StatefulWidget {
 }
 
 class _ColorTagsState extends State<ColorTags> {
-
   List colors = ColorList.getColorList();
 
   @override
@@ -102,18 +103,18 @@ class _ColorTagsState extends State<ColorTags> {
                   Chip(
                     backgroundColor: const Color(0xffF9F9F9),
                     avatar: colorData[1] == Colors.white
-                      ? CircleAvatar(
-                        radius: 30,
-                        backgroundColor: const Color(0xffD9D9D9),
-                        child: CircleAvatar(
-                          radius: 9,
-                          backgroundColor: colorData[1],
-                        ),
-                      )
-                      : CircleAvatar(
-                        radius: 30,
-                        backgroundColor: colorData[1],
-                      ),
+                        ? CircleAvatar(
+                            radius: 30,
+                            backgroundColor: const Color(0xffD9D9D9),
+                            child: CircleAvatar(
+                              radius: 9,
+                              backgroundColor: colorData[1],
+                            ),
+                          )
+                        : CircleAvatar(
+                            radius: 30,
+                            backgroundColor: colorData[1],
+                          ),
                     label: Text(colorData[0]),
                     labelStyle: const TextStyle(
                       fontWeight: FontWeight.w700,
@@ -132,7 +133,6 @@ class _ColorTagsState extends State<ColorTags> {
   }
 }
 
-
 class DetailTags extends StatefulWidget {
   const DetailTags({super.key, required this.detailTagList});
 
@@ -143,7 +143,6 @@ class DetailTags extends StatefulWidget {
 }
 
 class _DetailTagsState extends State<DetailTags> {
-
   late List detailTags;
 
   @override
@@ -163,7 +162,10 @@ class _DetailTagsState extends State<DetailTags> {
             children: [
               Text(
                 "세부 태그",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -200,17 +202,75 @@ class ScheduleTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      children: [Chip(
+    return Wrap(spacing: 8, children: [
+      Chip(
         backgroundColor: const Color(0xffF9F9F9),
         label: Text(schedule),
-        labelStyle: const TextStyle(fontWeight: FontWeight.w700, color: Colors.black,),
+        labelStyle: const TextStyle(
+          fontWeight: FontWeight.w700,
+          color: Colors.black,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
-          side: const BorderSide(color: Color(0xffCACACA),),
+          side: const BorderSide(
+            color: Color(0xffCACACA),
+          ),
         ),
-      )]
+      )
+    ]);
+  }
+}
+
+
+class StyleTags extends StatefulWidget {
+  const StyleTags({Key? key, required this.styleList}) : super(key: key);
+
+  final List styleList;
+
+  @override
+  State<StyleTags> createState() => _StyleTagsState();
+}
+
+class _StyleTagsState extends State<StyleTags> {
+  @override
+  Widget build(BuildContext context) {
+    List styles = Tag.getStyleTags();
+
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "스타일",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: List.generate(
+              widget.styleList.length,
+                  (index) {
+                return Chip(
+                  backgroundColor: const Color(0xffF9F9F9),
+                  label: Text(widget.styleList[index]),
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: const BorderSide(
+                      color: Color(0xffCACACA),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/jsons.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -10,6 +9,8 @@ import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'dart:math';
 
+import '../../service/http_service.dart';
+
 class AddCodiRecord extends StatefulWidget {
   const AddCodiRecord({super.key});
 
@@ -19,7 +20,8 @@ class AddCodiRecord extends StatefulWidget {
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
 
-  late final ClothesList clothesList;
+  late ClothesList clothesList;
+  bool isLoading = true;
   List<int> selectedClothesIndices = [];
   int? itemCount;
   List<Widget> codiImages = [];
@@ -31,8 +33,13 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   @override
   void initState() {
     super.initState();
-    clothesList = ClothesList.fromJson(clothesJson);
-    itemCount = clothesList.list!.length;
+    fetchClothesAll().then((value) {
+      setState(() {
+        clothesList = value;
+        isLoading = false;
+        itemCount = clothesList.list!.length;
+      });
+    });
   }
 
   void setSelectedStatus(bool status) {
@@ -70,36 +77,43 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                const Row(
+            child: isLoading
+            ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+              : Stack(
+                children: [
+                  const SizedBox(height: 16),
+                  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Date(isCenter: false, isEditable: true,),
-                    Spacer(),
-                    Weather(isSmall: true, isEditable: true,)
+                    const Row(
+                      children: [
+                        Date(isCenter: false, isEditable: true,),
+                        Spacer(),
+                        Weather(isSmall: true, isEditable: true,)
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    selectedClothesIndices.isEmpty ?
+                    const SizedBox(
+                      height: 400,
+                      child: Center(
+                          child: Text(
+                            "코디할 옷을 선택하세요",
+                            style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                          )
+                      ),
+                    ) :
+                    Container(
+                      color: Colors.black12,
+                      height: 400,
+                      child: Stack(
+                        children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ScheduleTagPicker(selectedScheduleTag: null, setSelectedScheduleTag: setSelectedScheduleTag),
                   ],
                 ),
-                const SizedBox(height: 6),
-                selectedClothesIndices.isEmpty ?
-                const SizedBox(
-                  height: 400,
-                  child: Center(
-                    child: Text(
-                      "코디할 옷을 선택하세요",
-                      style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                    )
-                  ),
-                ) :
-                Container(
-                  color: Colors.black12,
-                  height: 400,
-                  child: Stack(
-                    children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ScheduleTagPicker(selectedScheduleTag: null, setSelectedScheduleTag: setSelectedScheduleTag),
               ],
             ),
           ),
@@ -121,7 +135,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
 
   void _onSaveButtonPressed() {
     // TODO: 저장 버튼 처리
-    // print(selectedClothesIndices);
+    print(selectedClothesIndices);
     AlertModal.show(
       context,
       message: '코디를 기록하시겠습니까?',
@@ -137,7 +151,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         _handleDrag(details, index);
       },
       child: Image.memory(
-        clothesList.list![index].image,
+        clothesList.list[selectedClothesIndices[index]].image,
         width: imageSize,
       ),
     );
@@ -146,26 +160,31 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   List<Widget> _buildPositionedImages(BuildContext context, double containerWidth, double containerHeight) {
     return selectedClothesIndices.asMap().entries.map((entry) {
       int index = entry.key;
-      double left;
-      double top;
-      if (index < imagePositions.length) {
-        left = imagePositions[index].left;
-        top = imagePositions[index].top;
-      } else {
-        left = Random().nextDouble() * containerWidth;
-        top = Random().nextDouble() * containerHeight;
-        imagePositions.add(ImagePosition(left, top));
-      }
-      left = left.clamp(-10, containerWidth - 140);
-      top = top.clamp(-35, containerHeight - 150);
+      if (index < clothesList.list.length) {
+        double left;
+        double top;
+        if (index < imagePositions.length) {
+          left = imagePositions[index].left;
+          top = imagePositions[index].top;
+        } else {
+          left = Random().nextDouble() * containerWidth;
+          top = Random().nextDouble() * containerHeight;
+          imagePositions.add(ImagePosition(left, top));
+        }
+        left = left.clamp(-10, containerWidth - 150);
+        top = top.clamp(-35, containerHeight - 150);
 
-      return Positioned(
-        left: left,
-        top: top,
-        child: _buildClothesImage(clothesList.list![index], entry.value, 150),
-      );
+        return Positioned(
+          left: left,
+          top: top,
+          child: _buildClothesImage(clothesList.list![index], index, 150),
+        );
+      } else {
+        return SizedBox();
+      }
     }).toList();
   }
+
 
   void _handleDrag(DragUpdateDetails details, int index) {
     setState(() {
