@@ -52,6 +52,7 @@ class _RegisterClothState extends State<RegisterCloth> {
       'tags': null,
       'style': null,
     };
+
   }
 
   @override
