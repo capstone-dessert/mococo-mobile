@@ -170,24 +170,36 @@ class _ClothesDetailState extends State<ClothesDetail> {
   }
 
   void _onEditButtonPressed(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => EditClothes(clothes: clothes, reloadClothesData: reloadClothesData)));
+    if (!isLoading) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => EditClothes(
+            clothes: clothes,
+            reloadClothesData: reloadClothesData
+          )
+        )
+      );
+    }
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    AlertModal.show(
-      context,
-      message: '해당 의류를 삭제하시겠습니까?',
-      onConfirm: () {
-        _showLoadingDialog(context);
-        deleteClothes([clothes.id]).then((_) {
-          widget.reloadListData();
-          Navigator.of(context, rootNavigator: true).pop();
-          Navigator.pop(context);
-          if (widget.previousPage == "CodiDetail") {
+    if (!isLoading) {
+      AlertModal.show(
+        context,
+        message: '해당 의류를 삭제하시겠습니까?',
+        onConfirm: () {
+          _showLoadingDialog(context);
+          deleteClothes([clothes.id]).then((_) {
+            widget.reloadListData();
+            Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);
-          }
-        });
-      },
-    );
+            if (widget.previousPage == "CodiDetail") {
+              Navigator.pop(context);
+            }
+          });
+        },
+      );
+    }
   }
 }

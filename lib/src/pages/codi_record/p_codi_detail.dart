@@ -91,7 +91,16 @@ class _CodiDetailState extends State<CodiDetail> {
                           padding: const EdgeInsets.only(right: 8),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ClothesDetail(clothesId: codi.clothes.list[index].id, previousPage: "CodiDetail", reloadListData: widget.reloadCodiListData)));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ClothesDetail(
+                                    clothesId: codi.clothes.list[index].id,
+                                    previousPage: "CodiDetail",
+                                    reloadListData: widget.reloadCodiListData
+                                  )
+                                )
+                              );
                             },
                             child: Image.memory(codi.clothes.list[index].image)
                           ),
@@ -113,17 +122,27 @@ class _CodiDetailState extends State<CodiDetail> {
   }
 
   void _onEditButtonPressed() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => EditCodiRecord(codiItem: codi)));
+    if (!isLoading) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditCodiRecord(codiItem: codi)
+        )
+      );
+    }
   }
 
   void _onDeleteButtonPressed() {
-    AlertModal.show(
-      context,
-      message: '코디를 삭제하시겠습니까?',
-      onConfirm: () {
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const CodiRecord()));
-      },
-    );
+    if (!isLoading) {
+      AlertModal.show(
+        context,
+        message: '코디를 삭제하시겠습니까?',
+        onConfirm: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const CodiRecord()));
+        },
+      );
+    }
   }
 }
