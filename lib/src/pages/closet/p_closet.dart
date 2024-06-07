@@ -144,17 +144,24 @@ class _ClosetState extends State<Closet> {
                   right: 6,
                   left: 6
                 ),
-                child: ClothesGridView(
-                  state: "detail",
-                  getClothesList: getClothesList,
-                  onClothesDetail: _onClothesDetail,
-                  onLeftLogoAppBar: _onLeftLogoAppBar,
-                  isClothesSelected: isClothesSelected,
-                  onClothesSelected: _onClothesSelected,
-                  isMultiClothesSelected: isMultiClothesSelected,
-                  onMultiClothesSelected: _onMultiClothesSelected,
-                  selectedClothesIndices: selectedClothesIndices,
-                  clothesList: clothesList,
+                child: RefreshIndicator(
+                  backgroundColor: Colors.white,
+                  color: Colors.black26,
+                  onRefresh: () async {
+                    reloadClothesListData();
+                  },
+                  child: ClothesGridView(
+                    state: "detail",
+                    getClothesList: getClothesList,
+                    onClothesDetail: _onClothesDetail,
+                    onLeftLogoAppBar: _onLeftLogoAppBar,
+                    isClothesSelected: isClothesSelected,
+                    onClothesSelected: _onClothesSelected,
+                    isMultiClothesSelected: isMultiClothesSelected,
+                    onMultiClothesSelected: _onMultiClothesSelected,
+                    selectedClothesIndices: selectedClothesIndices,
+                    clothesList: clothesList,
+                  ),
                 ),
               ),
             ],
