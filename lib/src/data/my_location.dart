@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
-import 'dart:math';
+import 'dart:math' as Math;
+
 
 class MyLocation {
   late double currentLatitude;
@@ -21,8 +22,8 @@ class MyLocation {
       );
       currentLatitude = position.latitude;
       currentLongitude = position.longitude;
-      print('위도 !!!!!!!!!!!!!!!!!!!!: ${currentLatitude}');
-      print('경도 !!!!!!!!!!!!!!!!!!!!: ${currentLongitude}');
+      print('위도: ${currentLatitude}');
+      print('경도: ${currentLongitude}');
     } catch (e) {
       // 위치 가져오기에 실패한 경우에 대한 처리
       print('현재 위치를 가져오는 데 실패했습니다: $e');
@@ -30,57 +31,82 @@ class MyLocation {
   }
 }
 
-class WeatherMapXY {
-  int x;
-  int y;
-  WeatherMapXY(this.x, this.y);
-}
+class ConvGridGps {
+  static const double RE = 6371.00877; // 지구 반경(km)
+  static const double GRID = 5.0; // 격자 간격(km)
+  static const double SLAT1 = 30.0; // 투영 위도1(degree)
+  static const double SLAT2 = 60.0; // 투영 위도2(degree)
+  static const double OLON = 126.0; // 기준점 경도(degree)
+  static const double OLAT = 38.0; // 기준점 위도(degree)
+  static const double XO = 43; // 기준점 X좌표(GRID)
+  static const double YO = 136; // 기1준점 Y좌표(GRID)
 
-class LamcParameter {
-  late double Re; /* 사용할 지구반경 [ km ]      */
-  late double grid; /* 격자간격        [ km ]      */
-  late double slat1; /* 표준위도        [degree]    */
-  late double slat2; /* 표준위도        [degree]    */
-  late double olon; /* 기준점의 경도   [degree]    */
-  late double olat; /* 기준점의 위도   [degree]    */
-  late double xo; /* 기준점의 X 좌표  [격자거리]  */
-  late double yo; /* 기준점의 Y 좌표  [격자거리]  */
-  late int first; /* 시작여부 (0 = 시작)         */
-}
+  static const double DEGRAD = Math.pi / 180.0;
+  static const double RADDEG = 180.0 / Math.pi;
 
-WeatherMapXY changelaluMap(double longitude, double latitude) {
-  int NX = 149; /* X 축 격자점 수 */
-  int NY = 253; /* Y 축 격자점 수 */
-  const double PI = 3.1415926535897931;
-  const double DEGRAD = PI / 180.0;
-  const double RADDEG = 180.0 / PI;
+  static double get re => RE / GRID;
+  static double get slat1 => SLAT1 * DEGRAD;
+  static double get slat2 => SLAT2 * DEGRAD;
+  static double get olon => OLON * DEGRAD;
+  static double get olat => OLAT * DEGRAD;
 
-  double re = 6371.00877; // 지도반경
-  double grid = 5.0; // 격자간격 (km)
-  double slat1 = 30.0 * DEGRAD; // 표준위도 1
-  double slat2 = 60.0 * DEGRAD; // 표준위도 2
-  double olon = 126.0 * DEGRAD; // 기준점 경도
-  double olat = 38.0 * DEGRAD; // 기준점 위도
-  double xo = 210 / grid; // 기준점 X 좌표
-  double yo = 675 / grid; // 기준점 Y 좌표
+  static double get snTmp =>
+      Math.tan(Math.pi * 0.25 + slat2 * 0.5) /
+          Math.tan(Math.pi * 0.25 + slat1 * 0.5);
+  static double get sn =>
+      Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(snTmp);
 
-  double sn = tan(PI * 0.25 + slat2 * 0.5) / tan(PI * 0.25 + slat1 * 0.5);
-  sn = log(cos(slat1) / cos(slat2)) / log(sn);
-  double sf = tan(PI * 0.25 + slat1 * 0.5);
-  sf = pow(sf, sn) * cos(slat1) / sn;
-  double ro = tan(PI * 0.25 + olat * 0.5);
-  ro = re * sf / pow(ro, sn);
+  static double get sfTmp => Math.tan(Math.pi * 0.25 + slat1 * 0.5);
+  static double get sf => Math.pow(sfTmp, sn) * Math.cos(slat1) / sn;
 
-  double ra = tan(PI * 0.25 + latitude * DEGRAD * 0.5);
-  ra = re * sf / pow(ra, sn);
-  double theta = longitude * DEGRAD - olon;
-  if (theta > PI) theta -= 2.0 * PI;
-  if (theta < -PI) theta += 2.0 * PI;
-  theta *= sn;
+  static double get roTmp => Math.tan(Math.pi * 0.25 + olat * 0.5);
 
-  double x = (ra * sin(theta)) + xo;
-  double y = (ro - ra * cos(theta)) + yo;
-  x = x + 1.5;
-  y = y + 1.5;
-  return WeatherMapXY(x.toInt(), y.toInt());
+  static double get ro => re * sf / Math.pow(roTmp, sn);
+
+  static gridToGPS(int v1, int v2) {
+    var rs = {};
+    double theta;
+
+    rs['x'] = v1;
+    rs['y'] = v2;
+    int xn = (v1 - XO).toInt();
+    int yn = (ro - v2 + YO).toInt();
+    var ra = Math.sqrt(xn * xn + yn * yn);
+    if (sn < 0.0) ra = -ra;
+    var alat = Math.pow((re * sf / ra), (1.0 / sn));
+    alat = 2.0 * Math.atan(alat) - Math.pi * 0.5;
+
+    if (xn.abs() <= 0.0) {
+      theta = 0.0;
+    } else {
+      if (yn.abs() <= 0.0) {
+        theta = Math.pi * 0.5;
+        if (xn < 0.0) theta = -theta;
+      } else
+        theta = Math.atan2(xn, yn);
+    }
+    var alon = theta / sn + olon;
+    rs['lat'] = alat * RADDEG;
+    rs['lng'] = alon * RADDEG;
+
+    return rs;
+  }
+
+  static gpsToGRID(double v1, double v2) {
+    var rs = {};
+    double theta;
+
+    rs['lat'] = v1;
+    rs['lng'] = v2;
+    var ra = Math.tan(Math.pi * 0.25 + (v1) * DEGRAD * 0.5);
+    ra = re * sf / Math.pow(ra, sn);
+    theta = v2 * DEGRAD - olon;
+    if (theta > Math.pi) theta -= 2.0 * Math.pi;
+    if (theta < -Math.pi) theta += 2.0 * Math.pi;
+    theta *= sn;
+    rs['x'] = (ra * Math.sin(theta) + XO + 0.5).floor();
+    rs['y'] = (ro - ra * Math.cos(theta) + YO + 0.5).floor();
+
+    return rs;
+  }
 }

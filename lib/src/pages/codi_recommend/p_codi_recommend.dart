@@ -57,15 +57,16 @@ class _CodiRecommendState extends State<CodiRecommend> {
     MyLocation myLocation = MyLocation();
     await myLocation.getCurrentLocation();
     if (myLocation.currentLatitude != null && myLocation.currentLongitude != null) {
-      WeatherMapXY xy = changelaluMap(myLocation.currentLongitude, myLocation.currentLatitude);
-      print('변환한 X, Y !!!!!!!!!!!!!!!!!!!!: ${xy.x}, ${xy.y}');
+      var gpsToGridData = ConvGridGps.gpsToGRID(
+        myLocation.currentLatitude!,
+        myLocation.currentLongitude!,
+      );
+      print(gpsToGridData);
 
-      // TODO 변환한 x, y로 값 대체해야 함
-      int x = xy.x;
-      int y = xy.y;
-      Network network = Network('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=500&pageNo=1&base_date=20240606&base_time=0500&nx=55&ny=127&dataType=JSON');
+      Network network = Network(
+        'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=500&pageNo=1&base_date=20240606&base_time=0500&nx=${gpsToGridData['x']}&ny=${gpsToGridData['y']}&dataType=JSON',
+      );
 
-      // 날씨 정보 추출
       var weatherData = await network.getJsonData();
       var weatherItems = weatherData['response']['body']['items']['item'];
       for (var weatherItem in weatherItems) {
@@ -73,16 +74,16 @@ class _CodiRecommendState extends State<CodiRecommend> {
         dynamic fcstValue = weatherItem['fcstValue'];
 
         switch (category) {
-          case 'TMX': // 최고기온
+          case 'TMX':
             maxTemperature = double.tryParse(fcstValue.toString());
             break;
-          case 'TMN': // 최저기온
+          case 'TMN':
             minTemperature = double.tryParse(fcstValue.toString());
             break;
-          case 'PTY': // 강수형태
+          case 'PTY':
             precipitationType = int.tryParse(fcstValue.toString());
             break;
-          case 'SKY': // 하늘상태
+          case 'SKY':
             skyState = int.tryParse(fcstValue.toString());
             break;
           default:
@@ -91,18 +92,15 @@ class _CodiRecommendState extends State<CodiRecommend> {
       }
 
       setState(() {
-        // 추출한 날씨 정보 업데이트
         maxTemperature = maxTemperature;
         minTemperature = minTemperature;
         precipitationType = precipitationType;
         skyState = skyState;
       });
+    } else {
+      print('현재 위치를 가져올 수 없습니다.');
     }
-    else {
-    print('현재 위치를 가져올 수 없습니다.');
-    }
-
-  }
+}
 
   @override
   Widget build(BuildContext context) {
