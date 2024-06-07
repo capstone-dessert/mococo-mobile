@@ -29,7 +29,7 @@ class _EditClothesState extends State<EditClothes> {
       'subcategory': clothes.subCategory,
       'colors': clothes.colors,
       'tags': clothes.detailTags,
-      'style': clothes.style,
+      'styles': clothes.style,
     };
   }
 
@@ -56,7 +56,7 @@ class _EditClothesState extends State<EditClothes> {
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,
-                selectedStyle: Set<String>.from(clothes.style),
+                selectedStyles: Set<String>.from(clothes.style),
                 selectedColors: Set<String>.from(clothes.colors),
                 selectedDetailTags: Set<String>.from(clothes.detailTags),
               ),

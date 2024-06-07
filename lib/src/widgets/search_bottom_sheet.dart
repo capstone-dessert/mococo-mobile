@@ -4,6 +4,7 @@ import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/jsons.dart';
+import '../service/http_service.dart';
 import 'clothes_grid_view.dart';
 
 class SearchBottomSheet extends StatefulWidget {
@@ -25,7 +26,8 @@ class SearchBottomSheet extends StatefulWidget {
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
   late ClothesList clothesList;
-  late double _sheetPosition;
+  bool isLoading = true;
+  late double _sheetPosition = 0.20;
   late int itemCount;
 
   List<int> selectedClothesIndices = [];
@@ -37,9 +39,14 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   @override
   void initState() {
     super.initState();
-    _sheetPosition = widget.sheetPosition;
-    clothesList = ClothesList.fromJson(clothesJson);
-    itemCount = clothesList.list!.length;
+    fetchClothesAll().then((value) {
+      setState(() {
+        clothesList = value;
+        isLoading = false;
+        _sheetPosition = widget.sheetPosition;
+        itemCount = clothesList.list!.length;
+      });
+    });
   }
 
   @override
@@ -65,7 +72,9 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
-            child: Column(
+            child: isLoading
+            ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+              : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Grabber(
@@ -167,6 +176,22 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     // 상태를 부모 위젯으로 전달
     widget.setSelectedStatus(true);
     widget.setSelectedClothesIndices(selectedClothesIndices);
+  }
+
+  ClothesList getClothesList() {
+    return clothesList;
+  }
+
+  void reloadData() {
+    setState(() {
+      isLoading = true;
+      fetchClothesAll().then((value) {
+        setState(() {
+          clothesList = value;
+          isLoading = false;
+        });
+      });
+    });
   }
 }
 
