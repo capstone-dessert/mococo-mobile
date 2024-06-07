@@ -7,14 +7,16 @@ class TagPicker extends StatefulWidget {
     required this.setSelectedInfo,
     this.selectedPrimaryCategory,
     this.selectedSubcategory,
+    this.selectedStyle,
     this.selectedColors,
-    this.selectedDetailTags
+    this.selectedDetailTags,
   });
 
   final Function setSelectedInfo;
 
   final String? selectedPrimaryCategory;
   final String? selectedSubcategory;
+  final Set<String>? selectedStyle;
   final Set<String>? selectedColors;
   final Set<String>? selectedDetailTags;
 
@@ -23,7 +25,6 @@ class TagPicker extends StatefulWidget {
 }
 
 class _TagPickerState extends State<TagPicker> {
-
   late Map<String, dynamic> selectedInfo;
 
   @override
@@ -32,8 +33,9 @@ class _TagPickerState extends State<TagPicker> {
     selectedInfo = {
       'category': widget.selectedPrimaryCategory,
       'subcategory': widget.selectedSubcategory,
+      'style': widget.selectedStyle,
       'colors': widget.selectedColors,
-      'tags': widget.selectedDetailTags
+      'tags': widget.selectedDetailTags,
     };
   }
 
@@ -44,20 +46,21 @@ class _TagPickerState extends State<TagPicker> {
       child: Column(
         children: [
           NewCategoryTagPicker(
-            setSelectedInfoValue: setSelectedInfoValue,
-            selectedPrimaryCategory: widget.selectedPrimaryCategory,
-            selectedSubcategory: widget.selectedSubcategory
-          ),
+              setSelectedInfoValue: setSelectedInfoValue,
+              selectedPrimaryCategory: widget.selectedPrimaryCategory,
+              selectedSubcategory: widget.selectedSubcategory),
+          const Divider(color: Color(0xffF0F0F0)),
+          NewStyleTagPicker(
+              setSelectedInfoValue: setSelectedInfoValue,
+              selectedStyle: widget.selectedStyle),
           const Divider(color: Color(0xffF0F0F0)),
           NewColorTagPicker(
-            setSelectedInfoValue: setSelectedInfoValue,
-            selectedColors: widget.selectedColors
-          ),
+              setSelectedInfoValue: setSelectedInfoValue,
+              selectedColors: widget.selectedColors),
           const Divider(color: Color(0xffF0F0F0)),
           NewDetailTagPicker(
-            setSelectedInfoValue: setSelectedInfoValue,
-            selectedDetailTags: widget.selectedDetailTags
-          ),
+              setSelectedInfoValue: setSelectedInfoValue,
+              selectedDetailTags: widget.selectedDetailTags),
         ],
       ),
     );

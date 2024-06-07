@@ -3,12 +3,11 @@ import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/data/tag_data.dart';
 
 class NewCategoryTagPicker extends StatefulWidget {
-  const NewCategoryTagPicker({
-    super.key,
-    required this.setSelectedInfoValue,
-    this.selectedPrimaryCategory,
-    this.selectedSubcategory
-  });
+  const NewCategoryTagPicker(
+      {super.key,
+      required this.setSelectedInfoValue,
+      this.selectedPrimaryCategory,
+      this.selectedSubcategory});
 
   final Function setSelectedInfoValue;
 
@@ -20,7 +19,6 @@ class NewCategoryTagPicker extends StatefulWidget {
 }
 
 class _NewCategoryTagPickerState extends State<NewCategoryTagPicker> {
-
   late List allPrimaryCategories;
   String? selectedPrimaryCategory;
   int? selectedIndex;
@@ -43,68 +41,67 @@ class _NewCategoryTagPickerState extends State<NewCategoryTagPicker> {
         const Divider(color: Colors.transparent),
         const Text(
           "카테고리",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children: List.generate(
-            allPrimaryCategories.length,
-            (index) {
-              return ChoiceChip(
-                showCheckmark: false,
-                backgroundColor: const Color(0xffF9F9F9),
-                selectedColor: const Color(0xffFFF0F0),
-                label: Text(allPrimaryCategories[index]),
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: selectedIndex == index
+          children: List.generate(allPrimaryCategories.length, (index) {
+            return ChoiceChip(
+              showCheckmark: false,
+              backgroundColor: const Color(0xffF9F9F9),
+              selectedColor: const Color(0xffFFF0F0),
+              label: Text(allPrimaryCategories[index]),
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: selectedIndex == index
                     ? const Color(0xffF6747E)
                     : Colors.black,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  side: BorderSide(
-                    color: selectedIndex == index
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+                side: BorderSide(
+                  color: selectedIndex == index
                       ? const Color(0xffF6747E)
                       : const Color(0xffCACACA),
-                  ),
                 ),
-                selected: selectedIndex == index,
-                onSelected: (bool selected) {
-                  setState(() {
-                    selectedIndex = selected ? index : null;
-                    selectedPrimaryCategory = selected ? allPrimaryCategories[index] : null;
-                    widget.setSelectedInfoValue('subcategory', null);
-                    widget.setSelectedInfoValue('category', selectedPrimaryCategory);
-                  });
-                },
-              );
-            }
-          ),
+              ),
+              selected: selectedIndex == index,
+              onSelected: (bool selected) {
+                setState(() {
+                  selectedIndex = selected ? index : null;
+                  selectedPrimaryCategory =
+                      selected ? allPrimaryCategories[index] : null;
+                  widget.setSelectedInfoValue('subcategory', null);
+                  widget.setSelectedInfoValue(
+                      'category', selectedPrimaryCategory);
+                });
+              },
+            );
+          }),
         ),
         const SizedBox(height: 8),
-        if (selectedPrimaryCategory != null)...[
+        if (selectedPrimaryCategory != null) ...[
           const Divider(color: Color(0xffF0F0F0)),
           NewSubcategoryTagPicker(
-            setSelectedInfoValue: widget.setSelectedInfoValue,
-            primaryCategory: selectedPrimaryCategory!,
-            selectedSubcategory: widget.selectedSubcategory
-          )
+              setSelectedInfoValue: widget.setSelectedInfoValue,
+              primaryCategory: selectedPrimaryCategory!,
+              selectedSubcategory: widget.selectedSubcategory)
         ]
       ],
     );
   }
 }
 
-
 class NewSubcategoryTagPicker extends StatefulWidget {
-  const NewSubcategoryTagPicker({
-    super.key,
-    required this.setSelectedInfoValue,
-    required this.primaryCategory,
-    this.selectedSubcategory
-  });
+  const NewSubcategoryTagPicker(
+      {super.key,
+      required this.setSelectedInfoValue,
+      required this.primaryCategory,
+      this.selectedSubcategory});
 
   final Function setSelectedInfoValue;
 
@@ -112,11 +109,11 @@ class NewSubcategoryTagPicker extends StatefulWidget {
   final String? selectedSubcategory;
 
   @override
-  State<NewSubcategoryTagPicker> createState() => _NewSubcategoryTagPickerState();
+  State<NewSubcategoryTagPicker> createState() =>
+      _NewSubcategoryTagPickerState();
 }
 
 class _NewSubcategoryTagPickerState extends State<NewSubcategoryTagPicker> {
-
   late List allSubcategories;
   String? selectedSubcategory;
   int? selectedIndex;
@@ -141,64 +138,57 @@ class _NewSubcategoryTagPickerState extends State<NewSubcategoryTagPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 8),
-        const Text(
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SizedBox(height: 8),
+      const Text(
         "하위 카테고리",
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
         ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          children: List.generate(
-            allSubcategories.length,
-            (index) {
-              return ChoiceChip(
-                showCheckmark: false,
-                backgroundColor: const Color(0xffF9F9F9),
-                selectedColor: const Color(0xffFFF0F0),
-                label: Text(allSubcategories[index]),
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: selectedIndex == index
+      ),
+      const SizedBox(height: 8),
+      Wrap(
+        spacing: 8,
+        children: List.generate(allSubcategories.length, (index) {
+          return ChoiceChip(
+            showCheckmark: false,
+            backgroundColor: const Color(0xffF9F9F9),
+            selectedColor: const Color(0xffFFF0F0),
+            label: Text(allSubcategories[index]),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: selectedIndex == index
+                  ? const Color(0xffF6747E)
+                  : Colors.black,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: selectedIndex == index
                     ? const Color(0xffF6747E)
-                    : Colors.black,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  side: BorderSide(
-                    color: selectedIndex == index
-                      ? const Color(0xffF6747E)
-                      : const Color(0xffCACACA),
-                  ),
-                ),
-                selected: selectedIndex == index,
-                onSelected: (bool selected) {
-                  setState(() {
-                    selectedIndex = selected ? index : null;
-                    selectedSubcategory = selected ? allSubcategories[index] : null;
-                    widget.setSelectedInfoValue('subcategory', selectedSubcategory);
-                  });
-                },
-              );
-            }
-          ),
-        ),
-        const SizedBox(height: 8),
-      ]
-    );
+                    : const Color(0xffCACACA),
+              ),
+            ),
+            selected: selectedIndex == index,
+            onSelected: (bool selected) {
+              setState(() {
+                selectedIndex = selected ? index : null;
+                selectedSubcategory = selected ? allSubcategories[index] : null;
+                widget.setSelectedInfoValue('subcategory', selectedSubcategory);
+              });
+            },
+          );
+        }),
+      ),
+      const SizedBox(height: 8),
+    ]);
   }
 }
 
-
 class NewColorTagPicker extends StatefulWidget {
-  const NewColorTagPicker({
-    super.key,
-    required this.setSelectedInfoValue,
-    this.selectedColors
-  });
+  const NewColorTagPicker(
+      {super.key, required this.setSelectedInfoValue, this.selectedColors});
 
   final Function setSelectedInfoValue;
 
@@ -209,7 +199,6 @@ class NewColorTagPicker extends StatefulWidget {
 }
 
 class _NewColorTagPickerState extends State<NewColorTagPicker> {
-
   late List allColors;
   late Set<String> selectedColors;
 
@@ -226,26 +215,25 @@ class _NewColorTagPickerState extends State<NewColorTagPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 8),
-        const Text(
-          "색상",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SizedBox(height: 8),
+      const Text(
+        "색상",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
         ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          children: List.generate(
-            allColors.length,
-            (index) {
-              return FilterChip(
-                showCheckmark: false,
-                backgroundColor: const Color(0xffF9F9F9),
-                selectedColor: const Color(0xffFFF0F0),
-                avatar: allColors[index][1] == Colors.white
-                  ? CircleAvatar(
+      ),
+      const SizedBox(height: 8),
+      Wrap(
+        spacing: 8,
+        children: List.generate(allColors.length, (index) {
+          return FilterChip(
+            showCheckmark: false,
+            backgroundColor: const Color(0xffF9F9F9),
+            selectedColor: const Color(0xffFFF0F0),
+            avatar: allColors[index][1] == Colors.white
+                ? CircleAvatar(
                     radius: 30,
                     backgroundColor: const Color(0xffD9D9D9),
                     child: CircleAvatar(
@@ -253,53 +241,47 @@ class _NewColorTagPickerState extends State<NewColorTagPicker> {
                       backgroundColor: allColors[index][1],
                     ),
                   )
-                  : CircleAvatar(
+                : CircleAvatar(
                     radius: 30,
                     backgroundColor: allColors[index][1],
                   ),
-                label: Text(allColors[index][0]),
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: selectedColors.contains(allColors[index][0])
+            label: Text(allColors[index][0]),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: selectedColors.contains(allColors[index][0])
+                  ? const Color(0xffF6747E)
+                  : Colors.black,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              side: BorderSide(
+                color: selectedColors.contains(allColors[index][0])
                     ? const Color(0xffF6747E)
-                    : Colors.black,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  side: BorderSide(
-                    color: selectedColors.contains(allColors[index][0])
-                      ? const Color(0xffF6747E)
-                      : const Color(0xffCACACA),
-                  ),
-                ),
-                selected: selectedColors.contains(allColors[index][0]),
-                onSelected: (bool selected) {
-                  setState(() {
-                    if (selected) {
-                      selectedColors.add(allColors[index][0]);
-                    } else {
-                      selectedColors.remove(allColors[index][0]);
-                    }
-                    widget.setSelectedInfoValue('colors', selectedColors.toList());
-                  });
-                },
-              );
-            }
-          ),
-        ),
-        const SizedBox(height: 8),
-      ]
-    );
+                    : const Color(0xffCACACA),
+              ),
+            ),
+            selected: selectedColors.contains(allColors[index][0]),
+            onSelected: (bool selected) {
+              setState(() {
+                if (selected) {
+                  selectedColors.add(allColors[index][0]);
+                } else {
+                  selectedColors.remove(allColors[index][0]);
+                }
+                widget.setSelectedInfoValue('colors', selectedColors.toList());
+              });
+            },
+          );
+        }),
+      ),
+      const SizedBox(height: 8),
+    ]);
   }
 }
 
-
 class NewDetailTagPicker extends StatefulWidget {
-  const NewDetailTagPicker({
-    super.key,
-    required this.setSelectedInfoValue,
-    this.selectedDetailTags
-  });
+  const NewDetailTagPicker(
+      {super.key, required this.setSelectedInfoValue, this.selectedDetailTags});
 
   final Function setSelectedInfoValue;
 
@@ -310,7 +292,6 @@ class NewDetailTagPicker extends StatefulWidget {
 }
 
 class _NewDetailTagPickerState extends State<NewDetailTagPicker> {
-
   late List allDetailTags;
   late Set<String> selectedDetailTags;
 
@@ -327,77 +308,167 @@ class _NewDetailTagPickerState extends State<NewDetailTagPicker> {
 
   @override
   Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SizedBox(height: 8),
+      const Row(
+        children: [
+          Text(
+            "세부 태그",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(width: 10),
+          Text(
+            "브랜드, 패턴, 기장, 소재 등",
+            style: TextStyle(fontSize: 13, color: Color(0xff777777)),
+          )
+        ],
+      ),
+      const SizedBox(height: 8),
+      // TODO: 세부 태그 검색 기능
+      SizedBox(
+        height: 35,
+        child: SearchBar(
+          leading: SizedBox(child: Image.asset(IconPath.searchBar)),
+          backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
+          elevation: const MaterialStatePropertyAll(0),
+          hintText: "검색",
+          hintStyle: MaterialStateProperty.all(const TextStyle(
+              color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
+        ),
+      ),
+      const SizedBox(height: 5),
+      Wrap(
+        spacing: 8,
+        children: List.generate(allDetailTags.length, (index) {
+          return FilterChip(
+            showCheckmark: false,
+            backgroundColor: const Color(0xffF9F9F9),
+            selectedColor: const Color(0xffFFF0F0),
+            label: Text(allDetailTags[index]),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: selectedDetailTags.contains(allDetailTags[index])
+                  ? const Color(0xffF6747E)
+                  : Colors.black,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              side: BorderSide(
+                color: selectedDetailTags.contains(allDetailTags[index])
+                    ? const Color(0xffF6747E)
+                    : const Color(0xffCACACA),
+              ),
+            ),
+            selected: selectedDetailTags.contains(allDetailTags[index]),
+            onSelected: (bool selected) {
+              setState(() {
+                if (selected) {
+                  selectedDetailTags.add(allDetailTags[index]);
+                } else {
+                  selectedDetailTags.remove(allDetailTags[index]);
+                }
+                widget.setSelectedInfoValue(
+                    'tags', selectedDetailTags.toList());
+              });
+            },
+          );
+        }),
+      ),
+      const SizedBox(height: 8),
+    ]);
+  }
+}
+
+class NewStyleTagPicker extends StatefulWidget {
+  const NewStyleTagPicker({
+    super.key,
+    required this.setSelectedInfoValue,
+    this.selectedStyle,
+  });
+
+  final Function setSelectedInfoValue;
+
+  final Set<String>? selectedStyle;
+
+  @override
+  State<NewStyleTagPicker> createState() => _NewStyleTagPickerState();
+}
+
+class _NewStyleTagPickerState extends State<NewStyleTagPicker> {
+  late List allStyles;
+  Set<String>? selectedStyle;
+  int? selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    allStyles = Tag.getStyles();
+    if (widget.selectedStyle != null) {
+      selectedStyle = widget.selectedStyle!;
+    } else {
+      selectedStyle = {};
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 8),
-        const Row(
-          children: [
-            Text(
-              "세부 태그",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,),
-            ),
-            SizedBox(width: 10),
-            Text(
-              "브랜드, 패턴, 기장, 소재 등",
-              style: TextStyle(fontSize: 13, color: Color(0xff777777)),
-            )
-          ],
-        ),
-        const SizedBox(height: 8),
-        // TODO: 세부 태그 검색 기능
-        SizedBox(
-          height: 35,
-          child: SearchBar(
-            leading: SizedBox(child: Image.asset(IconPath.searchBar)),
-            backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
-            elevation: const MaterialStatePropertyAll(0),
-            hintText: "검색",
-            hintStyle: MaterialStateProperty.all(const TextStyle(color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
+        const Divider(color: Colors.transparent),
+        const Text(
+          "스타일",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children: List.generate(
-            allDetailTags.length,
-            (index) {
-              return FilterChip(
-                showCheckmark: false,
-                backgroundColor: const Color(0xffF9F9F9),
-                selectedColor: const Color(0xffFFF0F0),
-                label: Text(allDetailTags[index]),
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: selectedDetailTags.contains(allDetailTags[index])
+          children: List.generate(allStyles.length, (index) {
+            return FilterChip(
+              showCheckmark: false,
+              backgroundColor: const Color(0xffF9F9F9),
+              selectedColor: const Color(0xffFFF0F0),
+              label: Text(allStyles[index]),
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: selectedIndex == index
+                    ? const Color(0xffF6747E)
+                    : Colors.black,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+                side: BorderSide(
+                  color: selectedIndex == index
                       ? const Color(0xffF6747E)
-                      : Colors.black,
+                      : const Color(0xffCACACA),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  side: BorderSide(
-                    color: selectedDetailTags.contains(allDetailTags[index])
-                        ? const Color(0xffF6747E)
-                        : const Color(0xffCACACA),
-                  ),
-                ),
-                selected: selectedDetailTags.contains(allDetailTags[index]),
-                onSelected: (bool selected) {
-                  setState(() {
-                    if (selected) {
-                      selectedDetailTags.add(allDetailTags[index]);
-                    } else {
-                      selectedDetailTags.remove(allDetailTags[index]);
-                    }
-                    widget.setSelectedInfoValue('tags', selectedDetailTags.toList());
-                  });
-                },
-              );
-            }
-          ),
+              ),
+              // selected: selectedIndex == index,
+              selected: selectedStyle!.contains(allStyles[index][0]),
+              onSelected: (bool selected) {
+                setState(() {
+                  // selectedIndex = selected ? index : null;
+                  // selectedStyle = selected ? allStyles[index] : null;
+                  // widget.setSelectedInfoValue('style', selectedStyle);
+                  if (selected) {
+                    selectedStyle?.add(allStyles[index][0]);
+                  } else {
+                    selectedStyle?.remove(allStyles[index][0]);
+                  }
+                  widget.setSelectedInfoValue('style', selectedStyle);
+                });
+              },
+            );
+          }),
         ),
         const SizedBox(height: 8),
-      ]
+      ],
     );
   }
 }

@@ -5,6 +5,7 @@ class Clothes {
   final Uint8List image;
   final String primaryCategory;
   final String subCategory;
+  final Set style;
   final Set colors;
   final Set detailTags;
   // final int wearCount;
@@ -17,6 +18,7 @@ class Clothes {
     required this.subCategory,
     required this.colors,
     required this.detailTags,
+    required this.style,
     // required this.wearCount,
     // required this.lastWornDate,
   });
@@ -27,6 +29,7 @@ class Clothes {
       image: json['image'],
       primaryCategory: json['category'] as String,
       subCategory: json['subcategory'] as String,
+      style: json['style'].toSet(),
       colors: json['colors'].toSet(),
       detailTags: json['tags'].toSet(),
       // wearCount: json['wearCount'] as int,
@@ -34,16 +37,15 @@ class Clothes {
     );
   }
 
-
-  Map<String, dynamic> toJson() =>
-    {
-      'id': id,
-      'image': image,
-      'category': primaryCategory,
-      'subcategory': subCategory,
-      'colors': colors,
-      'tags': detailTags,
-      // 'wearCount': wearCount,
-      // 'lastWornDate': lastWornDate,
-    };
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'image': image,
+        'category': primaryCategory,
+        'subcategory': subCategory,
+        'style': style,
+        'colors': colors,
+        'tags': detailTags,
+        // 'wearCount': wearCount,
+        // 'lastWornDate': lastWornDate,
+      };
 }
