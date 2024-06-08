@@ -22,10 +22,9 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.transparent,
         primaryColor: const Color(0xffF6747E),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xffF6747E),
-          surfaceTint: Colors.transparent,
-          background: Colors.white
-        ),
+            seedColor: const Color(0xffF6747E),
+            surfaceTint: Colors.transparent,
+            background: Colors.white),
       ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

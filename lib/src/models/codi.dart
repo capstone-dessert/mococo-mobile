@@ -35,12 +35,12 @@ class Codi {
   }
 
   Map<String, dynamic> toJson() =>
-    {
-      'id': id,
-      'image': image,
-      'date': date.toIso8601String(),
-      'location': weather.location,
-      'schedules': schedule,
-      'clothes': clothes,
-    };
+      {
+        'id': id,
+        'image': image,
+        'date': date.toIso8601String(),
+        'location': weather.location,
+        'schedules': schedule,
+        'clothes': clothes,
+      };
 }
