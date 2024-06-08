@@ -36,11 +36,11 @@ class _CodiRecommendState extends State<CodiRecommend> {
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
 
-  void setSearchStatus(bool status) {
-    setState(() {
-      isClothesSelected = status;
-    });
-  }
+  // void setSearchStatus(bool status) {
+  //   setState(() {
+  //     isClothesSelected = status;
+  //   });
+  // }
 
   void setSelectedScheduleTag(selectedScheduleTag) {
     setState(() {
@@ -56,16 +56,21 @@ class _CodiRecommendState extends State<CodiRecommend> {
   void getLocation() async {
     MyLocation myLocation = MyLocation();
     await myLocation.getCurrentLocation();
+
     if (myLocation.currentLatitude != null && myLocation.currentLongitude != null) {
       var gpsToGridData = ConvGridGps.gpsToGRID(
         myLocation.currentLatitude!,
         myLocation.currentLongitude!,
       );
-      print(gpsToGridData.x);
-      print(gpsToGridData.y);
+
+      int x = gpsToGridData['x'];
+      int y = gpsToGridData['y'];
+
+      print(x);
+      print(y);
 
       Network network = Network(
-        'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=500&pageNo=1&base_date=20240606&base_time=0500&nx=${gpsToGridData['x']}&ny=${gpsToGridData['y']}&dataType=JSON',
+        'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=500&pageNo=1&base_date=20240608&base_time=0500&nx=$x&ny=$y&dataType=JSON',
       );
 
       var weatherData = await network.getJsonData();

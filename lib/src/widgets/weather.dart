@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 
+import '../data/my_location.dart';
+import '../data/network.dart';
+
 class Weather extends StatefulWidget {
   const Weather({
     Key? key,
@@ -29,6 +32,8 @@ class _WeatherState extends State<Weather> {
 
   // TODO: 위치 받아오기
   String location = "전주시";
+
+
 
   @override
   Widget build(BuildContext context) {
