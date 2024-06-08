@@ -36,6 +36,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
         clothes = value;
         isLoading = false;
       });
+      // print('clothes !!!!!!!!!!!${clothes.primaryCategory}');
     });
   }
 

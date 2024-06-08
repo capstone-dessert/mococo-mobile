@@ -35,7 +35,7 @@ class _EditClothesState extends State<EditClothes> {
       'colors': clothes.colors.toList(),
       'tags': clothes.detailTags.toList(),
     };
-    print(selectedInfo);
+    // print(selectedInfo);
   }
 
   @override

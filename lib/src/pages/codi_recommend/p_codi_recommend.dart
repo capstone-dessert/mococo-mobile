@@ -8,6 +8,10 @@ import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/pages/codi_recommend/p_codi_recommend_result.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/clothes.dart';
+import '../../models/clothes_list.dart';
+import '../../service/http_service.dart';
+
 class CodiRecommend extends StatefulWidget {
   const CodiRecommend({super.key});
 
@@ -16,6 +20,7 @@ class CodiRecommend extends StatefulWidget {
 }
 
 class _CodiRecommendState extends State<CodiRecommend> {
+
   // 날씨 정보
   double? maxTemperature;
   double? minTemperature;
@@ -23,10 +28,20 @@ class _CodiRecommendState extends State<CodiRecommend> {
   int? skyState;
   String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
 
+  late ClothesList clothesList;
+  late Clothes clothes;
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
     getLocation(); // 현재 위치 받아오기
+    fetchClothesAll().then((value) {
+      setState(() {
+        clothesList = value;
+        isLoading = false;
+      });
+    });
   }
 
   List queries = ["전체"];
@@ -223,6 +238,14 @@ class _CodiRecommendState extends State<CodiRecommend> {
                 height: 50,
                 child: FilledButton(
                   onPressed: () {
+                    for (var clothes in clothesList.listAll) {
+                      print('Clothes ID: ${clothes.id}');
+                      print('Primary Category: ${clothes.primaryCategory}');
+                      print('Sub Category: ${clothes.subCategory}');
+                      print('Styles: ${clothes.styles}.');
+                      print('Colors: ${clothes.colors}');
+                      print('Detail Tags: ${clothes.detailTags}');
+                    }
                     Navigator.push(
                       context,
                       MaterialPageRoute(
