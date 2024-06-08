@@ -12,15 +12,15 @@ class CodiList {
       return const CodiList(list: []);
     } else {
       return CodiList(
-        list: (json['list'] as List<dynamic>)
-          .map((e) => CodiPreview.fromJson(e as Map<String, dynamic>))
-          .toList()
+          list: (json['list'] as List<dynamic>)
+              .map((e) => CodiPreview.fromJson(e as Map<String, dynamic>))
+              .toList()
       );
     }
   }
 
   Map<String, dynamic> toJson() =>
-    <String, dynamic> {
-      'list': list
-    };
+      <String, dynamic> {
+        'list': list
+      };
 }

@@ -19,7 +19,7 @@ Future<ClothesList> fetchClothesAll() async {
     final response = await http.get(Uri.parse('$server/api/clothing/all'));
     if (response.statusCode ~/ 100 == 2) {
       Map<String, dynamic> jsonData = {};
-      jsonData['list'] = jsonDecode(response.body);
+      jsonData['list'] = jsonDecode(utf8.decode(response.bodyBytes));
       for (int i = 0; i < jsonData['list'].length; i++) {
         var id = jsonData['list'][i]['id'];
         var imageResponse = await http.get(

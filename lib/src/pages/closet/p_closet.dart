@@ -40,8 +40,8 @@ class _ClosetState extends State<Closet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isMultiClothesSelected
-        ? TextTitleAppBar(
+        appBar: isMultiClothesSelected
+            ? TextTitleAppBar(
           title: "의류 선택",
           buttonNum: 1,
           onBackButtonPressed: _onBackButtonPressed,
@@ -49,12 +49,12 @@ class _ClosetState extends State<Closet> {
             _onDeleteButtonPressed(context);
           },
         )
-        : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
-      body: Container(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.black12))
-          : Stack(
+            : LeftLogoAppBar(onAddButtonPressed: _onAddButtonPressed),
+        body: Container(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+              : Stack(
             children: <Widget>[
               if (!isMultiClothesSelected)
                 SingleChildScrollView(
@@ -74,7 +74,7 @@ class _ClosetState extends State<Closet> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                               side: const BorderSide(
-                                color: Color(0xffCACACA)
+                                  color: Color(0xffCACACA)
                               ),
                             ),
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -127,22 +127,22 @@ class _ClosetState extends State<Closet> {
                 top: 40,
                 right: 0,
                 child: isMultiClothesSelected
-                  ? const SizedBox()
-                  : TextButton(
-                    child: const Text(
-                      '선택',
-                      style: TextStyle(color: Colors.black87),
-                    ),
-                    onPressed: () {
-                      _onMultiClothesSelected();
-                    },
+                    ? const SizedBox()
+                    : TextButton(
+                  child: const Text(
+                    '선택',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                  onPressed: () {
+                    _onMultiClothesSelected();
+                  },
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: isMultiClothesSelected ? 24 : 90,
-                  right: 6,
-                  left: 6
+                    top: isMultiClothesSelected ? 24 : 90,
+                    right: 6,
+                    left: 6
                 ),
                 child: RefreshIndicator(
                   backgroundColor: Colors.white,
@@ -165,8 +165,8 @@ class _ClosetState extends State<Closet> {
                 ),
               ),
             ],
-        ),
-      )
+          ),
+        )
     );
   }
 

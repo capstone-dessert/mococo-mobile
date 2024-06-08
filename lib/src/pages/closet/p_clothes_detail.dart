@@ -50,88 +50,88 @@ class _ClothesDetailState extends State<ClothesDetail> {
         ),
         body: isLoading
             ? const Center(
-                child: CircularProgressIndicator(color: Colors.black12))
+            child: CircularProgressIndicator(color: Colors.black12))
             : SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 180,
+                child: Image.memory(clothes.image),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 180,
-                      child: Image.memory(clothes.image),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CategoryTag(
-                              primaryCategory: clothes.primaryCategory,
-                              subCategory: clothes.subCategory),
-                          StyleTags(styleList: clothes.styles.toList()),
-                          ColorTags(colorList: clothes.colors.toList()),
-                          DetailTags(
-                              detailTagList: clothes.detailTags.toList()),
-                          // Column(children: [
-                          //   // Text(
-                          //   //   "정보",
-                          //   //   style: TextStyle(
-                          //   //     fontSize: 20,
-                          //   //     fontWeight: FontWeight.w700,
-                          //   //   ),
-                          //   // ),
-                          //   Padding(
-                          //     padding: const EdgeInsets.only(top:5, left: 8),
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.start,
-                          //       children: [
-                          //         Row(
-                          //           children: [
-                          //             const Text(
-                          //               "착용 횟수",
-                          //               style: TextStyle(
-                          //                 fontSize: 18,
-                          //                 fontWeight: FontWeight.w600,
-                          //               ),
-                          //             ),
-                          //             Text(
-                          //               "  ${clothes.wearCount}번",
-                          //               style: const TextStyle(
-                          //                 fontSize: 18,
-                          //                 fontWeight: FontWeight.w400,
-                          //               ),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //         const SizedBox(height: 5,),
-                          //         Row(
-                          //           children: [
-                          //             const Text(
-                          //               "마지막 착용 날짜",
-                          //               style: TextStyle(
-                          //                 fontSize: 18,
-                          //                 fontWeight: FontWeight.w600,
-                          //               ),
-                          //             ),
-                          //             Text(
-                          //               "  ${clothes.lastWornDate}",
-                          //               style: const TextStyle(
-                          //                 fontSize: 18,
-                          //                 fontWeight: FontWeight.w400,
-                          //               ),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ],
-                          // ),
-                        ],
-                      ),
-                    ),
+                    CategoryTag(
+                        primaryCategory: clothes.primaryCategory,
+                        subCategory: clothes.subCategory),
+                    StyleTags(styleList: clothes.styles.toList()),
+                    ColorTags(colorList: clothes.colors.toList()),
+                    DetailTags(
+                        detailTagList: clothes.detailTags.toList()),
+                    // Column(children: [
+                    //   // Text(
+                    //   //   "정보",
+                    //   //   style: TextStyle(
+                    //   //     fontSize: 20,
+                    //   //     fontWeight: FontWeight.w700,
+                    //   //   ),
+                    //   // ),
+                    //   Padding(
+                    //     padding: const EdgeInsets.only(top:5, left: 8),
+                    //     child: Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         Row(
+                    //           children: [
+                    //             const Text(
+                    //               "착용 횟수",
+                    //               style: TextStyle(
+                    //                 fontSize: 18,
+                    //                 fontWeight: FontWeight.w600,
+                    //               ),
+                    //             ),
+                    //             Text(
+                    //               "  ${clothes.wearCount}번",
+                    //               style: const TextStyle(
+                    //                 fontSize: 18,
+                    //                 fontWeight: FontWeight.w400,
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         const SizedBox(height: 5,),
+                    //         Row(
+                    //           children: [
+                    //             const Text(
+                    //               "마지막 착용 날짜",
+                    //               style: TextStyle(
+                    //                 fontSize: 18,
+                    //                 fontWeight: FontWeight.w600,
+                    //               ),
+                    //             ),
+                    //             Text(
+                    //               "  ${clothes.lastWornDate}",
+                    //               style: const TextStyle(
+                    //                 fontSize: 18,
+                    //                 fontWeight: FontWeight.w400,
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ],
+                    // ),
                   ],
                 ),
-              ));
+              ),
+            ],
+          ),
+        ));
   }
 
   void _showLoadingDialog(BuildContext context) {
@@ -171,13 +171,13 @@ class _ClothesDetailState extends State<ClothesDetail> {
   void _onEditButtonPressed(BuildContext context) {
     if (!isLoading) {
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => EditClothes(
-            clothes: clothes,
-            reloadClothesData: reloadClothesData
+          context,
+          MaterialPageRoute(
+              builder: (_) => EditClothes(
+                  clothes: clothes,
+                  reloadClothesData: reloadClothesData
+              )
           )
-        )
       );
     }
   }
