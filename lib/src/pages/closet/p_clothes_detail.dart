@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
+// import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 
 class ClothesDetail extends StatefulWidget {
-  const ClothesDetail({
-    super.key,
-    required this.clothesId,
-    required this.previousPage,
-    required this.reloadListData
-  });
+  const ClothesDetail(
+      {super.key,
+      required this.clothesId,
+      required this.previousPage,
+      required this.reloadListData});
 
   final int clothesId;
   final String previousPage;
@@ -24,7 +24,6 @@ class ClothesDetail extends StatefulWidget {
 }
 
 class _ClothesDetailState extends State<ClothesDetail> {
-
   late Clothes clothes;
   bool isLoading = true;
 
@@ -172,14 +171,10 @@ class _ClothesDetailState extends State<ClothesDetail> {
   void _onEditButtonPressed(BuildContext context) {
     if (!isLoading) {
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => EditClothes(
-            clothes: clothes,
-            reloadClothesData: reloadClothesData
-          )
-        )
-      );
+          context,
+          MaterialPageRoute(
+              builder: (_) => EditClothes(
+                  clothes: clothes, reloadClothesData: reloadClothesData)));
     }
   }
 
