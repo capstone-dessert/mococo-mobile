@@ -4,6 +4,7 @@ import 'package:mococo_mobile/src/binding/init_binding.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mococo_mobile/src/app.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mococo_mobile/src/data/tag_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,10 +23,9 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.transparent,
         primaryColor: const Color(0xffF6747E),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xffF6747E),
-          surfaceTint: Colors.transparent,
-          background: Colors.white
-        ),
+            seedColor: const Color(0xffF6747E),
+            surfaceTint: Colors.transparent,
+            background: Colors.white),
       ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
