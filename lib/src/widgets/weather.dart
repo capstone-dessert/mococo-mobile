@@ -3,6 +3,7 @@ import 'package:mococo_mobile/src/components/image_data.dart';
 
 import '../data/my_location.dart';
 import '../data/network.dart';
+import 'location.dart';
 
 class Weather extends StatefulWidget {
   const Weather({
@@ -29,11 +30,7 @@ class Weather extends StatefulWidget {
 }
 
 class _WeatherState extends State<Weather> {
-
-  // TODO: 위치 받아오기
   String location = "전주시";
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,58 +45,66 @@ class _WeatherState extends State<Weather> {
             height: 90,
             decoration: ShapeDecoration(
                 color: const Color(0xffFFF5F6),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
-            ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
           ),
           // TODO: 날씨 아이콘
           Positioned(
-              left: 20,
-              top: 20,
-              child: SizedBox(width: 50, height: 50, child: Image.asset(IconPath.mococoLogo),)
+            left: 20,
+            top: 20,
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: Image.asset(IconPath.mococoLogo),
+            ),
           ),
           Positioned(
-              left: 90,
-              top: 18,
-              child: TextButton(
-                  onPressed: () {_showModalBottomSheet();},
-                  style: TextButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            left: 90,
+            top: 18,
+            child: TextButton(
+              onPressed: () {
+                _showModalBottomSheet();
+              },
+              style: TextButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: EdgeInsets.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    location,
+                    style: const TextStyle(fontSize: 18, color: Colors.black, decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
                   ),
-                  child: Row(
-                    children: [
-                      Text(
-                        location,
-                        style: const TextStyle(fontSize: 18, color: Colors.black, decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(width: 3,),
-                      SizedBox(width: 22, child: Image.asset(IconPath.editCondition,),)
-                    ],
+                  const SizedBox(width: 3),
+                  SizedBox(
+                    width: 22,
+                    child: Image.asset(IconPath.editCondition),
                   )
-              )
+                ],
+              ),
+            ),
           ),
           Positioned(
-              left: 90,
-              top: 50,
-              child: Text.rich(
+            left: 90,
+            top: 50,
+            child: Text.rich(
+              TextSpan(
+                children: [
                   TextSpan(
-                      children: [
-                        TextSpan(
-                            text: '${widget.maxTemperature?.toInt() ?? ''}℃',
-                            style: TextStyle(color: Colors.red, fontSize: 17, fontWeight: FontWeight.w500)
-                        ),
-                        TextSpan(
-                            text: ' / ',
-                            style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500)
-                        ),
-                        TextSpan(
-                            text: '${widget.minTemperature?.toInt() ?? ''}℃',
-                            style: TextStyle(color: Colors.blue, fontSize: 17, fontWeight: FontWeight.w500)
-                        )
-                      ]
-                  )
-              )
+                    text: '${widget.maxTemperature?.toInt() ?? ''}℃',
+                    style: TextStyle(color: Colors.red, fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+                  TextSpan(
+                    text: ' / ',
+                    style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+                  TextSpan(
+                    text: '${widget.minTemperature?.toInt() ?? ''}℃',
+                    style: TextStyle(color: Colors.blue, fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
           ),
           // const Positioned(
           //     left: 213,
@@ -111,35 +116,40 @@ class _WeatherState extends State<Weather> {
           // )
         ],
       );
-    }
-    else {
+    } else {
       return Row(
         children: [
           // TODO: 날씨 아이콘
-          SizedBox(width: 24, height: 24, child: Image.asset(IconPath.mococoLogo),),
+          SizedBox(
+            width: 24,
+            height: 24,
+            child: Image.asset(IconPath.mococoLogo),
+          ),
           const SizedBox(width: 6),
           const Text.rich(
-              TextSpan(
-                  children: [
-                    TextSpan(
-                        text: '24℃',
-                        style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600)
-                    ),
-                    TextSpan(
-                        text: ' / ',
-                        style: TextStyle(color: Color(0xff494949), fontSize: 16, fontWeight: FontWeight.w600)
-                    ),
-                    TextSpan(
-                        text: '11℃',
-                        style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600)
-                    )
-                  ]
-              )
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: '24℃',
+                  style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                TextSpan(
+                  text: ' / ',
+                  style: TextStyle(color: Color(0xff494949), fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                TextSpan(
+                  text: '11℃',
+                  style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
           ),
           const SizedBox(width: 7),
           if (widget.isEditable)
             TextButton(
-              onPressed: () {_showModalBottomSheet();},
+              onPressed: () {
+                _showModalBottomSheet();
+              },
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
                 padding: EdgeInsets.zero,
@@ -149,11 +159,14 @@ class _WeatherState extends State<Weather> {
                 children: [
                   Text(
                     location,
-                    style: const TextStyle(fontSize: 16, color: Color(0xff494949),decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontSize: 16, color: Color(0xff494949), decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(width: 22, child: Image.asset(IconPath.editCondition,),)
+                  SizedBox(
+                    width: 22,
+                    child: Image.asset(IconPath.editCondition),
+                  )
                 ],
-              )
+              ),
             )
           else
             Text(
@@ -175,35 +188,16 @@ class _WeatherState extends State<Weather> {
       useRootNavigator: widget.isSmall ? true : false,
       builder: (context) {
         return Container(
-          height: widget.isSmall ? MediaQuery.of(context).size.height - 120 - 32 - 25 : 515,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 35,
-                  child: SearchBar(
-                    leading: SizedBox(child: Image.asset(IconPath.searchBar)),
-                    backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
-                    elevation: const MaterialStatePropertyAll(0),
-                    hintText: "검색",
-                    hintStyle: MaterialStateProperty.all(const TextStyle(color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
-                  ),
-                ),
-                const SizedBox(height: 16,),
-                // 검색 결과 리스트
-              ],
-            ),
-          ),
+          width: MediaQuery.of(context).size.width,
+          height: widget.isSmall ? MediaQuery.of(context).size.height - 120 - 32 - 25 : 680,
+          child: LocationSelector(
+              onLocationSelected: (newLocation) {
+                setState(() {
+                  location = newLocation;
+                });
+              }),
         );
-      }
+      },
     );
   }
 }
