@@ -4,7 +4,6 @@ import 'package:mococo_mobile/src/binding/init_binding.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mococo_mobile/src/app.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:mococo_mobile/src/data/tag_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
