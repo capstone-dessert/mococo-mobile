@@ -41,7 +41,11 @@ class _RegisterClothState extends State<RegisterCloth> {
     classifyImage(_pickedFile!).then((value) {
       setState(() {
         classifiedInfo = value;
-        print(classifiedInfo);
+        selectedInfo = {
+          'category': classifiedInfo['category'],
+          'colors': classifiedInfo['colors'],
+        };
+        print("이미지 분류 결과: $classifiedInfo");
         // TODO: UI에 classifiedInfo 적용
       });
     }).catchError((error) {

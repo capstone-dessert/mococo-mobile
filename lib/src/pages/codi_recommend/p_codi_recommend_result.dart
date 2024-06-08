@@ -56,6 +56,11 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                 // TODO: 날씨 아이콘
                 SizedBox(width: 24, height: 24, child: Image.asset(IconPath.mococoLogo),),
                 const SizedBox(width: 6),
+                const Text(
+                  "전주시",
+                  style: TextStyle(fontSize: 16, color: Color(0xff494949), fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 4),
                 const Text.rich(
                     TextSpan(
                         children: [
@@ -74,12 +79,6 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                         ]
                     )
                 ),
-                const SizedBox(width: 7),
-                const Text(
-                  "전주시",
-                  style: TextStyle(fontSize: 16, color: Color(0xff494949), fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(width: 4),
               ],
             ),
             const SizedBox(height: 6),

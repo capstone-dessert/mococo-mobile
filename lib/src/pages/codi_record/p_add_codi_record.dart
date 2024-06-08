@@ -7,6 +7,7 @@ import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 
 import '../../service/http_service.dart';
@@ -19,7 +20,6 @@ class AddCodiRecord extends StatefulWidget {
 }
 
 class _AddCodiRecordState extends State<AddCodiRecord> {
-
   late ClothesList clothesList;
   bool isLoading = true;
   List<int> selectedClothesIndices = [];
@@ -29,6 +29,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   String? selectedSchedule;
+  String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
 
   @override
   void initState() {
@@ -55,7 +56,15 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   }
 
   void setSelectedScheduleTag(schedule) {
-    selectedSchedule = schedule;
+    setState(() {
+      selectedSchedule = schedule;
+    });
+  }
+
+  void onDateChanged(String newDate) {
+    setState(() {
+      selectedDate = newDate;
+    });
   }
 
   @override
@@ -72,18 +81,26 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: isLoading
-            ? const Center(child: CircularProgressIndicator(color: Colors.black12))
-              : Stack(
-                children: [
-                  const SizedBox(height: 16),
-                  Column(
+                ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+                : Stack(
+              children: [
+                const SizedBox(height: 16),
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Date(isCenter: false, isEditable: true,),
-                        Spacer(),
-                        Weather(isSmall: true, isEditable: true,)
+                        Date(
+                          isCenter: false,
+                          isEditable: true,
+                          date: DateTime.parse(selectedDate.replaceAll('.', '-')),
+                          onDateChanged: onDateChanged,
+                        ),
+                        const Spacer(),
+                        Weather(
+                          isSmall: true,
+                          isEditable: true,
+                        )
                       ],
                     ),
                     const SizedBox(height: 6),

@@ -9,6 +9,7 @@ import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/jsons.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 
 class EditCodiRecord extends StatefulWidget {
@@ -31,6 +32,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   String? selectedSchedule;
+  String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
 
   @override
   void initState() {
@@ -56,6 +58,12 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     selectedSchedule = schedule;
   }
 
+  void onDateChanged(String newDate) {
+    setState(() {
+      selectedDate = newDate;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     codiItem = widget.codiItem;
@@ -75,7 +83,12 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Date(isCenter: false, isEditable: true, date: codiItem.date,),
+                    Date(
+                      isCenter: false,
+                      isEditable: true,
+                      date: DateTime.parse(selectedDate.replaceAll('.', '-')),
+                      onDateChanged: onDateChanged,
+                    ),
                     const Spacer(),
                     Weather(isSmall: true, isEditable: true, location: codiItem.weather.location,)
                   ],
