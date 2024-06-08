@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -227,5 +228,22 @@ Future<Codi> fetchCodi(int id) async {
   }
 }
 
-// TODO: [013] 코디 기록 - addCodi
-// TODO: [015] 코디 기록 삭제 - deleteCodi
+// TODO: [013] 코디 기록 추가 - addCodi
+Future<void> addCodi(Map<String, dynamic> data) async {
+  data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
+
+  final url = Uri.parse('$server/api/outfit/add');
+  try {
+    final response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
+    if (response.statusCode ~/ 100 == 2) {
+      print('Codi added successfully!');
+    } else {
+      throw Exception('Failed to adding codi. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error adding codi: $e');
+  }
+}
+
+// TODO: [015] 코디 기록 수정 - editCodi
+// TODO: [016] 코디 기록 삭제 - deleteCodi
