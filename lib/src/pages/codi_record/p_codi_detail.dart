@@ -9,6 +9,7 @@ import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
+import 'package:intl/intl.dart';
 
 class CodiDetail extends StatefulWidget {
   const CodiDetail({
@@ -27,6 +28,7 @@ class CodiDetail extends StatefulWidget {
 
 class _CodiDetailState extends State<CodiDetail> {
 
+  String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
   late Codi codi;
   bool isLoading = true;
 
@@ -38,6 +40,12 @@ class _CodiDetailState extends State<CodiDetail> {
         codi = value;
         isLoading = false;
       });
+    });
+  }
+
+  void onDateChanged(String newDate) {
+    setState(() {
+      selectedDate = newDate;
     });
   }
 
@@ -61,7 +69,12 @@ class _CodiDetailState extends State<CodiDetail> {
               Row(
                 children: [
                   const SizedBox(width: 6),
-                  Date(isCenter: false, isEditable: false, date: codi.date,),
+                  Date(
+                    isCenter: false,
+                    isEditable: true,
+                    date: DateTime.parse(selectedDate.replaceAll('.', '-')),
+                    onDateChanged: onDateChanged,
+                  ),
                   const Spacer(),
                   // TODO: 위치, 날씨 데이터 가져와서 넣기
                   Weather(isSmall: true, isEditable: false, location: codi.weather.location,),
