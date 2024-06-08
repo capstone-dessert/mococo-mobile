@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/data/category.dart';
-import 'package:mococo_mobile/src/data/color.dart';
 
-import '../data/style.dart';
 import '../data/tag_data.dart';
 
 class CategoryTag extends StatefulWidget {
@@ -81,7 +78,7 @@ class ColorTags extends StatefulWidget {
 }
 
 class _ColorTagsState extends State<ColorTags> {
-  List colors = ColorList.getColorList();
+  List colors = Tag.getColorList();
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +220,7 @@ class ScheduleTags extends StatelessWidget {
 
 
 class StyleTags extends StatefulWidget {
-  const StyleTags({Key? key, required this.styleList}) : super(key: key);
+  const StyleTags({super.key, required this.styleList});
 
   final List styleList;
 
@@ -234,8 +231,6 @@ class StyleTags extends StatefulWidget {
 class _StyleTagsState extends State<StyleTags> {
   @override
   Widget build(BuildContext context) {
-    List styles = Tag.getStyleTags();
-
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(

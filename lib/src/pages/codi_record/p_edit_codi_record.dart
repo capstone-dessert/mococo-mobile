@@ -4,10 +4,10 @@ import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
+import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
-import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/jsons.dart';
 import 'dart:math';
 
@@ -30,14 +30,14 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
-  String? selectedScheduleTag;
+  String? selectedSchedule;
 
   @override
   void initState() {
     super.initState();
     clothesList = ClothesList.fromJson(clothesJson);
     codiItem = widget.codiItem;
-    selectedScheduleTag = codiItem.schedule;
+    selectedSchedule = codiItem.schedule;
   }
 
   void setSelectedStatus(bool status) {
@@ -52,14 +52,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     });
   }
 
-  void setSelectedScheduleTag(selectedScheduleTag) {
-    setState(() {
-      if (selectedScheduleTag == "null") {
-        this.selectedScheduleTag = null;
-      } else {
-        this.selectedScheduleTag = selectedScheduleTag;
-      }
-    });
+  void setSelectedScheduleTag(schedule) {
+    selectedSchedule = schedule;
   }
 
   @override
@@ -107,7 +101,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                ScheduleTagPicker(selectedScheduleTag: selectedScheduleTag, setSelectedScheduleTag: setSelectedScheduleTag),
+                NewScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
               ],
             ),
           ),
@@ -145,7 +139,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         _handleDrag(details, index);
       },
       child: Image.memory(
-        clothesList.list![index].image,
+        clothesList.list[index].image,
         width: imageSize,
       ),
     );
@@ -170,7 +164,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
       return Positioned(
         left: left,
         top: top,
-        child: _buildClothesImage(clothesList.list![index], entry.value, 150),
+        child: _buildClothesImage(clothesList.list[index], entry.value, 150),
       );
     }).toList();
   }

@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:mococo_mobile/src/models/clothes_list.dart';
+import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/weather.dart';
 
 class Codi {
@@ -9,7 +12,7 @@ class Codi {
   final DateTime date;
   final Weather weather;
   final String schedule;
-  final Set clothes;
+  final ClothesList clothes;
 
   const Codi({
     required this.id,
@@ -25,9 +28,9 @@ class Codi {
         id: json['id'] as int,
         image: json['image'],
         date: DateTime.parse(json['date']),
-        weather: Weather(location: json["location"], highTemperature: 25, lowTemperature: 19, weatherCondition: "맑음"),
-        schedule: json['schedules'],
-        clothes: json['clothes'] as Set
+        weather: Weather(location: "전주시", highTemperature: 25, lowTemperature: 19, weatherCondition: "맑음"),
+        schedule: json['schedule'],
+        clothes: ClothesList.fromJson({'list': json['clothingItems']})
     );
   }
 

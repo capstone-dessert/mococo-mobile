@@ -7,15 +7,24 @@ import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/pages/closet/p_edit_clothes.dart';
 
 class ClothesDetail extends StatefulWidget {
-  const ClothesDetail({super.key, required this.clothesId});
+  const ClothesDetail({
+    super.key,
+    required this.clothesId,
+    required this.previousPage,
+    required this.reloadListData
+  });
 
   final int clothesId;
+  final String previousPage;
+
+  final Function reloadListData;
 
   @override
   State<ClothesDetail> createState() => _ClothesDetailState();
 }
 
 class _ClothesDetailState extends State<ClothesDetail> {
+
   late Clothes clothes;
   bool isLoading = true;
 
@@ -59,7 +68,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                           CategoryTag(
                               primaryCategory: clothes.primaryCategory,
                               subCategory: clothes.subCategory),
-                          StyleTags(styleList: clothes.style.toList()),
+                          StyleTags(styleList: clothes.styles.toList()),
                           ColorTags(colorList: clothes.colors.toList()),
                           DetailTags(
                               detailTagList: clothes.detailTags.toList()),
@@ -126,7 +135,25 @@ class _ClothesDetailState extends State<ClothesDetail> {
               ));
   }
 
-  void reloadData() {
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void reloadClothesData() {
     setState(() {
       isLoading = true;
       fetchClothes(widget.clothesId).then((value) {
@@ -143,22 +170,36 @@ class _ClothesDetailState extends State<ClothesDetail> {
   }
 
   void _onEditButtonPressed(BuildContext context) {
-    Navigator.push(
+    if (!isLoading) {
+      Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) =>
-                EditClothes(clothes: clothes, reloadData: reloadData)));
+          builder: (_) => EditClothes(
+            clothes: clothes,
+            reloadClothesData: reloadClothesData
+          )
+        )
+      );
+    }
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    AlertModal.show(
-      context,
-      message: '해당 의류를 삭제하시겠습니까?',
-      onConfirm: () {
-        deleteClothes([clothes.id]).then((_) {
-          Navigator.pop(context);
-        });
-      },
-    );
+    if (!isLoading) {
+      AlertModal.show(
+        context,
+        message: '해당 의류를 삭제하시겠습니까?',
+        onConfirm: () {
+          _showLoadingDialog(context);
+          deleteClothes([clothes.id]).then((_) {
+            widget.reloadListData();
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.pop(context);
+            if (widget.previousPage == "CodiDetail") {
+              Navigator.pop(context);
+            }
+          });
+        },
+      );
+    }
   }
 }

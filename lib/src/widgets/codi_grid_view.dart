@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/codi_list.dart';
 import 'package:mococo_mobile/src/models/codi_preview.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_codi_detail.dart';
-import 'package:mococo_mobile/src/jsons.dart';
 
 class CodiGridView extends StatefulWidget {
-  const CodiGridView({super.key});
+  const CodiGridView({
+    super.key,
+    required this.codiList,
+    required this.getCodiList,
+    required this.reloadCodiListData
+  });
+
+  final CodiList codiList;
+
+  final Function getCodiList;
+  final Function reloadCodiListData;
 
   @override
   State<CodiGridView> createState() => _CodiGridViewState();
@@ -18,7 +27,13 @@ class _CodiGridViewState extends State<CodiGridView> {
   @override
   void initState() {
     super.initState();
-    codiList = CodiList.fromJson(codiJson);
+    codiList = widget.codiList;
+  }
+
+  @override
+  void didUpdateWidget(covariant CodiGridView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    codiList = widget.getCodiList();
   }
 
   @override
@@ -29,7 +44,7 @@ class _CodiGridViewState extends State<CodiGridView> {
           Row(
             children: [
               Text(
-                '${codiList.list!.length}개',
+                '${codiList.list.length}개',
                 style: const TextStyle(color: Color(0xff888888)),
               ),
               const Spacer()
@@ -37,7 +52,7 @@ class _CodiGridViewState extends State<CodiGridView> {
           ),
           const SizedBox(height: 12),
           GridView.builder(
-            itemCount: codiList.list!.length,
+            itemCount: codiList.list.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -47,11 +62,11 @@ class _CodiGridViewState extends State<CodiGridView> {
               crossAxisSpacing: 8,
             ),
             itemBuilder: (BuildContext context, int index) {
-              CodiPreview codiItem = codiList.list![index];
+              CodiPreview codiItem = codiList.list[index];
               DateTime date = codiItem.date;
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(id: codiItem.id,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id, reloadCodiListData: widget.reloadCodiListData)));
                 },
                 child: Column(
                   children: [

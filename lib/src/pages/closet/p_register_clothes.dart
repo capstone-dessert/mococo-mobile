@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
-import 'package:mococo_mobile/src/widgets/new_tag_picker.dart';
+import 'package:mococo_mobile/src/widgets/clothes_tag_picker.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 
 class RegisterCloth extends StatefulWidget {
-  const RegisterCloth(
-      {super.key, required this.imagePath, required this.reloadData});
+  const RegisterCloth({
+    super.key,
+    required this.imagePath,
+    required this.reloadClothesListData
+  });
 
   final String imagePath;
-  final Function reloadData;
+  final Function reloadClothesListData;
 
   @override
   State<RegisterCloth> createState() => _RegisterClothState();
@@ -35,14 +38,6 @@ class _RegisterClothState extends State<RegisterCloth> {
       _isDeleteButtonPressed = true;
     }
 
-    selectedInfo = {
-      'category': null,
-      'subcategory': null,
-      'colors': null,
-      'tags': null,
-      'style': null,
-    };
-
     classifyImage(_pickedFile!).then((value) {
       setState(() {
         classifiedInfo = value;
@@ -57,6 +52,13 @@ class _RegisterClothState extends State<RegisterCloth> {
       print("Error classifying image: $error");
     });
 
+    selectedInfo = {
+      'category': null,
+      'subcategory': null,
+      'styles': null,
+      'colors': null,
+      'tags': null,
+    };
   }
 
   @override
@@ -76,10 +78,10 @@ class _RegisterClothState extends State<RegisterCloth> {
               Center(
                 // TODO 이미지 서버에 보내서 분류, 배경 제거
                 child: _pickedFile != null
-                    ? Image.file(File(_pickedFile!.path))
-                    : _croppedFile != null
-                        ? Image.file(File(_croppedFile!.path))
-                        : const Text("이미지가 없습니다."),
+                  ? Image.file(File(_pickedFile!.path))
+                  : _croppedFile != null
+                    ? Image.file(File(_croppedFile!.path))
+                    : const Text("이미지가 없습니다."),
               ),
               const SizedBox(height: 20),
               Row(
@@ -122,7 +124,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                 ],
               ),
               const SizedBox(height: 20),
-              TagPicker(setSelectedInfo: setSelectedInfo),
+              ClothesTagPicker(setSelectedInfo: setSelectedInfo),
               const SizedBox(height: 16),
             ],
           ),
@@ -165,13 +167,15 @@ class _RegisterClothState extends State<RegisterCloth> {
 
   void _onSaveButtonPressed() {
     if (selectedInfo.values.contains(null)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          "각 태그 선택은 필수입니다.",
-          style: TextStyle(color: Colors.white),
-        ),
-        duration: Duration(seconds: 1),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "각 태그 선택은 필수입니다.",
+            style: TextStyle(color: Colors.white),
+          ),
+          duration: Duration(seconds: 1),
+        )
+      );
     } else {
       print("의류 속성: $selectedInfo");
       AlertModal.show(
@@ -183,7 +187,7 @@ class _RegisterClothState extends State<RegisterCloth> {
           addClothes(selectedInfo).then((_) {
             Navigator.pop(context);
             Navigator.pop(context);
-            widget.reloadData();
+            widget.reloadClothesListData();
           });
         },
       );
@@ -191,7 +195,7 @@ class _RegisterClothState extends State<RegisterCloth> {
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    GetImageModal.show(context, widget.reloadData);
+    GetImageModal.show(context, widget.reloadClothesListData);
   }
 
   void _imageClear() {
@@ -205,8 +209,7 @@ class _RegisterClothState extends State<RegisterCloth> {
     if (_pickedFile != null) {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile!.path,
-        aspectRatio: const CropAspectRatio(
-            ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
+        aspectRatio: const CropAspectRatio(ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
         androidUiSettings: const AndroidUiSettings(
           toolbarTitle: '크롭하기',
           toolbarColor: Colors.redAccent,
