@@ -257,30 +257,22 @@ class _CodiRecommendState extends State<CodiRecommend> {
     List<Clothes> filteredClothes = filterClothes(clothesList.listAll, minTemperature, maxTemperature, selectedScheduleTag);
 
     // 부모 아이템 선택
-    print("Parent Item:");
     Clothes? parentItem = getRandomParentItem(filteredClothes);
-    print(
-        "${parentItem?.primaryCategory}: ${parentItem?.subCategory} (${parentItem
-            ?.styles.join(', ')}, ${parentItem?.colors.join(', ')})");
 
     // 자식 아이템 선택
-    print("Child Item:");
-    List<Clothes> childItems = getChildItems(clothesList.listAll, parentItem);
-    childItems.forEach((item) {
-      print("${item.primaryCategory}: ${item.subCategory} (${item.styles.join(', ')}, ${item.colors.join(', ')})");
-    });
-
-
+    List<Clothes> childItems = getChildItems(filteredClothes, parentItem);
 
     // 코디 추천
-    // List<Clothes> outfit = selectOutfit(filteredClothes);
+    List<Clothes> recommendedOutfit = [];
+    if (parentItem != null) {
+      recommendedOutfit.add(parentItem);
+    }
+    recommendedOutfit.addAll(childItems);
 
-    // print("Recommended Outfit:");
-    // filteredClothes.forEach((item) {
-    //   print(
-    //       "${item.primaryCategory}: ${item.subCategory} (${item
-    //           .styles.join(', ')}, ${item.colors.join(', ')})");
-    // });
+    print("Recommended Outfit:");
+    recommendedOutfit.forEach((item) {
+      print("${item.id}: ${item.primaryCategory}: ${item.subCategory} (${item.styles.join(', ')}, ${item.colors.join(', ')})");
+    });
 
     Navigator.push(
       context,
@@ -359,7 +351,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
     "포멀": ["댄디"],
   };
 
-  List<Clothes> getChildItems(List<Clothes> clothesList, Clothes? parentItem) {
+  List<Clothes> getChildItems(List<Clothes> clothesList, Clothes? parentItem, {int? maxTemperature}) {
     if (parentItem == null) {
       return [];
     }
@@ -402,6 +394,12 @@ class _CodiRecommendState extends State<CodiRecommend> {
           for (int j = 0; j < categoryItems.length; j++) {
             cumulativeScore += itemScores[categoryItems[j]]!;
             if (randomValue < cumulativeScore) {
+              // 최고 기온이 10도에서 23도 사이이고, 부모 아이템의 subcategory가 반소매 티셔츠인 경우
+              if (maxTemperature != null && maxTemperature >= 10 && maxTemperature <= 23 && parentItem.subCategory == "반소매 티셔츠") {
+                // 아우터 아이템을 필수로 childItems에 추가
+                Clothes outerwear = clothesList.firstWhere((item) => item.primaryCategory == "outer");
+                childItems.add(outerwear);
+              }
               childItems.add(categoryItems[j]);
               break;
             }
@@ -412,5 +410,4 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
     return childItems;
   }
-
 }
