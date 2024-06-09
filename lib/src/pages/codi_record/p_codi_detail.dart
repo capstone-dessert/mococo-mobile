@@ -8,7 +8,6 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
-import 'package:intl/intl.dart';
 
 class CodiDetail extends StatefulWidget {
   const CodiDetail({
