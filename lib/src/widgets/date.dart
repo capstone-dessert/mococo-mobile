@@ -2,25 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 
 class Date extends StatefulWidget {
-  const Date({super.key, required this.isCenter, required this.isEditable, this.date, required this.onDateChanged});
+  const Date({
+    super.key,
+    required this.isCenter,
+    required this.isEditable,
+    required this.onDateChanged,
+    this.date
+  });
 
   final bool isCenter;
   final bool isEditable;
+  final ValueChanged<DateTime> onDateChanged;
   final DateTime? date;
-  final ValueChanged<String> onDateChanged;
 
   @override
   State<Date> createState() => _DateState();
 }
 
 class _DateState extends State<Date> {
-  DateTime date = DateTime.now();
+
+  late DateTime date;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.date != null) {
+      date = widget.date!;
+    } else {
+      date = DateTime.now();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.date != null) {
-      date = widget.date!;
-    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -42,7 +56,7 @@ class _DateState extends State<Date> {
                   setState(() {
                     date = selectedDate;
                   });
-                  widget.onDateChanged("${date.year.toString()}.${date.month.toString().padLeft(2, '0')}.${date.day.toString().padLeft(2, '0')}");
+                  widget.onDateChanged(date);
                 }
               },
               style: TextButton.styleFrom(

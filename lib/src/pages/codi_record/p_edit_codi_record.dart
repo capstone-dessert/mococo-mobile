@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
-import 'package:mococo_mobile/src/jsons.dart';
-import 'package:intl/intl.dart';
 import 'dart:math';
 
 class EditCodiRecord extends StatefulWidget {
-  const EditCodiRecord({super.key, required this.codiItem});
+  const EditCodiRecord({
+    super.key,
+    required this.codiItem,
+    required this.reloadCodiData
+  });
 
   final Codi codiItem;
+
+  final Function reloadCodiData;
 
   @override
   State<EditCodiRecord> createState() => _EditCodiRecordState();
@@ -24,6 +29,7 @@ class EditCodiRecord extends StatefulWidget {
 class _EditCodiRecordState extends State<EditCodiRecord> {
 
   late final ClothesList clothesList;
+  bool isLoading = true;
   List<int> selectedClothesIndices = [];
   Set<int> selectedClothesIndex = {};
   late Codi codiItem;
@@ -32,14 +38,23 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   String? selectedSchedule;
-  String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
+  late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
-    clothesList = ClothesList.fromJson(clothesJson);
+    fetchClothesAll().then((value) {
+      setState(() {
+        clothesList = value;
+        isLoading = false;
+      });
+    });
     codiItem = widget.codiItem;
+    selectedDate = codiItem.date;
     selectedSchedule = codiItem.schedule;
+    for (var clothesPreview in codiItem.clothes.list) {
+      selectedClothesIndices.add(clothesPreview.id);
+    }
   }
 
   void setSelectedStatus(bool status) {
@@ -58,7 +73,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     selectedSchedule = schedule;
   }
 
-  void onDateChanged(String newDate) {
+  void onDateChanged(DateTime newDate) {
     setState(() {
       selectedDate = newDate;
     });
@@ -74,53 +89,73 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         onBackButtonPressed: _onBackButtonPressed,
         onSaveButtonPressed: _onSaveButtonPressed,
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Date(
-                      isCenter: false,
-                      isEditable: true,
-                      date: DateTime.parse(selectedDate.replaceAll('.', '-')),
-                      onDateChanged: onDateChanged,
+      body: isLoading
+        ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+        : Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Date(
+                        isCenter: false,
+                        isEditable: true,
+                        date: selectedDate,
+                        onDateChanged: onDateChanged,
+                      ),
+                      const Spacer(),
+                      Weather(isSmall: true, isEditable: true, location: codiItem.weather.location,)
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  selectedClothesIndices.isEmpty ?
+                  Container(
+                    color: Colors.black12,
+                    height: 400,
+                    child: const Center(
+                      child: Text(
+                        "기존 코디",
+                        style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                      )
                     ),
-                    const Spacer(),
-                    Weather(isSmall: true, isEditable: true, location: codiItem.weather.location,)
-                  ],
-                ),
-                const SizedBox(height: 6),
-                selectedClothesIndices.isEmpty ?
-                Container(
-                  color: Colors.black12,
-                  height: 400,
-                  child: const Center(
-                    child: Text(
-                      "기존 코디",
-                      style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                    )
+                    // child: Image.asset(codiItem!.image),  // TODO: 기존 코디 사진 불러오기
+                  ) :
+                  Container(
+                    color: Colors.black12,
+                    height: 400,
+                    child: Stack(
+                      children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                    ),
                   ),
-                  // child: Image.asset(codiItem!.image),  // TODO: 기존 코디 사진 불러오기
-                ) :
-                Container(
-                  color: Colors.black12,
-                  height: 400,
-                  child: Stack(
-                    children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                NewScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
-              ],
+                  const SizedBox(height: 8),
+                  NewScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
+                ],
+              ),
+            ),
+            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIndices: setSelectedClothesIndices),
+          ],
+        ),
+    );
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIndices: setSelectedClothesIndices),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -135,15 +170,40 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   }
 
   void _onSaveButtonPressed() {
-    // TODO: 저장 버튼 처리
-    // print(selectedClothesIndices);
-    AlertModal.show(
-      context,
-      message: '코디를 기록하시겠습니까?',
-      onConfirm: () {
-        Navigator.pop(context);
-      },
-    );
+    List<int> selectedClothesIds = [];
+    for (var clothesIndices in selectedClothesIndices) {
+      selectedClothesIds.add(clothesList.list[clothesIndices].id);
+    }
+    Map<String, dynamic> selectedInfo = {
+      'date': selectedDate,
+      'schedule': selectedSchedule,
+      'clothingIds': selectedClothesIds
+    };
+
+    if (selectedInfo.values.contains(null)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "스케줄과 옷 선택은 필수입니다.",
+              style: TextStyle(color: Colors.white),
+            ),
+            duration: Duration(seconds: 1),
+          )
+      );
+    } else {
+      AlertModal.show(
+        context,
+        message: '코디를 수정하시겠습니까?',
+        onConfirm: () {
+          _showLoadingDialog(context);
+          editCodi(codiItem.id, selectedInfo).then((_) {
+            widget.reloadCodiData();
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.pop(context);
+          });
+        },
+      );
+    }
   }
 
   Widget _buildClothesImage(ClothesPreview clothesPreview, int index, double imageSize) {

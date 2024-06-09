@@ -107,7 +107,7 @@ Future<void> addClothes(Map<String, dynamic> data) async{
     var streamedResponse = await request.send();
     streamedResponse.printInfo();
     if (streamedResponse.statusCode ~/ 100 == 2) {
-      log('Clothes added successfully!');
+      log('[SUCCESS] Clothes added successfully!');
     } else {
       throw Exception('Failed to add clothes. Status code: ${streamedResponse.statusCode}');
     }
@@ -145,7 +145,7 @@ Future<void> editClothes(int id, Map<String, dynamic> data) async{
   try {
     var streamedResponse = await request.send();
     if (streamedResponse.statusCode ~/ 100 == 2) {
-      log('Clothes edited successfully!');
+      log('[SUCCESS] Clothes edited successfully!');
     } else {
       var response = await http.Response.fromStream(streamedResponse);
       print(response.body);
@@ -162,7 +162,7 @@ Future<void> deleteClothes(List<int> idList) async {
       var response = await http.delete(Uri.parse('$server/api/clothing/$id'));
       print(response.body);
       if (response.statusCode ~/ 100 == 2) {
-        log('Clothes($id) deleted successfully!');
+        log('[SUCCESS] Clothes($id) deleted successfully!');
       } else {
         throw Exception('Failed to delete clothes. Status code: ${response.statusCode}');
       }
@@ -229,7 +229,6 @@ Future<CodiList> fetchCodiAll() async {
   }
 }
 
-// TODO: [014] 코디 기록 상세 조회 - fetchCodi
 Future<Codi> fetchCodi(int id) async {
   try {
     final response = await http.get(Uri.parse('$server/api/outfit/$id'));
@@ -252,7 +251,6 @@ Future<Codi> fetchCodi(int id) async {
   }
 }
 
-// TODO: [013] 코디 기록 추가 - addCodi
 Future<void> addCodi(Map<String, dynamic> data) async {
   data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
 
@@ -260,7 +258,7 @@ Future<void> addCodi(Map<String, dynamic> data) async {
   try {
     final response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
     if (response.statusCode ~/ 100 == 2) {
-      log('Codi added successfully!');
+      log('[SUCCESS] Codi added successfully!');
     } else {
       throw Exception('Failed to adding codi. Status code: ${response.statusCode}');
     }
@@ -269,5 +267,33 @@ Future<void> addCodi(Map<String, dynamic> data) async {
   }
 }
 
-// TODO: [015] 코디 기록 수정 - editCodi
-// TODO: [016] 코디 기록 삭제 - deleteCodi
+Future<void> editCodi(int id, Map<String, dynamic> data) async {
+  data['id'] = id;
+  data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
+
+  final url = Uri.parse('$server/api/outfit/update');
+  try {
+    final response = await http.put(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
+    if (response.statusCode ~/ 100 == 2) {
+      log('[SUCCESS] Codi edited successfully!');
+    } else {
+      throw Exception('Failed to editing codi. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error editing codi: $e');
+  }
+
+}
+
+Future<void> deleteCodi(int id) async {
+  try {
+    var response = await http.delete(Uri.parse('$server/api/outfit/$id'));
+    if (response.statusCode ~/ 100 == 2) {
+      log('[SUCCESS] Codi deleted successfully!');
+    } else {
+      throw Exception('Failed to delete codi. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error deleting codi: $e');
+  }
+}

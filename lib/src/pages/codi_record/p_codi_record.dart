@@ -87,7 +87,7 @@ class _CodiRecordState extends State<CodiRecord> {
   }
 
   void _onAddButtonPressed(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCodiRecord()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AddCodiRecord(reloadCodiListData: reloadCodiListData,)));
   }
 
   Widget _viewToggleButton() {

@@ -7,9 +7,7 @@ import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
-import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
-import 'package:intl/intl.dart';
 
 class CodiDetail extends StatefulWidget {
   const CodiDetail({
@@ -28,7 +26,7 @@ class CodiDetail extends StatefulWidget {
 
 class _CodiDetailState extends State<CodiDetail> {
 
-  String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
+  DateTime selectedDate = DateTime.now();
   late Codi codi;
   bool isLoading = true;
 
@@ -43,7 +41,7 @@ class _CodiDetailState extends State<CodiDetail> {
     });
   }
 
-  void onDateChanged(String newDate) {
+  void onDateChanged(DateTime newDate) {
     setState(() {
       selectedDate = newDate;
     });
@@ -71,8 +69,8 @@ class _CodiDetailState extends State<CodiDetail> {
                   const SizedBox(width: 6),
                   Date(
                     isCenter: false,
-                    isEditable: true,
-                    date: DateTime.parse(selectedDate.replaceAll('.', '-')),
+                    isEditable: false,
+                    date: codi.date,
                     onDateChanged: onDateChanged,
                   ),
                   const Spacer(),
@@ -130,6 +128,38 @@ class _CodiDetailState extends State<CodiDetail> {
     );
   }
 
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  void reloadCodiData() {
+    setState(() {
+      isLoading = true;
+      fetchCodi(widget.codiId).then((value) {
+        setState(() {
+          codi = value;
+          isLoading = false;
+        });
+      });
+    });
+    widget.reloadCodiListData();
+  }
+
   void _onBackButtonPressed() {
     Navigator.pop(context);
   }
@@ -139,7 +169,7 @@ class _CodiDetailState extends State<CodiDetail> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EditCodiRecord(codiItem: codi)
+          builder: (context) => EditCodiRecord(codiItem: codi, reloadCodiData: reloadCodiData)
         )
       );
     }
@@ -151,9 +181,12 @@ class _CodiDetailState extends State<CodiDetail> {
         context,
         message: '코디를 삭제하시겠습니까?',
         onConfirm: () {
-          Navigator.pop(context);
-          Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const CodiRecord()));
+          _showLoadingDialog(context);
+          deleteCodi(codi.id).then((_) {
+            widget.reloadCodiListData();
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.pop(context);
+          });
         },
       );
     }
