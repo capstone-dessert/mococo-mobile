@@ -229,7 +229,6 @@ Future<CodiList> fetchCodiAll() async {
   }
 }
 
-// TODO: [014] 코디 기록 상세 조회 - fetchCodi
 Future<Codi> fetchCodi(int id) async {
   try {
     final response = await http.get(Uri.parse('$server/api/outfit/$id'));
@@ -268,7 +267,6 @@ Future<void> addCodi(Map<String, dynamic> data) async {
   }
 }
 
-// TODO: [015] 코디 기록 수정 - editCodi
 Future<void> editCodi(int id, Map<String, dynamic> data) async {
   data['id'] = id;
   data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
