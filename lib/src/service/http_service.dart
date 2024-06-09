@@ -107,7 +107,7 @@ Future<void> addClothes(Map<String, dynamic> data) async{
     var streamedResponse = await request.send();
     streamedResponse.printInfo();
     if (streamedResponse.statusCode ~/ 100 == 2) {
-      log('Clothes added successfully!');
+      log('[SUCCESS] Clothes added successfully!');
     } else {
       throw Exception('Failed to add clothes. Status code: ${streamedResponse.statusCode}');
     }
@@ -145,7 +145,7 @@ Future<void> editClothes(int id, Map<String, dynamic> data) async{
   try {
     var streamedResponse = await request.send();
     if (streamedResponse.statusCode ~/ 100 == 2) {
-      log('Clothes edited successfully!');
+      log('[SUCCESS] Clothes edited successfully!');
     } else {
       var response = await http.Response.fromStream(streamedResponse);
       print(response.body);
@@ -162,7 +162,7 @@ Future<void> deleteClothes(List<int> idList) async {
       var response = await http.delete(Uri.parse('$server/api/clothing/$id'));
       print(response.body);
       if (response.statusCode ~/ 100 == 2) {
-        log('Clothes($id) deleted successfully!');
+        log('[SUCCESS] Clothes($id) deleted successfully!');
       } else {
         throw Exception('Failed to delete clothes. Status code: ${response.statusCode}');
       }
