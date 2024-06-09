@@ -252,24 +252,27 @@ class _CodiRecommendState extends State<CodiRecommend> {
     // });
 
     // 의류 필터링
+    minTemperature = 15;
+    maxTemperature = 25;
     List<Clothes> filteredClothes = filterClothes(clothesList.listAll, minTemperature, maxTemperature, selectedScheduleTag);
 
     // 부모 아이템 선택
-    print("Parent Item:");
     Clothes? parentItem = getRandomParentItem(filteredClothes);
-    print(
-        "${parentItem?.primaryCategory}: ${parentItem?.subCategory} (${parentItem
-            ?.styles.join(', ')}, ${parentItem?.colors.join(', ')})");
+
+    // 자식 아이템 선택
+    List<Clothes> childItems = getChildItems(filteredClothes, parentItem);
 
     // 코디 추천
-    // List<Clothes> outfit = selectOutfit(filteredClothes);
+    List<Clothes> recommendedOutfit = [];
+    if (parentItem != null) {
+      recommendedOutfit.add(parentItem);
+    }
+    recommendedOutfit.addAll(childItems);
 
-    // print("Recommended Outfit:");
-    // filteredClothes.forEach((item) {
-    //   print(
-    //       "${item.primaryCategory}: ${item.subCategory} (${item
-    //           .styles.join(', ')}, ${item.colors.join(', ')})");
-    // });
+    print("Recommended Outfit:");
+    recommendedOutfit.forEach((item) {
+      print("${item.id}: ${item.primaryCategory}: ${item.subCategory} (${item.styles.join(', ')}, ${item.colors.join(', ')})");
+    });
 
     Navigator.push(
       context,
@@ -288,16 +291,17 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
     if (minTemp != null && maxTemp != null) {
       if (minTemp >= 23) {
-      filteredClothes.removeWhere((item) => item.primaryCategory == "outer");
+      filteredClothes.removeWhere((item) => item.primaryCategory == "아우터");
       }
       if (minTemp >= 15) {
-      filteredClothes.removeWhere((item) => ["hoodie", "sweater", "knit"].contains(item.subCategory));
+      filteredClothes.removeWhere((item) => ["후드 티셔츠", "맨투맨", "니트"].contains(item.subCategory));
       }
       if (maxTemp <= 23) {
-      filteredClothes.removeWhere((item) => item.subCategory == "tank top");
+      filteredClothes.removeWhere((item) => item.subCategory == "민소매 티셔츠");
       }
       if (maxTemp <= 10) {
-        filteredClothes.removeWhere((item) => item.primaryCategory == "top" && item.subCategory == "shirt");
+        filteredClothes.removeWhere((item) => item.primaryCategory == "하의" && item.subCategory == "반바지");
+        filteredClothes.removeWhere((item) => item.primaryCategory == "상의" && (item.subCategory == "민소매 티셔츠" || item.subCategory == "반소매 티셔츠"));
       }
     }
     return filteredClothes;
@@ -309,9 +313,9 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
     if (occasion != null) {
       if (["결혼", "면접", "출근"].contains(occasion)) {
-        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠", "스포츠 상의"].contains(item.subCategory));
+        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠", "반바지", "트레이닝팬츠", "레깅스"].contains(item.subCategory));
       } else if (occasion == "발표") {
-        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠"].contains(item.subCategory));
+        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠", "반바지", "트레이닝팬츠", "레깅스"].contains(item.subCategory));
       } else if (occasion == "운동") {
         filteredClothes.removeWhere((item) => ["셔츠/블라우스", "니트", "슬랙스", "치마"].contains(item.subCategory)
             || item.primaryCategory == "원피스");
@@ -327,14 +331,120 @@ class _CodiRecommendState extends State<CodiRecommend> {
     return finalFilteredClothes;
   }
 
+  // 부모 아이템 선택
   Clothes? getRandomParentItem(List<Clothes> clothesList) {
     List<Clothes> parentItems = clothesList.where((item) => item.primaryCategory == "상의" || item.primaryCategory == "하의").toList();
 
-    // 부모 아이템 선택
     if (parentItems.isNotEmpty) {
       return parentItems[Random().nextInt(parentItems.length)];
     } else {
       return null;
     }
   }
+
+  // 스타일 연관성
+  final Map<String, List<String>> styleCompatibility = {
+    "캐주얼": ["스트릿", "댄디", "스포티", "페미닌"],
+    "스트릿": ["캐주얼", "스포티"],
+    "댄디": ["캐주얼", "포멀"],
+    "스포티": ["캐주얼", "스트릿"],
+    "페미닌": ["캐주얼"],
+    "포멀": ["댄디"],
+  };
+
+  // 색상 보색 정의
+  final Map<String, List<String>> complementaryColor = {
+    "레드": ["파랑", "보라", "카키", "초록", "민트"],
+    "핑크": ["네이비", "하늘", "카키", "초록", "노랑", "주황"],
+    "네이비": ["핑크", "노랑", "주황"],
+    "파랑": ["레드", "노랑", "주황"],
+    "하늘": ["핑크", "초록", "노랑", "주황"],
+    "보라": ["레드", "카키", "초록", "노랑"],
+    "카키": ["레드", "핑크", "보라", "하늘", "노랑", "주황"],
+    "초록": ["레드", "핑크", "카키", "하늘", "노랑"],
+    "민트": ["레드", "노랑", "주황"],
+    "노랑": ["핑크", "파랑", "네이비", "하늘", "보라", "카키", "초록", "민트"],
+    "주황": ["핑크", "파랑", "네이비", "하늘", "카키", "노랑"],
+  };
+
+
+  List<Clothes> getChildItems(List<Clothes> clothesList, Clothes? parentItem, {int? maxTemperature}) {
+    if (parentItem == null) {
+      return [];
+    }
+
+    List<Clothes> childItems = [];
+
+    // 부모의 primary 카테고리를 제외한 카테고리들
+    Set<String> allPrimaryCategories = clothesList.map((item) => item.primaryCategory).toSet();
+    allPrimaryCategories.remove(parentItem.primaryCategory); // 부모의 primary 카테고리 제외
+    List<String> primaryCategories = allPrimaryCategories.toList();
+
+    // 부모의 색상
+    String parentColor = parentItem.colors.isNotEmpty ? parentItem.colors.first : '';
+
+    // 각 카테고리별 점수 계산
+    Map<Clothes, int> itemScores = {};
+    for (Clothes item in clothesList) {
+      if (item.primaryCategory != parentItem.primaryCategory) {
+        int styleScore = 0; // 스타일 점수
+        int colorScore = 0; // 색상 점수
+
+        // 부모와 자식 아이템의 스타일 연관성에 따른 점수 부여
+        for (String parentStyle in parentItem.styles) {
+          for (String style in item.styles) {
+            if (styleCompatibility[parentStyle]?.contains(style) == true) {
+              styleScore += 5;
+            }
+          }
+        }
+
+        // 자식 아이템의 색상
+        String childColor = item.colors.isNotEmpty ? item.colors.first : '';
+
+        // 부모와 자식의 색상이 보색이거나 동일한 경우에 따른 점수 부여
+        if (complementaryColor[parentColor]?.contains(childColor) == true) {
+          colorScore = 1;
+        } else if (parentColor == childColor && parentColor != '블랙') {
+          colorScore = 1;
+        }
+
+        // 최종 점수 계산
+        int totalScore = styleScore + colorScore;
+        itemScores[item] = totalScore;
+      }
+    }
+
+    // 각 카테고리별 점수를 기반으로 자식으로 선택될 확률을 계산
+    List<Clothes> scoredItems = itemScores.keys.toList();
+    List<int> scores = itemScores.values.toList();
+    int totalScore = scores.reduce((a, b) => a + b);
+
+    if (totalScore > 0) {
+      for (int i = 0; i < primaryCategories.length; i++) {
+        List<Clothes> categoryItems = scoredItems.where((item) => item.primaryCategory == primaryCategories[i]).toList();
+        if (categoryItems.isNotEmpty) {
+          int randomValue = Random().nextInt(totalScore);
+          int cumulativeScore = 0;
+
+          for (int j = 0; j < categoryItems.length; j++) {
+            cumulativeScore += itemScores[categoryItems[j]]!;
+            if (randomValue < cumulativeScore) {
+              // 최고 기온이 10도에서 23도 사이이고, 부모 아이템의 subCategory가 반소매 티셔츠인 경우
+              if (maxTemperature != null && maxTemperature >= 10 && maxTemperature <= 23 && parentItem.subCategory == "반소매 티셔츠") {
+                // 아우터 아이템을 필수로 childItems에 추가
+                Clothes outerwear = clothesList.firstWhere((item) => item.primaryCategory == "outer");
+                childItems.add(outerwear);
+              }
+              childItems.add(categoryItems[j]);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    return childItems;
+  }
+
 }

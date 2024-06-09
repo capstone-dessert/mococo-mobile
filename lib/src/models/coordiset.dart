@@ -66,23 +66,23 @@ import 'dart:math';
 //   ClothingItem("Blazer", "outer", "dandy", "navy"),
 // ];
 
-Map<String, int> styleScores = {
-  "casual": 0,
-  "street": 0,
-  "dandy": 0,
-  "formal": 0,
-  "sporty": 0,
-  "feminine": 0,
-};
-
-Map<String, List<String>> styleCompatibility = {
-  "casual": ["casual", "street", "dandy", "sporty", "feminine"],
-  "street": ["street", "casual", "sporty"],
-  "dandy": ["dandy", "casual", "formal"],
-  "sporty": ["sporty", "casual", "street"],
-  "feminine": ["feminine", "casual"],
-  "formal": ["formal", "dandy"],
-};
+// Map<String, int> styleScores = {
+//   "casual": 0,
+//   "street": 0,
+//   "dandy": 0,
+//   "formal": 0,
+//   "sporty": 0,
+//   "feminine": 0,
+// };
+//
+// Map<String, List<String>> styleCompatibility = {
+//   "casual": ["casual", "street", "dandy", "sporty", "feminine"],
+//   "street": ["street", "casual", "sporty"],
+//   "dandy": ["dandy", "casual", "formal"],
+//   "sporty": ["sporty", "casual", "street"],
+//   "feminine": ["feminine", "casual"],
+//   "formal": ["formal", "dandy"],
+// };
 
 // void filterByWeather(List<ClothingItem> items, int minTemp, int maxTemp) {
 //   if (minTemp >= 23) {
