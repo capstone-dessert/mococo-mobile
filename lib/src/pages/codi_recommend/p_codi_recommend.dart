@@ -252,6 +252,8 @@ class _CodiRecommendState extends State<CodiRecommend> {
     // });
 
     // 의류 필터링
+    minTemperature = 15;
+    maxTemperature = 25;
     List<Clothes> filteredClothes = filterClothes(clothesList.listAll, minTemperature, maxTemperature, selectedScheduleTag);
 
     // 부모 아이템 선택
@@ -260,6 +262,15 @@ class _CodiRecommendState extends State<CodiRecommend> {
     print(
         "${parentItem?.primaryCategory}: ${parentItem?.subCategory} (${parentItem
             ?.styles.join(', ')}, ${parentItem?.colors.join(', ')})");
+
+    // 자식 아이템 선택
+    print("Child Item:");
+    List<Clothes> childItems = getChildItems(clothesList.listAll, parentItem);
+    childItems.forEach((item) {
+      print("${item.primaryCategory}: ${item.subCategory} (${item.styles.join(', ')}, ${item.colors.join(', ')})");
+    });
+
+
 
     // 코디 추천
     // List<Clothes> outfit = selectOutfit(filteredClothes);
@@ -288,16 +299,16 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
     if (minTemp != null && maxTemp != null) {
       if (minTemp >= 23) {
-      filteredClothes.removeWhere((item) => item.primaryCategory == "outer");
+      filteredClothes.removeWhere((item) => item.primaryCategory == "아우터");
       }
       if (minTemp >= 15) {
-      filteredClothes.removeWhere((item) => ["hoodie", "sweater", "knit"].contains(item.subCategory));
+      filteredClothes.removeWhere((item) => ["후드 티셔츠", "맨투맨", "니트"].contains(item.subCategory));
       }
       if (maxTemp <= 23) {
-      filteredClothes.removeWhere((item) => item.subCategory == "tank top");
+      filteredClothes.removeWhere((item) => item.subCategory == "민소매 티셔츠");
       }
       if (maxTemp <= 10) {
-        filteredClothes.removeWhere((item) => item.primaryCategory == "top" && item.subCategory == "shirt");
+        filteredClothes.removeWhere((item) => item.primaryCategory == "상의" && item.subCategory == "셔츠/블라우스");
       }
     }
     return filteredClothes;
@@ -327,14 +338,79 @@ class _CodiRecommendState extends State<CodiRecommend> {
     return finalFilteredClothes;
   }
 
+  // 부모 아이템 선택
   Clothes? getRandomParentItem(List<Clothes> clothesList) {
     List<Clothes> parentItems = clothesList.where((item) => item.primaryCategory == "상의" || item.primaryCategory == "하의").toList();
 
-    // 부모 아이템 선택
     if (parentItems.isNotEmpty) {
       return parentItems[Random().nextInt(parentItems.length)];
     } else {
       return null;
     }
   }
+
+  // 스타일 연관성
+  final Map<String, List<String>> styleCompatibility = {
+    "캐주얼": ["스트릿", "댄디", "스포티", "페미닌"],
+    "스트릿": ["캐주얼", "스포티"],
+    "댄디": ["캐주얼", "포멀"],
+    "스포티": ["캐주얼", "스트릿"],
+    "페미닌": ["캐주얼"],
+    "포멀": ["댄디"],
+  };
+
+  List<Clothes> getChildItems(List<Clothes> clothesList, Clothes? parentItem) {
+    if (parentItem == null) {
+      return [];
+    }
+
+    List<Clothes> childItems = [];
+
+    // 부모의 primary 카테고리를 제외한 카테고리들
+    Set<String> allPrimaryCategories = clothesList.map((item) => item.primaryCategory).toSet();
+    allPrimaryCategories.remove(parentItem.primaryCategory); // 부모의 primary 카테고리 제외
+    List<String> primaryCategories = allPrimaryCategories.toList();
+
+    // 각 카테고리별로 의류들에 대한 점수를 계산
+    Map<Clothes, int> itemScores = {};
+    for (Clothes item in clothesList) {
+      if (item.primaryCategory != parentItem.primaryCategory) {
+        int score = 0;
+        for (String parentStyle in parentItem.styles) {
+          for (String style in item.styles) {
+            if (styleCompatibility[parentStyle]?.contains(style) == true) {
+              score += 5; // 스타일 연관성에 따라 점수 부여
+            }
+          }
+        }
+        itemScores[item] = score;
+      }
+    }
+
+    // 각 카테고리별 점수를 기반으로 자식으로 선택될 확률을 계산
+    List<Clothes> scoredItems = itemScores.keys.toList();
+    List<int> scores = itemScores.values.toList();
+    int totalScore = scores.reduce((a, b) => a + b);
+
+    if (totalScore > 0) {
+      for (int i = 0; i < primaryCategories.length; i++) {
+        List<Clothes> categoryItems = scoredItems.where((item) => item.primaryCategory == primaryCategories[i]).toList();
+        if (categoryItems.isNotEmpty) {
+          int randomValue = Random().nextInt(totalScore);
+          int cumulativeScore = 0;
+
+          for (int j = 0; j < categoryItems.length; j++) {
+            cumulativeScore += itemScores[categoryItems[j]]!;
+            if (randomValue < cumulativeScore) {
+              childItems.add(categoryItems[j]);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    return childItems;
+  }
+
 }
