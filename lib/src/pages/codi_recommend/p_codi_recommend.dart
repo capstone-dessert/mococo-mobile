@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
 import 'package:mococo_mobile/src/data/network.dart';
@@ -238,14 +240,27 @@ class _CodiRecommendState extends State<CodiRecommend> {
                 height: 50,
                 child: FilledButton(
                   onPressed: () {
-                    for (var clothes in clothesList.listAll) {
-                      print('Clothes ID: ${clothes.id}');
-                      print('Primary Category: ${clothes.primaryCategory}');
-                      print('Sub Category: ${clothes.subCategory}');
-                      print('Styles: ${clothes.styles}.');
-                      print('Colors: ${clothes.colors}');
-                      print('Detail Tags: ${clothes.detailTags}');
-                    }
+                    print("All Clothes:");
+                    clothesList.listAll.forEach((item) {
+                      print(
+                          "${item.primaryCategory}: ${item.subCategory} (${item
+                              .styles.join(', ')}, ${item.colors.join(', ')})");
+                    });
+
+                    // 의류 필터링
+                    List<Clothes> filteredClothes = filterClothes(
+                        clothesList.listAll, minTemperature, maxTemperature,
+                        selectedScheduleTag);
+
+                    // 코디 추천
+                    // List<Clothes> outfit = selectOutfit(filteredClothes);
+
+                    print("Recommended Outfit:");
+                    filteredClothes.forEach((item) {
+                      print(
+                          "${item.primaryCategory}: ${item.subCategory} (${item
+                              .styles.join(', ')}, ${item.colors.join(', ')})");
+                    });
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -277,5 +292,52 @@ class _CodiRecommendState extends State<CodiRecommend> {
       queries.clear();
       queries.addAll(newQueries);
     });
+  }
+
+  // 날씨 조건에 따른 필터링
+  List<Clothes> filterByWeather(List<Clothes> clothesList, double? minTemp, double? maxTemp) {
+    List<Clothes> filteredClothes = List.from(clothesList);
+
+    if (minTemp != null && maxTemp != null) {
+      if (minTemp >= 23) {
+      filteredClothes.removeWhere((item) => item.primaryCategory == "outer");
+      }
+      if (minTemp >= 15) {
+      filteredClothes.removeWhere((item) => ["hoodie", "sweater", "knit"].contains(item.subCategory));
+      }
+      if (maxTemp <= 23) {
+      filteredClothes.removeWhere((item) => item.subCategory == "tank top");
+      }
+      if (maxTemp <= 10) {
+        filteredClothes.removeWhere((item) => item.primaryCategory == "top" && item.subCategory == "shirt");
+      }
+    }
+    return filteredClothes;
+  }
+
+  // 약속 종류에 따른 필터링
+  List<Clothes> filterByOccasion(List<Clothes> clothesList, String? occasion) {
+    List<Clothes> filteredClothes = List.from(clothesList);
+
+    // TODO 실제 세부 카테고리에 맞게 추가해야 함
+    if (occasion != null) {
+      if (["결혼", "면접", "출근"].contains(occasion)) {
+        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠", "스포츠 상의"].contains(item.subCategory));
+      } else if (occasion == "발표") {
+        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠"].contains(item.subCategory));
+      } else if (occasion == "운동") {
+        filteredClothes.removeWhere((item) => ["셔츠/블라우스", "니트", "슬랙스", "치마"].contains(item.subCategory)
+            || item.primaryCategory == "원피스");
+      }
+    }
+    return filteredClothes;
+  }
+
+  List<Clothes> filterClothes(List<Clothes> clothesList, double? minTemp, double? maxTemp, String? occasion) {
+    List<Clothes> weatherFilteredClothes = filterByWeather(clothesList, minTemp, maxTemp);
+    List<Clothes> finalFilteredClothes = filterByOccasion(weatherFilteredClothes, occasion);
+
+    // return weatherFilteredClothes;
+    return finalFilteredClothes;
   }
 }

@@ -43,28 +43,28 @@
 
 import 'dart:math';
 
-class ClothingItem {
-  String subcategory;
-  String category;
-  String style;
-  String color;
-
-  ClothingItem(this.subcategory, this.category, this.style, this.color);
-}
+// class ClothingItem {
+//   String subcategory;
+//   String category;
+//   String style;
+//   String color;
+//
+//   ClothingItem(this.subcategory, this.category, this.style, this.color);
+// }
 
 // 옷을 가져와야하는데..
-List<ClothingItem> clothingItems = [
-  ClothingItem("T-Shirt", "top", "casual", "white"),
-  ClothingItem("Jeans", "bottom", "casual", "blue"),
-  ClothingItem("Suit Jacket", "outer", "formal", "black"),
-  ClothingItem("Dress Shirt", "top", "formal", "white"),
-  ClothingItem("Sweatpants", "bottom", "sporty", "gray"),
-  ClothingItem("Hoodie", "top", "sporty", "black"),
-  ClothingItem("Skirt", "bottom", "feminine", "pink"),
-  ClothingItem("Blouse", "top", "feminine", "white"),
-  ClothingItem("Shorts", "bottom", "casual", "blue"),
-  ClothingItem("Blazer", "outer", "dandy", "navy"),
-];
+// List<ClothingItem> clothingItems = [
+//   ClothingItem("T-Shirt", "top", "casual", "white"),
+//   ClothingItem("Jeans", "bottom", "casual", "blue"),
+//   ClothingItem("Suit Jacket", "outer", "formal", "black"),
+//   ClothingItem("Dress Shirt", "top", "formal", "white"),
+//   ClothingItem("Sweatpants", "bottom", "sporty", "gray"),
+//   ClothingItem("Hoodie", "top", "sporty", "black"),
+//   ClothingItem("Skirt", "bottom", "feminine", "pink"),
+//   ClothingItem("Blouse", "top", "feminine", "white"),
+//   ClothingItem("Shorts", "bottom", "casual", "blue"),
+//   ClothingItem("Blazer", "outer", "dandy", "navy"),
+// ];
 
 Map<String, int> styleScores = {
   "casual": 0,
@@ -84,75 +84,75 @@ Map<String, List<String>> styleCompatibility = {
   "formal": ["formal", "dandy"],
 };
 
-void filterByWeather(List<ClothingItem> items, int minTemp, int maxTemp) {
-  if (minTemp >= 23) {
-    items.removeWhere((item) => item.category == "outer");
-  }
-  if (minTemp >= 15) {
-    items.removeWhere(
-        (item) => ["hoodie", "sweater", "knit"].contains(item.subcategory));
-  }
-  if (maxTemp <= 23) {
-    items.removeWhere((item) => item.subcategory == "tank top");
-  }
-  if (maxTemp <= 10) {
-    items.removeWhere(
-        (item) => item.category == "top" && item.subcategory == "short sleeve");
-  }
-}
+// void filterByWeather(List<ClothingItem> items, int minTemp, int maxTemp) {
+//   if (minTemp >= 23) {
+//     items.removeWhere((item) => item.category == "outer");
+//   }
+//   if (minTemp >= 15) {
+//     items.removeWhere(
+//         (item) => ["hoodie", "sweater", "knit"].contains(item.subcategory));
+//   }
+//   if (maxTemp <= 23) {
+//     items.removeWhere((item) => item.subcategory == "tank top");
+//   }
+//   if (maxTemp <= 10) {
+//     items.removeWhere(
+//         (item) => item.category == "top" && item.subcategory == "short sleeve");
+//   }
+// }
 
-void filterByOccasion(List<ClothingItem> items, String occasion) {
-  if (["marry", "interview", "office"].contains(occasion)) {
-    items.removeWhere((item) =>
-        ["tank top", "hoodie", "sweater", "shorts"].contains(item.subcategory));
-  } else if (occasion == "presentation") {
-    items.removeWhere(
-        (item) => ["tank top", "hoodie", "shorts"].contains(item.subcategory));
-  } else if (occasion == "exercise") {
-    items.removeWhere((item) => [
-          "shirt",
-          "blouse",
-          "knit",
-          "slacks",
-          "skirt",
-          "dress"
-        ].contains(item.subcategory));
-  }
-}
+// void filterByOccasion(List<ClothingItem> items, String occasion) {
+//   if (["marry", "interview", "office"].contains(occasion)) {
+//     items.removeWhere((item) =>
+//         ["tank top", "hoodie", "sweater", "shorts"].contains(item.subcategory));
+//   } else if (occasion == "presentation") {
+//     items.removeWhere(
+//         (item) => ["tank top", "hoodie", "shorts"].contains(item.subcategory));
+//   } else if (occasion == "exercise") {
+//     items.removeWhere((item) => [
+//           "shirt",
+//           "blouse",
+//           "knit",
+//           "slacks",
+//           "skirt",
+//           "dress"
+//         ].contains(item.subcategory));
+//   }
+// }
 
-List<ClothingItem> selectOutfit(String occasion, int minTemp, int maxTemp) {
-  List<ClothingItem> filteredItems = List.from(clothingItems);
-
-  // filterByWeather(filteredItems, minTemp, maxTemp);
-  filterByOccasion(filteredItems, occasion);
-
-  ClothingItem parentItem =
-      filteredItems[Random().nextInt(filteredItems.length)];
-
-  List<ClothingItem> compatibleItems = filteredItems.where((item) {
-    return styleCompatibility[parentItem.style]?.contains(item.style) ?? false;
-  }).toList();
-
-  ClothingItem childItem;
-  if (compatibleItems.isNotEmpty) {
-    childItem = compatibleItems[Random().nextInt(compatibleItems.length)];
-  } else {
-    childItem = filteredItems[Random().nextInt(filteredItems.length)];
-  }
-
-  return [parentItem, childItem];
-}
-
-void main() {
-  String occasion = "marry";
-  int minTemp = 20;
-  int maxTemp = 25;
-
-  List<ClothingItem> outfit = selectOutfit(occasion, minTemp, maxTemp);
-
-  print("Recommended Outfit:");
-  outfit.forEach((item) {
-    print(
-        "${item.category}: ${item.subcategory} (${item.style}, ${item.color}),$styleScores");
-  });
-}
+// List<ClothingItem> selectOutfit(String occasion, int minTemp, int maxTemp) {
+//   List<ClothingItem> filteredItems = List.from(clothingItems);
+//
+//   // filterByWeather(filteredItems, minTemp, maxTemp);
+//   filterByOccasion(filteredItems, occasion);
+//
+//   ClothingItem parentItem =
+//       filteredItems[Random().nextInt(filteredItems.length)];
+//
+//   List<ClothingItem> compatibleItems = filteredItems.where((item) {
+//     return styleCompatibility[parentItem.style]?.contains(item.style) ?? false;
+//   }).toList();
+//
+//   ClothingItem childItem;
+//   if (compatibleItems.isNotEmpty) {
+//     childItem = compatibleItems[Random().nextInt(compatibleItems.length)];
+//   } else {
+//     childItem = filteredItems[Random().nextInt(filteredItems.length)];
+//   }
+//
+//   return [parentItem, childItem];
+// }
+//
+// void main() {
+//   String occasion = "marry";
+//   int minTemp = 20;
+//   int maxTemp = 25;
+//
+//   List<ClothingItem> outfit = selectOutfit(occasion, minTemp, maxTemp);
+//
+//   print("Recommended Outfit:");
+//   outfit.forEach((item) {
+//     print(
+//         "${item.category}: ${item.subcategory} (${item.style}, ${item.color}),$styleScores");
+//   });
+// }
