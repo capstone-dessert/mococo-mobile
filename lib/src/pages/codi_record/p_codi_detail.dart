@@ -130,6 +130,25 @@ class _CodiDetailState extends State<CodiDetail> {
     );
   }
 
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
   void reloadCodiData() {
     setState(() {
       isLoading = true;
@@ -164,9 +183,14 @@ class _CodiDetailState extends State<CodiDetail> {
         context,
         message: '코디를 삭제하시겠습니까?',
         onConfirm: () {
-          Navigator.pop(context);
-          Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const CodiRecord()));
+          _showLoadingDialog(context);
+          deleteCodi(codi.id).then((_) {
+            widget.reloadCodiListData();
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.pop(context);
+          });
+          // Navigator.push(context,
+          //   MaterialPageRoute(builder: (context) => const CodiRecord()));
         },
       );
     }

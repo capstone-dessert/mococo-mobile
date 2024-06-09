@@ -287,4 +287,15 @@ Future<void> editCodi(int id, Map<String, dynamic> data) async {
 
 }
 
-// TODO: [016] 코디 기록 삭제 - deleteCodi
+Future<void> deleteCodi(int id) async {
+  try {
+    var response = await http.delete(Uri.parse('$server/api/outfit/$id'));
+    if (response.statusCode ~/ 100 == 2) {
+      log('[SUCCESS] Codi deleted successfully!');
+    } else {
+      throw Exception('Failed to delete codi. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error deleting codi: $e');
+  }
+}
