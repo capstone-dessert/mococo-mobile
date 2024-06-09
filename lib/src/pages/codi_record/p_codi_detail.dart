@@ -130,6 +130,19 @@ class _CodiDetailState extends State<CodiDetail> {
     );
   }
 
+  void reloadCodiData() {
+    setState(() {
+      isLoading = true;
+      fetchCodi(widget.codiId).then((value) {
+        setState(() {
+          codi = value;
+          isLoading = false;
+        });
+      });
+    });
+    widget.reloadCodiListData();
+  }
+
   void _onBackButtonPressed() {
     Navigator.pop(context);
   }
@@ -139,7 +152,7 @@ class _CodiDetailState extends State<CodiDetail> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EditCodiRecord(codiItem: codi)
+          builder: (context) => EditCodiRecord(codiItem: codi, reloadCodiData: reloadCodiData)
         )
       );
     }

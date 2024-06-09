@@ -252,7 +252,6 @@ Future<Codi> fetchCodi(int id) async {
   }
 }
 
-// TODO: [013] 코디 기록 추가 - addCodi
 Future<void> addCodi(Map<String, dynamic> data) async {
   data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
 
@@ -270,4 +269,22 @@ Future<void> addCodi(Map<String, dynamic> data) async {
 }
 
 // TODO: [015] 코디 기록 수정 - editCodi
+Future<void> editCodi(int id, Map<String, dynamic> data) async {
+  data['id'] = id;
+  data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
+
+  final url = Uri.parse('$server/api/outfit/update');
+  try {
+    final response = await http.put(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
+    if (response.statusCode ~/ 100 == 2) {
+      log('[SUCCESS] Codi edited successfully!');
+    } else {
+      throw Exception('Failed to editing codi. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error editing codi: $e');
+  }
+
+}
+
 // TODO: [016] 코디 기록 삭제 - deleteCodi

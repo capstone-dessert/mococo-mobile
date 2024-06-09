@@ -192,9 +192,9 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         onConfirm: () {
           _showLoadingDialog(context);
           addCodi(selectedInfo).then((_) {
+            widget.reloadCodiListData();
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);
-            widget.reloadCodiListData();
           });
         },
       );
