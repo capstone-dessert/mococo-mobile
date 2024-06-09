@@ -7,7 +7,6 @@ import 'package:mococo_mobile/src/widgets/date.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
-import 'package:mococo_mobile/src/pages/codi_record/p_codi_record.dart';
 import 'package:mococo_mobile/src/pages/codi_record/p_edit_codi_record.dart';
 import 'package:intl/intl.dart';
 
@@ -71,8 +70,8 @@ class _CodiDetailState extends State<CodiDetail> {
                   const SizedBox(width: 6),
                   Date(
                     isCenter: false,
-                    isEditable: true,
-                    date: selectedDate,
+                    isEditable: false,
+                    date: codi.date,
                     onDateChanged: onDateChanged,
                   ),
                   const Spacer(),
@@ -189,8 +188,6 @@ class _CodiDetailState extends State<CodiDetail> {
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);
           });
-          // Navigator.push(context,
-          //   MaterialPageRoute(builder: (context) => const CodiRecord()));
         },
       );
     }
