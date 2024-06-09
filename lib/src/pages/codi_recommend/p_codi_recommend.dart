@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
 import 'package:mococo_mobile/src/data/network.dart';
@@ -218,37 +220,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
                 width: 345,
                 height: 50,
                 child: FilledButton(
-                  onPressed: () {
-                    print("All Clothes:");
-                    clothesList.listAll.forEach((item) {
-                      print(
-                          "${item.primaryCategory}: ${item.subCategory} (${item
-                              .styles.join(', ')}, ${item.colors.join(', ')})");
-                    });
-
-                    // 의류 필터링
-                    List<Clothes> filteredClothes = filterClothes(
-                        clothesList.listAll, minTemperature, maxTemperature,
-                        selectedScheduleTag);
-
-                    // 코디 추천
-                    // List<Clothes> outfit = selectOutfit(filteredClothes);
-
-                    print("Recommended Outfit:");
-                    filteredClothes.forEach((item) {
-                      print(
-                          "${item.primaryCategory}: ${item.subCategory} (${item
-                              .styles.join(', ')}, ${item.colors.join(', ')})");
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            CodiRecommendResult(
-                                scheduleTag: selectedScheduleTag),
-                      ),
-                    );
-                  },
+                  onPressed: onRecommendButtonPressed,
                   style: TextButton.styleFrom(
                       backgroundColor: const Color(0xffF6747E)),
                   child: const Text(
@@ -271,6 +243,42 @@ class _CodiRecommendState extends State<CodiRecommend> {
       queries.clear();
       queries.addAll(newQueries);
     });
+  }
+
+  void onRecommendButtonPressed() {
+    // print("All Clothes:");
+    // clothesList.listAll.forEach((item) {
+    //   print("${item.primaryCategory}: ${item.subCategory} (${item.styles.join(', ')}, ${item.colors.join(', ')})");
+    // });
+
+    // 의류 필터링
+    List<Clothes> filteredClothes = filterClothes(clothesList.listAll, minTemperature, maxTemperature, selectedScheduleTag);
+
+    // 부모 아이템 선택
+    print("Parent Item:");
+    Clothes? parentItem = getRandomParentItem(filteredClothes);
+    print(
+        "${parentItem?.primaryCategory}: ${parentItem?.subCategory} (${parentItem
+            ?.styles.join(', ')}, ${parentItem?.colors.join(', ')})");
+
+    // 코디 추천
+    // List<Clothes> outfit = selectOutfit(filteredClothes);
+
+    // print("Recommended Outfit:");
+    // filteredClothes.forEach((item) {
+    //   print(
+    //       "${item.primaryCategory}: ${item.subCategory} (${item
+    //           .styles.join(', ')}, ${item.colors.join(', ')})");
+    // });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            CodiRecommendResult(
+                scheduleTag: selectedScheduleTag),
+      ),
+    );
   }
 
   // TODO 실제 세부 카테고리에 맞게 필터링 항목 수정
@@ -317,5 +325,16 @@ class _CodiRecommendState extends State<CodiRecommend> {
     List<Clothes> finalFilteredClothes = filterByOccasion(weatherFilteredClothes, occasion);
 
     return finalFilteredClothes;
+  }
+
+  Clothes? getRandomParentItem(List<Clothes> clothesList) {
+    List<Clothes> parentItems = clothesList.where((item) => item.primaryCategory == "상의" || item.primaryCategory == "하의").toList();
+
+    // 부모 아이템 선택
+    if (parentItems.isNotEmpty) {
+      return parentItems[Random().nextInt(parentItems.length)];
+    } else {
+      return null;
+    }
   }
 }
