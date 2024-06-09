@@ -300,7 +300,8 @@ class _CodiRecommendState extends State<CodiRecommend> {
       filteredClothes.removeWhere((item) => item.subCategory == "민소매 티셔츠");
       }
       if (maxTemp <= 10) {
-        filteredClothes.removeWhere((item) => item.primaryCategory == "상의" && item.subCategory == "셔츠/블라우스");
+        filteredClothes.removeWhere((item) => item.primaryCategory == "하의" && item.subCategory == "반바지");
+        filteredClothes.removeWhere((item) => item.primaryCategory == "상의" && (item.subCategory == "민소매 티셔츠" || item.subCategory == "반소매 티셔츠"));
       }
     }
     return filteredClothes;
@@ -312,9 +313,9 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
     if (occasion != null) {
       if (["결혼", "면접", "출근"].contains(occasion)) {
-        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠", "스포츠 상의"].contains(item.subCategory));
+        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠", "반바지", "트레이닝팬츠", "레깅스"].contains(item.subCategory));
       } else if (occasion == "발표") {
-        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠"].contains(item.subCategory));
+        filteredClothes.removeWhere((item) => ["민소매 티셔츠", "후드 티셔츠", "반바지", "트레이닝팬츠", "레깅스"].contains(item.subCategory));
       } else if (occasion == "운동") {
         filteredClothes.removeWhere((item) => ["셔츠/블라우스", "니트", "슬랙스", "치마"].contains(item.subCategory)
             || item.primaryCategory == "원피스");
@@ -351,6 +352,22 @@ class _CodiRecommendState extends State<CodiRecommend> {
     "포멀": ["댄디"],
   };
 
+  // 색상 보색 정의
+  final Map<String, List<String>> complementaryColor = {
+    "레드": ["파랑", "보라", "카키", "초록", "민트"],
+    "핑크": ["네이비", "하늘", "카키", "초록", "노랑", "주황"],
+    "네이비": ["핑크", "노랑", "주황"],
+    "파랑": ["레드", "노랑", "주황"],
+    "하늘": ["핑크", "초록", "노랑", "주황"],
+    "보라": ["레드", "카키", "초록", "노랑"],
+    "카키": ["레드", "핑크", "보라", "하늘", "노랑", "주황"],
+    "초록": ["레드", "핑크", "카키", "하늘", "노랑"],
+    "민트": ["레드", "노랑", "주황"],
+    "노랑": ["핑크", "파랑", "네이비", "하늘", "보라", "카키", "초록", "민트"],
+    "주황": ["핑크", "파랑", "네이비", "하늘", "카키", "노랑"],
+  };
+
+
   List<Clothes> getChildItems(List<Clothes> clothesList, Clothes? parentItem, {int? maxTemperature}) {
     if (parentItem == null) {
       return [];
@@ -363,19 +380,38 @@ class _CodiRecommendState extends State<CodiRecommend> {
     allPrimaryCategories.remove(parentItem.primaryCategory); // 부모의 primary 카테고리 제외
     List<String> primaryCategories = allPrimaryCategories.toList();
 
-    // 각 카테고리별로 의류들에 대한 점수를 계산
+    // 부모의 색상
+    String parentColor = parentItem.colors.isNotEmpty ? parentItem.colors.first : '';
+
+    // 각 카테고리별 점수 계산
     Map<Clothes, int> itemScores = {};
     for (Clothes item in clothesList) {
       if (item.primaryCategory != parentItem.primaryCategory) {
-        int score = 0;
+        int styleScore = 0; // 스타일 점수
+        int colorScore = 0; // 색상 점수
+
+        // 부모와 자식 아이템의 스타일 연관성에 따른 점수 부여
         for (String parentStyle in parentItem.styles) {
           for (String style in item.styles) {
             if (styleCompatibility[parentStyle]?.contains(style) == true) {
-              score += 5; // 스타일 연관성에 따라 점수 부여
+              styleScore += 5;
             }
           }
         }
-        itemScores[item] = score;
+
+        // 자식 아이템의 색상
+        String childColor = item.colors.isNotEmpty ? item.colors.first : '';
+
+        // 부모와 자식의 색상이 보색이거나 동일한 경우에 따른 점수 부여
+        if (complementaryColor[parentColor]?.contains(childColor) == true) {
+          colorScore = 1;
+        } else if (parentColor == childColor && parentColor != '블랙') {
+          colorScore = 1;
+        }
+
+        // 최종 점수 계산
+        int totalScore = styleScore + colorScore;
+        itemScores[item] = totalScore;
       }
     }
 
@@ -394,7 +430,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
           for (int j = 0; j < categoryItems.length; j++) {
             cumulativeScore += itemScores[categoryItems[j]]!;
             if (randomValue < cumulativeScore) {
-              // 최고 기온이 10도에서 23도 사이이고, 부모 아이템의 subcategory가 반소매 티셔츠인 경우
+              // 최고 기온이 10도에서 23도 사이이고, 부모 아이템의 subCategory가 반소매 티셔츠인 경우
               if (maxTemperature != null && maxTemperature >= 10 && maxTemperature <= 23 && parentItem.subCategory == "반소매 티셔츠") {
                 // 아우터 아이템을 필수로 childItems에 추가
                 Clothes outerwear = clothesList.firstWhere((item) => item.primaryCategory == "outer");
@@ -410,4 +446,5 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
     return childItems;
   }
+
 }
