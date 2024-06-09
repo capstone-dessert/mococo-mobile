@@ -28,7 +28,7 @@ class CodiDetail extends StatefulWidget {
 
 class _CodiDetailState extends State<CodiDetail> {
 
-  String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
+  DateTime selectedDate = DateTime.now();
   late Codi codi;
   bool isLoading = true;
 
@@ -43,7 +43,7 @@ class _CodiDetailState extends State<CodiDetail> {
     });
   }
 
-  void onDateChanged(String newDate) {
+  void onDateChanged(DateTime newDate) {
     setState(() {
       selectedDate = newDate;
     });
@@ -72,7 +72,7 @@ class _CodiDetailState extends State<CodiDetail> {
                   Date(
                     isCenter: false,
                     isEditable: true,
-                    date: DateTime.parse(selectedDate.replaceAll('.', '-')),
+                    date: selectedDate,
                     onDateChanged: onDateChanged,
                   ),
                   const Spacer(),

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
-import 'package:mococo_mobile/src/jsons.dart';
 import '../service/http_service.dart';
 import 'clothes_grid_view.dart';
 
@@ -28,7 +27,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   late ClothesList clothesList;
   bool isLoading = true;
   late double _sheetPosition = 0.20;
-  late int itemCount;
 
   List<int> selectedClothesIndices = [];
   List queries = ["전체"];
@@ -44,7 +42,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         clothesList = value;
         isLoading = false;
         _sheetPosition = widget.sheetPosition;
-        itemCount = clothesList.list!.length;
       });
     });
   }
@@ -72,9 +69,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
-            child: isLoading
-            ? const Center(child: CircularProgressIndicator(color: Colors.black12))
-              : Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Grabber(
@@ -98,37 +93,39 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8),
                         child: Row(
-                          children: List.generate(queries.length, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Chip(
-                                backgroundColor: const Color(0xffF9F9F9),
-                                label: Text(queries[index]),
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  side: const BorderSide(
-                                    color: Color(0xffCACACA),
+                          children: List.generate(
+                            queries.length,
+                            (index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Chip(
+                                  backgroundColor: const Color(0xffF9F9F9),
+                                  label: Text(queries[index]),
+                                  labelStyle: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
                                   ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side: const BorderSide(
+                                      color: Color(0xffCACACA),
+                                    ),
+                                  ),
+                                  materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
                                 ),
-                                materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                              ),
-                            );
-                          }) + [
+                              );
+                            }
+                          ) + [
                             Padding(
                               padding: const EdgeInsets.only(),
                               child: OutlinedButton(
                                 onPressed: () async {
-                                  var newQueries = await Get.to(() => const SearchClothes(), arguments: queries.toSet());
-                                  if (newQueries == [] || newQueries == null) {
-                                    setQueries(["전체"]);
-                                  } else {
-                                    setQueries(newQueries);
-                                  }
+                                  var result = await Get.to(() => const SearchClothes());
+                                  setState(() {
+                                    queries = result['newQueries'];
+                                    clothesList = result['clothesList'];
+                                  });
                                 },
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: const Color(0xffF9F9F9),
@@ -151,8 +148,13 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 ),
                 const SizedBox(height: 10),
                 Expanded(
-                  child:
-                  ClothesGridPicker(clothesList: clothesList, onClothesSelected: _onClothesSelected, selectedClothesIndices: selectedClothesIndices)
+                  child: isLoading
+                      ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+                      : ClothesGridPicker(
+                    getClothesList: getClothesList,
+                    onClothesSelected: _onClothesSelected,
+                    selectedClothesIndices: selectedClothesIndices
+                  )
                 ),
               ],
             ),
@@ -162,11 +164,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     );
   }
 
-  void setQueries(newQueries) {
-    setState(() {
-      queries.clear();
-      queries.addAll(newQueries);
-    });
+  ClothesList getClothesList() {
+    return clothesList;
   }
 
   void _onClothesSelected() {
@@ -178,21 +177,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     widget.setSelectedClothesIndices(selectedClothesIndices);
   }
 
-  ClothesList getClothesList() {
-    return clothesList;
-  }
-
-  void reloadData() {
-    setState(() {
-      isLoading = true;
-      fetchClothesAll().then((value) {
-        setState(() {
-          clothesList = value;
-          isLoading = false;
-        });
-      });
-    });
-  }
 }
 
 

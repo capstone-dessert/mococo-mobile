@@ -260,7 +260,7 @@ Future<void> addCodi(Map<String, dynamic> data) async {
   try {
     final response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
     if (response.statusCode ~/ 100 == 2) {
-      log('Codi added successfully!');
+      log('[SUCCESS] Codi added successfully!');
     } else {
       throw Exception('Failed to adding codi. Status code: ${response.statusCode}');
     }

@@ -28,7 +28,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
   double? minTemperature;
   int? precipitationType;
   int? skyState;
-  String selectedDate = DateFormat('yyyy.MM.dd').format(DateTime.now());
+  DateTime selectedDate = DateTime.now();
 
   late ClothesList clothesList;
   late Clothes clothes;
@@ -63,7 +63,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
     });
   }
 
-  void onDateChanged(String newDate) {
+  void onDateChanged(DateTime newDate) {
     setState(() {
       selectedDate = newDate;
       getLocation();
@@ -86,7 +86,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
       print(x);
       print(y);
 
-      String formattedDate = selectedDate.replaceAll('.', '');
+      String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
       String baseDate = formattedDate; // 발표 날짜 (선택 날짜)
       String baseTime = '0500'; // 발표 시간
 
@@ -148,7 +148,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
   Future<double?> getMinTemperature(int x, int y, String baseDate, String baseTime) async {
 
     // 어제 예보한 오늘 날짜 최저 기온을 받아오기 위해 따로 계산
-    DateTime selectedDateTime = DateFormat('yyyy.MM.dd').parse(selectedDate);
+    DateTime selectedDateTime = selectedDate;
     DateTime yesterdayDateTime = selectedDateTime.subtract(Duration(days: 1));
     String yesterdayDate = DateFormat('yyyyMMdd').format(yesterdayDateTime);
 
@@ -197,7 +197,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
             Date(
               isCenter: true,
               isEditable: true,
-              date: DateTime.parse(selectedDate.replaceAll('.', '-')),
+              date: selectedDate,
               onDateChanged: onDateChanged,
             ),
             const SizedBox(height: 16),

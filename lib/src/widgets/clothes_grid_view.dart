@@ -127,9 +127,10 @@ class ClothesGridViewState extends State<ClothesGridView> {
 
 
 class ClothesGridPicker extends StatefulWidget {
-  const ClothesGridPicker({super.key, required this.clothesList, this.selectedClothesIndices, this.onClothesSelected});
+  const ClothesGridPicker({super.key, required this.getClothesList, this.selectedClothesIndices, this.onClothesSelected});
 
-  final ClothesList clothesList;
+  final Function getClothesList;
+
   final List<int>? selectedClothesIndices;
   final VoidCallback? onClothesSelected;
 
@@ -144,7 +145,13 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
   @override
   void initState() {
     super.initState();
-    clothesList = widget.clothesList;
+    clothesList = widget.getClothesList();
+  }
+
+  @override
+  void didUpdateWidget(covariant ClothesGridPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    clothesList = widget.getClothesList();
   }
 
   @override
