@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mococo_mobile/src/data/tag_data.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -42,7 +43,10 @@ class SearchClothesState extends State<SearchClothes> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ClothesTagPicker(setSelectedInfo: setSelectedInfo)
+              ClothesTagPicker(
+                detailTagPickerMode: DetailTagPickerMode.search,
+                setSelectedInfo: setSelectedInfo
+              )
             ],
           ),
         ),

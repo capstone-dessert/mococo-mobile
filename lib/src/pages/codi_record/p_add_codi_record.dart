@@ -99,7 +99,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      NewScheduleTagPicker(selectedSchedule: null, setSelectedSchedule: setSelectedSchedule),
+                      ScheduleTagPicker(selectedSchedule: null, setSelectedSchedule: setSelectedSchedule),
                     ],
                   ),
                 ],

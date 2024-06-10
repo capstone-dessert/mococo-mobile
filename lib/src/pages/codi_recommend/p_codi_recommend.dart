@@ -210,7 +210,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
               skyState: skyState,
             ),
             const SizedBox(height: 16),
-            NewScheduleTagPicker(selectedSchedule: null,
+            ScheduleTagPicker(selectedSchedule: null,
                 setSelectedSchedule: setSelectedScheduleTag),
             const Spacer(),
             // 추천 버튼

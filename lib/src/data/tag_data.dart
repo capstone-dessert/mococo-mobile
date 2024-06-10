@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum DetailTagPickerMode {search, edit}
+
 class Tag {
   static Map categories = {
     "상의": ["반소매 티셔츠", "긴소매 티셔츠", "민소매 티셔츠", "맨투맨", "셔츠/블라우스",
@@ -54,7 +56,11 @@ class Tag {
   static List detailTags = ["브랜드", "패턴", "기장", "소매"];
 
   static List getDetailTags() {
-    return detailTags;
+    return List.from(detailTags);
+  }
+
+  static void addDetailTags(List newTags) {
+    detailTags.addAll(newTags);
   }
 
   static List scheduleTags = ["간단 외출", "등교", "발표", "데이트", "출근", "면접", "운동", "파티", "결혼식"];

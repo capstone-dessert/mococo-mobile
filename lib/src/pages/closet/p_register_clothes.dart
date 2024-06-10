@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mococo_mobile/src/data/tag_data.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/clothes_tag_picker.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -124,7 +125,10 @@ class _RegisterClothState extends State<RegisterCloth> {
                 ],
               ),
               const SizedBox(height: 20),
-              ClothesTagPicker(setSelectedInfo: setSelectedInfo),
+              ClothesTagPicker(
+                detailTagPickerMode: DetailTagPickerMode.edit,
+                setSelectedInfo: setSelectedInfo
+              ),
               const SizedBox(height: 16),
             ],
           ),
