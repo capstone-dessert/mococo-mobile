@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/tag_data.dart';
 import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -58,6 +59,7 @@ class _EditClothesState extends State<EditClothes> {
                 child: Image.memory(clothes.image),
               ),
               ClothesTagPicker(
+                detailTagPickerMode: DetailTagPickerMode.edit,
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,
@@ -122,6 +124,15 @@ class _EditClothesState extends State<EditClothes> {
         message: '수정된 정보를 저장하시겠습니까?',
         onConfirm: () {
           _showLoadingDialog(context);
+
+          List newDetailTags = [];
+          for (var tag in selectedInfo['tags']) {
+            if (!Tag.detailTags.contains(tag)) {
+              newDetailTags.add(tag);
+            }
+          }
+          Tag.addDetailTags(newDetailTags);
+
           selectedInfo['image'] = clothes.image;
           editClothes(clothes.id, selectedInfo).then((_) {
             widget.reloadClothesData();

@@ -189,8 +189,11 @@ class _NewSubcategoryTagPickerState extends State<NewSubcategoryTagPicker> {
 }
 
 class NewColorTagPicker extends StatefulWidget {
-  const NewColorTagPicker(
-      {super.key, required this.setSelectedInfoValue, this.selectedColors});
+  const NewColorTagPicker({
+    super.key,
+    required this.setSelectedInfoValue,
+    this.selectedColors
+  });
 
   final Function setSelectedInfoValue;
 
@@ -282,9 +285,14 @@ class _NewColorTagPickerState extends State<NewColorTagPicker> {
 }
 
 class NewDetailTagPicker extends StatefulWidget {
-  const NewDetailTagPicker(
-      {super.key, required this.setSelectedInfoValue, this.selectedDetailTags});
+  const NewDetailTagPicker({
+    super.key,
+    required this.mode,
+    required this.setSelectedInfoValue,
+    this.selectedDetailTags
+  });
 
+  final DetailTagPickerMode mode;
   final Function setSelectedInfoValue;
 
   final Set<String>? selectedDetailTags;
@@ -296,6 +304,7 @@ class NewDetailTagPicker extends StatefulWidget {
 class _NewDetailTagPickerState extends State<NewDetailTagPicker> {
   late List allDetailTags;
   late Set<String> selectedDetailTags;
+  String searchText = '';
 
   @override
   void initState() {
@@ -330,54 +339,147 @@ class _NewDetailTagPickerState extends State<NewDetailTagPicker> {
       ),
       const SizedBox(height: 8),
       // TODO: 세부 태그 검색 기능
-      SizedBox(
-        height: 35,
-        child: SearchBar(
-          leading: SizedBox(child: Image.asset(IconPath.searchBar)),
-          backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
-          elevation: const MaterialStatePropertyAll(0),
-          hintText: "검색",
-          hintStyle: MaterialStateProperty.all(const TextStyle(
-              color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)),
-        ),
-      ),
-      const SizedBox(height: 5),
-      Wrap(
-        spacing: 8,
-        children: List.generate(allDetailTags.length, (index) {
-          return FilterChip(
-            showCheckmark: false,
-            backgroundColor: const Color(0xffF9F9F9),
-            selectedColor: const Color(0xffFFF0F0),
-            label: Text(allDetailTags[index]),
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: selectedDetailTags.contains(allDetailTags[index])
-                  ? const Color(0xffF6747E)
-                  : Colors.black,
+      if (widget.mode == DetailTagPickerMode.search)
+        SizedBox(
+          height: 35,
+          child: SearchBar(
+            leading: SizedBox(child: Image.asset(IconPath.searchBar)),
+            backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
+            elevation: const MaterialStatePropertyAll(0),
+            hintText: "검색",
+            hintStyle: MaterialStateProperty.all(
+              const TextStyle(color: Color(0xffBDBDBD), fontWeight: FontWeight.w600)
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              side: BorderSide(
-                color: selectedDetailTags.contains(allDetailTags[index])
-                    ? const Color(0xffF6747E)
-                    : const Color(0xffCACACA),
+          ),
+        ),
+      if (widget.mode == DetailTagPickerMode.edit)
+        Row(
+          children: [
+            SizedBox(
+              height: 35,
+              width: MediaQuery.of(context).size.width - 48 - 35 - 8,
+              child: SearchBar(
+                leading: SizedBox(child: Image.asset(IconPath.searchBar)),
+                backgroundColor: const MaterialStatePropertyAll(Color(0xffF0F0F0)),
+                elevation: const MaterialStatePropertyAll(0),
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value;
+                  });
+                },
+                hintText: "우측 버튼 클릭 시 입력한 태그 추가",
+                hintStyle: MaterialStateProperty.all(const TextStyle(color: Color(0xffBDBDBD)),
+                ),
               ),
             ),
-            selected: selectedDetailTags.contains(allDetailTags[index]),
-            onSelected: (bool selected) {
-              setState(() {
-                if (selected) {
-                  selectedDetailTags.add(allDetailTags[index]);
-                } else {
-                  selectedDetailTags.remove(allDetailTags[index]);
-                }
-                widget.setSelectedInfoValue(
-                    'tags', selectedDetailTags.toList());
-              });
-            },
-          );
-        }),
+            const SizedBox(width: 8),
+            SizedBox(
+              width: 35,
+              height: 35,
+              child: OutlinedButton(
+                onPressed: () async {
+                  if (!allDetailTags.contains(searchText)) {
+                    setState(() {
+                      if (searchText.isNotEmpty) {
+                        allDetailTags.add(searchText);
+                      }
+                    });
+                  }
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: const Color(0xffF9F9F9),
+                  side: const BorderSide(
+                    color: Color(0xff565656),
+                  ),
+                  minimumSize: Size.zero,
+                  padding: const EdgeInsets.all(0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: SizedBox(width: 20, child: Image.asset(IconPath.add)),
+              ),
+            ),
+          ],
+        ),
+      const SizedBox(height: 5),
+      Wrap(
+        spacing: 0,
+        children: searchText.isNotEmpty
+          ? List.generate(allDetailTags.length, (index) {
+            if (allDetailTags[index].toLowerCase().contains(searchText.toLowerCase())) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: FilterChip(
+                  showCheckmark: false,
+                  backgroundColor: const Color(0xffF9F9F9),
+                  selectedColor: const Color(0xffFFF0F0),
+                  label: Text(allDetailTags[index]),
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: selectedDetailTags.contains(allDetailTags[index])
+                        ? const Color(0xffF6747E)
+                        : Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(
+                      color: selectedDetailTags.contains(allDetailTags[index])
+                        ? const Color(0xffF6747E)
+                        : const Color(0xffCACACA),
+                    ),
+                  ),
+                  selected: selectedDetailTags.contains(allDetailTags[index]),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      if (selected) {
+                        selectedDetailTags.add(allDetailTags[index]);
+                      } else {
+                        selectedDetailTags.remove(allDetailTags[index]);
+                      }
+                      widget.setSelectedInfoValue('tags', selectedDetailTags.toList());
+                    });
+                  },
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          })
+          : List.generate(allDetailTags.length, (index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: FilterChip(
+                showCheckmark: false,
+                backgroundColor: const Color(0xffF9F9F9),
+                selectedColor: const Color(0xffFFF0F0),
+                label: Text(allDetailTags[index]),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: selectedDetailTags.contains(allDetailTags[index])
+                      ? const Color(0xffF6747E)
+                      : Colors.black,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: BorderSide(
+                    color: selectedDetailTags.contains(allDetailTags[index])
+                        ? const Color(0xffF6747E)
+                        : const Color(0xffCACACA),
+                  ),
+                ),
+                selected: selectedDetailTags.contains(allDetailTags[index]),
+                onSelected: (bool selected) {
+                  setState(() {
+                    if (selected) {
+                      selectedDetailTags.add(allDetailTags[index]);
+                    } else {
+                      selectedDetailTags.remove(allDetailTags[index]);
+                    }
+                    widget.setSelectedInfoValue(
+                        'tags', selectedDetailTags.toList());
+                  });
+                },
+              ),
+            );
+          }),
       ),
       const SizedBox(height: 8),
     ]);

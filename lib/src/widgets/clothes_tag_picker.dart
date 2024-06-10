@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/tag_data.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class ClothesTagPicker extends StatefulWidget {
   const ClothesTagPicker({
     super.key,
+    required this.detailTagPickerMode,
     required this.setSelectedInfo,
     this.selectedPrimaryCategory,
     this.selectedSubcategory,
@@ -12,6 +14,8 @@ class ClothesTagPicker extends StatefulWidget {
     this.selectedDetailTags,
   });
 
+  final DetailTagPickerMode detailTagPickerMode;
+
   final Function setSelectedInfo;
 
   final String? selectedPrimaryCategory;
@@ -19,7 +23,6 @@ class ClothesTagPicker extends StatefulWidget {
   final Set<String>? selectedStyles;
   final Set<String>? selectedColors;
   final Set<String>? selectedDetailTags;
-
   @override
   State<ClothesTagPicker> createState() => _ClothesTagPickerState();
 }
@@ -62,6 +65,7 @@ class _ClothesTagPickerState extends State<ClothesTagPicker> {
           ),
           const Divider(color: Color(0xffF0F0F0)),
           NewDetailTagPicker(
+            mode: widget.detailTagPickerMode,
             setSelectedInfoValue: setSelectedInfoValue,
             selectedDetailTags: widget.selectedDetailTags
           ),
