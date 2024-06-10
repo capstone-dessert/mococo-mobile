@@ -131,7 +131,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  NewScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
+                  ScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
                 ],
               ),
             ),

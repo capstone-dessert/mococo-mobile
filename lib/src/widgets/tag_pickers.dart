@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 import 'package:mococo_mobile/src/data/tag_data.dart';
 
-class NewCategoryTagPicker extends StatefulWidget {
-  const NewCategoryTagPicker({
+class CategoryTagPicker extends StatefulWidget {
+  const CategoryTagPicker({
     super.key,
     required this.setSelectedInfoValue,
     this.selectedPrimaryCategory,
@@ -16,10 +16,10 @@ class NewCategoryTagPicker extends StatefulWidget {
   final String? selectedSubcategory;
 
   @override
-  State<NewCategoryTagPicker> createState() => _NewCategoryTagPickerState();
+  State<CategoryTagPicker> createState() => _CategoryTagPickerState();
 }
 
-class _NewCategoryTagPickerState extends State<NewCategoryTagPicker> {
+class _CategoryTagPickerState extends State<CategoryTagPicker> {
   late List allPrimaryCategories;
   String? selectedPrimaryCategory;
   int? selectedIndex;
@@ -87,7 +87,7 @@ class _NewCategoryTagPickerState extends State<NewCategoryTagPicker> {
         const SizedBox(height: 8),
         if (selectedPrimaryCategory != null) ...[
           const Divider(color: Color(0xffF0F0F0)),
-          NewSubcategoryTagPicker(
+          SubcategoryTagPicker(
               setSelectedInfoValue: widget.setSelectedInfoValue,
               primaryCategory: selectedPrimaryCategory!,
               selectedSubcategory: widget.selectedSubcategory)
@@ -97,8 +97,8 @@ class _NewCategoryTagPickerState extends State<NewCategoryTagPicker> {
   }
 }
 
-class NewSubcategoryTagPicker extends StatefulWidget {
-  const NewSubcategoryTagPicker({
+class SubcategoryTagPicker extends StatefulWidget {
+  const SubcategoryTagPicker({
     super.key,
     required this.setSelectedInfoValue,
     required this.primaryCategory,
@@ -111,11 +111,11 @@ class NewSubcategoryTagPicker extends StatefulWidget {
   final String? selectedSubcategory;
 
   @override
-  State<NewSubcategoryTagPicker> createState() =>
-      _NewSubcategoryTagPickerState();
+  State<SubcategoryTagPicker> createState() =>
+      _SubcategoryTagPickerState();
 }
 
-class _NewSubcategoryTagPickerState extends State<NewSubcategoryTagPicker> {
+class _SubcategoryTagPickerState extends State<SubcategoryTagPicker> {
   late List allSubcategories;
   String? selectedSubcategory;
   int? selectedIndex;
@@ -131,7 +131,7 @@ class _NewSubcategoryTagPickerState extends State<NewSubcategoryTagPicker> {
   }
 
   @override
-  void didUpdateWidget(covariant NewSubcategoryTagPicker oldWidget) {
+  void didUpdateWidget(covariant SubcategoryTagPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
     allSubcategories = Tag.getSubCategories(widget.primaryCategory);
     selectedSubcategory = null;
@@ -188,8 +188,8 @@ class _NewSubcategoryTagPickerState extends State<NewSubcategoryTagPicker> {
   }
 }
 
-class NewColorTagPicker extends StatefulWidget {
-  const NewColorTagPicker({
+class ColorTagPicker extends StatefulWidget {
+  const ColorTagPicker({
     super.key,
     required this.setSelectedInfoValue,
     this.selectedColors
@@ -200,10 +200,10 @@ class NewColorTagPicker extends StatefulWidget {
   final Set<String>? selectedColors;
 
   @override
-  State<NewColorTagPicker> createState() => _NewColorTagPickerState();
+  State<ColorTagPicker> createState() => _ColorTagPickerState();
 }
 
-class _NewColorTagPickerState extends State<NewColorTagPicker> {
+class _ColorTagPickerState extends State<ColorTagPicker> {
   late List allColors;
   late Set<String> selectedColors;
 
@@ -284,8 +284,8 @@ class _NewColorTagPickerState extends State<NewColorTagPicker> {
   }
 }
 
-class NewDetailTagPicker extends StatefulWidget {
-  const NewDetailTagPicker({
+class DetailTagPicker extends StatefulWidget {
+  const DetailTagPicker({
     super.key,
     required this.mode,
     required this.setSelectedInfoValue,
@@ -298,10 +298,10 @@ class NewDetailTagPicker extends StatefulWidget {
   final Set<String>? selectedDetailTags;
 
   @override
-  State<NewDetailTagPicker> createState() => _NewDetailTagPickerState();
+  State<DetailTagPicker> createState() => _DetailTagPickerState();
 }
 
-class _NewDetailTagPickerState extends State<NewDetailTagPicker> {
+class _DetailTagPickerState extends State<DetailTagPicker> {
   late List allDetailTags;
   late Set<String> selectedDetailTags;
   String searchText = '';
@@ -486,8 +486,8 @@ class _NewDetailTagPickerState extends State<NewDetailTagPicker> {
   }
 }
 
-class NewStyleTagPicker extends StatefulWidget {
-  const NewStyleTagPicker({
+class StyleTagPicker extends StatefulWidget {
+  const StyleTagPicker({
     super.key,
     required this.setSelectedInfoValue,
     this.selectedStyles,
@@ -498,10 +498,10 @@ class NewStyleTagPicker extends StatefulWidget {
   final Set<String>? selectedStyles;
 
   @override
-  State<NewStyleTagPicker> createState() => _NewStyleTagPickerState();
+  State<StyleTagPicker> createState() => _StyleTagPickerState();
 }
 
-class _NewStyleTagPickerState extends State<NewStyleTagPicker> {
+class _StyleTagPickerState extends State<StyleTagPicker> {
   late List allStyleTags;
   late Set<String> selectedStyleTags;
   int? selectedIndex;
@@ -574,8 +574,8 @@ class _NewStyleTagPickerState extends State<NewStyleTagPicker> {
 }
 
 
-class NewScheduleTagPicker extends StatefulWidget {
-  const NewScheduleTagPicker({
+class ScheduleTagPicker extends StatefulWidget {
+  const ScheduleTagPicker({
     super.key,
     required this.setSelectedSchedule,
     this.selectedSchedule
@@ -586,10 +586,10 @@ class NewScheduleTagPicker extends StatefulWidget {
   final String? selectedSchedule;
 
   @override
-  State<NewScheduleTagPicker> createState() => _NewScheduleTagPickerState();
+  State<ScheduleTagPicker> createState() => _ScheduleTagPickerState();
 }
 
-class _NewScheduleTagPickerState extends State<NewScheduleTagPicker> {
+class _ScheduleTagPickerState extends State<ScheduleTagPicker> {
   late List allSchedules;
   String? selectedSchedule;
   int? selectedIndex;

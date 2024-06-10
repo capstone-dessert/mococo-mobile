@@ -48,23 +48,23 @@ class _ClothesTagPickerState extends State<ClothesTagPicker> {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         children: [
-          NewCategoryTagPicker(
+          CategoryTagPicker(
             setSelectedInfoValue: setSelectedInfoValue,
             selectedPrimaryCategory: widget.selectedPrimaryCategory,
             selectedSubcategory: widget.selectedSubcategory
           ),
           const Divider(color: Color(0xffF0F0F0)),
-          NewStyleTagPicker(
+          StyleTagPicker(
             setSelectedInfoValue: setSelectedInfoValue,
             selectedStyles: widget.selectedStyles
           ),
           const Divider(color: Color(0xffF0F0F0)),
-          NewColorTagPicker(
+          ColorTagPicker(
             setSelectedInfoValue: setSelectedInfoValue,
             selectedColors: widget.selectedColors
           ),
           const Divider(color: Color(0xffF0F0F0)),
-          NewDetailTagPicker(
+          DetailTagPicker(
             mode: widget.detailTagPickerMode,
             setSelectedInfoValue: setSelectedInfoValue,
             selectedDetailTags: widget.selectedDetailTags
