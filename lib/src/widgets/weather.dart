@@ -187,15 +187,16 @@ class _WeatherState extends State<Weather> {
       elevation: 0,
       useRootNavigator: widget.isSmall ? true : false,
       builder: (context) {
-        return Container(
+        return SizedBox(
           width: MediaQuery.of(context).size.width,
           height: widget.isSmall ? MediaQuery.of(context).size.height - 120 - 32 - 25 : 680,
           child: LocationSelector(
-              onLocationSelected: (newLocation) {
-                setState(() {
-                  location = newLocation;
-                });
-              }),
+            onLocationSelected: (newLocation) {
+              setState(() {
+                location = newLocation;
+              });
+            }
+          ),
         );
       },
     );
