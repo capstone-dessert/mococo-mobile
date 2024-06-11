@@ -11,6 +11,7 @@ import 'package:mococo_mobile/src/models/clothes.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/models/codi_list.dart';
+import 'package:mococo_mobile/src/models/weather.dart';
 
 String server = dotenv.get('SERVER');
 
@@ -41,8 +42,7 @@ Future<Clothes> fetchClothes(int id) async {
     final response = await http.get(Uri.parse('$server/api/clothing/$id'));
     final imageResponse = await http.get(
         Uri.parse('$server/api/clothing/image/$id'));
-    if (response.statusCode ~/ 100 == 2 &&
-        imageResponse.statusCode ~/ 100 == 2) {
+    if (response.statusCode ~/ 100 == 2 && imageResponse.statusCode ~/ 100 == 2) {
       Map<String, dynamic> jsonData = jsonDecode(
           utf8.decode(response.bodyBytes));
       jsonData['image'] = imageResponse.bodyBytes;
@@ -287,7 +287,7 @@ Future<void> editCodi(int id, Map<String, dynamic> data) async {
 
 Future<void> deleteCodi(int id) async {
   try {
-    var response = await http.delete(Uri.parse('$server/api/outfit/$id'));
+    final response = await http.delete(Uri.parse('$server/api/outfit/$id'));
     if (response.statusCode ~/ 100 == 2) {
       log('[SUCCESS] Codi deleted successfully!');
     } else {
@@ -295,5 +295,50 @@ Future<void> deleteCodi(int id) async {
     }
   } catch (e) {
     throw Exception('Error deleting codi: $e');
+  }
+}
+
+Future<Weather> getWeatherByGeo(DateTime date, double latitude, double longitude) async {
+  Map<String, dynamic> data = {
+    'date': DateFormat('yyyy-MM-dd').format(date),
+    'latitude': latitude,
+    'longitude': longitude
+  };
+  final url = Uri.parse('$server/api/weather/geo');
+  String queryString = Uri(queryParameters: data).query;
+
+  try {
+    var response = await http.get(Uri.parse('$url?$queryString'));
+    if (response.statusCode ~/ 100 == 2) {
+      Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
+      var parsingData = Weather.fromJson(jsonData);
+      return parsingData;
+    } else {
+      throw Exception('Failed to get weather. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error get weather: $e');
+  }
+}
+
+Future<Weather> getWeatherByAddress(DateTime date, String address) async {
+  Map<String, dynamic> data = {
+    'date': DateFormat('yyyy-MM-dd').format(date),
+    'address': address
+  };
+  final url = Uri.parse('$server/api/weather/address');
+  String queryString = Uri(queryParameters: data).query;
+
+  try {
+    var response = await http.get(Uri.parse('$url?$queryString'));
+    if (response.statusCode ~/ 100 == 2) {
+      Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
+      var parsingData = Weather.fromJson(jsonData);
+      return parsingData;
+    } else {
+      throw Exception('Failed to get weather. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error get weather: $e');
   }
 }
