@@ -38,7 +38,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   @override
   void initState() {
     super.initState();
-    if (widget.weather != null) {
+    if (widget.weather == null) {
       date = widget.getDate!();
       myLocation = MyLocation();
       myLocation.updateCurrentLocation().then((_) {
@@ -90,7 +90,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     if (!widget.isSmall) {
       if (isLoading) {
         return Container(
-          width: 345,
+          width: MediaQuery.of(context).size.width - 48,
           height: 90,
           decoration: ShapeDecoration(
             color: const Color(0xffFFF5F6),
@@ -108,7 +108,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
         return Stack(
           children: [
             Container(
-              width: 345,
+              width: MediaQuery.of(context).size.width - 48,
               height: 90,
               decoration: ShapeDecoration(
                 color: const Color(0xffFFF5F6),
@@ -191,7 +191,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             TextSpan(
               children: [
                 TextSpan(
-                  text: isLoading ? '--℃' : '24℃',
+                  text: isLoading ? '––℃' : '24℃',
                   style: const TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 const TextSpan(
@@ -199,7 +199,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                   style: TextStyle(color: Color(0xff494949), fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 TextSpan(
-                  text: isLoading ? '--℃' : '11℃',
+                  text: isLoading ? '––℃' : '11℃',
                   style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ],
@@ -219,7 +219,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               child: Row(
                 children: [
                   Text(
-                    isLoading ? '---' : weather.location,
+                    isLoading ? '–––' : weather.location,
                     style: const TextStyle(fontSize: 16, color: Color(0xff494949), decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
