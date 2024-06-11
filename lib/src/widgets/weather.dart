@@ -13,7 +13,8 @@ class WeatherWidget extends StatefulWidget {
     required this.isEditable,
     this.date,
     this.weather,
-    this.getDate
+    this.getDate,
+    this.setSelectedLocation
   });
 
   final bool isSmall;
@@ -22,6 +23,7 @@ class WeatherWidget extends StatefulWidget {
   final Weather? weather;
 
   final Function? getDate;
+  final Function? setSelectedLocation;
 
   @override
   State<WeatherWidget> createState() => _WeatherWidgetState();

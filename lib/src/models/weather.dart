@@ -15,19 +15,19 @@ class Weather {
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
-      location: json['addressName'] as String,
-      maxTemperature: json['maxTemperature'] as int,
-      minTemperature: json['minTemperature'] as int,
-      precipitationType: json['precipitationType'] as String,
-      sky: json['sky'] as String
+      location: json['addressName'],
+      maxTemperature: json['maxTemperature'].toInt(),
+      minTemperature: json['minTemperature'].toInt(),
+      precipitationType: json['precipitationType'],
+      sky: json['sky']
     );
   }
 
   Map<String, dynamic> toJson() =>
       {
         'addressName': location,
-        'maxTemperature': maxTemperature,
-        'minTemperature': minTemperature,
+        'maxTemperature': maxTemperature.toDouble(),
+        'minTemperature': minTemperature.toDouble(),
         'precipitationType': precipitationType,
         'sky': sky
       };

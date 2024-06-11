@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/data/my_location.dart';
 import 'package:mococo_mobile/src/data/network.dart';
+import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
@@ -29,6 +30,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
   int? precipitationType;
   int? skyState;
   DateTime selectedDate = DateTime.now();
+  String? selectedLocation;
 
   late ClothesList clothesList;
   late Clothes clothes;
@@ -200,7 +202,8 @@ class _CodiRecommendState extends State<CodiRecommend> {
             WeatherWidget(
               isSmall: false,
               isEditable: true,
-              getDate: getSelectedDate
+              getDate: getSelectedDate,
+              setSelectedLocation: setSelectedLocation,
             ),
             const SizedBox(height: 16),
             ScheduleTagPicker(
@@ -234,6 +237,10 @@ class _CodiRecommendState extends State<CodiRecommend> {
     return selectedDate;
   }
 
+  void setSelectedLocation(String location) {
+    selectedLocation = location;
+  }
+
   void onRecommendButtonPressed() {
     // print("All Clothes:");
     // clothesList.listAll.forEach((item) {
@@ -263,14 +270,35 @@ class _CodiRecommendState extends State<CodiRecommend> {
       print("${item.id}: ${item.primaryCategory}: ${item.subCategory} (${item.styles.join(', ')}, ${item.colors.join(', ')})");
     }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            CodiRecommendResult(
-                scheduleTag: selectedScheduleTag),
-      ),
-    );
+    Map<String, dynamic> selectedInfo = {
+      'id': 0,
+      'date': selectedDate,
+      'location': selectedLocation,
+      // TODO: Weather 추가
+      'schedules': selectedScheduleTag,
+      'clothes': clothes,
+    };
+    if (selectedInfo.values.contains(null)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "스케줄과 옷 선택은 필수입니다.",
+              style: TextStyle(color: Colors.white),
+            ),
+            duration: Duration(seconds: 1),
+          )
+      );
+    } else {
+      // TODO:
+      Codi codi = Codi.fromJson(selectedInfo);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              CodiRecommendResult(scheduleTag: selectedScheduleTag),
+        ),
+      );
+    }
   }
 
   // TODO 실제 세부 카테고리에 맞게 필터링 항목 수정

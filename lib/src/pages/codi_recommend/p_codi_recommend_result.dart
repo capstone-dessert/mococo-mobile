@@ -4,9 +4,13 @@ import 'package:mococo_mobile/src/widgets/app_bar.dart';
 
 
 class CodiRecommendResult extends StatefulWidget {
-  final String? scheduleTag;
+  const CodiRecommendResult({
+    super.key,
+    required this.scheduleTag
+  });
 
-  const CodiRecommendResult({super.key, required this.scheduleTag});
+  final String? scheduleTag;
+  // TODO: Codi 파라미터로 (scheduleTag 제거)
 
   @override
   State<CodiRecommendResult> createState() => _CodiRecommendResultState();

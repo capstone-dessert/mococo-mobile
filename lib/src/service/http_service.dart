@@ -313,6 +313,9 @@ Future<Weather> getWeatherByGeo(DateTime date, double latitude, double longitude
     print(response.body);
     if (response.statusCode ~/ 100 == 2) {
       Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
+      if (jsonData['addressName'].split(' ').length > 2) {
+        jsonData['addressName'] = jsonData['addressName'].split(' ').sublist(0, 2).join(' ');
+      }
       var parsingData = Weather.fromJson(jsonData);
       return parsingData;
     } else {
