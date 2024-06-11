@@ -28,7 +28,7 @@ class Codi {
         id: json['id'] as int,
         image: json['image'],
         date: DateTime.parse(json['date']),
-        weather: Weather(location: "전주시", highTemperature: 25, lowTemperature: 19, weatherCondition: "맑음"),
+        weather: Weather(location: "전주시", maxTemperature: 25, minTemperature: 19, precipitationType: "맑음", sky: "맑음"),
         schedule: json['schedule'],
         clothes: ClothesList.fromJson({'list': json['clothingItems']})
     );

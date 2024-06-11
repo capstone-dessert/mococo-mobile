@@ -1,30 +1,34 @@
 class Weather {
   final String location;
-  final int highTemperature;
-  final int lowTemperature;
-  final String weatherCondition;
+  final int maxTemperature;
+  final int minTemperature;
+  final String precipitationType;
+  final String sky;
 
   const Weather({
     required this.location,
-    required this.highTemperature,
-    required this.lowTemperature,
-    required this.weatherCondition
+    required this.maxTemperature,
+    required this.minTemperature,
+    required this.precipitationType,
+    required this.sky
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
-        location: json['location'] as String,
-        highTemperature: json['highTemperature'] as int,
-        lowTemperature: json['lowTemperature'] as int,
-        weatherCondition: json['weatherCondition'] as String,
+      location: json['addressName'],
+      maxTemperature: json['maxTemperature'].toInt(),
+      minTemperature: json['minTemperature'].toInt(),
+      precipitationType: json['precipitationType'],
+      sky: json['sky']
     );
   }
 
   Map<String, dynamic> toJson() =>
       {
-        'location': location,
-        'highTemperature': highTemperature,
-        'lowTemperature': lowTemperature,
-        'weatherCondition': weatherCondition,
+        'addressName': location,
+        'maxTemperature': maxTemperature.toDouble(),
+        'minTemperature': minTemperature.toDouble(),
+        'precipitationType': precipitationType,
+        'sky': sky
       };
 }

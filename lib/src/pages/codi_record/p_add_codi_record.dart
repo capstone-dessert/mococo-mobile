@@ -70,14 +70,14 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                     children: [
                       Row(
                         children: [
-                          Date(
+                          DateWidget(
                             isCenter: false,
                             isEditable: true,
                             date: selectedDate,
                             onDateChanged: onDateChanged,
                           ),
                           const Spacer(),
-                          const Weather(isSmall: true, isEditable: true,)
+                          WeatherWidget(isSmall: true, isEditable: true, getDate: getSelectedDate)
                         ],
                       ),
                       const SizedBox(height: 6),
@@ -85,10 +85,10 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                       const SizedBox(
                         height: 400,
                         child: Center(
-                            child: Text(
-                              "코디할 옷을 선택하세요",
-                              style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                            )
+                          child: Text(
+                            "코디할 옷을 선택하세요",
+                            style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                          )
                         ),
                       ) :
                       Container(
@@ -109,6 +109,10 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         ],
       ),
     );
+  }
+
+  DateTime getSelectedDate() {
+    return selectedDate;
   }
 
   void setSelectedStatus(bool status) {

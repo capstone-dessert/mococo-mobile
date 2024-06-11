@@ -67,7 +67,7 @@ class _CodiDetailState extends State<CodiDetail> {
               Row(
                 children: [
                   const SizedBox(width: 6),
-                  Date(
+                  DateWidget(
                     isCenter: false,
                     isEditable: false,
                     date: codi.date,
@@ -75,7 +75,7 @@ class _CodiDetailState extends State<CodiDetail> {
                   ),
                   const Spacer(),
                   // TODO: 위치, 날씨 데이터 가져와서 넣기
-                  Weather(isSmall: true, isEditable: false, location: codi.weather.location,),
+                  WeatherWidget(isSmall: true, isEditable: false, date: codi.date, weather: codi.weather),
                   const SizedBox(width: 4),
                 ],
               ),

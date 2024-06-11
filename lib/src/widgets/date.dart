@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
 
-class Date extends StatefulWidget {
-  const Date({
+class DateWidget extends StatefulWidget {
+  const DateWidget({
     super.key,
     required this.isCenter,
     required this.isEditable,
@@ -16,10 +16,10 @@ class Date extends StatefulWidget {
   final DateTime? date;
 
   @override
-  State<Date> createState() => _DateState();
+  State<DateWidget> createState() => _DateWidgetState();
 }
 
-class _DateState extends State<Date> {
+class _DateWidgetState extends State<DateWidget> {
 
   late DateTime date;
 
