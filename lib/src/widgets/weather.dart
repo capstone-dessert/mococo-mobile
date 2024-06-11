@@ -7,7 +7,7 @@ import 'location.dart';
 
 class Weather extends StatefulWidget {
   const Weather({
-    Key? key,
+    super.key,
     required this.isSmall,
     required this.isEditable,
     this.maxTemperature,
@@ -15,7 +15,7 @@ class Weather extends StatefulWidget {
     this.precipitationType,
     this.skyState,
     this.location,
-  }) : super(key: key);
+  });
 
   final bool isSmall;
   final bool isEditable;
@@ -106,14 +106,6 @@ class _WeatherState extends State<Weather> {
               ),
             ),
           ),
-          // const Positioned(
-          //     left: 213,
-          //     top: 49,
-          //     child: Text(
-          //       '체감온도 24℃',
-          //       style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500),
-          //     )
-          // )
         ],
       );
     } else {
