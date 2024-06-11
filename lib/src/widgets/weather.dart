@@ -1,113 +1,182 @@
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/models/weather.dart';
+import 'package:mococo_mobile/src/service/http_service.dart';
 
 import '../data/my_location.dart';
-import '../data/network.dart';
 import 'location.dart';
 
-class Weather extends StatefulWidget {
-  const Weather({
+class WeatherWidget extends StatefulWidget {
+  const WeatherWidget({
     super.key,
     required this.isSmall,
     required this.isEditable,
-    this.maxTemperature,
-    this.minTemperature,
-    this.precipitationType,
-    this.skyState,
-    this.location,
+    this.date,
+    this.weather,
+    this.getDate
   });
 
   final bool isSmall;
   final bool isEditable;
-  final double? maxTemperature;
-  final double? minTemperature;
-  final int? precipitationType;
-  final int? skyState;
-  final String? location;
+  final DateTime? date;
+  final Weather? weather;
+
+  final Function? getDate;
 
   @override
-  State<Weather> createState() => _WeatherState();
+  State<WeatherWidget> createState() => _WeatherWidgetState();
 }
 
-class _WeatherState extends State<Weather> {
-  String location = "전주시";
+class _WeatherWidgetState extends State<WeatherWidget> {
+
+  bool isLoading = true;
+  late DateTime date;
+  late Weather weather;
+  late MyLocation myLocation;
+  String? location;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.weather != null) {
+      date = widget.getDate!();
+      myLocation = MyLocation();
+      myLocation.updateCurrentLocation().then((_) {
+        var latitude = myLocation.getLatitude();
+        var longitude = myLocation.getLongitude();
+        getWeatherByGeo(date, latitude, longitude).then((value) {
+          setState(() {
+            weather = value;
+            isLoading = false;
+          });
+        });
+      });
+    } else {
+      weather = widget.weather!;
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant WeatherWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.getDate != null) {
+      DateTime newDate = widget.getDate!();
+      if (date.year != newDate.year || date.month != newDate.month || date.day != newDate.day) {
+        date = newDate;
+        isLoading = true;
+        if (location != null) {
+          var latitude = myLocation.getLatitude();
+          var longitude = myLocation.getLongitude();
+          getWeatherByGeo(date, latitude, longitude).then((value) {
+            setState(() {
+              weather = value;
+              isLoading = false;
+            });
+          });
+        } else {
+          getWeatherByAddress(date, location!).then((value) {
+            setState(() {
+              weather = value;
+              isLoading = false;
+            });
+          });
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.location != null) {
-      location = widget.location!;
-    }
     if (!widget.isSmall) {
-      return Stack(
-        children: [
-          Container(
-            width: 345,
-            height: 90,
-            decoration: ShapeDecoration(
+      if (isLoading) {
+        return Container(
+          width: 345,
+          height: 90,
+          decoration: ShapeDecoration(
+            color: const Color(0xffFFF5F6),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
+          ),
+          child: const Column(
+            children: [
+              Spacer(),
+              CircularProgressIndicator(color: Colors.black12),
+              Spacer()
+            ],
+          ),
+        );
+      } else {
+        return Stack(
+          children: [
+            Container(
+              width: 345,
+              height: 90,
+              decoration: ShapeDecoration(
                 color: const Color(0xffFFF5F6),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-          ),
-          // TODO: 날씨 아이콘
-          Positioned(
-            left: 20,
-            top: 20,
-            child: SizedBox(
-              width: 50,
-              height: 50,
-              child: Image.asset(IconPath.mococoLogo),
-            ),
-          ),
-          Positioned(
-            left: 90,
-            top: 18,
-            child: TextButton(
-              onPressed: () {
-                _showModalBottomSheet();
-              },
-              style: TextButton.styleFrom(
-                minimumSize: Size.zero,
-                padding: EdgeInsets.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    location,
-                    style: const TextStyle(fontSize: 18, color: Colors.black, decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(width: 3),
-                  SizedBox(
-                    width: 22,
-                    child: Image.asset(IconPath.editCondition),
-                  )
-                ],
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
               ),
             ),
-          ),
-          Positioned(
-            left: 90,
-            top: 50,
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: '${widget.maxTemperature?.toInt() ?? ''}℃',
-                    style: TextStyle(color: Colors.red, fontSize: 17, fontWeight: FontWeight.w500),
-                  ),
-                  TextSpan(
-                    text: ' / ',
-                    style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500),
-                  ),
-                  TextSpan(
-                    text: '${widget.minTemperature?.toInt() ?? ''}℃',
-                    style: TextStyle(color: Colors.blue, fontSize: 17, fontWeight: FontWeight.w500),
-                  ),
-                ],
+            // TODO: 날씨 아이콘
+            Positioned(
+              left: 20,
+              top: 20,
+              child: SizedBox(
+                width: 50,
+                height: 50,
+                child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.mococoLogo),
               ),
             ),
-          ),
-        ],
-      );
+            Positioned(
+              left: 90,
+              top: 18,
+              child: TextButton(
+                onPressed: () {
+                  _showModalBottomSheet();
+                },
+                style: TextButton.styleFrom(
+                  minimumSize: Size.zero,
+                  padding: EdgeInsets.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      weather.location,
+                      style: const TextStyle(fontSize: 18, color: Colors.black, decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(width: 3),
+                    SizedBox(
+                      width: 22,
+                      child: Image.asset(IconPath.editCondition),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 90,
+              top: 50,
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '${weather.maxTemperature}℃',
+                      style: const TextStyle(color: Colors.red, fontSize: 17, fontWeight: FontWeight.w500),
+                    ),
+                    const TextSpan(
+                      text: ' / ',
+                      style: TextStyle(color: Color(0xff494949), fontSize: 17, fontWeight: FontWeight.w500),
+                    ),
+                    TextSpan(
+                      text: '${weather.minTemperature}℃',
+                      style: const TextStyle(color: Colors.blue, fontSize: 17, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      }
     } else {
       return Row(
         children: [
@@ -115,23 +184,23 @@ class _WeatherState extends State<Weather> {
           SizedBox(
             width: 24,
             height: 24,
-            child: Image.asset(IconPath.mococoLogo),
+            child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.mococoLogo),
           ),
           const SizedBox(width: 6),
-          const Text.rich(
+          Text.rich(
             TextSpan(
               children: [
                 TextSpan(
-                  text: '24℃',
-                  style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
+                  text: isLoading ? '--℃' : '24℃',
+                  style: const TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' / ',
                   style: TextStyle(color: Color(0xff494949), fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 TextSpan(
-                  text: '11℃',
-                  style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600),
+                  text: isLoading ? '--℃' : '11℃',
+                  style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
@@ -150,7 +219,7 @@ class _WeatherState extends State<Weather> {
               child: Row(
                 children: [
                   Text(
-                    location,
+                    isLoading ? '---' : weather.location,
                     style: const TextStyle(fontSize: 16, color: Color(0xff494949), decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -162,7 +231,7 @@ class _WeatherState extends State<Weather> {
             )
           else
             Text(
-              location,
+              weather.location,
               style: const TextStyle(fontSize: 16, color: Color(0xff494949), fontWeight: FontWeight.w600),
             ),
           const SizedBox(width: 4),
@@ -186,6 +255,13 @@ class _WeatherState extends State<Weather> {
             onLocationSelected: (newLocation) {
               setState(() {
                 location = newLocation;
+                isLoading = true;
+                getWeatherByAddress(date, location!).then((value) {
+                  setState(() {
+                    weather = value;
+                    isLoading = false;
+                  });
+                });
               });
             }
           ),

@@ -72,7 +72,7 @@ class _CodiRecommendState extends State<CodiRecommend> {
 
   void getLocation() async {
     MyLocation myLocation = MyLocation();
-    await myLocation.getCurrentLocation();
+    await myLocation.updateCurrentLocation();
 
     var gpsToGridData = ConvGridGps.gpsToGRID(
       myLocation.currentLatitude,
@@ -190,24 +190,23 @@ class _CodiRecommendState extends State<CodiRecommend> {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            Date(
+            DateWidget(
               isCenter: true,
               isEditable: true,
               date: selectedDate,
               onDateChanged: onDateChanged,
             ),
             const SizedBox(height: 16),
-            Weather(
+            WeatherWidget(
               isSmall: false,
               isEditable: true,
-              maxTemperature: maxTemperature,
-              minTemperature: minTemperature,
-              precipitationType: precipitationType,
-              skyState: skyState,
+              getDate: getSelectedDate
             ),
             const SizedBox(height: 16),
-            ScheduleTagPicker(selectedSchedule: null,
-                setSelectedSchedule: setSelectedScheduleTag),
+            ScheduleTagPicker(
+              selectedSchedule: null,
+              setSelectedSchedule: setSelectedScheduleTag
+            ),
             const Spacer(),
             // 추천 버튼
             Padding(
@@ -217,13 +216,10 @@ class _CodiRecommendState extends State<CodiRecommend> {
                 height: 50,
                 child: FilledButton(
                   onPressed: onRecommendButtonPressed,
-                  style: TextButton.styleFrom(
-                      backgroundColor: const Color(0xffF6747E)),
+                  style: TextButton.styleFrom(backgroundColor: const Color(0xffF6747E)),
                   child: const Text(
                     "추천받기",
-                    style: TextStyle(fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -234,11 +230,8 @@ class _CodiRecommendState extends State<CodiRecommend> {
     );
   }
 
-  void setQueries(newQueries) {
-    setState(() {
-      queries.clear();
-      queries.addAll(newQueries);
-    });
+  DateTime getSelectedDate() {
+    return selectedDate;
   }
 
   void onRecommendButtonPressed() {

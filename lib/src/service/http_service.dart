@@ -14,6 +14,7 @@ import 'package:mococo_mobile/src/models/codi_list.dart';
 import 'package:mococo_mobile/src/models/weather.dart';
 
 String server = dotenv.get('SERVER');
+String serverAuth = dotenv.get('SERVER_AUTH');
 
 Future<ClothesList> fetchClothesAll() async {
   try {
@@ -300,15 +301,16 @@ Future<void> deleteCodi(int id) async {
 
 Future<Weather> getWeatherByGeo(DateTime date, double latitude, double longitude) async {
   Map<String, dynamic> data = {
-    'date': DateFormat('yyyy-MM-dd').format(date),
-    'latitude': latitude,
-    'longitude': longitude
+    // 'date': DateFormat('yyyy-MM-dd').format(date),
+    'date': '2024-06-12',
+    'latitude': 35.84754887914358,
+    'longitude': 127.13128628778183
   };
-  final url = Uri.parse('$server/api/weather/geo');
-  String queryString = Uri(queryParameters: data).query;
 
+  final url = Uri.parse('$server/api/weather/geo');
   try {
-    var response = await http.get(Uri.parse('$url?$queryString'));
+    var response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
+    print(response.body);
     if (response.statusCode ~/ 100 == 2) {
       Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
       var parsingData = Weather.fromJson(jsonData);
@@ -327,10 +329,9 @@ Future<Weather> getWeatherByAddress(DateTime date, String address) async {
     'address': address
   };
   final url = Uri.parse('$server/api/weather/address');
-  String queryString = Uri(queryParameters: data).query;
-
   try {
-    var response = await http.get(Uri.parse('$url?$queryString'));
+    var response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
+    print(response.body);
     if (response.statusCode ~/ 100 == 2) {
       Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
       var parsingData = Weather.fromJson(jsonData);

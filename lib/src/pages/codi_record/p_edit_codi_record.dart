@@ -100,14 +100,14 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Date(
+                      DateWidget(
                         isCenter: false,
                         isEditable: true,
                         date: selectedDate,
                         onDateChanged: onDateChanged,
                       ),
                       const Spacer(),
-                      Weather(isSmall: true, isEditable: true, location: codiItem.weather.location,)
+                      WeatherWidget(isSmall: true, isEditable: true, weather: codiItem.weather, getDate: getSelectedDate)
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -139,6 +139,10 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
           ],
         ),
     );
+  }
+
+  DateTime getSelectedDate() {
+    return selectedDate;
   }
 
   void _showLoadingDialog(BuildContext context) {

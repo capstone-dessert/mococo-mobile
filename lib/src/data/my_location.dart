@@ -4,10 +4,11 @@ import 'dart:math' as math;
 
 
 class MyLocation {
+
   late double currentLatitude;
   late double currentLongitude;
 
-  Future<void> getCurrentLocation() async {
+  Future<void> updateCurrentLocation() async {
     try {
       LocationPermission permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
@@ -20,11 +21,18 @@ class MyLocation {
       );
       currentLatitude = position.latitude;
       currentLongitude = position.longitude;
-      print('위도: ${currentLatitude}');
-      print('경도: ${currentLongitude}');
+      log('위경도: {$currentLatitude, $currentLatitude}');
     } catch (e) {
-      print('현재 위치를 가져오는 데 실패했습니다: $e');
+      throw Exception ('현재 위치를 가져오는 데 실패했습니다: $e');
     }
+  }
+
+  double getLatitude() {
+    return currentLatitude;
+  }
+
+  double getLongitude() {
+    return currentLongitude;
   }
 }
 
