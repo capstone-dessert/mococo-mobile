@@ -74,82 +74,78 @@ class _CodiRecommendState extends State<CodiRecommend> {
     MyLocation myLocation = MyLocation();
     await myLocation.getCurrentLocation();
 
-    if (myLocation.currentLatitude != null && myLocation.currentLongitude != null) {
-      var gpsToGridData = ConvGridGps.gpsToGRID(
-        myLocation.currentLatitude!,
-        myLocation.currentLongitude!,
-      );
+    var gpsToGridData = ConvGridGps.gpsToGRID(
+      myLocation.currentLatitude,
+      myLocation.currentLongitude,
+    );
 
-      int x = gpsToGridData['x'];
-      int y = gpsToGridData['y'];
+    int x = gpsToGridData['x'];
+    int y = gpsToGridData['y'];
 
-      print(x);
-      print(y);
+    print(x);
+    print(y);
 
-      String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
-      String baseDate = formattedDate; // 발표 날짜 (선택 날짜)
-      String baseTime = '0500'; // 발표 시간
+    String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+    String baseDate = formattedDate; // 발표 날짜 (선택 날짜)
+    String baseTime = '0500'; // 발표 시간
 
-      // 발표 날짜 포함하여 ~3일 날씨 정보 가져옴
-      Network network = Network(
-        'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=809&pageNo=1&base_date=$baseDate&base_time=$baseTime&nx=63&ny=90&dataType=JSON',
-        // 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=809&pageNo=1&base_date=$baseDate&base_time=$baseTime&nx=$x&ny=$y&dataType=JSON',
-      );
+    // 발표 날짜 포함하여 ~3일 날씨 정보 가져옴
+    Network network = Network(
+      'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=809&pageNo=1&base_date=$baseDate&base_time=$baseTime&nx=63&ny=90&dataType=JSON',
+      // 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=m7kifi%2BXpjIJm5cl52fdWyftjddfNEbXskzQ9gRK90Q5AK3jzO563UZJf5mCLOGbe6h0v9z6Oc%2BdqdPGwBQRcw%3D%3D&numOfRows=809&pageNo=1&base_date=$baseDate&base_time=$baseTime&nx=$x&ny=$y&dataType=JSON',
+    );
 
-      var weatherData = await network.getJsonData();
-      var weatherItems = weatherData['response']['body']['items']['item'];
-      for (var weatherItem in weatherItems) {
-        String fcstDate = weatherItem['fcstDate'];
+    var weatherData = await network.getJsonData();
+    var weatherItems = weatherData['response']['body']['items']['item'];
+    for (var weatherItem in weatherItems) {
+      String fcstDate = weatherItem['fcstDate'];
 
-        // 선택된 날짜의 예보 정보만 가져오기
-        if (fcstDate == baseDate) {
-          String category = weatherItem['category'];
-          dynamic fcstValue = weatherItem['fcstValue'];
+      // 선택된 날짜의 예보 정보만 가져오기
+      if (fcstDate == baseDate) {
+        String category = weatherItem['category'];
+        dynamic fcstValue = weatherItem['fcstValue'];
 
-          switch (category) {
-            case 'TMX':
-              maxTemperature = double.tryParse(fcstValue.toString());
-              break;
-            case 'TMN':
-              minTemperature = double.tryParse(fcstValue.toString());
-              break;
-            case 'PTY':
-              precipitationType = int.tryParse(fcstValue.toString());
-              break;
-            case 'SKY':
-              skyState = int.tryParse(fcstValue.toString());
-              break;
-            default:
-              break;
-          }
+        switch (category) {
+          case 'TMX':
+            maxTemperature = double.tryParse(fcstValue.toString());
+            break;
+          case 'TMN':
+            minTemperature = double.tryParse(fcstValue.toString());
+            break;
+          case 'PTY':
+            precipitationType = int.tryParse(fcstValue.toString());
+            break;
+          case 'SKY':
+            skyState = int.tryParse(fcstValue.toString());
+            break;
+          default:
+            break;
         }
       }
-      // 만약 최저 기온이 null인 경우, getMinTemperature() 함수를 호출하여 값을 가져와서 대체
-      minTemperature ??= await getMinTemperature(x, y, baseDate, baseTime);
-
-      setState(() {
-        maxTemperature = maxTemperature;
-        minTemperature = minTemperature;
-        precipitationType = precipitationType;
-        skyState = skyState;
-      });
-
-      // String fcstDate = weatherItems.isNotEmpty ? weatherItems[0]['fcstDate'] : '';
-      // print('${fcstDate}의 최고 기온은 ${maxTemperature}도 입니다.');
-      // print('${fcstDate}의 최저 기온은 ${minTemperature}도 입니다.');
-      // print('${fcstDate}의 강수 형태는 ${precipitationType}입니다.');
-      // print('${fcstDate}의 하늘 상태는 ${skyState}입니다.');
-
-    } else {
-      print('현재 위치를 가져올 수 없습니다.');
     }
-  }
+    // 만약 최저 기온이 null인 경우, getMinTemperature() 함수를 호출하여 값을 가져와서 대체
+    minTemperature ??= await getMinTemperature(x, y, baseDate, baseTime);
+
+    setState(() {
+      maxTemperature = maxTemperature;
+      minTemperature = minTemperature;
+      precipitationType = precipitationType;
+      skyState = skyState;
+    });
+
+    // String fcstDate = weatherItems.isNotEmpty ? weatherItems[0]['fcstDate'] : '';
+    // print('${fcstDate}의 최고 기온은 ${maxTemperature}도 입니다.');
+    // print('${fcstDate}의 최저 기온은 ${minTemperature}도 입니다.');
+    // print('${fcstDate}의 강수 형태는 ${precipitationType}입니다.');
+    // print('${fcstDate}의 하늘 상태는 ${skyState}입니다.');
+
+    }
 
   Future<double?> getMinTemperature(int x, int y, String baseDate, String baseTime) async {
 
     // 어제 예보한 오늘 날짜 최저 기온을 받아오기 위해 따로 계산
     DateTime selectedDateTime = selectedDate;
-    DateTime yesterdayDateTime = selectedDateTime.subtract(Duration(days: 1));
+    DateTime yesterdayDateTime = selectedDateTime.subtract(const Duration(days: 1));
     String yesterdayDate = DateFormat('yyyyMMdd').format(yesterdayDateTime);
 
     String baseDate = yesterdayDate;
@@ -270,9 +266,9 @@ class _CodiRecommendState extends State<CodiRecommend> {
     recommendedOutfit.addAll(childItems);
 
     print("Recommended Outfit:");
-    recommendedOutfit.forEach((item) {
+    for (var item in recommendedOutfit) {
       print("${item.id}: ${item.primaryCategory}: ${item.subCategory} (${item.styles.join(', ')}, ${item.colors.join(', ')})");
-    });
+    }
 
     Navigator.push(
       context,

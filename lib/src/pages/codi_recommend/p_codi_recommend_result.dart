@@ -6,7 +6,7 @@ import 'package:mococo_mobile/src/widgets/app_bar.dart';
 class CodiRecommendResult extends StatefulWidget {
   final String? scheduleTag;
 
-  const CodiRecommendResult({Key? key, required this.scheduleTag}) : super(key: key);
+  const CodiRecommendResult({super.key, required this.scheduleTag});
 
   @override
   State<CodiRecommendResult> createState() => _CodiRecommendResultState();

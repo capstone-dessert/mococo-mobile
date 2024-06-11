@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import '../components/image_data.dart';
 
 class LocationSelector extends StatefulWidget {
+  const LocationSelector({
+    super.key,
+    required this.onLocationSelected
+  });
+
   final Function(String) onLocationSelected;
 
-  const LocationSelector({Key? key, required this.onLocationSelected}) : super(key: key);
-
   @override
-  _LocationSelectorState createState() => _LocationSelectorState();
+  State<LocationSelector> createState() => _LocationSelectorState();
 }
 
 class _LocationSelectorState extends State<LocationSelector> {
@@ -30,7 +33,7 @@ class _LocationSelectorState extends State<LocationSelector> {
     "전라북도": ["군산시", "김제시", "남원시", "익산시", "전주시", "정읍시", "고창군", "무주군", "부안군", "순창군", "완주군", "임실군", "장수군", "진안군"],
     "전라남도": ["광양시", "나주시", "목포시", "순천시", "여수시", "강진군", "고흥군", "곡성군", "구례군", "담양군", "무안군", "보성군", "신안군", "영광군", "영암군", "완도군", "장성군", "장흥군", "진도군", "함평군", "해남군", "화순군"],
     "제주특별자치도": ["서귀포시", "제주시"],
-    "세종특별자치도": ["세종특별자치시"],
+    "세종특별자치도": ["세종특별자치시"]
   };
 
 
@@ -45,7 +48,7 @@ class _LocationSelectorState extends State<LocationSelector> {
         const SizedBox(height: 26),
         const Text(
           '지역 설정',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
@@ -64,7 +67,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                 const SizedBox(width: 8),
                 const Text(
                   '현재 위치 추가',
-                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ] ,
             ),
@@ -81,7 +84,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                     children: [
                       const Text(
                         '시/도',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),
@@ -100,14 +103,14 @@ class _LocationSelectorState extends State<LocationSelector> {
                                   },
                                   child: Container(
                                     width: screenWidth / 2,
-                                    color: isSelected ? Color(0xFFFFF5F6) : Colors.white,
+                                    color: isSelected ? const Color(0xFFFFF5F6) : Colors.white,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 13.5),
                                       child: Text(
                                         siDo,
                                         style: TextStyle(
-                                          fontSize: 20,
-                                          color: isSelected ? Color(0xFFF6747E) : Colors.black,
+                                          fontSize: 18,
+                                          color: isSelected ? const Color(0xFFF6747E) : Colors.black,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -128,7 +131,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                     children: [
                       const Text(
                         '시/군/구',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),
@@ -140,7 +143,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                               return ListTile(
                                 title: Text(
                                   siGunGu,
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 18),
                                   textAlign: TextAlign.center,
                                 ),
                                 onTap: () {
