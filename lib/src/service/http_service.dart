@@ -301,8 +301,8 @@ Future<void> deleteCodi(int id) async {
 
 Future<Weather> getWeatherByGeo(DateTime date, double latitude, double longitude) async {
   Map<String, dynamic> data = {
-    // 'date': DateFormat('yyyy-MM-dd').format(date),
-    'date': '2024-06-12',
+    'date': DateFormat('yyyy-MM-dd').format(date),
+    // 'date': '2024-06-12',
     'latitude': 35.84754887914358,
     'longitude': 127.13128628778183
   };
