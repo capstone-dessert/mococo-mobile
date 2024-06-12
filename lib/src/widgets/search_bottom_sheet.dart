@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/data/image_data.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';

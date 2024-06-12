@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/data/image_data.dart';
 import 'package:mococo_mobile/src/models/weather.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 
