@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/components/image_data.dart';
+import 'package:mococo_mobile/src/data/image_data.dart';
 
 class DateWidget extends StatefulWidget {
   const DateWidget({
     super.key,
     required this.isCenter,
     required this.isEditable,
-    required this.onDateChanged,
+    this.onDateChanged,
     this.date
   });
 
   final bool isCenter;
   final bool isEditable;
-  final ValueChanged<DateTime> onDateChanged;
+  final ValueChanged<DateTime>? onDateChanged;
   final DateTime? date;
 
   @override
@@ -56,7 +56,7 @@ class _DateWidgetState extends State<DateWidget> {
                   setState(() {
                     date = selectedDate;
                   });
-                  widget.onDateChanged(date);
+                  widget.onDateChanged!(date);
                 }
               },
               style: TextButton.styleFrom(

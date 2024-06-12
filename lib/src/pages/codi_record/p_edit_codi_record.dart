@@ -57,28 +57,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     }
   }
 
-  void setSelectedStatus(bool status) {
-    setState(() {
-      isClothesSelected = status;
-    });
-  }
-
-  void setSelectedClothesIndices(List<int> selectedIndices) {
-    setState(() {
-      selectedClothesIndices = selectedIndices;
-    });
-  }
-
-  void setSelectedScheduleTag(schedule) {
-    selectedSchedule = schedule;
-  }
-
-  void onDateChanged(DateTime newDate) {
-    setState(() {
-      selectedDate = newDate;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     codiItem = widget.codiItem;
@@ -139,6 +117,28 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
           ],
         ),
     );
+  }
+
+  void setSelectedStatus(bool status) {
+    setState(() {
+      isClothesSelected = status;
+    });
+  }
+
+  void setSelectedClothesIndices(List<int> selectedIndices) {
+    setState(() {
+      selectedClothesIndices = selectedIndices;
+    });
+  }
+
+  void setSelectedScheduleTag(schedule) {
+    selectedSchedule = schedule;
+  }
+
+  void onDateChanged(DateTime newDate) {
+    setState(() {
+      selectedDate = newDate;
+    });
   }
 
   DateTime getSelectedDate() {
