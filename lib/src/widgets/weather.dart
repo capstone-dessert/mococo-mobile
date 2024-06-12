@@ -14,7 +14,8 @@ class WeatherWidget extends StatefulWidget {
     this.date,
     this.weather,
     this.getDate,
-    this.setSelectedLocation
+    this.setSelectedLocation,
+    this.setWeather
   });
 
   final bool isSmall;
@@ -24,6 +25,7 @@ class WeatherWidget extends StatefulWidget {
 
   final Function? getDate;
   final Function? setSelectedLocation;
+  final Function? setWeather;
 
   @override
   State<WeatherWidget> createState() => _WeatherWidgetState();
@@ -49,12 +51,14 @@ class _WeatherWidgetState extends State<WeatherWidget> {
         getWeatherByGeo(date, latitude, longitude).then((value) {
           setState(() {
             weather = value;
+            widget.setWeather!(weather);
             isLoading = false;
           });
         });
       });
     } else {
       weather = widget.weather!;
+      isLoading = false;
     }
   }
 
@@ -72,6 +76,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           getWeatherByGeo(date, latitude, longitude).then((value) {
             setState(() {
               weather = value;
+              widget.setWeather!(weather);
               isLoading = false;
             });
           });
@@ -79,6 +84,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           getWeatherByAddress(date, location!).then((value) {
             setState(() {
               weather = value;
+              widget.setWeather!(weather);
               isLoading = false;
             });
           });
@@ -261,6 +267,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 getWeatherByAddress(date, location!).then((value) {
                   setState(() {
                     weather = value;
+                    widget.setWeather!(weather);
                     isLoading = false;
                   });
                 });
