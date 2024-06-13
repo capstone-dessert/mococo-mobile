@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
@@ -27,7 +29,7 @@ class AddCodiRecord extends StatefulWidget {
 class _AddCodiRecordState extends State<AddCodiRecord> {
   late ClothesList clothesList;
   bool isLoading = true;
-  List<int> selectedClothesIndices = [];
+  List<int> selectedClothesIds = [];
   List<Widget> codiImages = [];
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
@@ -81,23 +83,23 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                         ],
                       ),
                       const SizedBox(height: 6),
-                      selectedClothesIndices.isEmpty ?
-                      const SizedBox(
-                        height: 400,
-                        child: Center(
-                          child: Text(
-                            "코디할 옷을 선택하세요",
-                            style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                          )
+                      selectedClothesIds.isEmpty
+                        ? const SizedBox(
+                          height: 400,
+                          child: Center(
+                            child: Text(
+                              "코디할 옷을 선택하세요",
+                              style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                            )
+                          ),
+                        )
+                        : Container(
+                          color: Colors.black12,
+                          height: 400,
+                          child: Stack(
+                            children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                          ),
                         ),
-                      ) :
-                      Container(
-                        color: Colors.black12,
-                        height: 400,
-                        child: Stack(
-                          children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
-                        ),
-                      ),
                       const SizedBox(height: 8),
                       ScheduleTagPicker(selectedSchedule: null, setSelectedSchedule: setSelectedSchedule),
                     ],
@@ -105,7 +107,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                 ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.20, setSelectedStatus: setSelectedStatus, setSelectedClothesIndices: setSelectedClothesIndices),
+          SearchBottomSheet(sheetPosition: 0.20, setSelectedStatus: setSelectedStatus, setSelectedClothesIds: setSelectedClothesIds),
         ],
       ),
     );
@@ -121,9 +123,9 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     });
   }
 
-  void setSelectedClothesIndices(List<int> selectedIndices) {
+  void setSelectedClothesIds(List<int> selectedIds) {
     setState(() {
-      selectedClothesIndices = selectedIndices;
+      selectedClothesIds = selectedIds;
     });
   }
 
@@ -168,10 +170,6 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   }
 
   void _onSaveButtonPressed() {
-    List<int> selectedClothesIds = [];
-    for (var clothesIndices in selectedClothesIndices) {
-      selectedClothesIds.add(clothesList.list[clothesIndices].id);
-    }
     Map<String, dynamic> selectedInfo = {
       'date': selectedDate,
       'schedule': selectedSchedule,
@@ -209,15 +207,12 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       onPanUpdate: (details) {
         _handleDrag(details, index);
       },
-      child: Image.memory(
-        clothesList.list[selectedClothesIndices[index]].image,
-        width: imageSize,
-      ),
+      child: Image.memory(clothesPreview.image, width: imageSize),
     );
   }
 
   List<Widget> _buildPositionedImages(BuildContext context, double containerWidth, double containerHeight) {
-    return selectedClothesIndices.asMap().entries.map((entry) {
+    return selectedClothesIds.asMap().entries.map((entry) {
       int index = entry.key;
       if (index < clothesList.list.length) {
         double left;
@@ -233,10 +228,12 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         left = left.clamp(-10, containerWidth - 150);
         top = top.clamp(-35, containerHeight - 150);
 
+        // get ClothesPreview by id
+        ClothesPreview clothesPreview = clothesList.list.firstWhere((clothes) => clothes.id == entry.value);
         return Positioned(
           left: left,
           top: top,
-          child: _buildClothesImage(clothesList.list[index], index, 150),
+          child: _buildClothesImage(clothesPreview, index, 150),
         );
       } else {
         return const SizedBox();
