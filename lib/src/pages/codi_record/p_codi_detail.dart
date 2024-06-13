@@ -74,14 +74,13 @@ class _CodiDetailState extends State<CodiDetail> {
                     onDateChanged: onDateChanged,
                   ),
                   const Spacer(),
-                  // TODO: 위치, 날씨 데이터 가져와서 넣기
                   WeatherWidget(isSmall: true, isEditable: false, date: codi.date, weather: codi.weather),
                   const SizedBox(width: 4),
                 ],
               ),
               const SizedBox(height: 6),
               // TODO: 코디 사진
-              Container(
+              SizedBox(
                 height: 370,
                 child: Image.asset(codi.image),
               ),

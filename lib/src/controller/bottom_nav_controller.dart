@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-enum PageName { CLOSET, CODY_RECOMMNED, CODY_RECORD }
+enum PageName { closet, codiRecommend, codiRecord }
 
 class BottomNavController extends GetxController {
   RxInt pageIndex = 0.obs;
@@ -12,11 +12,11 @@ class BottomNavController extends GetxController {
   void changeBottomNav(int value) {
     var page = PageName.values[value];
     switch(page){
-      case PageName.CLOSET:
+      case PageName.closet:
         break;
-      case PageName.CODY_RECOMMNED:
+      case PageName.codiRecommend:
         break;
-      case PageName.CODY_RECORD:
+      case PageName.codiRecord:
         break;
     }
     _changePage(value);

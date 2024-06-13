@@ -161,7 +161,6 @@ Future<void> deleteClothes(List<int> idList) async {
   for (var id in idList) {
     try {
       var response = await http.delete(Uri.parse('$server/api/clothing/$id'));
-      print(response.body);
       if (response.statusCode ~/ 100 == 2) {
         log('[SUCCESS] Clothes($id) deleted successfully!');
       } else {

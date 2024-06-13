@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mococo_mobile/src/data/tag_data.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/clothes_tag_picker.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -49,8 +48,6 @@ class _RegisterClothState extends State<RegisterCloth> {
         print("이미지 분류 결과: $classifiedInfo");
         // TODO: UI에 classifiedInfo 적용
       });
-    }).catchError((error) {
-      print("Error classifying image: $error");
     });
 
     selectedInfo = {
@@ -77,7 +74,6 @@ class _RegisterClothState extends State<RegisterCloth> {
           child: Column(
             children: [
               Center(
-                // TODO 이미지 서버에 보내서 분류, 배경 제거
                 child: _pickedFile != null
                   ? Image.file(File(_pickedFile!.path))
                   : _croppedFile != null
@@ -126,7 +122,7 @@ class _RegisterClothState extends State<RegisterCloth> {
               ),
               const SizedBox(height: 20),
               ClothesTagPicker(
-                detailTagPickerMode: DetailTagPickerMode.edit,
+                isEditable: true,
                 setSelectedInfo: setSelectedInfo
               ),
               const SizedBox(height: 16),
@@ -181,7 +177,6 @@ class _RegisterClothState extends State<RegisterCloth> {
         )
       );
     } else {
-      print("의류 속성: $selectedInfo");
       AlertModal.show(
         context,
         message: '의류를 등록하시겠습니까?',

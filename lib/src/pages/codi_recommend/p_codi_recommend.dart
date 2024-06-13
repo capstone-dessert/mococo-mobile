@@ -157,7 +157,6 @@ class _CodiRecommendState extends State<CodiRecommend> {
           )
       );
     } else {
-      // TODO:
       Codi codi = Codi.fromJson(selectedInfo);
       Navigator.push(
         context,
