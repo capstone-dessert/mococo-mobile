@@ -51,7 +51,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
         getWeatherByGeo(date, latitude, longitude).then((value) {
           setState(() {
             weather = value;
-            widget.setWeather!(weather);
+            if (widget.setWeather != null) {
+              widget.setWeather!(weather);
+            }
             isLoading = false;
           });
         });
@@ -227,7 +229,11 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               child: Row(
                 children: [
                   Text(
-                    isLoading ? '–––' : weather.location,
+                    isLoading
+                      ? '–––'
+                      : (weather.location.split(' ').length == 2)
+                        ? weather.location.split(' ')[1]
+                        : weather.location,
                     style: const TextStyle(fontSize: 16, color: Color(0xff494949), decoration: TextDecoration.underline, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(

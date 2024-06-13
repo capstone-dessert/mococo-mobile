@@ -21,7 +21,7 @@ class _ClosetState extends State<Closet> {
 
   late ClothesList clothesList;
   bool isLoading = true;
-  List<int> selectedClothesIndices = [];
+  List<int> selectedClothesIds = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   List queries = ["전체"];
@@ -114,7 +114,7 @@ class _ClosetState extends State<Closet> {
                     children: [
                       Text(
                         isMultiClothesSelected
-                          ? '${selectedClothesIndices.length}개'
+                          ? '${selectedClothesIds.length}개'
                           : '${clothesList.list.length}개',
                       ),
                     ],
@@ -156,7 +156,7 @@ class _ClosetState extends State<Closet> {
                       onClothesSelected: _onClothesSelected,
                       isMultiClothesSelected: isMultiClothesSelected,
                       onMultiClothesSelected: _onMultiClothesSelected,
-                      selectedClothesIndices: selectedClothesIndices,
+                      selectedClothesIds: selectedClothesIds,
                       clothesList: clothesList,
                     ),
                   ),
@@ -187,7 +187,7 @@ class _ClosetState extends State<Closet> {
     setState(() {
       isClothesSelected = false;
       isMultiClothesSelected = false;
-      selectedClothesIndices.clear();
+      selectedClothesIds.clear();
     });
   }
 
@@ -205,15 +205,11 @@ class _ClosetState extends State<Closet> {
   }
 
   void _onDeleteButtonPressed(BuildContext context) {
-    if (selectedClothesIndices.isNotEmpty) {
+    if (selectedClothesIds.isNotEmpty) {
       AlertModal.show(
         context,
-        message: '${selectedClothesIndices.length}개의 의류를 삭제하시겠습니까?',
+        message: '${selectedClothesIds.length}개의 의류를 삭제하시겠습니까?',
         onConfirm: () {
-          List<int> selectedClothesIds = [];
-          for (var clothesIndices in selectedClothesIndices) {
-            selectedClothesIds.add(clothesList.list[clothesIndices].id);
-          }
           deleteClothes(selectedClothesIds).then((_) {
             Navigator.pop(context);
             Navigator.push(context, MaterialPageRoute(builder: (context) => const Closet()));

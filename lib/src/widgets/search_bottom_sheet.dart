@@ -11,12 +11,12 @@ class SearchBottomSheet extends StatefulWidget {
     super.key,
     required this.sheetPosition,
     required this.setSelectedStatus,
-    required this.setSelectedClothesIndices
+    required this.setSelectedClothesIds
   });
 
   final double sheetPosition;
   final Function(bool) setSelectedStatus;
-  final Function(List<int>) setSelectedClothesIndices;
+  final Function(List<int>) setSelectedClothesIds;
 
   @override
   State<SearchBottomSheet> createState() => _SearchBottomSheetState();
@@ -28,7 +28,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   bool isLoading = true;
   late double _sheetPosition = 0.20;
 
-  List<int> selectedClothesIndices = [];
+  List<int> selectedClothesIds = [];
   List queries = ["전체"];
   final double _dragSensitivity = 600;
   bool isClothesSelected = false; // 단일 선택 상태
@@ -153,7 +153,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                       : ClothesGridPicker(
                     getClothesList: getClothesList,
                     onClothesSelected: _onClothesSelected,
-                    selectedClothesIndices: selectedClothesIndices
+                    selectedClothesIds: selectedClothesIds
                   )
                 ),
               ],
@@ -174,7 +174,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     });
     // 상태를 부모 위젯으로 전달
     widget.setSelectedStatus(true);
-    widget.setSelectedClothesIndices(selectedClothesIndices);
+    widget.setSelectedClothesIds(selectedClothesIds);
   }
 
 }

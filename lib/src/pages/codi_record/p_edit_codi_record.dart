@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
+import 'package:mococo_mobile/src/models/weather.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
@@ -30,15 +31,15 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
 
   late final ClothesList clothesList;
   bool isLoading = true;
-  List<int> selectedClothesIndices = [];
+  List<int> selectedClothesIds = [];
   Set<int> selectedClothesIndex = {};
-  late Codi codiItem;
   List<Widget> codiImages = [];
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   String? selectedSchedule;
   late DateTime selectedDate;
+  late Weather weather;
 
   @override
   void initState() {
@@ -49,17 +50,16 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         isLoading = false;
       });
     });
-    codiItem = widget.codiItem;
-    selectedDate = codiItem.date;
-    selectedSchedule = codiItem.schedule;
-    for (var clothesPreview in codiItem.clothes.list) {
-      selectedClothesIndices.add(clothesPreview.id);
+    selectedDate = widget.codiItem.date;
+    selectedSchedule = widget.codiItem.schedule;
+    weather = widget.codiItem.weather;
+    for (var clothesPreview in widget.codiItem.clothes.list) {
+      selectedClothesIds.add(clothesPreview.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    codiItem = widget.codiItem;
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "코디 수정",
@@ -85,35 +85,41 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                         onDateChanged: onDateChanged,
                       ),
                       const Spacer(),
-                      WeatherWidget(isSmall: true, isEditable: true, weather: codiItem.weather, getDate: getSelectedDate)
+                      WeatherWidget(
+                        isSmall: true,
+                        isEditable: true,
+                        weather: weather,
+                        getDate: getSelectedDate,
+                        setWeather: setWeather,
+                      )
                     ],
                   ),
                   const SizedBox(height: 6),
-                  selectedClothesIndices.isEmpty ?
-                  Container(
-                    color: Colors.black12,
-                    height: 400,
-                    child: const Center(
-                      child: Text(
-                        "기존 코디",
-                        style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                      )
+                  selectedClothesIds.isEmpty
+                    ? Container(
+                      color: Colors.black12,
+                      height: 400,
+                      child: const Center(
+                        child: Text(
+                          "기존 코디",
+                          style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                        )
+                      ),
+                      // child: Image.asset(codiItem!.image),  // TODO: 기존 코디 사진 불러오기
+                    )
+                    : Container(
+                      color: Colors.black12,
+                      height: 400,
+                      child: Stack(
+                        children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                      ),
                     ),
-                    // child: Image.asset(codiItem!.image),  // TODO: 기존 코디 사진 불러오기
-                  ) :
-                  Container(
-                    color: Colors.black12,
-                    height: 400,
-                    child: Stack(
-                      children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
-                    ),
-                  ),
                   const SizedBox(height: 8),
                   ScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
                 ],
               ),
             ),
-            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIndices: setSelectedClothesIndices),
+            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIds: setSelectedClothesIds),
           ],
         ),
     );
@@ -125,9 +131,9 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     });
   }
 
-  void setSelectedClothesIndices(List<int> selectedIndices) {
+  void setSelectedClothesIds(List<int> selectedIds) {
     setState(() {
-      selectedClothesIndices = selectedIndices;
+      selectedClothesIds = selectedIds;
     });
   }
 
@@ -143,6 +149,10 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
 
   DateTime getSelectedDate() {
     return selectedDate;
+  }
+
+  void setWeather(Weather newWeather) {
+    weather = newWeather;
   }
 
   void _showLoadingDialog(BuildContext context) {
@@ -174,10 +184,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   }
 
   void _onSaveButtonPressed() {
-    List<int> selectedClothesIds = [];
-    for (var clothesIndices in selectedClothesIndices) {
-      selectedClothesIds.add(clothesList.list[clothesIndices].id);
-    }
     Map<String, dynamic> selectedInfo = {
       'date': selectedDate,
       'schedule': selectedSchedule,
@@ -200,7 +206,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         message: '코디를 수정하시겠습니까?',
         onConfirm: () {
           _showLoadingDialog(context);
-          editCodi(codiItem.id, selectedInfo).then((_) {
+          editCodi(widget.codiItem.id, selectedInfo).then((_) {
             widget.reloadCodiData();
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);
@@ -215,34 +221,37 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
       onPanUpdate: (details) {
         _handleDrag(details, index);
       },
-      child: Image.memory(
-        clothesList.list[index].image,
-        width: imageSize,
-      ),
+      child: Image.memory(clothesPreview.image, width: imageSize),
     );
   }
 
   List<Widget> _buildPositionedImages(BuildContext context, double containerWidth, double containerHeight) {
-    return selectedClothesIndices.asMap().entries.map((entry) {
+    return selectedClothesIds.asMap().entries.map((entry) {
       int index = entry.key;
-      double left;
-      double top;
-      if (index < imagePositions.length) {
-        left = imagePositions[index].left;
-        top = imagePositions[index].top;
-      } else {
-        left = Random().nextDouble() * containerWidth;
-        top = Random().nextDouble() * containerHeight;
-        imagePositions.add(ImagePosition(left, top));
-      }
-      left = left.clamp(-10, containerWidth - 140);
-      top = top.clamp(-35, containerHeight - 150);
+      if (index < clothesList.list.length) {
+        double left;
+        double top;
+        if (index < imagePositions.length) {
+          left = imagePositions[index].left;
+          top = imagePositions[index].top;
+        } else {
+          left = Random().nextDouble() * containerWidth;
+          top = Random().nextDouble() * containerHeight;
+          imagePositions.add(ImagePosition(left, top));
+        }
+        left = left.clamp(-10, containerWidth - 150);
+        top = top.clamp(-35, containerHeight - 150);
 
-      return Positioned(
-        left: left,
-        top: top,
-        child: _buildClothesImage(clothesList.list[index], entry.value, 150),
-      );
+        // get ClothesPreview by id
+        ClothesPreview clothesPreview = clothesList.list.firstWhere((clothes) => clothes.id == entry.value);
+        return Positioned(
+          left: left,
+          top: top,
+          child: _buildClothesImage(clothesPreview, index, 150),
+        );
+      } else {
+        return const SizedBox();
+      }
     }).toList();
   }
 

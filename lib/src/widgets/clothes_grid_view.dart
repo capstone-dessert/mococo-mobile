@@ -9,7 +9,7 @@ class ClothesGridView extends StatefulWidget {
     required this.getClothesList,
     this.onClothesDetail,
     this.onLeftLogoAppBar,
-    this.selectedClothesIndices,
+    this.selectedClothesIds,
     this.isClothesSelected,
     this.onClothesSelected,
     this.isMultiClothesSelected,
@@ -24,7 +24,7 @@ class ClothesGridView extends StatefulWidget {
   final Function(bool isLeftLogoAppBar)? onLeftLogoAppBar;
   final bool? isClothesSelected;
   final bool? isMultiClothesSelected;
-  final List<int>? selectedClothesIndices;
+  final List<int>? selectedClothesIds;
   final VoidCallback? onClothesSelected;
   final VoidCallback? onMultiClothesSelected;
   final ClothesList clothesList;
@@ -73,13 +73,13 @@ class ClothesGridViewState extends State<ClothesGridView> {
             else if (!widget.isMultiClothesSelected! && widget.state == "codi") {
               widget.onClothesSelected?.call();
               setState(() {
-                _toggleSelectedId(index);
+                _toggleSelectedId(clothesList.list[index].id);
               });
             }
             // 다중 선택일 때 체크박스 변경
             else {
               widget.onMultiClothesSelected?.call();
-              _toggleSelectedId(index);
+              _toggleSelectedId(clothesList.list[index].id);
             }
           },
           onLongPress: () {
@@ -87,14 +87,14 @@ class ClothesGridViewState extends State<ClothesGridView> {
               setState(() {
                 widget.onMultiClothesSelected?.call();
                 longPressedIndex = index;
-                _toggleSelectedId(index);
+                _toggleSelectedId(clothesList.list[index].id);
               });
             }
           },
           child: Stack(
             children: [
               Center(child: Image.memory(clothesList.list[index].image)),
-              if (widget.selectedClothesIndices?.contains(index) == true) // 선택된 의류 체크박스로 표시
+              if (widget.selectedClothesIds?.contains(clothesList.list[index].id) == true) // 선택된 의류 체크박스로 표시
                 Positioned(
                   top: 5,
                   right: 5,
@@ -116,22 +116,27 @@ class ClothesGridViewState extends State<ClothesGridView> {
     widget.onClothesDetail?.call(context, id);
   }
 
-  void _toggleSelectedId(int index) {
-    if (widget.selectedClothesIndices?.contains(index) == true) {
-      widget.selectedClothesIndices?.remove(index);
+  void _toggleSelectedId(int id) {
+    if (widget.selectedClothesIds?.contains(id) == true) {
+      widget.selectedClothesIds?.remove(id);
     } else {
-      widget.selectedClothesIndices?.add(index);
+      widget.selectedClothesIds?.add(id);
     }
   }
 }
 
 
 class ClothesGridPicker extends StatefulWidget {
-  const ClothesGridPicker({super.key, required this.getClothesList, this.selectedClothesIndices, this.onClothesSelected});
+  const ClothesGridPicker({
+    super.key,
+    required this.getClothesList,
+    this.selectedClothesIds,
+    this.onClothesSelected
+  });
 
   final Function getClothesList;
 
-  final List<int>? selectedClothesIndices;
+  final List<int>? selectedClothesIds;
   final VoidCallback? onClothesSelected;
 
   @override
@@ -185,14 +190,14 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
                 onTap: () {
                   widget.onClothesSelected?.call();
                   setState(() {
-                    _toggleSelectedIndex(index);
+                    _toggleSelectedIndex(clothesList.list[index].id);
                   });
                 },
                 child: Stack(
                   children: [
                     Center(child: Image.memory(codiItem.image)),
                     // 선택된 의류 체크박스로 표시
-                    if (widget.selectedClothesIndices?.contains(index) == true)
+                    if (widget.selectedClothesIds?.contains(clothesList.list[index].id) == true)
                       Positioned(
                         top: 5,
                         right: 5,
@@ -213,11 +218,11 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
     );
   }
 
-  void _toggleSelectedIndex(int index) {
-    if (widget.selectedClothesIndices?.contains(index) == true) {
-      widget.selectedClothesIndices?.remove(index);
+  void _toggleSelectedIndex(int id) {
+    if (widget.selectedClothesIds?.contains(id) == true) {
+      widget.selectedClothesIds?.remove(id);
     } else {
-      widget.selectedClothesIndices?.add(index);
+      widget.selectedClothesIds?.add(id);
     }
   }
 }

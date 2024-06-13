@@ -29,7 +29,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
   late Codi codi;
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
-  late List<int> selectedClothesIndices;
+  late List<int> selectedClothesIds;
 
   @override
   void initState() {
@@ -41,9 +41,9 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
       });
     });
     codi = widget.codi;
-    selectedClothesIndices = [];
+    selectedClothesIds = [];
     for (var item in codi.clothes.list) {
-      selectedClothesIndices.add(item.id);
+      selectedClothesIds.add(item.id);
     }
   }
 
@@ -118,7 +118,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
               ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSearchStatus, setSelectedClothesIndices: setSelectedClothesIndices),
+          SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSearchStatus, setSelectedClothesIds: setSelectedClothesIds),
         ],
       ),
     );
@@ -130,9 +130,9 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
     });
   }
 
-  void setSelectedClothesIndices(List<int> selectedIndices) {
+  void setSelectedClothesIds(List<int> selectedIds) {
     setState(() {
-      selectedClothesIndices = selectedIndices;
+      selectedClothesIds = selectedIds;
     });
   }
 
@@ -159,10 +159,6 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
   }
 
   void _onSaveButtonPressed() {
-    List<int> selectedClothesIds = [];
-    for (var clothesIndices in selectedClothesIndices) {
-      selectedClothesIds.add(clothesList.list[clothesIndices].id);
-    }
     Map<String, dynamic> selectedInfo = {
       'date': codi.date,
       'schedule': codi.schedule,
