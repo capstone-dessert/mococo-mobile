@@ -110,8 +110,6 @@ class SearchClothesState extends State<SearchClothes> {
                             clothesList = value;
                             Navigator.pop(context);
                             Get.back(result: {'newQueries': queries, 'clothesList': clothesList});
-                          }).catchError((error) {
-                            print("Error fetching clothes list: $error");
                           });
                         } else {
                           _showLoadingDialog(context);
@@ -119,8 +117,6 @@ class SearchClothesState extends State<SearchClothes> {
                             clothesList = value;
                             Navigator.pop(context);
                             Get.back(result: {'newQueries': queries, 'clothesList': clothesList});
-                          }).catchError((error) {
-                            print("Error fetching clothes list: $error");
                           });
                         }
                       },
@@ -146,7 +142,6 @@ class SearchClothesState extends State<SearchClothes> {
 
   void setSelectedInfo(Map<String, dynamic> newSelectedInfo) {
     selectedInfo = newSelectedInfo;
-    print(selectedInfo);
   }
 
   void _showLoadingDialog(BuildContext context) {

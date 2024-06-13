@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mococo_mobile/src/data/tag_data.dart';
 import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 
 class ClothesTagPicker extends StatefulWidget {

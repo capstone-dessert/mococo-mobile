@@ -48,8 +48,6 @@ class _RegisterClothState extends State<RegisterCloth> {
         print("이미지 분류 결과: $classifiedInfo");
         // TODO: UI에 classifiedInfo 적용
       });
-    }).catchError((error) {
-      print("Error classifying image: $error");
     });
 
     selectedInfo = {
@@ -179,7 +177,6 @@ class _RegisterClothState extends State<RegisterCloth> {
         )
       );
     } else {
-      print("의류 속성: $selectedInfo");
       AlertModal.show(
         context,
         message: '의류를 등록하시겠습니까?',
