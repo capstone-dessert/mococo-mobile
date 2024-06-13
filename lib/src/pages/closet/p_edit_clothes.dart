@@ -59,7 +59,7 @@ class _EditClothesState extends State<EditClothes> {
                 child: Image.memory(clothes.image),
               ),
               ClothesTagPicker(
-                detailTagPickerMode: DetailTagPickerMode.edit,
+                isEditable: true,
                 setSelectedInfo: setSelectedInfo,
                 selectedPrimaryCategory: clothes.primaryCategory,
                 selectedSubcategory: clothes.subCategory,
