@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
+import 'package:mococo_mobile/src/models/weather.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
@@ -32,13 +33,13 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   bool isLoading = true;
   List<int> selectedClothesIds = [];
   Set<int> selectedClothesIndex = {};
-  late Codi codiItem;
   List<Widget> codiImages = [];
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   String? selectedSchedule;
   late DateTime selectedDate;
+  late Weather weather;
 
   @override
   void initState() {
@@ -49,17 +50,16 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         isLoading = false;
       });
     });
-    codiItem = widget.codiItem;
-    selectedDate = codiItem.date;
-    selectedSchedule = codiItem.schedule;
-    for (var clothesPreview in codiItem.clothes.list) {
+    selectedDate = widget.codiItem.date;
+    selectedSchedule = widget.codiItem.schedule;
+    weather = widget.codiItem.weather;
+    for (var clothesPreview in widget.codiItem.clothes.list) {
       selectedClothesIds.add(clothesPreview.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    codiItem = widget.codiItem;
     return Scaffold(
       appBar: TextTitleAppBar(
         title: "코디 수정",
@@ -85,7 +85,13 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                         onDateChanged: onDateChanged,
                       ),
                       const Spacer(),
-                      WeatherWidget(isSmall: true, isEditable: true, weather: codiItem.weather, getDate: getSelectedDate)
+                      WeatherWidget(
+                        isSmall: true,
+                        isEditable: true,
+                        weather: weather,
+                        getDate: getSelectedDate,
+                        setWeather: setWeather,
+                      )
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -145,6 +151,10 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     return selectedDate;
   }
 
+  void setWeather(Weather newWeather) {
+    weather = newWeather;
+  }
+
   void _showLoadingDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -196,7 +206,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         message: '코디를 수정하시겠습니까?',
         onConfirm: () {
           _showLoadingDialog(context);
-          editCodi(codiItem.id, selectedInfo).then((_) {
+          editCodi(widget.codiItem.id, selectedInfo).then((_) {
             widget.reloadCodiData();
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);

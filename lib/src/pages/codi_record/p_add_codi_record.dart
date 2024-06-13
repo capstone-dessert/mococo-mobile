@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
+import 'package:mococo_mobile/src/models/weather.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
 import 'package:mococo_mobile/src/widgets/date.dart';
@@ -36,6 +37,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   bool isMultiClothesSelected = false; // 다중 선택 상태
   String? selectedSchedule;
   late DateTime selectedDate;
+  Weather? weather;
 
   @override
   void initState() {
@@ -79,7 +81,12 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                             onDateChanged: onDateChanged,
                           ),
                           const Spacer(),
-                          WeatherWidget(isSmall: true, isEditable: true, getDate: getSelectedDate)
+                          WeatherWidget(
+                            isSmall: true,
+                            isEditable: true,
+                            getDate: getSelectedDate,
+                            setWeather: setWeather,
+                          )
                         ],
                       ),
                       const SizedBox(height: 6),
@@ -129,10 +136,14 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     });
   }
 
-  void setSelectedSchedule(schedule) {
+  void setSelectedSchedule(String schedule) {
     setState(() {
       selectedSchedule = schedule;
     });
+  }
+
+  void setWeather(Weather newWeather) {
+    weather = newWeather;
   }
 
   void _showLoadingDialog(BuildContext context) {
