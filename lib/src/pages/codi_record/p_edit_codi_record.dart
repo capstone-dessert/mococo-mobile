@@ -187,7 +187,12 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     Map<String, dynamic> selectedInfo = {
       'date': selectedDate,
       'schedule': selectedSchedule,
-      'clothingIds': selectedClothesIds
+      'clothingIds': selectedClothesIds,
+      'addressName': weather.location,
+      'maxTemperature': weather.maxTemperature,
+      'minTemperature': weather.minTemperature,
+      'precipitationType': weather.precipitationType,
+      'sky': weather.sky
     };
 
     if (selectedInfo.values.contains(null)) {

@@ -26,7 +26,7 @@ class Codi {
         date: DateTime.parse(json['date']),
         weather: (json['weather'].runtimeType is Weather)
           ? json['weather']
-          : const Weather(location: "전주시", maxTemperature: 25, minTemperature: 19, precipitationType: "맑음", sky: "맑음"),
+          : Weather.fromJson(json['weather']),
         schedule: json['schedule'],
         clothes: ClothesList.fromJson({'list': json['clothingItems']})
     );
