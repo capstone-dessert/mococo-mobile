@@ -151,6 +151,7 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
   void initState() {
     super.initState();
     clothesList = widget.getClothesList();
+    print(widget.selectedClothesIds);
   }
 
   @override
@@ -191,6 +192,7 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
                   widget.onClothesSelected?.call();
                   setState(() {
                     _toggleSelectedIndex(clothesList.list[index].id);
+                    print(widget.selectedClothesIds);
                   });
                 },
                 child: Stack(

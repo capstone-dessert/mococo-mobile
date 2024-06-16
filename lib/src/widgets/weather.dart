@@ -60,6 +60,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
       });
     } else {
       weather = widget.weather!;
+      if (widget.getDate != null) {
+        date = widget.getDate!();
+      }
       isLoading = false;
     }
   }

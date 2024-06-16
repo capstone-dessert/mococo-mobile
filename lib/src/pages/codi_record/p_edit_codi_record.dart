@@ -119,7 +119,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                 ],
               ),
             ),
-            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIds: setSelectedClothesIds),
+            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIds: setSelectedClothesIds, selectedClothesIds: selectedClothesIds),
           ],
         ),
     );
