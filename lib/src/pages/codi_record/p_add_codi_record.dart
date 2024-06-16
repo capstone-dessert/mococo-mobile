@@ -182,7 +182,12 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
     Map<String, dynamic> selectedInfo = {
       'date': selectedDate,
       'schedule': selectedSchedule,
-      'clothingIds': selectedClothesIds
+      'clothingIds': selectedClothesIds,
+      'addressName': (weather != null) ? weather!.location : null,
+      'maxTemperature': (weather != null) ? weather!.maxTemperature : null,
+      'minTemperature': (weather != null) ? weather!.minTemperature : null,
+      'precipitationType': (weather != null) ? weather!.precipitationType : null,
+      'sky': (weather != null) ? weather!.sky : null
     };
 
     if (selectedInfo.values.contains(null)) {

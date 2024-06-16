@@ -237,7 +237,7 @@ Future<Codi> fetchCodi(int id) async {
 
       jsonData['image'] = "assets/images/tmp.png";
       for (int i = 0; i < jsonData["clothingItems"].length; i++) {
-        var imageResponse = await http.get(Uri.parse('$server/api/clothing/image/$id'));
+        var imageResponse = await http.get(Uri.parse('$server/api/clothing/image/${jsonData["clothingItems"][i]['id']}'));
         jsonData["clothingItems"][i]['image'] = imageResponse.bodyBytes;
       }
 
