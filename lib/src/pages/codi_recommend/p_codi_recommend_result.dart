@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui'as ui;
@@ -16,7 +15,6 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'package:mococo_mobile/src/widgets/tags.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
-import 'package:path_provider/path_provider.dart';
 
 
 class CodiRecommendResult extends StatefulWidget {
