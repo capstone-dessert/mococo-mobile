@@ -24,8 +24,7 @@ Future<ClothesList> fetchClothesAll() async {
       jsonData['list'] = jsonDecode(utf8.decode(response.bodyBytes));
       for (int i = 0; i < jsonData['list'].length; i++) {
         var id = jsonData['list'][i]['id'];
-        var imageResponse = await http.get(
-            Uri.parse('$server/api/clothing/image/$id'));
+        var imageResponse = await http.get(Uri.parse('$server/api/clothing/image/$id'));
         jsonData['list'][i]['image'] = imageResponse.bodyBytes;
       }
       var parsingData = ClothesList.fromJson(jsonData);
@@ -217,7 +216,10 @@ Future<CodiList> fetchCodiAll() async {
       Map<String, dynamic> jsonData = {};
       jsonData['list'] = jsonDecode(response.body);
       for (int i = 0; i < jsonData['list'].length; i++) {
-        jsonData['list'][i]['image'] = "assets/images/tmp.png";
+        var id = jsonData['list'][i]['id'];
+        var imageResponse = await http.get(
+            Uri.parse('$server/api/outfit/image/$id'));
+        jsonData['list'][i]['image'] = imageResponse.bodyBytes;
       }
       var parsingData = CodiList.fromJson(jsonData);
       return parsingData;

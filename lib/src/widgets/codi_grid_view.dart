@@ -78,7 +78,7 @@ class _CodiGridViewState extends State<CodiGridView> {
                       ),
                     ),
                     Expanded(
-                      child: Image.asset(codiItem.image)
+                      child: Image.memory(codiItem.image)
                     ),
                   ],
                 ),

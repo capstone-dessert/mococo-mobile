@@ -119,7 +119,7 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
                 child: Column(
                   children: [
                     Expanded(
-                        child: Image.asset(codiItem.image)
+                        child: Image.memory(codiItem.image)
                     ),
                   ],
                 ),
