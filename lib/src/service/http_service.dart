@@ -360,3 +360,20 @@ Future<Weather> getWeatherByAddress(DateTime date, String address) async {
     throw Exception('Error get weather: $e');
   }
 }
+
+
+Future<List<int>> recommend(Map<String, dynamic> data) async {
+  final url = Uri.parse('$server/api/recommend');
+  try {
+    final response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
+    if (response.statusCode ~/ 100 == 2) {
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      var parsingData = jsonData['ids'].cast<int>();
+      return parsingData;
+    } else {
+      throw Exception('Failed to recommending codi. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error recommending codi: $e');
+  }
+}

@@ -1,9 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
-import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/models/weather.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -32,14 +28,13 @@ class _CodiRecommendState extends State<CodiRecommend> {
   Weather? weather;
 
   late ClothesList clothesList;
-  List? selectedClothes;
 
   bool isLoading = true;
 
   List queries = ["전체"];
   double? myLatitude;
   double? myLongitude;
-  String? selectedScheduleTag;
+  String? selectedSchedule;
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
 
@@ -108,9 +103,9 @@ class _CodiRecommendState extends State<CodiRecommend> {
   void setSelectedScheduleTag(selectedScheduleTag) {
     setState(() {
       if (selectedScheduleTag == "null") {
-        this.selectedScheduleTag = null;
+        selectedSchedule = null;
       } else {
-        this.selectedScheduleTag = selectedScheduleTag;
+        selectedSchedule = selectedScheduleTag;
       }
     });
   }
@@ -133,18 +128,30 @@ class _CodiRecommendState extends State<CodiRecommend> {
     weather = newWeather;
   }
 
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.black12),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void onRecommendButtonPressed() async {
     // TODO: 코디 추천 결과(clothes) 가져오기
-    ByteData data = await DefaultAssetBundle.of(context).load('assets/images/topSample.png');
-    Uint8List imageBytes = data.buffer.asUint8List();
-
     Map<String, dynamic> selectedInfo = {
-      'id': 0,
-      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-      'image': 'assets/images/topSample.png',
+      'date': selectedDate,
       'weather': weather,
-      'schedule': selectedScheduleTag,
-      'clothingItems': [{'id': 1, 'image': imageBytes}], // TODO: -> selectedClothes
+      'schedule': selectedSchedule,
     };
     if (selectedInfo.values.contains(null)) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -157,14 +164,27 @@ class _CodiRecommendState extends State<CodiRecommend> {
           )
       );
     } else {
-      Codi codi = Codi.fromJson(selectedInfo);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              CodiRecommendResult(codi: codi),
-        ),
-      );
+      _showLoadingDialog(context);
+      Map<String, dynamic> data = {
+        "minTemperature": weather!.minTemperature,
+        "maxTemperature": weather!.maxTemperature,
+        "schedule": selectedSchedule
+      };
+      recommend(data).then((value) {
+        List<int> selectedClothesIds = value;
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CodiRecommendResult(
+              date: selectedDate,
+              weather: weather!,
+              schedule: selectedSchedule!,
+              selectedClothesIds: selectedClothesIds,
+            ),
+          ),
+        );
+      });
     }
   }
 }

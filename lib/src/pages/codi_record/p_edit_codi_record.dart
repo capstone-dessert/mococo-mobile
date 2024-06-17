@@ -158,7 +158,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
       final directory = (await getApplicationDocumentsDirectory()).path;
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
-      print(pngBytes);
       File imgFile = File('$directory/screenshot.png');
       imgFile.writeAsBytes(pngBytes);
       return imgFile;
@@ -290,7 +289,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         imagePositions[index].left + details.delta.dx,
         imagePositions[index].top + details.delta.dy,
       );
-      print("${imagePositions[index].left}, ${imagePositions[index].top}");
     });
   }
 }
