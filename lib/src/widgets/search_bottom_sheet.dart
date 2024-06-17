@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/data/image_data.dart';
+import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
@@ -11,12 +12,14 @@ class SearchBottomSheet extends StatefulWidget {
     super.key,
     required this.sheetPosition,
     required this.setSelectedStatus,
-    required this.selectedClothesIds
+    required this.selectedClothesIds,
+    required this.imagePositions
   });
 
   final double sheetPosition;
   final Function(bool) setSelectedStatus;
   final List<int> selectedClothesIds;
+  final List<ImagePosition> imagePositions;
 
   @override
   State<SearchBottomSheet> createState() => _SearchBottomSheetState();
@@ -152,7 +155,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                       : ClothesGridPicker(
                     getClothesList: getClothesList,
                     onClothesSelected: _onClothesSelected,
-                    selectedClothesIds: widget.selectedClothesIds
+                    selectedClothesIds: widget.selectedClothesIds,
+                    imagePositions: widget.imagePositions,
                   )
                 ),
               ],

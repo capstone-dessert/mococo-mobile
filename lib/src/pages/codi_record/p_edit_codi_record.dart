@@ -106,7 +106,12 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                 ],
               ),
             ),
-            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, selectedClothesIds: selectedClothesIds),
+            SearchBottomSheet(
+              sheetPosition: 0.2,
+              setSelectedStatus: setSelectedStatus,
+              selectedClothesIds: selectedClothesIds,
+              imagePositions: imagePositions
+            ),
           ],
         ),
     );
@@ -247,6 +252,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         imagePositions[index].left + details.delta.dx,
         imagePositions[index].top + details.delta.dy,
       );
+      print("${imagePositions[index].left}, ${imagePositions[index].top}");
     });
   }
 }

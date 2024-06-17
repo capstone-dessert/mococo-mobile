@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
@@ -30,6 +31,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
   late List<int> selectedClothesIds;
+  List<ImagePosition> imagePositions = [];
 
   @override
   void initState() {
@@ -118,7 +120,12 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
               ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSearchStatus, selectedClothesIds: selectedClothesIds),
+          SearchBottomSheet(
+            sheetPosition: 0.2,
+            setSelectedStatus: setSearchStatus,
+            selectedClothesIds: selectedClothesIds,
+            imagePositions: imagePositions,
+          ),
         ],
       ),
     );

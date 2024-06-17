@@ -24,7 +24,7 @@ class Codi {
         id: json['id'] as int,
         image: json['image'],
         date: DateTime.parse(json['date']),
-        weather: (json['weather'].runtimeType is Weather)
+        weather: (json['weather'].runtimeType == Weather)
           ? json['weather']
           : Weather.fromJson(json['weather']),
         schedule: json['schedule'],

@@ -113,7 +113,12 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                 ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.20, setSelectedStatus: setSelectedStatus, selectedClothesIds: selectedClothesIds),
+          SearchBottomSheet(
+            sheetPosition: 0.20,
+            setSelectedStatus: setSelectedStatus,
+            selectedClothesIds: selectedClothesIds,
+            imagePositions: imagePositions,
+          ),
         ],
       ),
     );
