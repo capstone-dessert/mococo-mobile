@@ -86,7 +86,6 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  // TODO: 코디 사진
                   selectedClothesIds.isEmpty
                     ? const SizedBox(
                       height: 400,

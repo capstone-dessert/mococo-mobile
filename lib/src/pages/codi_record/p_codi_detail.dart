@@ -79,7 +79,6 @@ class _CodiDetailState extends State<CodiDetail> {
                 ],
               ),
               const SizedBox(height: 6),
-              // TODO: 코디 사진
               SizedBox(
                 height: 370,
                 child: Image.memory(codi.image),

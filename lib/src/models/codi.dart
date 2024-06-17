@@ -5,7 +5,6 @@ import 'package:mococo_mobile/src/models/weather.dart';
 
 class Codi {
   final int id;
-  // TODO: to image Type(File / XFile)
   final Uint8List image;
   final DateTime date;
   final Weather weather;
