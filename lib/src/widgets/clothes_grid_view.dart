@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 
@@ -130,13 +133,15 @@ class ClothesGridPicker extends StatefulWidget {
   const ClothesGridPicker({
     super.key,
     required this.getClothesList,
-    this.selectedClothesIds,
+    required this.selectedClothesIds,
+    required this.imagePositions,
     this.onClothesSelected
   });
 
   final Function getClothesList;
 
-  final List<int>? selectedClothesIds;
+  final List<int> selectedClothesIds;
+  final List<ImagePosition> imagePositions;
   final VoidCallback? onClothesSelected;
 
   @override
@@ -151,7 +156,6 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
   void initState() {
     super.initState();
     clothesList = widget.getClothesList();
-    print(widget.selectedClothesIds);
   }
 
   @override
@@ -191,15 +195,14 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
                 onTap: () {
                   widget.onClothesSelected?.call();
                   setState(() {
-                    _toggleSelectedIndex(clothesList.list[index].id);
-                    print(widget.selectedClothesIds);
+                    _toggleSelectedId(clothesList.list[index].id);
                   });
                 },
                 child: Stack(
                   children: [
                     Center(child: Image.memory(codiItem.image)),
                     // 선택된 의류 체크박스로 표시
-                    if (widget.selectedClothesIds?.contains(clothesList.list[index].id) == true)
+                    if (widget.selectedClothesIds.contains(clothesList.list[index].id) == true)
                       Positioned(
                         top: 5,
                         right: 5,
@@ -220,11 +223,27 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
     );
   }
 
-  void _toggleSelectedIndex(int id) {
-    if (widget.selectedClothesIds?.contains(id) == true) {
-      widget.selectedClothesIds?.remove(id);
+  void _toggleSelectedId(int id) {
+    if (widget.selectedClothesIds.contains(id) == true) {
+      int index = widget.selectedClothesIds.indexOf(id);
+      widget.selectedClothesIds.removeAt(index);
+      widget.imagePositions.removeAt(index);
     } else {
-      widget.selectedClothesIds?.add(id);
+      widget.selectedClothesIds.add(id);
+      ClothesPreview clothesPreview = clothesList.list.firstWhere((clothes) => clothes.id == id);
+      double left;
+      double top;
+      if (clothesPreview.category == "상의") {
+        left = 0.3 * (MediaQuery.of(context).size.width - 32);
+        top = 0.1 * MediaQuery.of(context).size.width;
+      } else if (clothesPreview.category == "하의") {
+        left = 0.3 * (MediaQuery.of(context).size.width - 32);
+        top = 0.45 * MediaQuery.of(context).size.width;
+      } else {
+        left = Random().nextDouble() * (MediaQuery.of(context).size.width - 32);
+        top = Random().nextDouble() * MediaQuery.of(context).size.width;
+      }
+      widget.imagePositions.add(ImagePosition(left, top));
     }
   }
 }

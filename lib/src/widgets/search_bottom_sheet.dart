@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mococo_mobile/src/data/image_data.dart';
+import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/pages/closet/p_search.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
@@ -11,14 +12,14 @@ class SearchBottomSheet extends StatefulWidget {
     super.key,
     required this.sheetPosition,
     required this.setSelectedStatus,
-    required this.setSelectedClothesIds,
-    this.selectedClothesIds
+    required this.selectedClothesIds,
+    required this.imagePositions
   });
 
   final double sheetPosition;
   final Function(bool) setSelectedStatus;
-  final Function(List<int>) setSelectedClothesIds;
-  final List<int>? selectedClothesIds;
+  final List<int> selectedClothesIds;
+  final List<ImagePosition> imagePositions;
 
   @override
   State<SearchBottomSheet> createState() => _SearchBottomSheetState();
@@ -30,7 +31,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   bool isLoading = true;
   late double _sheetPosition = 0.20;
 
-  late List<int> selectedClothesIds;
   List queries = ["전체"];
   final double _dragSensitivity = 600;
   bool isClothesSelected = false; // 단일 선택 상태
@@ -46,7 +46,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         _sheetPosition = widget.sheetPosition;
       });
     });
-    selectedClothesIds = widget.selectedClothesIds ?? [];
   }
 
   @override
@@ -156,7 +155,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                       : ClothesGridPicker(
                     getClothesList: getClothesList,
                     onClothesSelected: _onClothesSelected,
-                    selectedClothesIds: selectedClothesIds
+                    selectedClothesIds: widget.selectedClothesIds,
+                    imagePositions: widget.imagePositions,
                   )
                 ),
               ],
@@ -177,7 +177,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     });
     // 상태를 부모 위젯으로 전달
     widget.setSelectedStatus(true);
-    widget.setSelectedClothesIds(selectedClothesIds);
   }
 
 }

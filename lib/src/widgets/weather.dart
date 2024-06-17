@@ -248,7 +248,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             )
           else
             Text(
-              weather.location,
+              (weather.location.split(' ').length == 2)
+                ? weather.location.split(' ')[1]
+                : weather.location,
               style: const TextStyle(fontSize: 16, color: Color(0xff494949), fontWeight: FontWeight.w600),
             ),
           const SizedBox(width: 4),

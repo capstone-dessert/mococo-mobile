@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/weather.dart';
@@ -99,7 +100,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                           ),
                         )
                         : Container(
-                          color: Colors.black12,
+                          color: Colors.white60,
                           height: 400,
                           child: Stack(
                             children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
@@ -112,7 +113,12 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                 ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.20, setSelectedStatus: setSelectedStatus, setSelectedClothesIds: setSelectedClothesIds),
+          SearchBottomSheet(
+            sheetPosition: 0.20,
+            setSelectedStatus: setSelectedStatus,
+            selectedClothesIds: selectedClothesIds,
+            imagePositions: imagePositions,
+          ),
         ],
       ),
     );
@@ -125,12 +131,6 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   void setSelectedStatus(bool status) {
     setState(() {
       isClothesSelected = status;
-    });
-  }
-
-  void setSelectedClothesIds(List<int> selectedIds) {
-    setState(() {
-      selectedClothesIds = selectedIds;
     });
   }
 
@@ -264,11 +264,4 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       );
     });
   }
-}
-
-class ImagePosition {
-  double left;
-  double top;
-
-  ImagePosition(this.left, this.top);
 }
