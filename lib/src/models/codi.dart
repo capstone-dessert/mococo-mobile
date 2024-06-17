@@ -1,10 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/weather.dart';
 
 class Codi {
   final int id;
-  // TODO: to image Type(File / XFile)
-  final String image;
+  final Uint8List image;
   final DateTime date;
   final Weather weather;
   final String schedule;

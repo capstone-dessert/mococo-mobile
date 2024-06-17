@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
@@ -12,6 +16,7 @@ import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'dart:math';
+
 
 class EditCodiRecord extends StatefulWidget {
   const EditCodiRecord({
@@ -39,6 +44,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   String? selectedSchedule;
   late DateTime selectedDate;
   late Weather weather;
+
+  var globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -94,11 +101,14 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  Container(
-                    color: Colors.white60,
-                    height: 400,
-                    child: Stack(
-                      children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                  RepaintBoundary(
+                    key: globalKey,
+                    child: Container(
+                      color: Colors.white60,
+                      height: 400,
+                      child: Stack(
+                        children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -139,6 +149,18 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
 
   void setWeather(Weather newWeather) {
     weather = newWeather;
+  }
+
+  Future<Uint8List?> _capture() async {
+    var renderObject = globalKey.currentContext!.findRenderObject();
+    if (renderObject is RenderRepaintBoundary) {
+      var boundary = renderObject;
+      ui.Image image = await boundary.toImage(pixelRatio: 5.0);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+      return pngBytes;
+    }
+    return null;
   }
 
   void _showLoadingDialog(BuildContext context) {
@@ -197,10 +219,14 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         message: '코디를 수정하시겠습니까?',
         onConfirm: () {
           _showLoadingDialog(context);
-          editCodi(widget.codiItem.id, selectedInfo).then((_) {
-            widget.reloadCodiData();
-            Navigator.of(context, rootNavigator: true).pop();
-            Navigator.pop(context);
+          _capture().then((value) {
+            var img = value;
+            selectedInfo['image'] = img;
+            editCodi(widget.codiItem.id, selectedInfo).then((_) {
+              widget.reloadCodiData();
+              Navigator.of(context, rootNavigator: true).pop();
+              Navigator.pop(context);
+            });
           });
         },
       );
@@ -260,7 +286,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         imagePositions[index].left + details.delta.dx,
         imagePositions[index].top + details.delta.dy,
       );
-      print("${imagePositions[index].left}, ${imagePositions[index].top}");
     });
   }
 }

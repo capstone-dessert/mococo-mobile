@@ -1,7 +1,8 @@
+import 'dart:typed_data';
+
 class CodiPreview {
   final int id;
-  // TODO: to image Type(File / XFile)
-  final String image;
+  final Uint8List image;
   final DateTime date;
 
   const CodiPreview({

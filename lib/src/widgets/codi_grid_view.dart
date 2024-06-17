@@ -38,55 +38,63 @@ class _CodiGridViewState extends State<CodiGridView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text(
-                '${codiList.list.length}개',
-                style: const TextStyle(color: Color(0xff888888)),
-              ),
-              const Spacer()
-            ],
-          ),
-          const SizedBox(height: 12),
-          GridView.builder(
-            itemCount: codiList.list.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 3 / 5,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              CodiPreview codiItem = codiList.list[index];
-              DateTime date = codiItem.date;
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id, reloadCodiListData: widget.reloadCodiListData)));
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${date.year.toString()}.${date.month.toString().padLeft(2, '0')}.${date.day.toString().padLeft(2, '0')}",
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    Expanded(
-                      child: Image.asset(codiItem.image)
-                    ),
-                  ],
+    return RefreshIndicator(
+      backgroundColor: Colors.white,
+      color: Colors.black26,
+      onRefresh: () async {
+        widget.reloadCodiListData();
+      },
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  '${codiList.list.length}개',
+                  style: const TextStyle(color: Color(0xff888888)),
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+                const Spacer()
+              ],
+            ),
+            const SizedBox(height: 12),
+            GridView.builder(
+              itemCount: codiList.list.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 3 / 5,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                CodiPreview codiItem = codiList.list[index];
+                DateTime date = codiItem.date;
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id, reloadCodiListData: widget.reloadCodiListData)));
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "${date.year.toString()}.${date.month.toString().padLeft(2, '0')}.${date.day.toString().padLeft(2, '0')}",
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Expanded(
+                        child: Image.memory(codiItem.image)
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      )
     );
   }
 }

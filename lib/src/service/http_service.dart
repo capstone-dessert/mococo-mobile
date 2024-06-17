@@ -24,8 +24,7 @@ Future<ClothesList> fetchClothesAll() async {
       jsonData['list'] = jsonDecode(utf8.decode(response.bodyBytes));
       for (int i = 0; i < jsonData['list'].length; i++) {
         var id = jsonData['list'][i]['id'];
-        var imageResponse = await http.get(
-            Uri.parse('$server/api/clothing/image/$id'));
+        var imageResponse = await http.get(Uri.parse('$server/api/clothing/image/$id'));
         jsonData['list'][i]['image'] = imageResponse.bodyBytes;
       }
       var parsingData = ClothesList.fromJson(jsonData);
@@ -217,7 +216,10 @@ Future<CodiList> fetchCodiAll() async {
       Map<String, dynamic> jsonData = {};
       jsonData['list'] = jsonDecode(response.body);
       for (int i = 0; i < jsonData['list'].length; i++) {
-        jsonData['list'][i]['image'] = "assets/images/tmp.png";
+        var id = jsonData['list'][i]['id'];
+        var imageResponse = await http.get(
+            Uri.parse('$server/api/outfit/image/$id'));
+        jsonData['list'][i]['image'] = imageResponse.bodyBytes;
       }
       var parsingData = CodiList.fromJson(jsonData);
       return parsingData;
@@ -232,10 +234,11 @@ Future<CodiList> fetchCodiAll() async {
 Future<Codi> fetchCodi(int id) async {
   try {
     final response = await http.get(Uri.parse('$server/api/outfit/$id'));
-    if (response.statusCode ~/ 100 == 2) {
+    final imageResponse = await http.get(Uri.parse('$server/api/outfit/image/$id'));
+    if (response.statusCode ~/ 100 == 2 && imageResponse.statusCode ~/ 100 == 2) {
       Map<String, dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
 
-      jsonData['image'] = "assets/images/tmp.png";
+      jsonData['image'] = imageResponse.bodyBytes;
       for (int i = 0; i < jsonData["clothingItems"].length; i++) {
         var imageResponse = await http.get(Uri.parse('$server/api/clothing/image/${jsonData["clothingItems"][i]['id']}'));
         jsonData["clothingItems"][i]['image'] = imageResponse.bodyBytes;
@@ -252,15 +255,34 @@ Future<Codi> fetchCodi(int id) async {
 }
 
 Future<void> addCodi(Map<String, dynamic> data) async {
-  data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
-
   final url = Uri.parse('$server/api/outfit/add');
+
+  var request = http.MultipartRequest('POST', url);
+
+  request.fields['date'] = DateFormat('yyyy-MM-dd').format(data['date']);
+  request.fields['schedule'] = data['schedule'];
+  List<String> clothingIds = (data['clothingIds'] as List<int>).map((clothesId) => clothesId.toString()).toList();
+  request.fields['clothingIds'] = clothingIds.join(',');
+  request.fields['addressName'] = data['addressName'];
+  request.fields['maxTemperature'] = data['maxTemperature'].toString();
+  request.fields['minTemperature'] = data['minTemperature'].toString();
+  request.fields['precipitationType'] = data['precipitationType'];
+  request.fields['sky'] = data['sky'];
+
+  XFile imageFile = XFile.fromData(data['image']);
+  var stream = http.ByteStream(imageFile.openRead());
+  var length = await imageFile.length();
+  var multipartFile = http.MultipartFile('image', stream, length, filename: imageFile.name);
+
+  request.files.add(multipartFile);
+
   try {
-    final response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
-    if (response.statusCode ~/ 100 == 2) {
+    var streamedResponse = await request.send();
+    streamedResponse.printInfo();
+    if (streamedResponse.statusCode ~/ 100 == 2) {
       log('[SUCCESS] Codi added successfully!');
     } else {
-      throw Exception('Failed to adding codi. Status code: ${response.statusCode}');
+      throw Exception('Failed to add codi. Status code: ${streamedResponse.statusCode}');
     }
   } catch (e) {
     throw Exception('Error adding codi: $e');
@@ -268,21 +290,39 @@ Future<void> addCodi(Map<String, dynamic> data) async {
 }
 
 Future<void> editCodi(int id, Map<String, dynamic> data) async {
-  data['id'] = id;
-  data["date"] = DateFormat('yyyy-MM-dd').format(data['date']);
-
   final url = Uri.parse('$server/api/outfit/update');
+
+  var request = http.MultipartRequest('PUT', url);
+
+  request.fields['id'] = id.toString();
+  request.fields['date'] = DateFormat('yyyy-MM-dd').format(data['date']);
+  request.fields['schedule'] = data['schedule'];
+  List<String> clothingIds = (data['clothingIds'] as List<int>).map((clothesId) => clothesId.toString()).toList();
+  request.fields['clothingIds'] = clothingIds.join(',');
+  request.fields['addressName'] = data['addressName'];
+  request.fields['maxTemperature'] = data['maxTemperature'].toString();
+  request.fields['minTemperature'] = data['minTemperature'].toString();
+  request.fields['precipitationType'] = data['precipitationType'];
+  request.fields['sky'] = data['sky'];
+
+  XFile imageFile = XFile.fromData(data['image']);
+  var stream = http.ByteStream(imageFile.openRead());
+  var length = await imageFile.length();
+  var multipartFile = http.MultipartFile('image', stream, length, filename: imageFile.name);
+
+  request.files.add(multipartFile);
+
   try {
-    final response = await http.put(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
-    if (response.statusCode ~/ 100 == 2) {
+    var streamedResponse = await request.send();
+    streamedResponse.printInfo();
+    if (streamedResponse.statusCode ~/ 100 == 2) {
       log('[SUCCESS] Codi edited successfully!');
     } else {
-      throw Exception('Failed to editing codi. Status code: ${response.statusCode}');
+      throw Exception('Failed to edit codi. Status code: ${streamedResponse.statusCode}');
     }
   } catch (e) {
     throw Exception('Error editing codi: $e');
   }
-
 }
 
 Future<void> deleteCodi(int id) async {
@@ -358,5 +398,22 @@ Future<Weather> getWeatherByAddress(DateTime date, String address) async {
     }
   } catch (e) {
     throw Exception('Error get weather: $e');
+  }
+}
+
+
+Future<List<int>> recommend(Map<String, dynamic> data) async {
+  final url = Uri.parse('$server/api/recommend');
+  try {
+    final response = await http.post(url, body: jsonEncode(data), headers: {"Content-Type": "application/json"});
+    if (response.statusCode ~/ 100 == 2) {
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      var parsingData = jsonData['ids'].cast<int>();
+      return parsingData;
+    } else {
+      throw Exception('Failed to recommending codi. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error recommending codi: $e');
   }
 }
