@@ -76,7 +76,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
                 // TODO: 코디 사진
                 Container(
                   height: 370,
-                  color: Colors.black12,
+                  color: Colors.white60,
                 ),
                 const SizedBox(height: 8),
                 SizedBox(

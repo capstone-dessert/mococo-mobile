@@ -100,7 +100,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                           ),
                         )
                         : Container(
-                          color: Colors.black12,
+                          color: Colors.white60,
                           height: 400,
                           child: Stack(
                             children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
