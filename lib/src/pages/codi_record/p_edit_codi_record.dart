@@ -32,8 +32,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   late final ClothesList clothesList;
   bool isLoading = true;
   List<int> selectedClothesIds = [];
-  Set<int> selectedClothesIndex = {};
-  List<Widget> codiImages = [];
   List<ImagePosition> imagePositions = [];
   bool isClothesSelected = false; // 단일 선택 상태
   bool isMultiClothesSelected = false; // 다중 선택 상태
@@ -95,31 +93,19 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  selectedClothesIds.isEmpty
-                    ? Container(
-                      color: Colors.black12,
-                      height: 400,
-                      child: const Center(
-                        child: Text(
-                          "기존 코디",
-                          style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                        )
-                      ),
-                      // child: Image.asset(codiItem!.image),  // TODO: 기존 코디 사진 불러오기
-                    )
-                    : Container(
-                      color: Colors.black12,
-                      height: 400,
-                      child: Stack(
-                        children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
-                      ),
+                  Container(
+                    color: Colors.white60,
+                    height: 400,
+                    child: Stack(
+                      children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
                     ),
+                  ),
                   const SizedBox(height: 8),
                   ScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
                 ],
               ),
             ),
-            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, setSelectedClothesIds: setSelectedClothesIds, selectedClothesIds: selectedClothesIds),
+            SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSelectedStatus, selectedClothesIds: selectedClothesIds),
           ],
         ),
     );
@@ -128,12 +114,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   void setSelectedStatus(bool status) {
     setState(() {
       isClothesSelected = status;
-    });
-  }
-
-  void setSelectedClothesIds(List<int> selectedIds) {
-    setState(() {
-      selectedClothesIds = selectedIds;
     });
   }
 

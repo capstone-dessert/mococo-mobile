@@ -118,7 +118,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
               ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSearchStatus, setSelectedClothesIds: setSelectedClothesIds),
+          SearchBottomSheet(sheetPosition: 0.2, setSelectedStatus: setSearchStatus, selectedClothesIds: selectedClothesIds),
         ],
       ),
     );
@@ -127,12 +127,6 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
   void setSearchStatus(bool status) {
     setState(() {
       isClothesSelected = status;
-    });
-  }
-
-  void setSelectedClothesIds(List<int> selectedIds) {
-    setState(() {
-      selectedClothesIds = selectedIds;
     });
   }
 

@@ -41,7 +41,6 @@
 
 //스타일 정의 알고리즘
 
-import 'dart:math';
 
 // class ClothingItem {
 //   String subcategory;

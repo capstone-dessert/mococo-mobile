@@ -112,7 +112,7 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                 ],
             ),
           ),
-          SearchBottomSheet(sheetPosition: 0.20, setSelectedStatus: setSelectedStatus, setSelectedClothesIds: setSelectedClothesIds),
+          SearchBottomSheet(sheetPosition: 0.20, setSelectedStatus: setSelectedStatus, selectedClothesIds: selectedClothesIds),
         ],
       ),
     );
@@ -125,12 +125,6 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   void setSelectedStatus(bool status) {
     setState(() {
       isClothesSelected = status;
-    });
-  }
-
-  void setSelectedClothesIds(List<int> selectedIds) {
-    setState(() {
-      selectedClothesIds = selectedIds;
     });
   }
 

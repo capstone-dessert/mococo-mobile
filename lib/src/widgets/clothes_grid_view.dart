@@ -151,7 +151,6 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
   void initState() {
     super.initState();
     clothesList = widget.getClothesList();
-    print(widget.selectedClothesIds);
   }
 
   @override
