@@ -147,7 +147,6 @@ class _CodiRecommendState extends State<CodiRecommend> {
   }
 
   void onRecommendButtonPressed() async {
-    // TODO: 코디 추천 결과(clothes) 가져오기
     Map<String, dynamic> selectedInfo = {
       'date': selectedDate,
       'weather': weather,

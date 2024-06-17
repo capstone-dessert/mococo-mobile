@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -18,7 +17,6 @@ import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'dart:math';
 
-import 'package:path_provider/path_provider.dart';
 
 class EditCodiRecord extends StatefulWidget {
   const EditCodiRecord({
@@ -103,11 +101,14 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  Container(
-                    color: Colors.white60,
-                    height: 400,
-                    child: Stack(
-                      children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                  RepaintBoundary(
+                    key: globalKey,
+                    child: Container(
+                      color: Colors.white60,
+                      height: 400,
+                      child: Stack(
+                        children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -150,19 +151,16 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     weather = newWeather;
   }
 
-  Future<File> _capture() async {
+  Future<Uint8List?> _capture() async {
     var renderObject = globalKey.currentContext!.findRenderObject();
     if (renderObject is RenderRepaintBoundary) {
       var boundary = renderObject;
       ui.Image image = await boundary.toImage(pixelRatio: 5.0);
-      final directory = (await getApplicationDocumentsDirectory()).path;
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
-      File imgFile = File('$directory/screenshot.png');
-      imgFile.writeAsBytes(pngBytes);
-      return imgFile;
+      return pngBytes;
     }
-    return File('assets/images/topSample.png');
+    return null;
   }
 
   void _showLoadingDialog(BuildContext context) {
@@ -223,8 +221,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
           _showLoadingDialog(context);
           _capture().then((value) {
             var img = value;
-            // TODO
-            // selectedInfo['image'] = img;
+            selectedInfo['image'] = img;
             editCodi(widget.codiItem.id, selectedInfo).then((_) {
               widget.reloadCodiData();
               Navigator.of(context, rootNavigator: true).pop();

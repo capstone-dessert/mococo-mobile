@@ -208,19 +208,16 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
     );
   }
 
-  Future<File> _capture() async {
+  Future<Uint8List?> _capture() async {
     var renderObject = globalKey.currentContext!.findRenderObject();
     if (renderObject is RenderRepaintBoundary) {
       var boundary = renderObject;
       ui.Image image = await boundary.toImage(pixelRatio: 5.0);
-      final directory = (await getApplicationDocumentsDirectory()).path;
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
-      File imgFile = File('$directory/screenshot.png');
-      imgFile.writeAsBytes(pngBytes);
-      return imgFile;
+      return pngBytes;
     }
-    return File('assets/images/topSample.png');
+    return null;
   }
 
   void _onBackButtonPressed() {
@@ -257,8 +254,7 @@ class _CodiRecommendResultState extends State<CodiRecommendResult> {
           _showLoadingDialog(context);
           _capture().then((value) {
             var img = value;
-            // TODO
-            // selectedInfo['image'] = img;
+            selectedInfo['image'] = img;
             addCodi(selectedInfo).then((_) {
               Navigator.of(context, rootNavigator: true).pop();
               Navigator.pop(context);
