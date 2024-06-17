@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/weather.dart';
@@ -258,11 +259,4 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
       );
     });
   }
-}
-
-class ImagePosition {
-  double left;
-  double top;
-
-  ImagePosition(this.left, this.top);
 }

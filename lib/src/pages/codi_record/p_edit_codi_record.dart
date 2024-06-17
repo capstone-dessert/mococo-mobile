@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
 import 'package:mococo_mobile/src/models/codi.dart';
@@ -222,7 +223,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         } else {
           left = Random().nextDouble() * containerWidth;
           top = Random().nextDouble() * containerHeight;
-          imagePositions.add(ImagePosition(left, top));
+          imagePositions.insert(index, ImagePosition(left, top));
         }
         left = left.clamp(-10, containerWidth - 150);
         top = top.clamp(-35, containerHeight - 150);
@@ -248,13 +249,6 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
       );
     });
   }
-}
-
-class ImagePosition {
-  double left;
-  double top;
-
-  ImagePosition(this.left, this.top);
 }
 
 
