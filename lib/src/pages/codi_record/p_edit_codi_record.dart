@@ -1,4 +1,9 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
@@ -12,6 +17,8 @@ import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
 import 'dart:math';
+
+import 'package:path_provider/path_provider.dart';
 
 class EditCodiRecord extends StatefulWidget {
   const EditCodiRecord({
@@ -39,6 +46,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   String? selectedSchedule;
   late DateTime selectedDate;
   late Weather weather;
+
+  var globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -141,6 +150,22 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
     weather = newWeather;
   }
 
+  Future<File> _capture() async {
+    var renderObject = globalKey.currentContext!.findRenderObject();
+    if (renderObject is RenderRepaintBoundary) {
+      var boundary = renderObject;
+      ui.Image image = await boundary.toImage(pixelRatio: 5.0);
+      final directory = (await getApplicationDocumentsDirectory()).path;
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+      print(pngBytes);
+      File imgFile = File('$directory/screenshot.png');
+      imgFile.writeAsBytes(pngBytes);
+      return imgFile;
+    }
+    return File('assets/images/topSample.png');
+  }
+
   void _showLoadingDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -197,10 +222,15 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
         message: '코디를 수정하시겠습니까?',
         onConfirm: () {
           _showLoadingDialog(context);
-          editCodi(widget.codiItem.id, selectedInfo).then((_) {
-            widget.reloadCodiData();
-            Navigator.of(context, rootNavigator: true).pop();
-            Navigator.pop(context);
+          _capture().then((value) {
+            var img = value;
+            // TODO
+            // selectedInfo['image'] = img;
+            editCodi(widget.codiItem.id, selectedInfo).then((_) {
+              widget.reloadCodiData();
+              Navigator.of(context, rootNavigator: true).pop();
+              Navigator.pop(context);
+            });
           });
         },
       );

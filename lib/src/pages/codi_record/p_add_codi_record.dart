@@ -1,4 +1,11 @@
+import 'dart:io';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'dart:math';
+
 import 'package:mococo_mobile/src/data/image_position.dart';
 import 'package:mococo_mobile/src/models/clothes_list.dart';
 import 'package:mococo_mobile/src/models/clothes_preview.dart';
@@ -10,8 +17,7 @@ import 'package:mococo_mobile/src/widgets/tag_pickers.dart';
 import 'package:mococo_mobile/src/widgets/weather.dart';
 import 'package:mococo_mobile/src/widgets/modal.dart';
 import 'package:mococo_mobile/src/widgets/search_bottom_sheet.dart';
-import 'dart:math';
-
+import 'package:path_provider/path_provider.dart';
 
 
 class AddCodiRecord extends StatefulWidget {
@@ -37,6 +43,8 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
   String? selectedSchedule;
   late DateTime selectedDate;
   Weather? weather;
+
+  var globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -99,11 +107,14 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
                             )
                           ),
                         )
-                        : Container(
-                          color: Colors.white60,
-                          height: 400,
-                          child: Stack(
-                            children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                        : RepaintBoundary(
+                          key: globalKey,
+                          child: Container(
+                            color: Colors.white60,
+                            height: 400,
+                            child: Stack(
+                              children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                            ),
                           ),
                         ),
                       const SizedBox(height: 8),
@@ -142,6 +153,22 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
 
   void setWeather(Weather newWeather) {
     weather = newWeather;
+  }
+
+  Future<File> _capture() async {
+    var renderObject = globalKey.currentContext!.findRenderObject();
+    if (renderObject is RenderRepaintBoundary) {
+      var boundary = renderObject;
+      ui.Image image = await boundary.toImage(pixelRatio: 5.0);
+      final directory = (await getApplicationDocumentsDirectory()).path;
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+      print(pngBytes);
+      File imgFile = File('$directory/screenshot.png');
+      imgFile.writeAsBytes(pngBytes);
+      return imgFile;
+    }
+    return File('assets/images/topSample.png');
   }
 
   void _showLoadingDialog(BuildContext context) {
@@ -206,10 +233,15 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
         message: '코디를 기록하시겠습니까?',
         onConfirm: () {
           _showLoadingDialog(context);
-          addCodi(selectedInfo).then((_) {
-            widget.reloadCodiListData();
-            Navigator.of(context, rootNavigator: true).pop();
-            Navigator.pop(context);
+          _capture().then((value) {
+            var img = value;
+            // TODO
+            // selectedInfo['image'] = img;
+            addCodi(selectedInfo).then((_) {
+              widget.reloadCodiListData();
+              Navigator.of(context, rootNavigator: true).pop();
+              Navigator.pop(context);
+            });
           });
         },
       );
