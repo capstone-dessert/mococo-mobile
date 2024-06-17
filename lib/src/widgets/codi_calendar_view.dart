@@ -47,87 +47,96 @@ class _CodiCalendarViewState extends State<CodiCalendarView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TableCalendar(
-          focusedDay: focusedDay,
-          firstDay: DateTime.utc(2000),
-          lastDay: DateTime.utc(2100),
-          locale: 'ko_KR',
-          headerStyle: const HeaderStyle(
-            titleCentered: true,
-            titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            formatButtonVisible: false,
-          ),
-          calendarStyle: const CalendarStyle(
-              defaultTextStyle: TextStyle(fontSize: 16),
-              holidayTextStyle: TextStyle(fontSize: 16),
-              weekendTextStyle: TextStyle(fontSize: 16),
-              todayTextStyle: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xffF6747E),
-                  fontWeight: FontWeight.w500
+    return RefreshIndicator(
+      backgroundColor: Colors.white,
+      color: Colors.black26,
+      onRefresh: () async {
+        widget.reloadCodiListData();
+      },
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            TableCalendar(
+              focusedDay: focusedDay,
+              firstDay: DateTime.utc(2000),
+              lastDay: DateTime.utc(2100),
+              locale: 'ko_KR',
+              headerStyle: const HeaderStyle(
+                titleCentered: true,
+                titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                formatButtonVisible: false,
               ),
-              todayDecoration: BoxDecoration(
-                color: Colors.transparent,
-                shape: BoxShape.circle,
+              calendarStyle: const CalendarStyle(
+                  defaultTextStyle: TextStyle(fontSize: 16),
+                  holidayTextStyle: TextStyle(fontSize: 16),
+                  weekendTextStyle: TextStyle(fontSize: 16),
+                  todayTextStyle: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xffF6747E),
+                      fontWeight: FontWeight.w500
+                  ),
+                  todayDecoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                  ),
+                  selectedTextStyle: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xffF6747E)
+                  ),
+                  selectedDecoration: BoxDecoration(
+                    color: Color(0xffFEEEEF),
+                    shape: BoxShape.circle,
+                  ),
+                  markerDecoration: BoxDecoration(
+                    color: Color(0xffF6747E),
+                    shape: BoxShape.circle,
+                  ),
+                  markersMaxCount: 3,
+                  markerSize: 5,
+                  markerMargin: EdgeInsets.symmetric(horizontal: 1)
               ),
-              selectedTextStyle: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xffF6747E)
-              ),
-              selectedDecoration: BoxDecoration(
-                color: Color(0xffFEEEEF),
-                shape: BoxShape.circle,
-              ),
-              markerDecoration: BoxDecoration(
-                color: Color(0xffF6747E),
-                shape: BoxShape.circle,
-              ),
-              markersMaxCount: 3,
-              markerSize: 5,
-              markerMargin: EdgeInsets.symmetric(horizontal: 1)
-          ),
-          onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
-            setState((){
-              this.selectedDay = selectedDay;
-              this.focusedDay = focusedDay;
-            });
-          },
-          selectedDayPredicate: (DateTime day) {
-            return isSameDay(selectedDay, day);
-          },
-          eventLoader: _getEventsForDay,
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: GridView.builder(
-            shrinkWrap: true,
-            itemCount: _getEventsForDay(selectedDay).length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 3 / 4,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
+              onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
+                setState((){
+                  this.selectedDay = selectedDay;
+                  this.focusedDay = focusedDay;
+                });
+              },
+              selectedDayPredicate: (DateTime day) {
+                return isSameDay(selectedDay, day);
+              },
+              eventLoader: _getEventsForDay,
             ),
-            itemBuilder: (context, index) {
-              CodiPreview codiItem = getCodiPreviewById(_getEventsForDay(selectedDay)[index])!;
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id, reloadCodiListData: widget.reloadCodiListData)));
-                },
-                child: Column(
-                  children: [
-                    Expanded(
-                        child: Image.memory(codiItem.image)
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+            const SizedBox(height: 16),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _getEventsForDay(selectedDay).length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 3 / 4,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+              ),
+              itemBuilder: (context, index) {
+                CodiPreview codiItem = getCodiPreviewById(_getEventsForDay(selectedDay)[index])!;
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodiDetail(codiId: codiItem.id, reloadCodiListData: widget.reloadCodiListData)));
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                          child: Image.memory(codiItem.image)
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-      ],
+      )
     );
   }
 
