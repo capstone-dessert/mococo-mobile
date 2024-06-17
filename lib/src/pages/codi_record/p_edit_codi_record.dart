@@ -219,6 +219,8 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
   List<Widget> _buildPositionedImages(BuildContext context, double containerWidth, double containerHeight) {
     return selectedClothesIds.asMap().entries.map((entry) {
       int index = entry.key;
+      ClothesPreview clothesPreview = clothesList.list.firstWhere((clothes) => clothes.id == entry.value);
+
       if (index < clothesList.list.length) {
         double left;
         double top;
@@ -226,15 +228,21 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
           left = imagePositions[index].left;
           top = imagePositions[index].top;
         } else {
-          left = Random().nextDouble() * containerWidth;
-          top = Random().nextDouble() * containerHeight;
+          if (clothesPreview.category == "상의") {
+            left = 0.3 * (MediaQuery.of(context).size.width - 32);
+            top = 0.1 * MediaQuery.of(context).size.width;
+          } else if (clothesPreview.category == "하의") {
+            left = 0.3 * (MediaQuery.of(context).size.width - 32);
+            top = 0.45 * MediaQuery.of(context).size.width;
+          } else {
+            left = Random().nextDouble() * (MediaQuery.of(context).size.width - 32);
+            top = Random().nextDouble() * MediaQuery.of(context).size.width;
+          }
           imagePositions.insert(index, ImagePosition(left, top));
         }
         left = left.clamp(-10, containerWidth - 150);
         top = top.clamp(-35, containerHeight - 150);
 
-        // get ClothesPreview by id
-        ClothesPreview clothesPreview = clothesList.list.firstWhere((clothes) => clothes.id == entry.value);
         return Positioned(
           left: left,
           top: top,

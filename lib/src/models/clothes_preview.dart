@@ -15,7 +15,7 @@ class ClothesPreview {
     return ClothesPreview(
       id: json['id'] as int,
       image: json['image'],
-      category: json['category']
+      category: json['category'] ?? ''
     );
   }
 
