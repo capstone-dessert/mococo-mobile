@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../data/image_data.dart';
-
 class LocationSelector extends StatefulWidget {
   const LocationSelector({
     super.key,

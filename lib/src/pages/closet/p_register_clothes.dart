@@ -53,7 +53,6 @@ class _RegisterClothState extends State<RegisterCloth> {
       setState(() {
         classifiedInfo = value;
         selectedInfo = {
-          // TODO: UI에 classifiedInfo 적용
           'category': classifiedInfo['category'],
           'colors': {Tag.classifiedColor[classifiedInfo['color']]!},
         };
