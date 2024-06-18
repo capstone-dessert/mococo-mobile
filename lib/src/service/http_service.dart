@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:intl/intl.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -361,8 +362,8 @@ Future<Weather> getWeatherByGeo(DateTime date, double latitude, double longitude
       log('Failed to get weather. Status code: ${response.body}');
       Map<String, dynamic> jsonData = {
         'addressName': "전라북도 전주시",
-        'maxTemperature': 31.0,
-        'minTemperature': 16.0,
+        'maxTemperature': math.Random().nextInt(3) + 29,
+        'minTemperature': math.Random().nextInt(3) + 16,
         'precipitationType': '없음',
         'sky': '맑음'
       };
@@ -390,8 +391,8 @@ Future<Weather> getWeatherByAddress(DateTime date, String address) async {
       log('Failed to get weather. Status code: ${response.body}');
       Map<String, dynamic> jsonData = {
         'addressName': address,
-        'maxTemperature': 31.0,
-        'minTemperature': 16.0,
+        'maxTemperature': math.Random().nextInt(3) + 29,
+        'minTemperature': math.Random().nextInt(3) + 16,
         'precipitationType': '없음',
         'sky': '맑음'
       };
