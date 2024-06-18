@@ -79,41 +79,44 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      DateWidget(
-                        isCenter: false,
-                        isEditable: true,
-                        date: selectedDate,
-                        onDateChanged: onDateChanged,
-                      ),
-                      const Spacer(),
-                      WeatherWidget(
-                        isSmall: true,
-                        isEditable: true,
-                        weather: weather,
-                        getDate: getSelectedDate,
-                        setWeather: setWeather,
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  RepaintBoundary(
-                    key: globalKey,
-                    child: Container(
-                      color: Colors.white60,
-                      height: 400,
-                      child: Stack(
-                        children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        DateWidget(
+                          isCenter: false,
+                          isEditable: true,
+                          date: selectedDate,
+                          onDateChanged: onDateChanged,
+                        ),
+                        const Spacer(),
+                        WeatherWidget(
+                          isSmall: true,
+                          isEditable: true,
+                          weather: weather,
+                          getDate: getSelectedDate,
+                          setWeather: setWeather,
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    RepaintBoundary(
+                      key: globalKey,
+                      child: Container(
+                        color: Colors.white60,
+                        height: 400,
+                        child: Stack(
+                          children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  ScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
-                ],
+                    const SizedBox(height: 8),
+                    ScheduleTagPicker(selectedSchedule: selectedSchedule, setSelectedSchedule: setSelectedScheduleTag),
+                    const SizedBox(height: 200),
+                  ],
+                ),
               ),
             ),
             SearchBottomSheet(
