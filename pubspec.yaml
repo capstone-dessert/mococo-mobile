@@ -40,7 +40,7 @@ dependencies:
   geolocator: ^11.0.0
   http: ^1.2.1
   postgres: ^3.2.0
-  image_cropper: ^1.4.0
+  image_cropper: ^7.0.5
   table_calendar: ^3.0.9
   flutter_dotenv: ^5.1.0
   intl: ^0.18.1
