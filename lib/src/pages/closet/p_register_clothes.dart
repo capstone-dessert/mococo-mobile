@@ -94,7 +94,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                         onPressed: () {
                           _onAddButtonPressed(context);
                         },
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: const Color(0xffF6747E),
                         tooltip: 'Add',
                         child: const Icon(Icons.add),
                       ),
@@ -107,7 +107,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                           });
                           _imageClear(); // 이미지 초기화
                         },
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: const Color(0xffF6747E),
                         tooltip: 'Delete',
                         child: const Icon(Icons.delete),
                       ),
@@ -117,7 +117,7 @@ class _RegisterClothState extends State<RegisterCloth> {
                         onPressed: () {
                           _cropImage();
                         },
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: const Color(0xffF6747E),
                         tooltip: 'Crop',
                         child: const Icon(Icons.crop),
                       ),
