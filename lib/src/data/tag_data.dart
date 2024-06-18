@@ -51,7 +51,7 @@ class Tag {
     return colors;
   }
 
-  static List detailTags = ["브랜드", "패턴", "기장", "소매"];
+  static List detailTags = ["무지", "그래픽", "스트라이프", "브이넥", "오프숄더", "크롭"];
 
   static List getDetailTags() {
     return List.from(detailTags);

@@ -71,59 +71,57 @@ class _AddCodiRecordState extends State<AddCodiRecord> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: isLoading
               ? const Center(child: CircularProgressIndicator(color: Colors.black12))
-              : Stack(
-                children: [
-                  const SizedBox(height: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          DateWidget(
-                            isCenter: false,
-                            isEditable: true,
-                            date: selectedDate,
-                            onDateChanged: onDateChanged,
-                          ),
-                          const Spacer(),
-                          WeatherWidget(
-                            isSmall: true,
-                            isEditable: true,
-                            getDate: getSelectedDate,
-                            setWeather: setWeather,
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      selectedClothesIds.isEmpty
-                        ? const SizedBox(
-                          height: 400,
-                          child: Center(
-                            child: Text(
-                              "코디할 옷을 선택하세요",
-                              style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
-                            )
-                          ),
+              : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        DateWidget(
+                          isCenter: false,
+                          isEditable: true,
+                          date: selectedDate,
+                          onDateChanged: onDateChanged,
+                        ),
+                        const Spacer(),
+                        WeatherWidget(
+                          isSmall: true,
+                          isEditable: true,
+                          getDate: getSelectedDate,
+                          setWeather: setWeather,
                         )
-                        : RepaintBoundary(
-                          key: globalKey,
-                          child: Container(
-                            color: Colors.white60,
-                            height: 400,
-                            child: Stack(
-                              children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
-                            ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    selectedClothesIds.isEmpty
+                      ? const SizedBox(
+                        height: 400,
+                        child: Center(
+                          child: Text(
+                            "코디할 옷을 선택하세요",
+                            style: TextStyle(color: Color(0xff999999), fontSize: 15, fontWeight: FontWeight.w500),
+                          )
+                        ),
+                      )
+                      : RepaintBoundary(
+                        key: globalKey,
+                        child: Container(
+                          color: Colors.white60,
+                          height: 400,
+                          child: Stack(
+                            children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
                           ),
                         ),
-                      const SizedBox(height: 8),
-                      ScheduleTagPicker(selectedSchedule: null, setSelectedSchedule: setSelectedSchedule),
-                    ],
-                  ),
-                ],
-            ),
+                      ),
+                    const SizedBox(height: 8),
+                    ScheduleTagPicker(selectedSchedule: null, setSelectedSchedule: setSelectedSchedule),
+                    const SizedBox(height: 200),
+                  ],
+                ),
+              ),
           ),
           SearchBottomSheet(
-            sheetPosition: 0.20,
+            sheetPosition: 0.2,
             setSelectedStatus: setSelectedStatus,
             selectedClothesIds: selectedClothesIds,
             imagePositions: imagePositions,

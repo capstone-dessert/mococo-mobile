@@ -235,13 +235,13 @@ class _ClothesGridPickerState extends State<ClothesGridPicker> {
       double top;
       if (clothesPreview.category == "상의") {
         left = 0.3 * (MediaQuery.of(context).size.width - 32);
-        top = 0.1 * MediaQuery.of(context).size.width;
+        top = 0.1 * 400;
       } else if (clothesPreview.category == "하의") {
         left = 0.3 * (MediaQuery.of(context).size.width - 32);
-        top = 0.45 * MediaQuery.of(context).size.width;
+        top = 0.45 * 400;
       } else {
         left = Random().nextDouble() * (MediaQuery.of(context).size.width - 32);
-        top = Random().nextDouble() * MediaQuery.of(context).size.width;
+        top = Random().nextDouble() * 400;
       }
       widget.imagePositions.add(ImagePosition(left, top));
     }
