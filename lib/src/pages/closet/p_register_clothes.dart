@@ -188,6 +188,15 @@ class _RegisterClothState extends State<RegisterCloth> {
         message: '의류를 등록하시겠습니까?',
         onConfirm: () {
           _showLoadingDialog(context);
+
+          List newDetailTags = [];
+          for (var tag in selectedInfo['tags']) {
+            if (!Tag.detailTags.contains(tag)) {
+              newDetailTags.add(tag);
+            }
+          }
+          Tag.addDetailTags(newDetailTags);
+
           selectedInfo['image'] = _pickedFile;
           addClothes(selectedInfo).then((_) {
             Navigator.pop(context);
