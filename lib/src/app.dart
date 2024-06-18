@@ -43,7 +43,7 @@ class App extends GetView<BottomNavController> {
             ],
           ),
           bottomNavigationBar: SizedBox(
-            height: 83,
+            height: 88,
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               currentIndex: controller.pageIndex.value,
