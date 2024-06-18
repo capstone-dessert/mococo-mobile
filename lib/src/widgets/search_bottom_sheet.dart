@@ -151,13 +151,13 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 const SizedBox(height: 10),
                 Expanded(
                   child: isLoading
-                      ? const Center(child: CircularProgressIndicator(color: Colors.black12))
-                      : ClothesGridPicker(
-                    getClothesList: getClothesList,
-                    onClothesSelected: _onClothesSelected,
-                    selectedClothesIds: widget.selectedClothesIds,
-                    imagePositions: widget.imagePositions,
-                  )
+                    ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+                    : ClothesGridPicker(
+                      getClothesList: getClothesList,
+                      onClothesSelected: _onClothesSelected,
+                      selectedClothesIds: widget.selectedClothesIds,
+                      imagePositions: widget.imagePositions,
+                    )
                 ),
               ],
             ),
