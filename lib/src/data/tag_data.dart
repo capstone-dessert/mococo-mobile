@@ -66,4 +66,26 @@ class Tag {
   static List getScheduleTags() {
     return scheduleTags;
   }
+
+
+  static Map<String, String> classifiedColor = {
+    "white": "화이트",
+    "black": "블랙",
+    "gray": "그레이",
+    "silver": "그레이",
+    "maroon": "빨강",
+    "red": "빨강",
+    "fuchsia": "핑크",
+    "navy": "네이비",
+    "blue": "파랑",
+    "purple": "보라",
+    "olive": "카키",
+    "green": "초록",
+    "lime": "초록",
+    "teal": "초록",
+    "aqua": "민트",
+    "yellow": "노랑"
+  };
 }
+
+
