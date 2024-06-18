@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mococo_mobile/src/data/tag_data.dart';
 import 'package:mococo_mobile/src/service/http_service.dart';
 import 'package:mococo_mobile/src/widgets/clothes_tag_picker.dart';
 import 'package:mococo_mobile/src/widgets/app_bar.dart';
@@ -29,6 +30,8 @@ class _RegisterClothState extends State<RegisterCloth> {
   late Map<String, dynamic> classifiedInfo;
   late Map<String, dynamic> selectedInfo;
 
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -38,18 +41,6 @@ class _RegisterClothState extends State<RegisterCloth> {
       _isDeleteButtonPressed = true;
     }
 
-    classifyImage(_pickedFile!).then((value) {
-      setState(() {
-        classifiedInfo = value;
-        selectedInfo = {
-          'category': classifiedInfo['category'],
-          'colors': classifiedInfo['colors'],
-        };
-        print("이미지 분류 결과: $classifiedInfo");
-        // TODO: UI에 classifiedInfo 적용
-      });
-    });
-
     selectedInfo = {
       'category': null,
       'subcategory': null,
@@ -57,6 +48,17 @@ class _RegisterClothState extends State<RegisterCloth> {
       'colors': null,
       'tags': null,
     };
+
+    classifyImage(_pickedFile!).then((value) {
+      setState(() {
+        classifiedInfo = value;
+        selectedInfo = {
+          'category': classifiedInfo['category'],
+          'colors': {Tag.classifiedColor[classifiedInfo['color']]!},
+        };
+        isLoading = false;
+      });
+    });
   }
 
   @override
@@ -68,67 +70,71 @@ class _RegisterClothState extends State<RegisterCloth> {
         onBackButtonPressed: _onBackButtonPressed,
         onSaveButtonPressed: _onSaveButtonPressed,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              Center(
-                child: _pickedFile != null
-                  ? Image.file(File(_pickedFile!.path))
-                  : _croppedFile != null
-                    ? Image.file(File(_croppedFile!.path))
-                    : const Text("이미지가 없습니다."),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (!_isDeleteButtonPressed)
-                    FloatingActionButton(
-                      heroTag: 'unique_tag_1',
-                      onPressed: () {
-                        _onAddButtonPressed(context);
-                      },
-                      backgroundColor: Colors.redAccent,
-                      tooltip: 'Add',
-                      child: const Icon(Icons.add),
-                    ),
-                  if (_isDeleteButtonPressed) ...[
-                    FloatingActionButton(
-                      heroTag: 'unique_tag_2',
-                      onPressed: () {
-                        setState(() {
-                          _isDeleteButtonPressed = !_isDeleteButtonPressed;
-                        });
-                        _imageClear(); // 이미지 초기화
-                      },
-                      backgroundColor: Colors.redAccent,
-                      tooltip: 'Delete',
-                      child: const Icon(Icons.delete),
-                    ),
-                    const SizedBox(width: 20),
-                    FloatingActionButton(
-                      heroTag: 'unique_tag_3',
-                      onPressed: () {
-                        _cropImage();
-                      },
-                      backgroundColor: Colors.redAccent,
-                      tooltip: 'Crop',
-                      child: const Icon(Icons.crop),
-                    ),
+      body: isLoading
+        ? const Center(child: CircularProgressIndicator(color: Colors.black12))
+        : SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                Center(
+                  child: _pickedFile != null
+                    ? Image.file(File(_pickedFile!.path))
+                    : _croppedFile != null
+                      ? Image.file(File(_croppedFile!.path))
+                      : const Text("이미지가 없습니다."),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (!_isDeleteButtonPressed)
+                      FloatingActionButton(
+                        heroTag: 'unique_tag_1',
+                        onPressed: () {
+                          _onAddButtonPressed(context);
+                        },
+                        backgroundColor: Colors.redAccent,
+                        tooltip: 'Add',
+                        child: const Icon(Icons.add),
+                      ),
+                    if (_isDeleteButtonPressed) ...[
+                      FloatingActionButton(
+                        heroTag: 'unique_tag_2',
+                        onPressed: () {
+                          setState(() {
+                            _isDeleteButtonPressed = !_isDeleteButtonPressed;
+                          });
+                          _imageClear(); // 이미지 초기화
+                        },
+                        backgroundColor: Colors.redAccent,
+                        tooltip: 'Delete',
+                        child: const Icon(Icons.delete),
+                      ),
+                      const SizedBox(width: 20),
+                      FloatingActionButton(
+                        heroTag: 'unique_tag_3',
+                        onPressed: () {
+                          _cropImage();
+                        },
+                        backgroundColor: Colors.redAccent,
+                        tooltip: 'Crop',
+                        child: const Icon(Icons.crop),
+                      ),
+                    ],
                   ],
-                ],
-              ),
-              const SizedBox(height: 20),
-              ClothesTagPicker(
-                isEditable: true,
-                setSelectedInfo: setSelectedInfo
-              ),
-              const SizedBox(height: 16),
-            ],
+                ),
+                const SizedBox(height: 20),
+                ClothesTagPicker(
+                  isEditable: true,
+                  setSelectedInfo: setSelectedInfo,
+                  selectedPrimaryCategory: selectedInfo['category'],
+                  selectedColors: selectedInfo['colors'],
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
-        ),
       ),
     );
   }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../data/image_data.dart';
-
 class LocationSelector extends StatefulWidget {
   const LocationSelector({
     super.key,
@@ -51,29 +49,7 @@ class _LocationSelectorState extends State<LocationSelector> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 20),
-        GestureDetector(
-          onTap: () {
-            // TODO 위경도 -> 지역으로 변환한 값 전달받아야 함
-            // widget.onLocationSelected('$selectedSiDo $siGunGu');
-            Navigator.pop(context);
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Image.asset(IconPath.gps, width: 16),
-                const SizedBox(width: 8),
-                const Text(
-                  '현재 위치 추가',
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-              ] ,
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 30),
         Expanded(
           child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,

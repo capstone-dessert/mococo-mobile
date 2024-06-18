@@ -128,14 +128,13 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
               ),
             ),
-            // TODO: 날씨 아이콘
             Positioned(
               left: 20,
               top: 20,
               child: SizedBox(
                 width: 50,
                 height: 50,
-                child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.mococoLogo),
+                child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.weather[weather.sky][weather.precipitationType]),
               ),
             ),
             Positioned(
@@ -193,13 +192,12 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     } else {
       return Row(
         children: [
-          // TODO: 날씨 아이콘
           SizedBox(
             width: 24,
             height: 24,
-            child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.mococoLogo),
+            child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.weather[weather.sky][weather.precipitationType]),
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
           Text.rich(
             TextSpan(
               children: [
