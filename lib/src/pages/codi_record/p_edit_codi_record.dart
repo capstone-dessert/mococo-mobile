@@ -108,7 +108,7 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
                         color: Colors.white60,
                         height: 400,
                         child: Stack(
-                          children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, MediaQuery.of(context).size.width),
+                          children: _buildPositionedImages(context, MediaQuery.of(context).size.width - 32, 400),
                         ),
                       ),
                     ),
@@ -258,14 +258,14 @@ class _EditCodiRecordState extends State<EditCodiRecord> {
           top = imagePositions[index].top;
         } else {
           if (clothesPreview.category == "상의") {
-            left = 0.3 * (MediaQuery.of(context).size.width - 32);
-            top = 0.1 * MediaQuery.of(context).size.width;
+            left = 0.3 * containerWidth;
+            top = 0.1 * containerHeight;
           } else if (clothesPreview.category == "하의") {
-            left = 0.3 * (MediaQuery.of(context).size.width - 32);
-            top = 0.45 * MediaQuery.of(context).size.width;
+            left = 0.3 * containerWidth;
+            top = 0.45 * containerHeight;
           } else {
-            left = Random().nextDouble() * (MediaQuery.of(context).size.width - 32);
-            top = Random().nextDouble() * MediaQuery.of(context).size.width;
+            left = Random().nextDouble() * containerWidth;
+            top = Random().nextDouble() * containerHeight;
           }
           imagePositions.insert(index, ImagePosition(left, top));
         }
