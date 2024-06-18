@@ -202,16 +202,16 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             TextSpan(
               children: [
                 TextSpan(
-                  text: isLoading ? '––℃' : '24℃',
-                  style: const TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
+                  text: isLoading ? '––℃' : '${weather.minTemperature}℃',
+                  style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 const TextSpan(
                   text: ' / ',
                   style: TextStyle(color: Color(0xff494949), fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 TextSpan(
-                  text: isLoading ? '––℃' : '11℃',
-                  style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w600),
+                  text: isLoading ? '––℃' : '${weather.maxTemperature}℃',
+                  style: const TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
