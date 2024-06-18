@@ -46,6 +46,7 @@ class _ClothesTagPickerState extends State<ClothesTagPicker> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CategoryTagPicker(
             setSelectedInfoValue: setSelectedInfoValue,
