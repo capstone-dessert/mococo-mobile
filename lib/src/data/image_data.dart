@@ -19,4 +19,27 @@ class IconPath {
   static String get searchTag => 'assets/images/search_tag.png';
   static String get rightArrow => 'assets/images/rightArrow.png';
   static String get gps => 'assets/images/gps.png';
+  static Map weather = {
+    "맑음": {
+      "없음": 'assets/images/sunny_none.png',
+      "비": 'assets/images/sunny_rainy.png',
+      "비/눈": 'assets/images/sunny_rain_snow.png',
+      "눈": 'assets/images/sunny_snow.png',
+      "소나기": 'assets/images/sunny_rainy.png',
+    },
+    "구름많음": {
+      "없음": 'assets/images/clouds_none.png',
+      "비": 'assets/images/clouds_rainy.png',
+      "비/눈": 'assets/images/clouds_rain_snow.png',
+      "눈": 'assets/images/clouds_snow.png',
+      "소나기": 'assets/images/clouds_rainy.png',
+    },
+    "흐림": {
+      "없음": 'assets/images/cloudy_none.png',
+      "비": 'assets/images/cloudy_rainy.png',
+      "비/눈": 'assets/images/cloudy_rain_snow.png',
+      "눈": 'assets/images/cloudy_snow.png',
+      "소나기": 'assets/images/cloudy_rainy.png',
+    },
+  };
 }

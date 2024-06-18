@@ -135,7 +135,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               child: SizedBox(
                 width: 50,
                 height: 50,
-                child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.mococoLogo),
+                child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.weather[weather.sky][weather.precipitationType]),
               ),
             ),
             Positioned(
@@ -197,9 +197,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           SizedBox(
             width: 24,
             height: 24,
-            child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.mococoLogo),
+            child: isLoading ?  const SizedBox.shrink(): Image.asset(IconPath.weather[weather.sky][weather.precipitationType]),
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
           Text.rich(
             TextSpan(
               children: [
