@@ -70,6 +70,7 @@ Future<Map<String, dynamic>> classifyImage(XFile imageFile) async {
     var streamedResponse = await request.send();
     if (streamedResponse.statusCode ~/ 100 == 2) {
       var responseBody = await streamedResponse.stream.bytesToString();
+      print(responseBody);
       return jsonDecode(responseBody);
     } else {
       throw Exception('Failed to classify image. Status code: ${streamedResponse.statusCode}');

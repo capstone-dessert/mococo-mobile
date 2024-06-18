@@ -53,8 +53,8 @@ class _RegisterClothState extends State<RegisterCloth> {
       setState(() {
         classifiedInfo = value;
         selectedInfo = {
-          'category': classifiedInfo['category'],
-          'colors': {Tag.classifiedColor[classifiedInfo['color']]!},
+          'category': (classifiedInfo['category'] == "기타") ? null : classifiedInfo['category'],
+          'colors': (classifiedInfo['color'] == "기타") ? null : {Tag.classifiedColor[classifiedInfo['color']]!},
         };
         isLoading = false;
       });
@@ -215,21 +215,23 @@ class _RegisterClothState extends State<RegisterCloth> {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile!.path,
         aspectRatio: const CropAspectRatio(ratioX: 300, ratioY: 360), // 300 * 360으로 크기 고정
-        androidUiSettings: const AndroidUiSettings(
-          toolbarTitle: '크롭하기',
-          toolbarColor: Colors.redAccent,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: true, // 비율 잠금
-        ),
-        iosUiSettings: const IOSUiSettings(
-          minimumAspectRatio: 1.0,
-        ),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: '크롭하기',
+            toolbarColor: Colors.redAccent,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: true, // 비율 잠금
+          ),
+          IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ),
+        ],
       );
       if (croppedFile != null) {
         setState(() {
           _pickedFile = null; // 크롭된 이미지를 활용하기 위해 기존 이미지 null 처리
-          _croppedFile = croppedFile;
+          _croppedFile = File(croppedFile.path);
         });
       }
     }
