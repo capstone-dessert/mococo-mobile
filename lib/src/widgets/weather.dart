@@ -128,7 +128,6 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
               ),
             ),
-            // TODO: 날씨 아이콘
             Positioned(
               left: 20,
               top: 20,
@@ -193,7 +192,6 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     } else {
       return Row(
         children: [
-          // TODO: 날씨 아이콘
           SizedBox(
             width: 24,
             height: 24,
